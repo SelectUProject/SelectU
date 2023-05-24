@@ -1,0 +1,21 @@
+﻿using Microsoft.AspNetCore.Identity;
+using SelectU.Contracts.Enums;
+
+
+namespace SelectU.Contracts.Entities
+{
+    public class User : IdentityUser
+    {
+        public string? FullName { get; set; }
+        public DateTimeOffset? DateOfBirth { get; set; }
+        public GenderEnum? Gender { get; set; }
+        public string? Mobile { get; set; }
+        public string? Address { get; set; }
+        public string? Suburb { get; set; }
+        public int? Postcode { get; set; }
+        public string? State { get; set; }
+        public DateTimeOffset DateCreated { get; set; }
+        public DateTimeOffset? DateModified { get; set; }
+
+    }
+}
