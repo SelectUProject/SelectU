@@ -14,8 +14,5 @@ namespace SelectU.Contracts.DTO
         public string? Suburb { get; set; }
         public int? Postcode { get; set; }
         public string? State { get; set; }
-        public int MembershipId { get; set; }
-        public string? StripeToken { get; set; }
-        public string? Coupon { get; set; }
     }
 }
