@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      paths:
+      - 'API/**'  # Trigger only if changes occur within the 'client' folder
   workflow_dispatch:
 
 jobs:
@@ -23,13 +25,13 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o API/SelectU.API
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: API/SelectU.API
 
   deploy:
     runs-on: windows-latest
