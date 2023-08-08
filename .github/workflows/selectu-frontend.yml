@@ -30,15 +30,12 @@ jobs:
           cd Client
           npm install
           ng build --configuration production
-          
-      - name: Display Directory Tree
-        run: tree -L 3 --dirsfirst
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: angular-app
-          path: ./dist  # Adjust the path to the built frontend code
+          path: ./Client/dist  # Adjust the path to the built frontend code
 
   deploy:
     runs-on: ubuntu-latest  
