@@ -22,8 +22,8 @@ jobs:
 
       - name: Install Angular CLI
         run: |
-        cd Client
-        npm install -g @angular/cli
+          cd Client
+          npm install -g @angular/cli
 
       - name: Install dependencies and build
         run: |
