@@ -14,17 +14,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Set up Node.js version
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'  # Use the appropriate Node.js version
-
+      
       - name: Change directory to the client folder
         run: |
           cd Client
           echo "Current Directory: $(pwd)"
 
+      - name: Set up Node.js version
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'  # Use the appropriate Node.js version
 
       - name: Install Angular CLI
         run: npm install -g @angular/cli
