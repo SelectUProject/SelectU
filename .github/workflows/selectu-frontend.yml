@@ -14,11 +14,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Change directory to the client folder
-        run: |
-          cd Client
-          echo "Current Directory: $(pwd)"
 
       - name: Set up Node.js version
         uses: actions/setup-node@v2
@@ -26,10 +21,13 @@ jobs:
           node-version: '18'  # Use the appropriate Node.js version
 
       - name: Install Angular CLI
-        run: npm install -g @angular/cli
+        run: |
+        cd Client
+        npm install -g @angular/cli
 
       - name: Install dependencies and build
         run: |
+          cd Client
           npm install
           ng build --configuration production
 
@@ -37,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: angular-app
-          path: ./dist  # Adjust the path to the built frontend code
+          path: ./client/dist  # Adjust the path to the built frontend code
 
   deploy:
     runs-on: ubuntu-latest
