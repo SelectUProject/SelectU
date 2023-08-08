@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'client/**'  # Trigger only if changes occur within the 'client' folder
+      - 'Client/**'  # Trigger only if changes occur within the 'client' folder
+  workflow_dispatch:
 
 jobs:
   build:
@@ -20,7 +21,7 @@ jobs:
           node-version: '18'  # Use the appropriate Node.js version
 
       - name: Change directory to the client folder
-        run: cd client
+        run: cd Client
 
       - name: Install Angular CLI
         run: npm install -g @angular/cli

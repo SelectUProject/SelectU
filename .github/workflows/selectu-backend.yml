@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'API/**'  # Trigger only if changes occur within the 'client' folder
   workflow_dispatch:
 
 jobs:
