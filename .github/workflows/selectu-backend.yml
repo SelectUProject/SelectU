@@ -1,14 +1,9 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy ASP.Net Core app to Azure Web App - selectu-backend
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'API/**'  # Trigger only if changes occur within the 'client' folder
   workflow_dispatch:
 
 jobs:
@@ -28,13 +23,13 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o API\SelectU.API
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
-          path: API\SelectU.API
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: windows-latest
@@ -55,5 +50,5 @@ jobs:
         with:
           app-name: 'selectu-backend'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_14BDF7A3A0124619A9EFE581A188B4D5 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C271DC5D7097451D8630519549C8D933 }}
           package: .
