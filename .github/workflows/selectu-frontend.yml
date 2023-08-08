@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: angular-app
-          path: ./Client/dist  # Adjust the path to the built frontend code
+          path: ./Client/dist/client  # Adjust the path to the built frontend code
 
   deploy:
     runs-on: ubuntu-latest
