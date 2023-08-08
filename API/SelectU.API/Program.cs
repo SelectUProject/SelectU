@@ -6,6 +6,8 @@ using System.Text;
 using SelectU.Migrations;
 using SelectU.Contracts.Entities;
 using SelectU.Core.Extensions;
+using SelectU.Contracts.Services;
+using SelectU.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 //builder.AddSerilogLogging();
@@ -19,7 +21,7 @@ services.AddPersistence(configuration);
 services.AddCore(configuration);
 services.AddIdentity();
 services.AddSerilogToAPI(configuration);
-
+services.AddTransient<IBlobStorageService>(provider => new AzureBlobStorageService(configuration.GetConnectionString("AzureBlobStorageConnectionString") ?? "", configuration));
 
 // Adding Authentication
 services.AddAuthentication(options =>
