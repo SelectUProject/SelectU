@@ -4,14 +4,16 @@ on:
   push:
     branches:
       - main
-      paths:
+    paths:
       - 'API/**'  # Trigger only if changes occur within the 'client' folder
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
-
+    defaults:
+      run:
+        working-directory: ./API
     steps:
       - uses: actions/checkout@v2
 
@@ -25,13 +27,13 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o API/SelectU.API
+        run: dotnet publish -c Release -o ${GITHUB_WORKSPACE}/SelectU.API
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
-          path: API/SelectU.API
+          path: ${GITHUB_WORKSPACE}/SelectU.API
 
   deploy:
     runs-on: windows-latest
