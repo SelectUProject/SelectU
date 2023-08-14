@@ -21,7 +21,7 @@ services.AddPersistence(configuration);
 services.AddCore(configuration);
 services.AddIdentity();
 services.AddSerilogToAPI(configuration);
-services.AddTransient<IBlobStorageService>(provider => new AzureBlobStorageService(configuration.GetConnectionString("AzureBlobStorageConnectionString") ?? "", configuration));
+
 
 // Adding Authentication
 services.AddAuthentication(options =>
