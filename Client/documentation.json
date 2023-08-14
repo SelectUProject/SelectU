@@ -2020,6 +2020,323 @@
             "stylesData": ""
         },
         {
+            "name": "LoginFormComponent",
+            "id": "component-LoginFormComponent-b241bb5ee8b6df99f081a6272aa669b1d2f6ef965b25111b8cae82a1d00acca82dc72a87e5b9d496b9da021d266377960759fdaacd7029562ee64488b3154b15",
+            "file": "src/app/components/shared/login-form/login-form.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-login-form",
+            "styleUrls": [
+                "./login-form.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./login-form.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "redirectRoute",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 23,
+                    "type": "string",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "loginSuccessCallback",
+                    "defaultValue": "new EventEmitter()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 24,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "accountLocked",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 30
+                },
+                {
+                    "name": "errMsg",
+                    "defaultValue": "'Some error has occured!'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 29
+                },
+                {
+                    "name": "form",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "FormGroup",
+                    "optional": false,
+                    "description": "",
+                    "line": 26
+                },
+                {
+                    "name": "isError",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 28
+                },
+                {
+                    "name": "submitting",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 27
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "back",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 87,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "login",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 57,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 46,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "open",
+                    "args": [
+                        {
+                            "name": "content",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 91,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "content",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';\r\nimport {\r\n  FormBuilder,\r\n  FormControl,\r\n  FormGroup,\r\n  Validators,\r\n} from '@angular/forms';\r\nimport { Router } from '@angular/router';\r\nimport { LoginDTO } from 'src/app/models/LoginDTO';\r\nimport { AuthService } from 'src/app/providers/auth.service';\r\nimport { Location } from '@angular/common';\r\nimport { TokenService } from 'src/app/providers/token.service';\r\nimport { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';\r\nimport { Role } from 'src/app/models/Role';\r\nimport { ADMIN } from 'src/app/constants/userRoles';\r\n\r\n@Component({\r\n  selector: 'app-login-form',\r\n  templateUrl: './login-form.component.html',\r\n  styleUrls: ['./login-form.component.scss'],\r\n})\r\nclass LoginFormComponent implements OnInit {\r\n  @Input() redirectRoute?: string;\r\n  @Output() loginSuccessCallback = new EventEmitter();\r\n\r\n  form: FormGroup;\r\n  submitting: boolean = false;\r\n  isError: boolean = false;\r\n  errMsg: string = 'Some error has occured!';\r\n  accountLocked: boolean = false;\r\n\r\n  constructor(\r\n    private formBuilder: FormBuilder,\r\n    private authService: AuthService,\r\n    private router: Router,\r\n    private location: Location,\r\n    private tokenService: TokenService,\r\n    private modalService: NgbModal\r\n  ) {\r\n    this.form = this.formBuilder.group({\r\n      username: new FormControl([], [Validators.required, Validators.email]),\r\n      password: new FormControl([], [Validators.required]),\r\n    });\r\n  }\r\n\r\n  ngOnInit(): void {\r\n    // clear off any tokens in cache\r\n    // if user lands on login\r\n    //\r\n    if (this.tokenService.IsAuthenticated) {\r\n      this.router.navigate(['/dashboard']);\r\n    } else {\r\n      this.tokenService.clearToken();\r\n    }\r\n  }\r\n\r\n  login() {\r\n    this.submitting = true;\r\n    this.isError = false;\r\n    this.accountLocked = false;\r\n    this.authService\r\n      .login(<LoginDTO>this.form.value)\r\n      .then((response) => {\r\n        this.tokenService.setToken(response);\r\n        let loginCallback = {\r\n          role: response.role,\r\n          redirectRoute: this.redirectRoute,\r\n        };\r\n\r\n        this.loginSuccessCallback.emit(loginCallback);\r\n      })\r\n      .catch((response) => {\r\n        this.form.patchValue({ password: '' });\r\n        if (response.status === 401) {\r\n          this.accountLocked = true;\r\n        }\r\n\r\n        if (!response.success) {\r\n          this.errMsg = response.error.message;\r\n        }\r\n\r\n        this.submitting = false;\r\n        this.isError = true;\r\n      });\r\n  }\r\n\r\n  back() {\r\n    this.location.back();\r\n  }\r\n\r\n  open(content: any) {\r\n    this.modalService.dismissAll();\r\n    this.modalService.open(content, { centered: true });\r\n  }\r\n}\r\n\r\nexport default LoginFormComponent;\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./login-form.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "formBuilder",
+                        "type": "FormBuilder",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "authService",
+                        "type": "AuthService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "location",
+                        "type": "Location",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "tokenService",
+                        "type": "TokenService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "modalService",
+                        "type": "NgbModal",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 30,
+                "jsdoctags": [
+                    {
+                        "name": "formBuilder",
+                        "type": "FormBuilder",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "authService",
+                        "type": "AuthService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "type": "Location",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "tokenService",
+                        "type": "TokenService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "modalService",
+                        "type": "NgbModal",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<mdb-tabs [pills]=\"true\" [fill]=\"true\">\r\n  <mdb-tab title=\"Login\">\r\n    <form>\r\n      <div class=\"text-center mb-3\">\r\n        <p>Sign in with:</p>\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-facebook-f\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-google\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-twitter\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-github\"></i>\r\n        </button>\r\n      </div>\r\n\r\n      <p class=\"text-center\">or:</p>\r\n\r\n      <!-- Email input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input mdbInput type=\"email\" id=\"loginName\" class=\"form-control\" />\r\n        <label mdbLabel class=\"form-label\" for=\"loginName\"\r\n          >Email or username</label\r\n        >\r\n      </mdb-form-control>\r\n\r\n      <!-- Password input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input\r\n          mdbInput\r\n          type=\"password\"\r\n          id=\"loginPassword\"\r\n          class=\"form-control\"\r\n        />\r\n        <label mdbLabel class=\"form-label\" for=\"loginPassword\">Password</label>\r\n      </mdb-form-control>\r\n\r\n      <!-- 2 column grid layout -->\r\n      <div class=\"row mb-4\">\r\n        <div class=\"col-md-6 d-flex justify-content-center\">\r\n          <!-- Checkbox -->\r\n          <div class=\"form-check mb-3 mb-md-0\">\r\n            <input\r\n              mdbCheckbox\r\n              class=\"form-check-input\"\r\n              type=\"checkbox\"\r\n              value=\"\"\r\n              id=\"loginCheck\"\r\n              [checked]=\"true\"\r\n            />\r\n            <label class=\"form-check-label\" for=\"loginCheck\">\r\n              Remember me\r\n            </label>\r\n          </div>\r\n        </div>\r\n\r\n        <div class=\"col-md-6 d-flex justify-content-center\">\r\n          <!-- Simple link -->\r\n          <a href=\"#!\">Forgot password?</a>\r\n        </div>\r\n      </div>\r\n\r\n      <!-- Submit button -->\r\n      <button mdbRipple type=\"submit\" class=\"btn btn-primary btn-block mb-4\">\r\n        Sign in\r\n      </button>\r\n\r\n      <!-- Register buttons -->\r\n      <div class=\"text-center\">\r\n        <p>Not a member? <a href=\"#!\">Register</a></p>\r\n      </div>\r\n    </form></mdb-tab\r\n  >\r\n  <mdb-tab title=\"Register\">\r\n    <form>\r\n      <div class=\"text-center mb-3\">\r\n        <p>Sign up with:</p>\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-facebook-f\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-google\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-twitter\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-github\"></i>\r\n        </button>\r\n      </div>\r\n\r\n      <p class=\"text-center\">or:</p>\r\n\r\n      <!-- Name input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input mdbInput type=\"text\" id=\"registerName\" class=\"form-control\" />\r\n        <label mdbLabel class=\"form-label\" for=\"registerName\">Name</label>\r\n      </mdb-form-control>\r\n\r\n      <!-- Username input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input\r\n          mdbInput\r\n          type=\"text\"\r\n          id=\"registerUsername\"\r\n          class=\"form-control\"\r\n        />\r\n        <label mdbLabel class=\"form-label\" for=\"registerUsername\"\r\n          >Username</label\r\n        >\r\n      </mdb-form-control>\r\n\r\n      <!-- Email input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input mdbInput type=\"email\" id=\"registerEmail\" class=\"form-control\" />\r\n        <label mdbLabel class=\"form-label\" for=\"registerEmail\">Email</label>\r\n      </mdb-form-control>\r\n\r\n      <!-- Password input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input\r\n          mdbInput\r\n          type=\"password\"\r\n          id=\"registerPassword\"\r\n          class=\"form-control\"\r\n        />\r\n        <label mdbLabel class=\"form-label\" for=\"registerPassword\"\r\n          >Password</label\r\n        >\r\n      </mdb-form-control>\r\n\r\n      <!-- Repeat Password input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input\r\n          mdbInput\r\n          type=\"password\"\r\n          id=\"registerRepeatPassword\"\r\n          class=\"form-control\"\r\n        />\r\n        <label mdbLabel class=\"form-label\" for=\"registerRepeatPassword\"\r\n          >Repeat password</label\r\n        >\r\n      </mdb-form-control>\r\n\r\n      <!-- Checkbox -->\r\n      <div class=\"form-check d-flex justify-content-center mb-4\">\r\n        <input\r\n          mdbCheckbox\r\n          class=\"form-check-input me-2\"\r\n          type=\"checkbox\"\r\n          value=\"\"\r\n          id=\"registerCheck\"\r\n          [checked]=\"true\"\r\n          aria-label=\"registerCheckHelpText\"\r\n        />\r\n        <label class=\"form-check-label\" for=\"registerCheck\">\r\n          I have read and agree to the terms\r\n        </label>\r\n      </div>\r\n\r\n      <!-- Submit button -->\r\n      <button mdbRipple type=\"submit\" class=\"btn btn-primary btn-block mb-3\">\r\n        Sign in\r\n      </button>\r\n    </form></mdb-tab\r\n  >\r\n</mdb-tabs>\r\n"
+        },
+        {
+            "name": "LoginPageComponent",
+            "id": "component-LoginPageComponent-a8333cbf4e946ea6e6d97268e75895871207332b78642dbc361d4ab80022312e5698b7ad84c2cadcefb31bf57d06184325968e163d60ca814cc252bbaa0117c7",
+            "file": "src/app/components/pages/login-page/login-page.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-login-page",
+            "styleUrls": [
+                "./login-page.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./login-page.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-login-page',\n  templateUrl: './login-page.component.html',\n  styleUrls: ['./login-page.component.scss'],\n})\nclass LoginPageComponent {}\n\nexport default LoginPageComponent;\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./login-page.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<div class=\"container\">\n  <div class=\"row justify-content-center\">\n    <div class=\"col-6\">\n      <app-login-form></app-login-form>\n    </div>\n  </div>\n</div>\n"
+        },
+        {
             "name": "MainLayoutComponent",
             "id": "component-MainLayoutComponent-85bbba75f4854a6b5f0b53ec8f60992ef9ab3b110218cfcdbc45addf88b1dd762055e76d37c95d160637f3813804ee3b16965daacb508448e09d574f2227b41d",
             "file": "src/app/components/layouts/main-layout/main-layout.component.ts",
@@ -2148,7 +2465,7 @@
         {
             "name": "NavbarComponent",
             "id": "component-NavbarComponent-d096faed69490d684411d3d3d8fea6053a68b266bddc9a5d7fc02a21d969d6fff75f0b01767019f74be9555201f7fd44a5bf6109befd05d34d8e99a95d8c7d53",
-            "file": "src/app/components/shared/navbar/navbar.component.ts",
+            "file": "src/app/components/layouts/navbar/navbar.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "inputs": [],
@@ -2196,7 +2513,7 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "<nav class=\"navbar navbar-expand-lg sticky-top\">\n  <div class=\"container-fluid\">\n    <a class=\"navbar-brand\" href=\"#\">\n      <img src=\"assets/images/selectu_icon.svg\" width=\"80\" alt=\"SelectU\" />\n    </a>\n    <button\n      class=\"navbar-toggler\"\n      type=\"button\"\n      data-bs-toggle=\"collapse\"\n      data-bs-target=\"#navbarNavDropdown\"\n      aria-controls=\"navbarNavDropdown\"\n      aria-expanded=\"false\"\n      aria-label=\"Toggle navigation\"\n    >\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div\n      class=\"collapse navbar-collapse d-flex justify-content-between align-items-center\"\n      id=\"navbarNavDropdown\"\n    >\n      <ul class=\"navbar-nav mx-auto text-center\">\n        <!-- Use mx-auto to center horizontally -->\n        <li class=\"nav-item\">\n          <a class=\"nav-link active\" aria-current=\"page\" href=\"#\"\n            >Find Scholarships</a\n          >\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#\">My Applications</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#\">Saved Scholarship</a>\n        </li>\n      </ul>\n      <ul class=\"navbar-nav\">\n        <li class=\"nav-item\">\n          <i class=\"bi bi-person-circle\"></i>\n          <a class=\"nav-link\" href=\"#\">Login</a>\n        </li>\n        <!-- <li class=\"nav-item dropdown\">\n          <a\n            class=\"nav-link dropdown-toggle\"\n            href=\"#\"\n            role=\"button\"\n            data-bs-toggle=\"dropdown\"\n            aria-expanded=\"false\"\n          >\n            Login\n          </a>\n          <ul class=\"dropdown-menu\">\n            <li><a class=\"dropdown-item\" href=\"#\">Action</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">Another action</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">Something else here</a></li>\n          </ul>\n        </li> -->\n      </ul>\n    </div>\n  </div>\n</nav>\n"
+            "templateData": "<nav class=\"navbar navbar-expand-lg sticky-top\">\n  <div class=\"container-fluid\">\n    <a class=\"navbar-brand\" href=\"\">\n      <img src=\"assets/images/selectu_icon.svg\" width=\"80\" alt=\"SelectU\" />\n    </a>\n    <button\n      class=\"navbar-toggler\"\n      type=\"button\"\n      data-bs-toggle=\"collapse\"\n      data-bs-target=\"#navbarNavDropdown\"\n      aria-controls=\"navbarNavDropdown\"\n      aria-expanded=\"false\"\n      aria-label=\"Toggle navigation\"\n    >\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div\n      class=\"collapse navbar-collapse d-flex justify-content-between align-items-center\"\n      id=\"navbarNavDropdown\"\n    >\n      <ul class=\"navbar-nav mx-auto text-center\">\n        <li class=\"nav-item mx-5\">\n          <a\n            class=\"nav-link active\"\n            aria-current=\"page\"\n            href=\"find-scholarships\"\n            >Find Scholarships</a\n          >\n        </li>\n        <li class=\"nav-item mx-5\">\n          <a class=\"nav-link\" href=\"my-scholarships\">My Applications</a>\n        </li>\n        <li class=\"nav-item mx-5\">\n          <a class=\"nav-link\" href=\"saved-scholarships\">Saved Scholarship</a>\n        </li>\n      </ul>\n      <ul class=\"navbar-nav\">\n        <li class=\"nav-item d-flex align-items-center mx-2\">\n          <a role=\"button\" class=\"btn btn-link px-3 me-2\" href=\"login\">Login</a>\n        </li>\n        <li class=\"nav-item d-flex align-items-center\">\n          <a role=\"button\" class=\"btn btn-primary me-3\" href=\"signup\">\n            Sign up for free\n          </a>\n        </li>\n        <!-- <li class=\"nav-item dropdown\">\n          <a\n            class=\"nav-link dropdown-toggle\"\n            href=\"#\"\n            role=\"button\"\n            data-bs-toggle=\"dropdown\"\n            aria-expanded=\"false\"\n          >\n            Login\n          </a>\n          <ul class=\"dropdown-menu\">\n            <li><a class=\"dropdown-item\" href=\"#\">Action</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">Another action</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">Something else here</a></li>\n          </ul>\n        </li> -->\n      </ul>\n    </div>\n  </div>\n</nav>\n"
         },
         {
             "name": "PageComponent",
@@ -2285,13 +2602,13 @@
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-e5b5166d9b1578fa150a94bcb74dce49268034aa6c580875ae40cbde23b3ebf9bd79574863911ba44dfbc854fa76e89cfacc148c1241e237f24ddc62a4a05d7e",
+            "id": "module-AppModule-4fb67f8b43cdcebd70518910d00b77a16928675350404f6e0288f6a487da7e9a60f38c455e5eb90255c0f09bb0595700897c1ab79b7859e3c83a3bb3595486b8",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { BrowserModule } from '@angular/platform-browser';\r\n\r\nimport { DatePipe } from '@angular/common';\r\nimport { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';\r\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\r\nimport {\r\n  NgbModule,\r\n} from '@ng-bootstrap/ng-bootstrap';\r\nimport { AppComponent } from './app.component';\r\nimport { AppRoutingModule } from './app-routing.module';\r\nimport { MainLayoutComponent } from './components/layouts/main-layout/main-layout.component';\r\nimport { AuthGuard } from './providers/auth.guard';\r\nimport { TokenInterceptor } from './providers/token.interceptor';\r\nimport NavbarComponent from './components/shared/navbar/navbar.component';\r\n\r\n@NgModule({\r\n  declarations: [AppComponent, MainLayoutComponent, NavbarComponent],\r\n  imports: [\r\n    BrowserModule.withServerTransition({ appId: 'serverApp' }),\r\n    AppRoutingModule,\r\n    ReactiveFormsModule,\r\n    HttpClientModule,\r\n    FormsModule,\r\n    NgbModule,\r\n  ],\r\n  providers: [\r\n    DatePipe,\r\n    AuthGuard,\r\n    {\r\n      provide: HTTP_INTERCEPTORS,\r\n      multi: true,\r\n      useClass: TokenInterceptor,\r\n    },\r\n  ],\r\n  bootstrap: [AppComponent],\r\n})\r\nexport class AppModule {}\r\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { BrowserModule } from '@angular/platform-browser';\r\n\r\nimport { DatePipe } from '@angular/common';\r\nimport { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';\r\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\r\nimport { NgbModule } from '@ng-bootstrap/ng-bootstrap';\r\nimport { AppComponent } from './app.component';\r\nimport { AppRoutingModule } from './app-routing.module';\r\nimport { MainLayoutComponent } from './components/layouts/main-layout/main-layout.component';\r\nimport { AuthGuard } from './providers/auth.guard';\r\nimport { TokenInterceptor } from './providers/token.interceptor';\r\nimport NavbarComponent from './components/layouts/navbar/navbar.component';\r\nimport LoginPageComponent from './components/pages/login-page/login-page.component';\r\nimport LoginFormComponent from './components/shared/login-form/login-form.component';\r\nimport { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';\r\nimport { MdbFormsModule } from 'mdb-angular-ui-kit/forms';\r\n\r\n@NgModule({\r\n  declarations: [\r\n    AppComponent,\r\n    MainLayoutComponent,\r\n    NavbarComponent,\r\n    LoginPageComponent,\r\n    LoginFormComponent,\r\n  ],\r\n  imports: [\r\n    BrowserModule.withServerTransition({ appId: 'serverApp' }),\r\n    AppRoutingModule,\r\n    ReactiveFormsModule,\r\n    HttpClientModule,\r\n    FormsModule,\r\n    NgbModule,\r\n    MdbTabsModule,\r\n    MdbFormsModule,\r\n  ],\r\n  providers: [\r\n    DatePipe,\r\n    AuthGuard,\r\n    {\r\n      provide: HTTP_INTERCEPTORS,\r\n      multi: true,\r\n      useClass: TokenInterceptor,\r\n    },\r\n  ],\r\n  bootstrap: [AppComponent],\r\n})\r\nexport class AppModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -2306,6 +2623,12 @@
                     "elements": [
                         {
                             "name": "AppComponent"
+                        },
+                        {
+                            "name": "LoginFormComponent"
+                        },
+                        {
+                            "name": "LoginPageComponent"
                         },
                         {
                             "name": "MainLayoutComponent"
@@ -2343,13 +2666,13 @@
         },
         {
             "name": "AppRoutingModule",
-            "id": "module-AppRoutingModule-8da3c8266d5357d180b65cc9da021b9b9b2921d209f0b2369ee81b7ff21d85b46a51ceb5bd8f71cff4276631c6c78c2936fa42a82993b742a4aee175ca47d87c",
+            "id": "module-AppRoutingModule-ef5ad3c7b4785da6faaf157e1c4431144c5ecf479d6acfffbae8ae9323cae4fe13732e4ee2cdee89bb5c6495915c19365361846e341f72a943aa81df912dada8",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app-routing.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\nimport { MainLayoutComponent } from './components/layouts/main-layout/main-layout.component';\n//components\n\nconst routes: Routes = [\n  {\n    path: '',\n    component: MainLayoutComponent,\n    children: [\n      //     // { path: '', component: HomePageComponent },\n      //     {\n      //       path: 'dashboard',\n      //       canActivate: [AuthGuard],\n      //       data: { role: Role.User },\n      //       children: [{ path: '', component: DashboardComponent }],\n      //     },\n      //     { path: 'login', component: LoginComponent },\n      //     { path: 'signup', component: LandingComponent },\n      //     { path: '404', component: ErrorComponent },\n    ],\n  },\n  // {\n  //   path: 'admin',\n  //   component: AdminLayoutComponent,\n  //   children: [],\n  // },\n  // { path: '**', redirectTo: '404' },\n];\n\n@NgModule({\n  imports: [\n    RouterModule.forRoot(routes, {\n      initialNavigation: 'enabledBlocking',\n      scrollPositionRestoration: 'top',\n      anchorScrolling: 'enabled',\n    }),\n  ],\n  exports: [RouterModule],\n})\nexport class AppRoutingModule {}\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\nimport { MainLayoutComponent } from './components/layouts/main-layout/main-layout.component';\nimport LoginPageComponent from './components/pages/login-page/login-page.component';\n//components\n\nconst routes: Routes = [\n  {\n    path: '',\n    component: MainLayoutComponent,\n    children: [\n      //     // { path: '', component: HomePageComponent },\n      //     {\n      //       path: 'dashboard',\n      //       canActivate: [AuthGuard],\n      //       data: { role: Role.User },\n      //       children: [{ path: '', component: DashboardComponent }],\n      //     },\n      { path: 'login', component: LoginPageComponent },\n      //     { path: 'signup', component: LandingComponent },\n      //     { path: '404', component: ErrorComponent },\n    ],\n  },\n  // {\n  //   path: 'admin',\n  //   component: AdminLayoutComponent,\n  //   children: [],\n  // },\n  // { path: '**', redirectTo: '404' },\n];\n\n@NgModule({\n  imports: [\n    RouterModule.forRoot(routes, {\n      initialNavigation: 'enabledBlocking',\n      scrollPositionRestoration: 'top',\n      anchorScrolling: 'enabled',\n    }),\n  ],\n  exports: [RouterModule],\n})\nexport class AppRoutingModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -2394,7 +2717,7 @@
                 "name": "Default",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/shared/navbar/navbar.stories.ts",
+                "file": "src/app/components/layouts/navbar/navbar.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -2514,7 +2837,7 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/shared/navbar/navbar.stories.ts",
+                "file": "src/app/components/layouts/navbar/navbar.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Meta<NavbarComponent>",
@@ -2611,7 +2934,7 @@
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
                 "rawtype": "StoryObj<NavbarComponent>",
-                "file": "src/app/components/shared/navbar/navbar.stories.ts",
+                "file": "src/app/components/layouts/navbar/navbar.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -2695,12 +3018,12 @@
                     "defaultValue": "'User'"
                 }
             ],
-            "src/app/components/shared/navbar/navbar.stories.ts": [
+            "src/app/components/layouts/navbar/navbar.stories.ts": [
                 {
                     "name": "Default",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/shared/navbar/navbar.stories.ts",
+                    "file": "src/app/components/layouts/navbar/navbar.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
@@ -2710,7 +3033,7 @@
                     "name": "meta",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/shared/navbar/navbar.stories.ts",
+                    "file": "src/app/components/layouts/navbar/navbar.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Meta<NavbarComponent>",
@@ -2981,13 +3304,13 @@
                     "kind": 180
                 }
             ],
-            "src/app/components/shared/navbar/navbar.stories.ts": [
+            "src/app/components/layouts/navbar/navbar.stories.ts": [
                 {
                     "name": "Story",
                     "ctype": "miscellaneous",
                     "subtype": "typealias",
                     "rawtype": "StoryObj<NavbarComponent>",
-                    "file": "src/app/components/shared/navbar/navbar.stories.ts",
+                    "file": "src/app/components/layouts/navbar/navbar.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -3009,7 +3332,12 @@
                     {
                         "path": "",
                         "component": "MainLayoutComponent",
-                        "children": []
+                        "children": [
+                            {
+                                "path": "login",
+                                "component": "LoginPageComponent"
+                            }
+                        ]
                     }
                 ],
                 "kind": "module"
@@ -3049,7 +3377,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/components/shared/navbar/navbar.component.ts",
+                "filePath": "src/app/components/layouts/navbar/navbar.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "NavbarComponent",
@@ -3058,7 +3386,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/components/shared/navbar/navbar.stories.ts",
+                "filePath": "src/app/components/layouts/navbar/navbar.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -3068,13 +3396,31 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/components/shared/navbar/navbar.stories.ts",
+                "filePath": "src/app/components/layouts/navbar/navbar.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "meta",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/pages/login-page/login-page.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "LoginPageComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/shared/login-form/login-form.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "LoginFormComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/13",
                 "status": "low"
             },
             {

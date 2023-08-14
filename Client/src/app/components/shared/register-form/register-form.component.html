@@ -1,0 +1,70 @@
+<form>
+  <div class="text-center mb-3">
+    <p>Sign up with:</p>
+    <button mdbRipple type="button" class="btn btn-secondary btn-floating mx-1">
+      <i class="fab fa-facebook-f"></i>
+    </button>
+
+    <button mdbRipple type="button" class="btn btn-secondary btn-floating mx-1">
+      <i class="fab fa-google"></i>
+    </button>
+  </div>
+
+  <p class="text-center">or:</p>
+
+  <mdb-form-control class="mb-4">
+    <input mdbInput type="text" id="registerName" class="form-control" />
+    <label mdbLabel class="form-label" for="registerName">Name</label>
+  </mdb-form-control>
+
+  <mdb-form-control class="mb-4">
+    <input mdbInput type="text" id="registerUsername" class="form-control" />
+    <label mdbLabel class="form-label" for="registerUsername">Username</label>
+  </mdb-form-control>
+
+  <mdb-form-control class="mb-4">
+    <input mdbInput type="email" id="registerEmail" class="form-control" />
+    <label mdbLabel class="form-label" for="registerEmail">Email</label>
+  </mdb-form-control>
+
+  <mdb-form-control class="mb-4">
+    <input
+      mdbInput
+      type="password"
+      id="registerPassword"
+      class="form-control"
+    />
+    <label mdbLabel class="form-label" for="registerPassword">Password</label>
+  </mdb-form-control>
+
+  <mdb-form-control class="mb-4">
+    <input
+      mdbInput
+      type="password"
+      id="registerRepeatPassword"
+      class="form-control"
+    />
+    <label mdbLabel class="form-label" for="registerRepeatPassword"
+      >Repeat password</label
+    >
+  </mdb-form-control>
+
+  <div class="form-check d-flex justify-content-center mb-4">
+    <input
+      mdbCheckbox
+      class="form-check-input me-2"
+      type="checkbox"
+      value=""
+      id="registerCheck"
+      [checked]="true"
+      aria-label="registerCheckHelpText"
+    />
+    <label class="form-check-label" for="registerCheck">
+      I have read and agree to the terms
+    </label>
+  </div>
+
+  <button mdbRipple type="submit" class="btn btn-primary btn-block mb-3">
+    Register
+  </button>
+</form>
