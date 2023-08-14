@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -24,10 +24,10 @@ jobs:
         run: |
           cd API
           dotnet build --configuration Release
+          cd $GITHUB_WORKSPACE/SelectU.API
+          rm -f SelectU.Tests/appsettings.json
           dotnet publish -c Release -o $GITHUB_WORKSPACE/SelectU.API
 
-          # Use PowerShell to remove the test appsettings.json file
-          Remove-Item -Path $GITHUB_WORKSPACE/SelectU.API/SelectU.Tests/appsettings.json -Force
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -36,7 +36,7 @@ jobs:
           path: $GITHUB_WORKSPACE/SelectU.API
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
