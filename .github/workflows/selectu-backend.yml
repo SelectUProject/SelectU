@@ -26,7 +26,7 @@ jobs:
           dotnet build --configuration Release
           cd SelectU.Tests
           rm -f appsettings.json
-          cd API
+          cd ..
           dotnet publish -c Release -o $GITHUB_WORKSPACE/SelectU.API
 
 
