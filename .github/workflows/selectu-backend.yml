@@ -25,6 +25,7 @@ jobs:
           cd API
           dotnet build --configuration Release
           dotnet publish -c Release -o $GITHUB_WORKSPACE/SelectU.API
+          rm -f $GITHUB_WORKSPACE/SelectU.API/SelectU.Tests/appsettings.json  # Exclude test appsettings.json
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
