@@ -6,15 +6,13 @@ pool:
 steps:
 - task: UseDotNet@2
   inputs:
-    version: '6.x'
+    version: '7.x'  # Updated .NET version
     includePreviewVersions: true
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
-    feedsToUse: 'select'
-    vstsFeed: '<your_VSTS_feed_name>'
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -27,16 +25,3 @@ steps:
     command: 'test'
     projects: '**/*Tests.csproj'
     arguments: '--configuration Release --collect "Code coverage"'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
-    projects: '**/*.csproj'
-    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
-
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)'
-    artifact: 'drop'
-    publishLocation: 'pipeline'
