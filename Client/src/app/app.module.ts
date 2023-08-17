@@ -17,6 +17,8 @@ import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterFormComponent } from './components/shared/register-form/register-form.component';
+import { ManageScholarshipsPageComponent } from './components/pages/manage-scholarships-page/manage-scholarships-page.component';
+import { ShortViewScholarshipsComponentComponent } from './components/shared/short-view-scholarships-component/short-view-scholarships-component.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { RegisterFormComponent } from './components/shared/register-form/registe
     LoginPageComponent,
     LoginFormComponent,
     RegisterFormComponent,
+    ManageScholarshipsPageComponent,
+    ShortViewScholarshipsComponentComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
