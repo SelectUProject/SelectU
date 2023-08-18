@@ -20,15 +20,18 @@ jobs:
         with:
           node-version: '18'  # Use the appropriate Node.js version
 
-      - name: Install Angular CLI
-        run: |
-          cd Client
-          npm install -g @angular/cli
+      - name: Install Yarn
+        run: npm install -g yarn
 
-      - name: Install dependencies and build
+      - name: Install Angular CLI using Yarn
         run: |
           cd Client
-          npm install
+          yarn global add @angular/cli
+
+      - name: Install dependencies using Yarn and build
+        run: |
+          cd Client
+          yarn install
           ng build --configuration production
 
       - name: Upload artifact for deployment job
