@@ -5,6 +5,7 @@ using SelectU.Contracts;
 using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
+using SelectU.Contracts.Enums;
 using SelectU.Contracts.Infrastructure;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
@@ -57,13 +58,15 @@ namespace SelectU.Core.Services
             {
                 Mobile = registerDTO.Mobile,
                 Email = registerDTO.Email,
-                FullName = registerDTO.FullName,
+                FirstName = registerDTO.FirstName,
+                LastName = registerDTO.LastName,
                 DateOfBirth = registerDTO.DateOfBirth,
-                Gender = registerDTO.Gender,
+                Gender = registerDTO.Gender ?? GenderEnum.Other,
                 Address = registerDTO.Address,
                 Suburb = registerDTO.Suburb,
                 Postcode = registerDTO.Postcode,
                 State = registerDTO.State,
+                Country = registerDTO.Country,
                 UserName = registerDTO.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 DateCreated = DateTimeOffset.UtcNow,
@@ -82,7 +85,6 @@ namespace SelectU.Core.Services
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
             }
 
-            //Send email
             //await _emailclient.SendRegistrationEmailASync(registerDTO);
         }
 
@@ -96,7 +98,8 @@ namespace SelectU.Core.Services
             }
 
             user.Email = updateDTO.Email;
-            user.FullName = updateDTO.FullName;
+            user.FirstName = updateDTO.FirstName;
+            user.LastName = updateDTO.LastName;
             user.DateOfBirth = updateDTO.DateOfBirth;
             user.Gender = updateDTO.Gender;
             user.Mobile = updateDTO.Mobile;

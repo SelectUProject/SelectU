@@ -115,30 +115,36 @@ namespace SelectU.API.Controllers
             }
         }
 
-        //[HttpPost]
-        //[Route("register")]
-        //public async Task<IActionResult> Register(UserRegisterDTO registerDTO)
-        //{
-        //    try
-        //    {
-        //        var validationResult = await _userRegisterValidator.ValidateAsync(registerDTO);
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register(UserRegisterDTO registerDTO)
+        {
+            try
+            {
+                var validationResult = await _userRegisterValidator.ValidateAsync(registerDTO);
 
-        //        if (validationResult.IsValid)
-        //        {
-        //            return Ok(response);
-        //        }
-        //        return BadRequest(validationResult);
-        //    }
-        //    catch (UserRegisterException ex)
-        //    {
-        //        return BadRequest(new RegistrationResponseDTO { Success = false, Message = ex.Message });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, ex.Message);
-        //        return StatusCode(StatusCodes.Status500InternalServerError, new RegistrationResponseDTO { Success = false, Message = ex.Message });
-        //    }
-        //}
+                if (validationResult.IsValid)
+                {
+                    ResponseDTO response;
+
+                    await _userService.RegisterUserAsync(registerDTO);
+
+                    response = new ResponseDTO { Success = true, Message = "User created successfully." };
+
+                    return Ok(response);
+                }
+                return BadRequest(validationResult);
+            }
+            catch (UserRegisterException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
+            }
+        }
 
         //[HttpPost("validate")]
         //public async Task<IActionResult> ValidateUniqueEmailAddressAsync([FromBody] ValidateUniqueEmailAddressRequestDTO userDetails)
