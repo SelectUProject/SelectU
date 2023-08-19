@@ -6,6 +6,8 @@ using System.Text;
 using SelectU.Migrations;
 using SelectU.Contracts.Entities;
 using SelectU.Core.Extensions;
+using SelectU.Contracts.Services;
+using SelectU.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 //builder.AddSerilogLogging();
