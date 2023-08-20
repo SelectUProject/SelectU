@@ -37,6 +37,11 @@ namespace SelectU.Core.Services
 
         public async Task RegisterUserAsync(UserRegisterDTO registerDTO)
         {
+            if(registerDTO.Email == null) 
+            {
+                throw new UserRegisterException("Please provide an email.");
+            }
+
             var existingUser = await _userManager.FindByNameAsync(registerDTO.Email);
 
             if (existingUser != null)
@@ -73,6 +78,11 @@ namespace SelectU.Core.Services
                 DateModified = DateTimeOffset.UtcNow,
             };
 
+            if (registerDTO.Password == null)
+            {
+                throw new UserRegisterException("Please provide a password.");
+            }
+
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
             if (!result.Succeeded)
@@ -85,7 +95,7 @@ namespace SelectU.Core.Services
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
             }
 
-            //await _emailclient.SendRegistrationEmailASync(registerDTO);
+            await _emailclient.SendRegistrationEmailASync(registerDTO);
         }
 
         public async Task UpdateUserDetailsAsync(string id, UserUpdateDTO updateDTO)

@@ -17,6 +17,9 @@ import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterFormComponent } from './components/shared/register-form/register-form.component';
+import { RegisterPageComponent } from './components/pages/register-page/register-page.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,7 @@ import { RegisterFormComponent } from './components/shared/register-form/registe
     LoginPageComponent,
     LoginFormComponent,
     RegisterFormComponent,
+    RegisterPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -37,6 +41,8 @@ import { RegisterFormComponent } from './components/shared/register-form/registe
     MdbTabsModule,
     MdbFormsModule,
     BrowserAnimationsModule,
+    BsDatepickerModule,
+    MdbValidationModule,
   ],
   providers: [
     DatePipe,
