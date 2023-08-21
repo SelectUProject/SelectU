@@ -12,7 +12,7 @@ using SelectU.Migrations;
 namespace SelectU.Migrations.Migrations
 {
     [DbContext(typeof(SelectUContext))]
-    [Migration("20230816143535_init")]
+    [Migration("20230821114625_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -206,9 +206,6 @@ namespace SelectU.Migrations.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Mobile")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)

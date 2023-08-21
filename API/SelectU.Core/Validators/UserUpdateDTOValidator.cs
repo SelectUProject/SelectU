@@ -11,7 +11,7 @@ namespace SelectU.Core.Validators
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Last Name is required");
             RuleFor(x => x.DateOfBirth).NotEmpty().WithMessage("DOB is required");
             RuleFor(x => x.Gender).NotEmpty().WithMessage("Gender is required");
-            RuleFor(x => x.Mobile).NotEmpty().WithMessage("Mobile is required");
+            RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage("Mobile is required");
             RuleFor(x => x.Email).NotEmpty().WithMessage("Email is required");
             RuleFor(x => x.Email).EmailAddress().WithMessage("Not a valid email address");
             RuleFor(x => x.Address).NotEmpty().WithMessage("Address is required");

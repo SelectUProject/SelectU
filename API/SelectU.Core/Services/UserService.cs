@@ -61,15 +61,12 @@ namespace SelectU.Core.Services
 
             var user = new User
             {
-                Mobile = registerDTO.Mobile,
+                PhoneNumber = registerDTO.PhoneNumber,
                 Email = registerDTO.Email,
                 FirstName = registerDTO.FirstName,
                 LastName = registerDTO.LastName,
                 DateOfBirth = registerDTO.DateOfBirth,
                 Gender = registerDTO.Gender ?? GenderEnum.Other,
-                Address = registerDTO.Address,
-                Suburb = registerDTO.Suburb,
-                Postcode = registerDTO.Postcode,
                 State = registerDTO.State,
                 Country = registerDTO.Country,
                 UserName = registerDTO.Email,
@@ -112,7 +109,7 @@ namespace SelectU.Core.Services
             user.LastName = updateDTO.LastName;
             user.DateOfBirth = updateDTO.DateOfBirth;
             user.Gender = updateDTO.Gender;
-            user.Mobile = updateDTO.Mobile;
+            user.PhoneNumber = updateDTO.PhoneNumber;
             user.Address = updateDTO.Address;
             user.Suburb = updateDTO.Suburb;
             user.Postcode = updateDTO.Postcode;

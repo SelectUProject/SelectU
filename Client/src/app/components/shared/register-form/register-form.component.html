@@ -1,4 +1,4 @@
-<form [formGroup]="registerForm">
+<form [formGroup]="registerForm" (ngSubmit)="register()">
   <div class="text-center mb-3">
     <p>Sign up with:</p>
     <button mdbRipple type="button" class="btn btn-secondary btn-floating mx-1">
@@ -71,7 +71,8 @@
     <label mdbLabel class="form-label" for="password">Password</label>
     <mdb-error
       *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-      >Password is required</mdb-error
+      >Password must be 9 characters long, include 1 capital and 1
+      number.</mdb-error
     >
   </mdb-form-control>
 
@@ -142,13 +143,16 @@
       mdbValidate
       mdbInput
       type="tel"
-      id="mobile"
+      id="phoneNumber"
       class="form-control"
-      formControlName="mobile"
+      formControlName="phoneNumber"
     />
-    <label mdbLabel class="form-label" for="mobile">Mobile</label>
-    <mdb-error *ngIf="mobile?.invalid && (mobile?.dirty || mobile?.touched)"
-      >Mobile is required</mdb-error
+    <label mdbLabel class="form-label" for="phoneNumber">Phone Number</label>
+    <mdb-error
+      *ngIf="
+        phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)
+      "
+      >Please provide a valid phone number</mdb-error
     >
   </mdb-form-control>
 
@@ -182,7 +186,25 @@
     >
   </mdb-form-control>
 
-  <button mdbRipple type="submit" class="btn btn-primary btn-block mb-3">
+  <button
+    mdbRipple
+    *ngIf="!saving"
+    [disabled]="!registerForm.valid"
+    type="submit"
+    class="btn btn-primary btn-block mb-3"
+  >
     Register
+  </button>
+  <button
+    *ngIf="saving"
+    class="btn btn-primary btn-block mb-3"
+    type="button"
+    disabled
+  >
+    <span
+      class="spinner-border spinner-border-sm"
+      role="status"
+      aria-hidden="true"
+    ></span>
   </button>
 </form>

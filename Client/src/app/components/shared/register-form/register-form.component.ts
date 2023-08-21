@@ -5,11 +5,13 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { GENDERS_LIST } from 'src/app/constants/Genders';
 import { STATES_LIST } from 'src/app/constants/States';
 import { NumberLookupDTO, StringLookupDTO } from 'src/app/models/LookupDTOs';
 import { UserRegisterDTO } from 'src/app/models/UserRegisterDTO';
 import { ValidateUniqueEmailAddressRequestDTO } from 'src/app/models/ValidateUniqueEmailAddressDTO';
+import { AuthService } from 'src/app/providers/auth.service';
 import { TokenService } from 'src/app/providers/token.service';
 import { UserService } from 'src/app/providers/user.service';
 
@@ -58,8 +60,8 @@ export class RegisterFormComponent implements OnInit {
     return this.registerForm.get('gender');
   }
 
-  get mobile() {
-    return this.registerForm.get('mobile');
+  get phoneNumber() {
+    return this.registerForm.get('phoneNumber');
   }
 
   get state() {
@@ -73,7 +75,9 @@ export class RegisterFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private tokenService: TokenService
+    private authService: AuthService,
+    private tokenService: TokenService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -114,7 +118,7 @@ export class RegisterFormComponent implements OnInit {
         confirmPassword: ['', [Validators.required]],
         dateOfBirth: ['', Validators.required],
         gender: ['', Validators.required],
-        mobile: [
+        phoneNumber: [
           '',
           Validators.compose([
             Validators.required,
@@ -146,14 +150,19 @@ export class RegisterFormComponent implements OnInit {
     };
   }
 
-  async register(token: any) {
+  async register() {
+    this.saving = true;
     let registerForm = <UserRegisterDTO>this.registerForm.value;
 
     await this.userService
       .register(registerForm)
-      .then((response) => {
+      .then(() => {
         console.log('Successful Registration');
-        this.registered = true;
+        this.authService.login({
+          username: registerForm.email,
+          password: registerForm.password,
+        });
+        // this.router.navigate(['account']);
       })
       .catch((response) => {
         if (response.error?.errors) {
