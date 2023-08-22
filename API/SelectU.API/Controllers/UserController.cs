@@ -146,23 +146,23 @@ namespace SelectU.API.Controllers
             }
         }
 
-        //[HttpPost("validate")]
-        //public async Task<IActionResult> ValidateUniqueEmailAddressAsync([FromBody] ValidateUniqueEmailAddressRequestDTO userDetails)
-        //{
+        [HttpPost("validate")]
+        public async Task<IActionResult> ValidateUniqueEmailAddressAsync([FromBody] ValidateUniqueEmailAddressRequestDTO userDetails)
+        {
 
-        //    try
-        //    {
-        //        var response = await _userService.ValidateUniqueEmailAddressAsync(userDetails.Email);
+            try
+            {
+                var response = await _userService.ValidateUniqueEmailAddressAsync(userDetails.Email);
 
-        //        return Ok(response);
+                return Ok(response);
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, ex.Message);
-        //        return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
+            }
+        }
 
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)

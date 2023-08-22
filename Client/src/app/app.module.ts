@@ -10,16 +10,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { MainLayoutComponent } from './components/layouts/main-layout/main-layout.component';
 import { AuthGuard } from './providers/auth.guard';
 import { TokenInterceptor } from './providers/token.interceptor';
-import NavbarComponent from './components/layouts/navbar/navbar.component';
-import LoginPageComponent from './components/pages/login-page/login-page.component';
-import LoginFormComponent from './components/shared/login-form/login-form.component';
 import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RegisterFormComponent } from './components/shared/register-form/register-form.component';
-import { RegisterPageComponent } from './components/pages/register-page/register-page.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+
+// Custom components
+import NavbarComponent from './components/layouts/navbar/navbar.component';
+import LoginPageComponent from './components/pages/login-page/login-page.component';
+import LoginFormComponent from './components/shared/login-form/login-form.component';
+import RegisterFormComponent from './components/shared/register-form/register-form.component';
+import RegisterPageComponent from './components/pages/register-page/register-page.component';
 
 @NgModule({
   declarations: [

@@ -20,11 +20,10 @@ import { UserService } from 'src/app/providers/user.service';
   templateUrl: './register-form.component.html',
   styleUrls: ['./register-form.component.scss'],
 })
-export class RegisterFormComponent implements OnInit {
+class RegisterFormComponent implements OnInit {
   genders: NumberLookupDTO[] = GENDERS_LIST;
   states: StringLookupDTO[] = STATES_LIST;
   registerForm: FormGroup;
-  submitted: boolean = false;
   saving: boolean = false;
   isError: boolean = false;
   errMsg: string = 'An error has occurred!';
@@ -127,7 +126,6 @@ export class RegisterFormComponent implements OnInit {
         ],
         state: ['', Validators.required],
         country: ['', Validators.required],
-        coupon: [''],
       },
       { validators: [this.matchingPasswords('password', 'confirmPassword')] }
     );
@@ -152,6 +150,7 @@ export class RegisterFormComponent implements OnInit {
 
   async register() {
     this.saving = true;
+    this.isError = false;
     let registerForm = <UserRegisterDTO>this.registerForm.value;
 
     await this.userService
@@ -162,7 +161,7 @@ export class RegisterFormComponent implements OnInit {
           username: registerForm.email,
           password: registerForm.password,
         });
-        // this.router.navigate(['account']);
+        this.router.navigate(['account']);
       })
       .catch((response) => {
         if (response.error?.errors) {
@@ -188,8 +187,9 @@ export class RegisterFormComponent implements OnInit {
       await this.userService
         .validateUniqueEmailAddress(request)
         .then((response) => {
-          if (response.isUnique == false) {
+          if (response.isUnique == false && !!this.email) {
             this.existingEmail = true;
+            this.email.setErrors({ existingEmail: true });
           }
         })
         .catch((response) => {
@@ -203,3 +203,5 @@ export class RegisterFormComponent implements OnInit {
     this.registerForm.controls[propertyName]?.setErrors({ required: true });
   }
 }
+
+export default RegisterFormComponent;

@@ -35,6 +35,22 @@ namespace SelectU.Core.Services
             return await _userManager.FindByIdAsync(id);
         }
 
+        public async Task<ValidateUniqueEmailAddressResponseDTO> ValidateUniqueEmailAddressAsync(string email)
+        {
+            ValidateUniqueEmailAddressResponseDTO response = new ValidateUniqueEmailAddressResponseDTO()
+            {
+                IsUnique = true
+            };
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                response.IsUnique = false;
+            }
+
+            return response;
+        }
+
         public async Task RegisterUserAsync(UserRegisterDTO registerDTO)
         {
             if(registerDTO.Email == null) 

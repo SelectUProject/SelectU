@@ -20,10 +20,17 @@
       id="email"
       class="form-control"
       formControlName="email"
+      (blur)="validateExistingEmail()"
     />
     <label mdbLabel class="form-label" for="email">Email</label>
-    <mdb-error *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+    <mdb-error
+      *ngIf="
+        email?.invalid && !existingEmail && (email?.dirty || email?.touched)
+      "
       >Email is required</mdb-error
+    >
+    <mdb-error *ngIf="existingEmail && (email?.dirty || email?.touched)"
+      >This email is already registered.</mdb-error
     >
   </mdb-form-control>
 
@@ -208,3 +215,9 @@
     ></span>
   </button>
 </form>
+
+<ng-container *ngIf="isError">
+  <div class="alert alert-danger my-3" role="alert">
+    {{ errMsg }}
+  </div>
+</ng-container>
