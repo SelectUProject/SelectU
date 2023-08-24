@@ -1,3 +1,8 @@
+import {
+  GoogleLoginProvider,
+  SocialAuthService,
+  SocialUser,
+} from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -30,6 +35,7 @@ class RegisterFormComponent implements OnInit {
   existingEmail: boolean = false;
   todayDate: Date = new Date();
   registered: boolean = false;
+  socialUser: SocialUser;
 
   get email() {
     return this.registerForm.get('email');
@@ -76,12 +82,21 @@ class RegisterFormComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private tokenService: TokenService,
-    private router: Router
+    private router: Router,
+    private socialAuthService: SocialAuthService
   ) {}
 
   ngOnInit(): void {
     this.tokenService.clearToken();
     this.setupForm();
+    this.setupSocialAuthService();
+  }
+
+  setupSocialAuthService() {
+    this.socialAuthService.authState.subscribe((user) => {
+      this.socialUser = user;
+      console.log(this.socialUser);
+    });
   }
 
   setupForm() {
@@ -129,6 +144,10 @@ class RegisterFormComponent implements OnInit {
       },
       { validators: [this.matchingPasswords('password', 'confirmPassword')] }
     );
+  }
+
+  loginWithGoogle(): void {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
   matchingPasswords(passwordKey: string, confirmPasswordKey: string) {

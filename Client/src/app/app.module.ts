@@ -15,6 +15,13 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
+import {
+  SocialLoginModule,
+  GoogleSigninButtonModule,
+  GoogleLoginProvider,
+  SocialAuthServiceConfig,
+} from '@abacritt/angularx-social-login';
 
 // Custom components
 import NavbarComponent from './components/layouts/navbar/navbar.component';
@@ -45,6 +52,9 @@ import RegisterPageComponent from './components/pages/register-page/register-pag
     BrowserAnimationsModule,
     BsDatepickerModule,
     MdbValidationModule,
+    MdbCollapseModule,
+    SocialLoginModule,
+    GoogleSigninButtonModule,
   ],
   providers: [
     DatePipe,
@@ -53,6 +63,20 @@ import RegisterPageComponent from './components/pages/register-page/register-pag
       provide: HTTP_INTERCEPTORS,
       multi: true,
       useClass: TokenInterceptor,
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '916817943783-uep7ecjsr44mroo06ig665nmsm0aad9t.apps.googleusercontent.com'
+            ),
+          },
+        ],
+      } as SocialAuthServiceConfig,
     },
   ],
   bootstrap: [AppComponent],
