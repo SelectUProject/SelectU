@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './components/layouts/main-layout/main-layout.component';
 import LoginPageComponent from './components/pages/login-page/login-page.component';
 import { ManageScholarshipsPageComponent } from './components/pages/manage-scholarships-page/manage-scholarships-page.component';
+import RegisterPageComponent from './components/pages/register-page/register-page.component';
 //components
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
         component: ManageScholarshipsPageComponent,
       },
       //     { path: 'signup', component: LandingComponent },
+      { path: 'register', component: RegisterPageComponent },
       //     { path: '404', component: ErrorComponent },
     ],
   },

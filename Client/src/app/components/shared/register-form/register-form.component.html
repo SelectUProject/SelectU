@@ -1,70 +1,226 @@
-<form>
-  <div class="text-center mb-3">
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+  <!-- <div class="text-center mb-3">
     <p>Sign up with:</p>
     <button mdbRipple type="button" class="btn btn-secondary btn-floating mx-1">
       <i class="fab fa-facebook-f"></i>
     </button>
 
-    <button mdbRipple type="button" class="btn btn-secondary btn-floating mx-1">
-      <i class="fab fa-google"></i>
-    </button>
+    <asl-google-signin-button
+      type="icon"
+      size="large"
+      shape="circle"
+      class="btn btn-secondary btn-floating mx-1"
+    ></asl-google-signin-button>
   </div>
 
-  <p class="text-center">or:</p>
-
-  <mdb-form-control class="mb-4">
-    <input mdbInput type="text" id="registerName" class="form-control" />
-    <label mdbLabel class="form-label" for="registerName">Name</label>
-  </mdb-form-control>
-
-  <mdb-form-control class="mb-4">
-    <input mdbInput type="text" id="registerUsername" class="form-control" />
-    <label mdbLabel class="form-label" for="registerUsername">Username</label>
-  </mdb-form-control>
-
-  <mdb-form-control class="mb-4">
-    <input mdbInput type="email" id="registerEmail" class="form-control" />
-    <label mdbLabel class="form-label" for="registerEmail">Email</label>
-  </mdb-form-control>
+  <p class="text-center">or:</p> -->
 
   <mdb-form-control class="mb-4">
     <input
+      mdbValidate
       mdbInput
-      type="password"
-      id="registerPassword"
+      type="email"
+      id="email"
       class="form-control"
+      formControlName="email"
+      (blur)="validateExistingEmail()"
     />
-    <label mdbLabel class="form-label" for="registerPassword">Password</label>
-  </mdb-form-control>
-
-  <mdb-form-control class="mb-4">
-    <input
-      mdbInput
-      type="password"
-      id="registerRepeatPassword"
-      class="form-control"
-    />
-    <label mdbLabel class="form-label" for="registerRepeatPassword"
-      >Repeat password</label
+    <label mdbLabel class="form-label" for="email">Email</label>
+    <mdb-error
+      *ngIf="
+        email?.invalid && !existingEmail && (email?.dirty || email?.touched)
+      "
+      >Email is required</mdb-error
+    >
+    <mdb-error *ngIf="existingEmail && (email?.dirty || email?.touched)"
+      >This email is already registered.</mdb-error
     >
   </mdb-form-control>
 
-  <div class="form-check d-flex justify-content-center mb-4">
+  <mdb-form-control class="mb-4">
     <input
-      mdbCheckbox
-      class="form-check-input me-2"
-      type="checkbox"
-      value=""
-      id="registerCheck"
-      [checked]="true"
-      aria-label="registerCheckHelpText"
+      mdbValidate
+      mdbInput
+      type="text"
+      id="firstName"
+      class="form-control"
+      formControlName="firstName"
     />
-    <label class="form-check-label" for="registerCheck">
-      I have read and agree to the terms
-    </label>
-  </div>
+    <label mdbLabel class="form-label" for="firstName">First Name</label>
+    <mdb-error
+      *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)"
+      >First Name is required</mdb-error
+    >
+  </mdb-form-control>
 
-  <button mdbRipple type="submit" class="btn btn-primary btn-block mb-3">
+  <mdb-form-control class="mb-4">
+    <input
+      mdbValidate
+      mdbInput
+      type="text"
+      id="lastName"
+      class="form-control"
+      formControlName="lastName"
+    />
+    <label mdbLabel class="form-label" for="lastName">Last Name</label>
+    <mdb-error
+      *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
+      >Last Name is required</mdb-error
+    >
+  </mdb-form-control>
+
+  <mdb-form-control class="mb-4">
+    <input
+      mdbValidate
+      mdbInput
+      type="password"
+      id="password"
+      class="form-control"
+      formControlName="password"
+    />
+    <label mdbLabel class="form-label" for="password">Password</label>
+    <mdb-error
+      *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+      >Password must be 9 characters long, include 1 capital and 1
+      number.</mdb-error
+    >
+  </mdb-form-control>
+
+  <mdb-form-control class="mb-4">
+    <input
+      mdbValidate
+      mdbInput
+      type="password"
+      id="confirmPassword"
+      class="form-control"
+      formControlName="confirmPassword"
+    />
+    <label mdbLabel class="form-label" for="confirmPassword"
+      >Confirm password</label
+    >
+    <mdb-error
+      *ngIf="
+        confirmPassword?.invalid &&
+        (confirmPassword?.dirty || confirmPassword?.touched)
+      "
+      >Passwords must match</mdb-error
+    >
+  </mdb-form-control>
+
+  <mdb-form-control class="mb-4">
+    <input
+      mdbValidate
+      mdbInput
+      type="text"
+      id="dateOfBirth"
+      class="form-control"
+      bsDatepicker
+      [bsConfig]="{containerClass: 'theme-dark-blue',}"
+      [maxDate]="todayDate"
+      formControlName="dateOfBirth"
+    />
+    <label mdbLabel class="form-label" for="dateOfBirth">Date Of Birth</label>
+    <mdb-error
+      *ngIf="
+        dateOfBirth?.invalid && (dateOfBirth?.dirty || dateOfBirth?.touched)
+      "
+      >Date Of Birth is required</mdb-error
+    >
+  </mdb-form-control>
+
+  <mdb-form-control class="mb-4">
+    <select
+      mdbValidate
+      mdbInput
+      type="select"
+      id="gender"
+      class="form-control"
+      formControlName="gender"
+    >
+      <option value="" disabled selected></option>
+      <option *ngFor="let gender of genders" [ngValue]="gender.value">
+        {{ gender.name }}
+      </option>
+    </select>
+    <label mdbLabel class="form-label" for="gender">Gender</label>
+    <mdb-error *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)"
+      >Gender is required</mdb-error
+    >
+  </mdb-form-control>
+
+  <mdb-form-control class="mb-4">
+    <input
+      mdbValidate
+      mdbInput
+      type="tel"
+      id="phoneNumber"
+      class="form-control"
+      formControlName="phoneNumber"
+    />
+    <label mdbLabel class="form-label" for="phoneNumber">Phone Number</label>
+    <mdb-error
+      *ngIf="
+        phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)
+      "
+      >Please provide a valid phone number</mdb-error
+    >
+  </mdb-form-control>
+
+  <mdb-form-control class="mb-4">
+    <input
+      mdbValidate
+      mdbInput
+      type="text"
+      id="state"
+      class="form-control"
+      formControlName="state"
+    />
+    <label mdbLabel class="form-label" for="state">State</label>
+    <mdb-error *ngIf="state?.invalid && (state?.dirty || state?.touched)"
+      >State is required</mdb-error
+    >
+  </mdb-form-control>
+
+  <mdb-form-control class="mb-4">
+    <input
+      mdbValidate
+      mdbInput
+      type="text"
+      id="country"
+      class="form-control"
+      formControlName="country"
+    />
+    <label mdbLabel class="form-label" for="country">Country</label>
+    <mdb-error *ngIf="country?.invalid && (country?.dirty || country?.touched)"
+      >Country is required</mdb-error
+    >
+  </mdb-form-control>
+
+  <button
+    mdbRipple
+    *ngIf="!saving"
+    [disabled]="!registerForm.valid"
+    type="submit"
+    class="btn btn-primary btn-block mb-3"
+  >
     Register
   </button>
+  <button
+    *ngIf="saving"
+    class="btn btn-primary btn-block mb-3"
+    type="button"
+    disabled
+  >
+    <span
+      class="spinner-border spinner-border-sm"
+      role="status"
+      aria-hidden="true"
+    ></span>
+  </button>
 </form>
+
+<ng-container *ngIf="isError">
+  <div class="alert alert-danger my-3" role="alert">
+    {{ errMsg }}
+  </div>
+</ng-container>

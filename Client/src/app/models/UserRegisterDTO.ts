@@ -1,14 +1,13 @@
 import { GenderEnum } from './GenderEnum';
 
 export interface UserRegisterDTO {
-  fullName: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
   dateOfBirth: Date;
   gender: GenderEnum;
-  email: string;
-  password: string;
-  mobile: string;
-  address: string;
-  suburb: string;
-  postcode: Number;
+  phoneNumber: string;
   state: string;
+  country: string;
 }

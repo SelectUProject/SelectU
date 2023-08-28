@@ -6,4 +6,5 @@ export const environment = {
   production: false,
   apiBaseUri: 'https://localhost:7209',
   admissionName: 'Scholarships',
+  // apiBaseUri: 'https://localhost:7293',
 };

@@ -34,7 +34,6 @@ namespace SelectU.Migrations.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Gender = table.Column<int>(type: "int", nullable: true),
-                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Suburb = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Postcode = table.Column<string>(type: "nvarchar(max)", nullable: true),
