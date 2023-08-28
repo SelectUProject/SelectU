@@ -2291,7 +2291,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<mdb-tabs [pills]=\"true\" [fill]=\"true\">\r\n  <mdb-tab title=\"Login\">\r\n    <form>\r\n      <div class=\"text-center mb-3\">\r\n        <p>Sign in with:</p>\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-facebook-f\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-google\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-twitter\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-github\"></i>\r\n        </button>\r\n      </div>\r\n\r\n      <p class=\"text-center\">or:</p>\r\n\r\n      <!-- Email input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input mdbInput type=\"email\" id=\"loginName\" class=\"form-control\" />\r\n        <label mdbLabel class=\"form-label\" for=\"loginName\"\r\n          >Email or username</label\r\n        >\r\n      </mdb-form-control>\r\n\r\n      <!-- Password input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input\r\n          mdbInput\r\n          type=\"password\"\r\n          id=\"loginPassword\"\r\n          class=\"form-control\"\r\n        />\r\n        <label mdbLabel class=\"form-label\" for=\"loginPassword\">Password</label>\r\n      </mdb-form-control>\r\n\r\n      <!-- 2 column grid layout -->\r\n      <div class=\"row mb-4\">\r\n        <div class=\"col-md-6 d-flex justify-content-center\">\r\n          <!-- Checkbox -->\r\n          <div class=\"form-check mb-3 mb-md-0\">\r\n            <input\r\n              mdbCheckbox\r\n              class=\"form-check-input\"\r\n              type=\"checkbox\"\r\n              value=\"\"\r\n              id=\"loginCheck\"\r\n              [checked]=\"true\"\r\n            />\r\n            <label class=\"form-check-label\" for=\"loginCheck\">\r\n              Remember me\r\n            </label>\r\n          </div>\r\n        </div>\r\n\r\n        <div class=\"col-md-6 d-flex justify-content-center\">\r\n          <!-- Simple link -->\r\n          <a href=\"#!\">Forgot password?</a>\r\n        </div>\r\n      </div>\r\n\r\n      <!-- Submit button -->\r\n      <button mdbRipple type=\"submit\" class=\"btn btn-primary btn-block mb-4\">\r\n        Sign in\r\n      </button>\r\n\r\n      <!-- Register buttons -->\r\n      <div class=\"text-center\">\r\n        <p>Not a member? <a href=\"#!\">Register</a></p>\r\n      </div>\r\n    </form></mdb-tab\r\n  >\r\n  <mdb-tab title=\"Register\">\r\n    <form>\r\n      <div class=\"text-center mb-3\">\r\n        <p>Sign up with:</p>\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-facebook-f\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-google\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-twitter\"></i>\r\n        </button>\r\n\r\n        <button\r\n          mdbRipple\r\n          type=\"button\"\r\n          class=\"btn btn-secondary btn-floating mx-1\"\r\n        >\r\n          <i class=\"fab fa-github\"></i>\r\n        </button>\r\n      </div>\r\n\r\n      <p class=\"text-center\">or:</p>\r\n\r\n      <!-- Name input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input mdbInput type=\"text\" id=\"registerName\" class=\"form-control\" />\r\n        <label mdbLabel class=\"form-label\" for=\"registerName\">Name</label>\r\n      </mdb-form-control>\r\n\r\n      <!-- Username input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input\r\n          mdbInput\r\n          type=\"text\"\r\n          id=\"registerUsername\"\r\n          class=\"form-control\"\r\n        />\r\n        <label mdbLabel class=\"form-label\" for=\"registerUsername\"\r\n          >Username</label\r\n        >\r\n      </mdb-form-control>\r\n\r\n      <!-- Email input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input mdbInput type=\"email\" id=\"registerEmail\" class=\"form-control\" />\r\n        <label mdbLabel class=\"form-label\" for=\"registerEmail\">Email</label>\r\n      </mdb-form-control>\r\n\r\n      <!-- Password input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input\r\n          mdbInput\r\n          type=\"password\"\r\n          id=\"registerPassword\"\r\n          class=\"form-control\"\r\n        />\r\n        <label mdbLabel class=\"form-label\" for=\"registerPassword\"\r\n          >Password</label\r\n        >\r\n      </mdb-form-control>\r\n\r\n      <!-- Repeat Password input -->\r\n      <mdb-form-control class=\"mb-4\">\r\n        <input\r\n          mdbInput\r\n          type=\"password\"\r\n          id=\"registerRepeatPassword\"\r\n          class=\"form-control\"\r\n        />\r\n        <label mdbLabel class=\"form-label\" for=\"registerRepeatPassword\"\r\n          >Repeat password</label\r\n        >\r\n      </mdb-form-control>\r\n\r\n      <!-- Checkbox -->\r\n      <div class=\"form-check d-flex justify-content-center mb-4\">\r\n        <input\r\n          mdbCheckbox\r\n          class=\"form-check-input me-2\"\r\n          type=\"checkbox\"\r\n          value=\"\"\r\n          id=\"registerCheck\"\r\n          [checked]=\"true\"\r\n          aria-label=\"registerCheckHelpText\"\r\n        />\r\n        <label class=\"form-check-label\" for=\"registerCheck\">\r\n          I have read and agree to the terms\r\n        </label>\r\n      </div>\r\n\r\n      <!-- Submit button -->\r\n      <button mdbRipple type=\"submit\" class=\"btn btn-primary btn-block mb-3\">\r\n        Sign in\r\n      </button>\r\n    </form></mdb-tab\r\n  >\r\n</mdb-tabs>\r\n"
+            "templateData": "<form>\r\n  <div class=\"text-center mb-3\">\r\n    <p>Sign in with:</p>\r\n    <button mdbRipple type=\"button\" class=\"btn btn-secondary btn-floating mx-1\">\r\n      <i class=\"fab fa-facebook-f\"></i>\r\n    </button>\r\n\r\n    <button mdbRipple type=\"button\" class=\"btn btn-secondary btn-floating mx-1\">\r\n      <i class=\"fab fa-google\"></i>\r\n    </button>\r\n  </div>\r\n\r\n  <p class=\"text-center\">or:</p>\r\n\r\n  <mdb-form-control class=\"mb-4\">\r\n    <input mdbInput type=\"email\" id=\"loginName\" class=\"form-control\" />\r\n    <label mdbLabel class=\"form-label\" for=\"loginName\">Email or username</label>\r\n  </mdb-form-control>\r\n\r\n  <mdb-form-control class=\"mb-4\">\r\n    <input mdbInput type=\"password\" id=\"loginPassword\" class=\"form-control\" />\r\n    <label mdbLabel class=\"form-label\" for=\"loginPassword\">Password</label>\r\n  </mdb-form-control>\r\n\r\n  <div class=\"row mb-4\">\r\n    <div class=\"col-md-6 d-flex justify-content-center\">\r\n      <div class=\"form-check mb-3 mb-md-0\">\r\n        <input\r\n          mdbCheckbox\r\n          class=\"form-check-input\"\r\n          type=\"checkbox\"\r\n          value=\"\"\r\n          id=\"loginCheck\"\r\n          [checked]=\"true\"\r\n        />\r\n        <label class=\"form-check-label\" for=\"loginCheck\"> Remember me </label>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"col-md-6 d-flex justify-content-center\">\r\n      <a [routerLink]=\"'/forgot-password'\">Forgot password?</a>\r\n    </div>\r\n  </div>\r\n\r\n  <button mdbRipple type=\"submit\" class=\"btn btn-primary btn-block mb-4\">\r\n    Sign in\r\n  </button>\r\n\r\n  <div class=\"text-center\">\r\n    <p>Not a member? <a [routerLink]=\"'/register'\">Register</a></p>\r\n  </div>\r\n</form>\r\n"
         },
         {
             "name": "LoginPageComponent",
@@ -2334,7 +2334,7 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "<div class=\"container\">\n  <div class=\"row justify-content-center\">\n    <div class=\"col-6\">\n      <app-login-form></app-login-form>\n    </div>\n  </div>\n</div>\n"
+            "templateData": "<div class=\"container mt-5\">\n  <div class=\"row justify-content-center\">\n    <div class=\"col-6\">\n      <mdb-tabs [pills]=\"true\" [fill]=\"true\">\n        <mdb-tab title=\"Login\">\n          <app-login-form></app-login-form>\n        </mdb-tab>\n        <mdb-tab title=\"Register\">\n          <app-register-form></app-register-form>\n        </mdb-tab>\n      </mdb-tabs>\n    </div>\n  </div>\n</div>\n"
         },
         {
             "name": "MainLayoutComponent",
@@ -2513,7 +2513,7 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "<nav class=\"navbar navbar-expand-lg sticky-top\">\n  <div class=\"container-fluid\">\n    <a class=\"navbar-brand\" href=\"\">\n      <img src=\"assets/images/selectu_icon.svg\" width=\"80\" alt=\"SelectU\" />\n    </a>\n    <button\n      class=\"navbar-toggler\"\n      type=\"button\"\n      data-bs-toggle=\"collapse\"\n      data-bs-target=\"#navbarNavDropdown\"\n      aria-controls=\"navbarNavDropdown\"\n      aria-expanded=\"false\"\n      aria-label=\"Toggle navigation\"\n    >\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div\n      class=\"collapse navbar-collapse d-flex justify-content-between align-items-center\"\n      id=\"navbarNavDropdown\"\n    >\n      <ul class=\"navbar-nav mx-auto text-center\">\n        <li class=\"nav-item mx-5\">\n          <a\n            class=\"nav-link active\"\n            aria-current=\"page\"\n            href=\"find-scholarships\"\n            >Find Scholarships</a\n          >\n        </li>\n        <li class=\"nav-item mx-5\">\n          <a class=\"nav-link\" href=\"my-scholarships\">My Applications</a>\n        </li>\n        <li class=\"nav-item mx-5\">\n          <a class=\"nav-link\" href=\"saved-scholarships\">Saved Scholarship</a>\n        </li>\n      </ul>\n      <ul class=\"navbar-nav\">\n        <li class=\"nav-item d-flex align-items-center mx-2\">\n          <a role=\"button\" class=\"btn btn-link px-3 me-2\" href=\"login\">Login</a>\n        </li>\n        <li class=\"nav-item d-flex align-items-center\">\n          <a role=\"button\" class=\"btn btn-primary me-3\" href=\"signup\">\n            Sign up for free\n          </a>\n        </li>\n        <!-- <li class=\"nav-item dropdown\">\n          <a\n            class=\"nav-link dropdown-toggle\"\n            href=\"#\"\n            role=\"button\"\n            data-bs-toggle=\"dropdown\"\n            aria-expanded=\"false\"\n          >\n            Login\n          </a>\n          <ul class=\"dropdown-menu\">\n            <li><a class=\"dropdown-item\" href=\"#\">Action</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">Another action</a></li>\n            <li><a class=\"dropdown-item\" href=\"#\">Something else here</a></li>\n          </ul>\n        </li> -->\n      </ul>\n    </div>\n  </div>\n</nav>\n"
+            "templateData": "<nav class=\"navbar navbar-expand-lg sticky-top\">\n  <div class=\"container-fluid\">\n    <a class=\"navbar-brand\" [routerLink]=\"\">\n      <img src=\"assets/images/selectu_icon.svg\" width=\"80\" alt=\"SelectU\" />\n    </a>\n    <button\n      class=\"navbar-toggler\"\n      type=\"button\"\n      data-bs-toggle=\"collapse\"\n      data-bs-target=\"#navbarNavDropdown\"\n      aria-controls=\"navbarNavDropdown\"\n      aria-expanded=\"false\"\n      aria-label=\"Toggle navigation\"\n    >\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div\n      class=\"collapse navbar-collapse d-flex justify-content-between align-items-center\"\n      id=\"navbarNavDropdown\"\n    >\n      <ul class=\"navbar-nav mx-auto text-center\">\n        <li class=\"nav-item mx-5\">\n          <a\n            class=\"nav-link active\"\n            aria-current=\"page\"\n            [routerLink]=\"'/find-scholarships'\"\n            >Find Scholarships</a\n          >\n        </li>\n        <li class=\"nav-item mx-5\">\n          <a class=\"nav-link\" [routerLink]=\"'/my-scholarships'\"\n            >My Applications</a\n          >\n        </li>\n        <li class=\"nav-item mx-5\">\n          <a class=\"nav-link\" [routerLink]=\"'/saved-scholarships'\"\n            >Saved Scholarship</a\n          >\n        </li>\n      </ul>\n      <ul class=\"navbar-nav\">\n        <li class=\"nav-item d-flex align-items-center mx-2\">\n          <a\n            role=\"button\"\n            class=\"btn btn-link px-3 me-2\"\n            [routerLink]=\"'/login'\"\n            >Login</a\n          >\n        </li>\n        <li class=\"nav-item d-flex align-items-center\">\n          <a\n            role=\"button\"\n            class=\"btn btn-primary me-3\"\n            [routerLink]=\"'/signup'\"\n          >\n            Sign up for free\n          </a>\n        </li>\n        <!-- <li class=\"nav-item dropdown\">\n          <a\n            class=\"nav-link dropdown-toggle\"\n            [routerLink]=\"''\"\n            role=\"button\"\n            data-bs-toggle=\"dropdown\"\n            aria-expanded=\"false\"\n          >\n            Login\n          </a>\n          <ul class=\"dropdown-menu\">\n            <li><a class=\"dropdown-item\" [routerLink]=\"''\">Action</a></li>\n            <li><a class=\"dropdown-item\" [routerLink]=\"''\">Another action</a></li>\n            <li><a class=\"dropdown-item\" [routerLink]=\"''\">Something else here</a></li>\n          </ul>\n        </li> -->\n      </ul>\n    </div>\n  </div>\n</nav>\n"
         },
         {
             "name": "PageComponent",
@@ -2597,18 +2597,61 @@
                 }
             ],
             "stylesData": ""
+        },
+        {
+            "name": "RegisterFormComponent",
+            "id": "component-RegisterFormComponent-48c5fdc1bb069913318a7fc3791345a2788406e7408c0878c58b5197d4435c5adb8a19ca6c3c05583135c686e43f27783cd2d910af0330b6df77f117a4c73c53",
+            "file": "src/app/components/shared/register-form/register-form.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-register-form",
+            "styleUrls": [
+                "./register-form.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./register-form.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-register-form',\n  templateUrl: './register-form.component.html',\n  styleUrls: ['./register-form.component.scss']\n})\nexport class RegisterFormComponent {\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./register-form.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<form>\n  <div class=\"text-center mb-3\">\n    <p>Sign up with:</p>\n    <button mdbRipple type=\"button\" class=\"btn btn-secondary btn-floating mx-1\">\n      <i class=\"fab fa-facebook-f\"></i>\n    </button>\n\n    <button mdbRipple type=\"button\" class=\"btn btn-secondary btn-floating mx-1\">\n      <i class=\"fab fa-google\"></i>\n    </button>\n  </div>\n\n  <p class=\"text-center\">or:</p>\n\n  <mdb-form-control class=\"mb-4\">\n    <input mdbInput type=\"text\" id=\"registerName\" class=\"form-control\" />\n    <label mdbLabel class=\"form-label\" for=\"registerName\">Name</label>\n  </mdb-form-control>\n\n  <mdb-form-control class=\"mb-4\">\n    <input mdbInput type=\"text\" id=\"registerUsername\" class=\"form-control\" />\n    <label mdbLabel class=\"form-label\" for=\"registerUsername\">Username</label>\n  </mdb-form-control>\n\n  <mdb-form-control class=\"mb-4\">\n    <input mdbInput type=\"email\" id=\"registerEmail\" class=\"form-control\" />\n    <label mdbLabel class=\"form-label\" for=\"registerEmail\">Email</label>\n  </mdb-form-control>\n\n  <mdb-form-control class=\"mb-4\">\n    <input\n      mdbInput\n      type=\"password\"\n      id=\"registerPassword\"\n      class=\"form-control\"\n    />\n    <label mdbLabel class=\"form-label\" for=\"registerPassword\">Password</label>\n  </mdb-form-control>\n\n  <mdb-form-control class=\"mb-4\">\n    <input\n      mdbInput\n      type=\"password\"\n      id=\"registerRepeatPassword\"\n      class=\"form-control\"\n    />\n    <label mdbLabel class=\"form-label\" for=\"registerRepeatPassword\"\n      >Repeat password</label\n    >\n  </mdb-form-control>\n\n  <div class=\"form-check d-flex justify-content-center mb-4\">\n    <input\n      mdbCheckbox\n      class=\"form-check-input me-2\"\n      type=\"checkbox\"\n      value=\"\"\n      id=\"registerCheck\"\n      [checked]=\"true\"\n      aria-label=\"registerCheckHelpText\"\n    />\n    <label class=\"form-check-label\" for=\"registerCheck\">\n      I have read and agree to the terms\n    </label>\n  </div>\n\n  <button mdbRipple type=\"submit\" class=\"btn btn-primary btn-block mb-3\">\n    Register\n  </button>\n</form>\n"
         }
     ],
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-4fb67f8b43cdcebd70518910d00b77a16928675350404f6e0288f6a487da7e9a60f38c455e5eb90255c0f09bb0595700897c1ab79b7859e3c83a3bb3595486b8",
+            "id": "module-AppModule-9af6de4b7803a00f6f4bccef270508f119b295936009f956725019757cb36098d47b17dada8fca08b0da5b4c00eb54e014d31ddcec0f00cec2f5ecd810e1425a",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { BrowserModule } from '@angular/platform-browser';\r\n\r\nimport { DatePipe } from '@angular/common';\r\nimport { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';\r\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\r\nimport { NgbModule } from '@ng-bootstrap/ng-bootstrap';\r\nimport { AppComponent } from './app.component';\r\nimport { AppRoutingModule } from './app-routing.module';\r\nimport { MainLayoutComponent } from './components/layouts/main-layout/main-layout.component';\r\nimport { AuthGuard } from './providers/auth.guard';\r\nimport { TokenInterceptor } from './providers/token.interceptor';\r\nimport NavbarComponent from './components/layouts/navbar/navbar.component';\r\nimport LoginPageComponent from './components/pages/login-page/login-page.component';\r\nimport LoginFormComponent from './components/shared/login-form/login-form.component';\r\nimport { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';\r\nimport { MdbFormsModule } from 'mdb-angular-ui-kit/forms';\r\n\r\n@NgModule({\r\n  declarations: [\r\n    AppComponent,\r\n    MainLayoutComponent,\r\n    NavbarComponent,\r\n    LoginPageComponent,\r\n    LoginFormComponent,\r\n  ],\r\n  imports: [\r\n    BrowserModule.withServerTransition({ appId: 'serverApp' }),\r\n    AppRoutingModule,\r\n    ReactiveFormsModule,\r\n    HttpClientModule,\r\n    FormsModule,\r\n    NgbModule,\r\n    MdbTabsModule,\r\n    MdbFormsModule,\r\n  ],\r\n  providers: [\r\n    DatePipe,\r\n    AuthGuard,\r\n    {\r\n      provide: HTTP_INTERCEPTORS,\r\n      multi: true,\r\n      useClass: TokenInterceptor,\r\n    },\r\n  ],\r\n  bootstrap: [AppComponent],\r\n})\r\nexport class AppModule {}\r\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { BrowserModule } from '@angular/platform-browser';\r\n\r\nimport { DatePipe } from '@angular/common';\r\nimport { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';\r\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\r\nimport { NgbModule } from '@ng-bootstrap/ng-bootstrap';\r\nimport { AppComponent } from './app.component';\r\nimport { AppRoutingModule } from './app-routing.module';\r\nimport { MainLayoutComponent } from './components/layouts/main-layout/main-layout.component';\r\nimport { AuthGuard } from './providers/auth.guard';\r\nimport { TokenInterceptor } from './providers/token.interceptor';\r\nimport NavbarComponent from './components/layouts/navbar/navbar.component';\r\nimport LoginPageComponent from './components/pages/login-page/login-page.component';\r\nimport LoginFormComponent from './components/shared/login-form/login-form.component';\r\nimport { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';\r\nimport { MdbFormsModule } from 'mdb-angular-ui-kit/forms';\r\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport { RegisterFormComponent } from './components/shared/register-form/register-form.component';\r\n\r\n@NgModule({\r\n  declarations: [\r\n    AppComponent,\r\n    MainLayoutComponent,\r\n    NavbarComponent,\r\n    LoginPageComponent,\r\n    LoginFormComponent,\r\n    RegisterFormComponent,\r\n  ],\r\n  imports: [\r\n    BrowserModule.withServerTransition({ appId: 'serverApp' }),\r\n    AppRoutingModule,\r\n    ReactiveFormsModule,\r\n    HttpClientModule,\r\n    FormsModule,\r\n    NgbModule,\r\n    MdbTabsModule,\r\n    MdbFormsModule,\r\n    BrowserAnimationsModule,\r\n  ],\r\n  providers: [\r\n    DatePipe,\r\n    AuthGuard,\r\n    {\r\n      provide: HTTP_INTERCEPTORS,\r\n      multi: true,\r\n      useClass: TokenInterceptor,\r\n    },\r\n  ],\r\n  bootstrap: [AppComponent],\r\n})\r\nexport class AppModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -2635,6 +2678,9 @@
                         },
                         {
                             "name": "NavbarComponent"
+                        },
+                        {
+                            "name": "RegisterFormComponent"
                         }
                     ]
                 },
@@ -2722,6 +2768,16 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\n  args: {\n    title: 'Darcy',\n  },\n}"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/pages/login-page/login-page.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{}"
             },
             {
                 "name": "environment",
@@ -2844,6 +2900,16 @@
                 "defaultValue": "{\n  title: 'Navbar',\n  component: NavbarComponent,\n  tags: ['autodocs'],\n  render: (args: NavbarComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n}"
             },
             {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/pages/login-page/login-page.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<LoginPageComponent>",
+                "defaultValue": "{\n  title: 'Login Page',\n  component: LoginPageComponent,\n  tags: ['autodocs'],\n  render: (args: LoginPageComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n}"
+            },
+            {
                 "name": "preview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -2935,6 +3001,17 @@
                 "subtype": "typealias",
                 "rawtype": "StoryObj<NavbarComponent>",
                 "file": "src/app/components/layouts/navbar/navbar.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 180
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<LoginPageComponent>",
+                "file": "src/app/components/pages/login-page/login-page.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -3038,6 +3115,28 @@
                     "deprecationMessage": "",
                     "type": "Meta<NavbarComponent>",
                     "defaultValue": "{\n  title: 'Navbar',\n  component: NavbarComponent,\n  tags: ['autodocs'],\n  render: (args: NavbarComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n}"
+                }
+            ],
+            "src/app/components/pages/login-page/login-page.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/pages/login-page/login-page.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/pages/login-page/login-page.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<LoginPageComponent>",
+                    "defaultValue": "{\n  title: 'Login Page',\n  component: LoginPageComponent,\n  tags: ['autodocs'],\n  render: (args: LoginPageComponent) => ({\n    props: {\n      ...args,\n    },\n  }),\n}"
                 }
             ],
             "src/environments/environment.prod.ts": [
@@ -3316,6 +3415,19 @@
                     "description": "",
                     "kind": 180
                 }
+            ],
+            "src/app/components/pages/login-page/login-page.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<LoginPageComponent>",
+                    "file": "src/app/components/pages/login-page/login-page.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 180
+                }
             ]
         }
     },
@@ -3415,12 +3527,41 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/components/pages/login-page/login-page.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/pages/login-page/login-page.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/components/shared/login-form/login-form.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "LoginFormComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/13",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/shared/register-form/register-form.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "RegisterFormComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {

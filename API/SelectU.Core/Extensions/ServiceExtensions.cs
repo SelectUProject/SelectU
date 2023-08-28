@@ -59,7 +59,7 @@ namespace SelectU.Core.Extensions
 
             //infrastructure
             services.AddScoped<IServiceBusQueueClient, ServiceBusQueueClient>();
-            services.AddScoped<IEmailClient, SmtpEmailClient>();
+            services.AddScoped<IEmailClient, EmailClient>();
             services.AddScoped<ICache, InMemoryCache>();
 
             services.AddScoped<ICachingService, CachingService>();

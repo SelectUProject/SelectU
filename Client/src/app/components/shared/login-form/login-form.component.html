@@ -1,5 +1,5 @@
-<form>
-  <div class="text-center mb-3">
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+  <!-- <div class="text-center mb-3">
     <p>Sign in with:</p>
     <button mdbRipple type="button" class="btn btn-secondary btn-floating mx-1">
       <i class="fab fa-facebook-f"></i>
@@ -10,16 +10,30 @@
     </button>
   </div>
 
-  <p class="text-center">or:</p>
+  <p class="text-center">or:</p> -->
 
   <mdb-form-control class="mb-4">
-    <input mdbInput type="email" id="loginName" class="form-control" />
-    <label mdbLabel class="form-label" for="loginName">Email or username</label>
+    <input
+      mdbValidate
+      mdbInput
+      type="email"
+      id="username"
+      class="form-control"
+      formControlName="username"
+    />
+    <label mdbLabel class="form-label" for="username">Email</label>
   </mdb-form-control>
 
   <mdb-form-control class="mb-4">
-    <input mdbInput type="password" id="loginPassword" class="form-control" />
-    <label mdbLabel class="form-label" for="loginPassword">Password</label>
+    <input
+      mdbValidate
+      mdbInput
+      type="password"
+      id="password"
+      class="form-control"
+      formControlName="password"
+    />
+    <label mdbLabel class="form-label" for="password">Password</label>
   </mdb-form-control>
 
   <div class="row mb-4">
@@ -42,11 +56,35 @@
     </div>
   </div>
 
-  <button mdbRipple type="submit" class="btn btn-primary btn-block mb-4">
+  <button
+    mdbRipple
+    *ngIf="!submitting"
+    [disabled]="!loginForm.valid"
+    type="submit"
+    class="btn btn-primary btn-block mb-3"
+  >
     Sign in
+  </button>
+  <button
+    *ngIf="submitting"
+    class="btn btn-primary btn-block mb-3"
+    type="button"
+    disabled
+  >
+    <span
+      class="spinner-border spinner-border-sm"
+      role="status"
+      aria-hidden="true"
+    ></span>
   </button>
 
   <div class="text-center">
     <p>Not a member? <a [routerLink]="'/register'">Register</a></p>
   </div>
 </form>
+
+<ng-container *ngIf="isError">
+  <div class="alert alert-danger my-3" role="alert">
+    {{ errMsg }}
+  </div>
+</ng-container>

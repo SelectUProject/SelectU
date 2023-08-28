@@ -35,8 +35,29 @@ namespace SelectU.Core.Services
             return await _userManager.FindByIdAsync(id);
         }
 
+        public async Task<ValidateUniqueEmailAddressResponseDTO> ValidateUniqueEmailAddressAsync(string email)
+        {
+            ValidateUniqueEmailAddressResponseDTO response = new ValidateUniqueEmailAddressResponseDTO()
+            {
+                IsUnique = true
+            };
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                response.IsUnique = false;
+            }
+
+            return response;
+        }
+
         public async Task RegisterUserAsync(UserRegisterDTO registerDTO)
         {
+            if(registerDTO.Email == null) 
+            {
+                throw new UserRegisterException("Please provide an email.");
+            }
+
             var existingUser = await _userManager.FindByNameAsync(registerDTO.Email);
 
             if (existingUser != null)
@@ -56,15 +77,12 @@ namespace SelectU.Core.Services
 
             var user = new User
             {
-                Mobile = registerDTO.Mobile,
+                PhoneNumber = registerDTO.PhoneNumber,
                 Email = registerDTO.Email,
                 FirstName = registerDTO.FirstName,
                 LastName = registerDTO.LastName,
                 DateOfBirth = registerDTO.DateOfBirth,
                 Gender = registerDTO.Gender ?? GenderEnum.Other,
-                Address = registerDTO.Address,
-                Suburb = registerDTO.Suburb,
-                Postcode = registerDTO.Postcode,
                 State = registerDTO.State,
                 Country = registerDTO.Country,
                 UserName = registerDTO.Email,
@@ -72,6 +90,11 @@ namespace SelectU.Core.Services
                 DateCreated = DateTimeOffset.UtcNow,
                 DateModified = DateTimeOffset.UtcNow,
             };
+
+            if (registerDTO.Password == null)
+            {
+                throw new UserRegisterException("Please provide a password.");
+            }
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
@@ -85,7 +108,7 @@ namespace SelectU.Core.Services
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
             }
 
-            //await _emailclient.SendRegistrationEmailASync(registerDTO);
+            await _emailclient.SendRegistrationEmailASync(registerDTO);
         }
 
         public async Task UpdateUserDetailsAsync(string id, UserUpdateDTO updateDTO)
@@ -102,7 +125,7 @@ namespace SelectU.Core.Services
             user.LastName = updateDTO.LastName;
             user.DateOfBirth = updateDTO.DateOfBirth;
             user.Gender = updateDTO.Gender;
-            user.Mobile = updateDTO.Mobile;
+            user.PhoneNumber = updateDTO.PhoneNumber;
             user.Address = updateDTO.Address;
             user.Suburb = updateDTO.Suburb;
             user.Postcode = updateDTO.Postcode;

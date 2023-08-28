@@ -11,7 +11,7 @@ namespace SelectU.Contracts.DTO
         public DateTimeOffset? DateOfBirth { get; set; }
         public GenderEnum? Gender { get; set; }
         public string? Email { get; set; }
-        public string? Mobile { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
         public string? Suburb { get; set; }
         public string? Postcode { get; set; }
@@ -28,7 +28,7 @@ namespace SelectU.Contracts.DTO
             LastName = user.LastName;
             DateOfBirth = user.DateOfBirth;
             Gender = user.Gender;
-            Mobile = user.Mobile;
+            PhoneNumber = user.PhoneNumber;
             Address = user.Address;
             Suburb = user.Suburb;
             Postcode = user.Postcode;

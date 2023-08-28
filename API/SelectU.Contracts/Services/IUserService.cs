@@ -6,6 +6,7 @@ namespace SelectU.Contracts.Services
     public interface IUserService
     {
         Task<User> GetUserAsync(string id);
+        Task<ValidateUniqueEmailAddressResponseDTO> ValidateUniqueEmailAddressAsync(string email);
         Task RegisterUserAsync(UserRegisterDTO registerDTO);
         Task UpdateUserDetailsAsync(string id, UserUpdateDTO updateDTO);
         Task ChangePasswordAsync(string id, ChangePasswordDTO passwordDTO);

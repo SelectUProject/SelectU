@@ -20,61 +20,48 @@ import { ADMIN } from 'src/app/constants/userRoles';
   styleUrls: ['./login-form.component.scss'],
 })
 class LoginFormComponent implements OnInit {
-  @Input() redirectRoute?: string;
-  @Output() loginSuccessCallback = new EventEmitter();
-
-  form: FormGroup;
+  loginForm: FormGroup;
   submitting: boolean = false;
   isError: boolean = false;
-  errMsg: string = 'Some error has occured!';
-  accountLocked: boolean = false;
+  errMsg: string = 'Some error has occurred!';
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private location: Location,
-    private tokenService: TokenService,
-    private modalService: NgbModal
-  ) {
-    this.form = this.formBuilder.group({
-      username: new FormControl([], [Validators.required, Validators.email]),
-      password: new FormControl([], [Validators.required]),
-    });
-  }
+    private tokenService: TokenService
+  ) {}
 
   ngOnInit(): void {
-    // clear off any tokens in cache
-    // if user lands on login
-    //
     if (this.tokenService.IsAuthenticated) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/account']);
     } else {
       this.tokenService.clearToken();
+      this.setupForm();
     }
+  }
+
+  setupForm() {
+    this.loginForm = this.formBuilder.group({
+      username: [
+        '',
+        Validators.compose([Validators.required, Validators.email]),
+      ],
+      password: ['', Validators.required],
+    });
   }
 
   login() {
     this.submitting = true;
     this.isError = false;
-    this.accountLocked = false;
     this.authService
-      .login(<LoginDTO>this.form.value)
+      .login(<LoginDTO>this.loginForm.value)
       .then((response) => {
         this.tokenService.setToken(response);
-        let loginCallback = {
-          role: response.role,
-          redirectRoute: this.redirectRoute,
-        };
-
-        this.loginSuccessCallback.emit(loginCallback);
+        this.router.navigate(['/account']);
       })
       .catch((response) => {
-        this.form.patchValue({ password: '' });
-        if (response.status === 401) {
-          this.accountLocked = true;
-        }
-
+        this.loginForm.patchValue({ password: '' });
         if (!response.success) {
           this.errMsg = response.error.message;
         }
@@ -82,15 +69,6 @@ class LoginFormComponent implements OnInit {
         this.submitting = false;
         this.isError = true;
       });
-  }
-
-  back() {
-    this.location.back();
-  }
-
-  open(content: any) {
-    this.modalService.dismissAll();
-    this.modalService.open(content, { centered: true });
   }
 }
 

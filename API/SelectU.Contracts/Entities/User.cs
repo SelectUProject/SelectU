@@ -10,7 +10,6 @@ namespace SelectU.Contracts.Entities
         public string? LastName { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }
         public GenderEnum? Gender { get; set; }
-        public string? Mobile { get; set; }
         public string? Address { get; set; }
         public string? Suburb { get; set; }
         public string? Postcode { get; set; }
