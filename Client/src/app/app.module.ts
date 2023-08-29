@@ -29,6 +29,7 @@ import LoginPageComponent from './components/pages/login-page/login-page.compone
 import LoginFormComponent from './components/shared/login-form/login-form.component';
 import RegisterFormComponent from './components/shared/register-form/register-form.component';
 import RegisterPageComponent from './components/pages/register-page/register-page.component';
+import LandingPageComponent from './components/pages/landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import RegisterPageComponent from './components/pages/register-page/register-pag
     LoginFormComponent,
     RegisterFormComponent,
     RegisterPageComponent,
+    LandingPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
