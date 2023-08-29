@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './components/layouts/main-layout/main-layout.component';
 import LoginPageComponent from './components/pages/login-page/login-page.component';
 import RegisterPageComponent from './components/pages/register-page/register-page.component';
+import LandingPageComponent from './components/pages/landing-page/landing-page.component';
 //components
 
 const routes: Routes = [
@@ -10,7 +11,7 @@ const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      //     // { path: '', component: HomePageComponent },
+      { path: '', component: LandingPageComponent },
       //     {
       //       path: 'dashboard',
       //       canActivate: [AuthGuard],
