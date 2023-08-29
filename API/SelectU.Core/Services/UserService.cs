@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using SelectU.Contracts;
 using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
@@ -89,6 +90,7 @@ namespace SelectU.Core.Services
                 SecurityStamp = Guid.NewGuid().ToString(),
                 DateCreated = DateTimeOffset.UtcNow,
                 DateModified = DateTimeOffset.UtcNow,
+                UserProfile = new UserProfile()
             };
 
             if (registerDTO.Password == null)
@@ -140,7 +142,29 @@ namespace SelectU.Core.Services
                 throw new UserUpdateException("Failed to update user details.");
             }
         }
+        public async Task UpdateUserProfileAsync(string id, UpdateUserProfileDTO updateDTO)
+        {
+            var user = await _userManager.FindByIdAsync(id);
 
+            if (user.UserProfile == null)
+            {
+                user.UserProfile = new UserProfile();
+            }
+
+            user.UserProfile.AboutMe = updateDTO.AboutMe;
+            user.UserProfile.Skills = updateDTO.Skills;
+            user.UserProfile.Certifications = updateDTO.Certifications;
+            var workExperience = new List<WorkExperience>();
+            updateDTO.WorkExperience?.ToList().ForEach(x => workExperience.Add(x.ToWorkExperience()));
+            user.UserProfile.WorkExperience = workExperience;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                throw new UserUpdateException("Failed to update user profile.");
+            }
+        }
         public async Task ChangePasswordAsync(string id, ChangePasswordDTO passwordDTO)
         {
             var user = await _userManager.FindByIdAsync(id);

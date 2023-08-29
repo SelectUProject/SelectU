@@ -12,5 +12,6 @@ namespace SelectU.Contracts.Services
         Task ChangePasswordAsync(string id, ChangePasswordDTO passwordDTO);
         Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto);
         Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto);
+        Task UpdateUserProfileAsync(string id, UpdateUserProfileDTO updateDTO);
     }
 }

@@ -64,13 +64,14 @@ namespace SelectU.Core.Extensions
 
             services.AddScoped<ICachingService, CachingService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IBlobStorageService, BlobStorageService>();
 
             //Validators
             services.AddScoped<IValidator<UserRegisterDTO>, UserRegisterDTOValidator>();
             services.AddScoped<IValidator<UserUpdateDTO>, UserUpdateDTOValidator>();
             services.AddScoped<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
-
+            services.AddScoped<IValidator<UpdateUserRolesDTO>, UpdateUserRolesDTOValidator>();
             return services;
         }
         public static IServiceCollection AddIdentity(this IServiceCollection services)

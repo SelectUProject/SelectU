@@ -75,6 +75,7 @@ namespace SelectU.Migrations
                     EmailConfirmed = true,
                     Gender = GenderEnum.Male,
                     DateCreated = DateTimeOffset.Now,
+                    UserProfile = new UserProfile()
                 };
 
                 var result = userManager.CreateAsync(newUser, password).Result;

@@ -17,7 +17,6 @@ namespace SelectU.Contracts.Entities
         public string? Country { get; set; }
         public DateTimeOffset? DateCreated { get; set; }
         public DateTimeOffset? DateModified { get; set; }
+        public required UserProfile UserProfile { get; set; } = null!;
     }
-
-
 }

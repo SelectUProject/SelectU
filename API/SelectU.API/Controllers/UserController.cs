@@ -1,12 +1,14 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
 using SelectU.Core.Helpers;
+using SelectU.Core.Services;
 
 namespace SelectU.API.Controllers
 {
@@ -19,18 +21,21 @@ namespace SelectU.API.Controllers
         private readonly IValidator<UserUpdateDTO> _userDetailsValidator;
         private readonly IValidator<ChangePasswordDTO> _passwordValidator;
         private readonly IValidator<UserRegisterDTO> _userRegisterValidator;
+        private readonly IValidator<UpdateUserProfileDTO> _userProfileUpdateValidator;
 
         public UserController(ILogger<UserController> logger,
             IUserService userService,
             IValidator<UserUpdateDTO> userDetailsValidator,
             IValidator<ChangePasswordDTO> passwordValidator,
-            IValidator<UserRegisterDTO> validator)
+            IValidator<UserRegisterDTO> userRegisterValidator,
+            IValidator<UpdateUserProfileDTO> userProfileUpdateValidator)
         {
             _logger = logger;
             _userService = userService;
             _userDetailsValidator = userDetailsValidator;
             _passwordValidator = passwordValidator;
-            _userRegisterValidator = validator;
+            _userRegisterValidator = userRegisterValidator;
+            _userProfileUpdateValidator = userProfileUpdateValidator;
         }
 
         [Authorize]
@@ -82,6 +87,38 @@ namespace SelectU.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"UserId {userId}, {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
+            }
+        }
+        [Authorize]
+        [HttpPatch("profile/update")]
+        public async Task<IActionResult> UpdateUserProfileAsync([FromBody] UpdateUserProfileDTO userProfile)
+        {
+            string userId = HttpContext.GetUserId();
+            try
+            {
+                if (userProfile.UserId.IsNullOrEmpty())
+                {
+                    return BadRequest(new ResponseDTO { Success = false, Message = "User ID is required" });
+                }
+
+                var validationResult = await _userProfileUpdateValidator.ValidateAsync(userProfile);
+
+                if (validationResult.IsValid)
+                {
+                    await _userService.UpdateUserProfileAsync(userId, userProfile);
+
+                    return Ok(new ResponseDTO { Success = true, Message = "User profile updated successfully." });
+                }
+                return BadRequest(validationResult);
+            }
+            catch (UserUpdateException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"UserId {userProfile.UserId}, {ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }
