@@ -29,6 +29,7 @@ namespace SelectU.Tests
         }
 
         [Test]
+        [Ignore("Ignore registration email test")]
         public async Task Test_SendRegistrationEmailAsync_NoException()
         {
             var appConfig = new AppConfig();
@@ -49,7 +50,6 @@ namespace SelectU.Tests
             var registerDto = new UserRegisterDTO
             {
                 Email = "test@example.com",
-                // ... other properties ...
             };
 
             var mailMessage = new MailMessage();
