@@ -18,6 +18,4 @@ namespace SelectU.Contracts.Entities
         public DateTimeOffset? DateCreated { get; set; }
         public DateTimeOffset? DateModified { get; set; }
     }
-
-
 }
