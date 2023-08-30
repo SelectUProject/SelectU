@@ -32,8 +32,8 @@ namespace SelectU.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("details")]
-        public async Task<IActionResult> GetUserDetailsAsync([FromBody] string userId)
+        [HttpGet("details/{userId}")]
+        public async Task<IActionResult> GetUserDetailsAsync([FromRoute] string userId)
         {
             try
             {
@@ -142,8 +142,8 @@ namespace SelectU.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("delete")]
-        public async Task<IActionResult> DeleteUserAsync([FromBody] string userId)
+        [HttpGet("delete/{userId}")]
+        public async Task<IActionResult> DeleteUserAsync([FromRoute] string userId)
         {
             try
             {
