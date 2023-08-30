@@ -30,7 +30,7 @@ import NavbarComponent from './components/layouts/navbar/navbar.component';
 import LoginPageComponent from './components/pages/login-page/login-page.component';
 import LoginFormComponent from './components/shared/login-form/login-form.component';
 import RegisterPageComponent from './components/pages/register-page/register-page.component';
-
+import RegisterFormComponent from './components/shared/register-form/register-form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +41,7 @@ import RegisterPageComponent from './components/pages/register-page/register-pag
     ManageScholarshipsPageComponent,
     ShortViewScholarshipsComponentComponent,
     RegisterPageComponent,
+    RegisterFormComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

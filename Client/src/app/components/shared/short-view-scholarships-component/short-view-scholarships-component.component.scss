@@ -1,0 +1,10 @@
+.image-container {
+    max-width: 400px; /* Set the maximum width of the container */
+  }
+  
+  .image-container img {
+    max-width: 100%; /* Make sure the image doesn't exceed the container's width */
+    // max-height: 100%; /* Make sure the image doesn't exceed the container's height */
+    border-radius: 10px; /* Add rounded border */
+
+  }
