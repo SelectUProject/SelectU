@@ -24,7 +24,7 @@ namespace SelectU.API.Controllers
             _scholarshipService = scholarshipService;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("get")]
         public async Task<IActionResult> GetscholarshipDetailsAsync(Guid id)
         {
