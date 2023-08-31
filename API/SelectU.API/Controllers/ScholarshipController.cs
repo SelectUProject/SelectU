@@ -14,10 +14,10 @@ namespace SelectU.API.Controllers
     [Route("[controller]")]
     public class ScholarshipController : ControllerBase
     {
-        private readonly ILogger<UserController> _logger;
+        private readonly ILogger<ScholarshipController> _logger;
         private readonly IScholarshipService _scholarshipService;
 
-        public ScholarshipController(ILogger<UserController> logger,
+        public ScholarshipController(ILogger<ScholarshipController> logger,
             IScholarshipService scholarshipService)
         {
             _logger = logger;
