@@ -31,6 +31,8 @@ import LoginPageComponent from './components/pages/login-page/login-page.compone
 import LoginFormComponent from './components/shared/login-form/login-form.component';
 import RegisterPageComponent from './components/pages/register-page/register-page.component';
 import RegisterFormComponent from './components/shared/register-form/register-form.component';
+import LandingPageComponent from './components/pages/landing-page/landing-page.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +44,7 @@ import RegisterFormComponent from './components/shared/register-form/register-fo
     ShortViewScholarshipsComponentComponent,
     RegisterPageComponent,
     RegisterFormComponent,
+    LandingPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
