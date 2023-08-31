@@ -19,6 +19,7 @@ namespace SelectU.Migrations
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<Scholarship>().ToTable("Scholarships");
             modelBuilder.Entity<IdentityRole>().ToTable("Roles");
             modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles").HasKey(k => new { k.RoleId, k.UserId });
             modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
