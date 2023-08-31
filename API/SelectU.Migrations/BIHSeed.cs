@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SelectU.Contracts.Constants;
+using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 
@@ -13,6 +14,7 @@ namespace SelectU.Migrations
             SeedRoles(context, roleManager);
             SeedAdmin(context, userManager);
             SeedUsers(context, userManager);
+            SeedScholarships(context);
         }
 
         private static void SeedRoles(SelectUContext context, RoleManager<IdentityRole> roleManager)
@@ -83,6 +85,57 @@ namespace SelectU.Migrations
                 {
                     userManager.AddToRoleAsync(newUser, userRole).Wait();
                 }
+            }
+        }
+
+        private static void SeedScholarships(SelectUContext context)
+        {
+            Scholarship scholarship1 =new Scholarship
+            {
+                School = "Xavier1",
+                Value1 = "$1000 Dollars",
+                ShortDescription1 = "Tech Scholarship1",
+                Description1 = "test1",
+                State = "VIC",
+                Country = "Australia",
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTime.Today.AddDays(4),
+            };
+            CreateScholarship(context, scholarship1);
+
+            Scholarship scholarship2 = new Scholarship
+            {
+                School = "Xavier2",
+                Value1 = "$1000 Dollars",
+                ShortDescription1 = "Tech Scholarship2",
+                Description1 = "test2",
+                State = "VIC",
+                Country = "Australia",
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTime.Today.AddDays(1),
+            };
+            CreateScholarship(context, scholarship2);
+
+            Scholarship scholarship3 = new Scholarship
+            {
+                School = "Xavier3",
+                Value1 = "$1000 Dollars",
+                ShortDescription1 = "Tech Scholarship3",
+                Description1 = "test3",
+                State = "VIC",
+                Country = "Australia",
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTime.Today.AddDays(32),
+            }; 
+            CreateScholarship(context, scholarship3);
+        }
+
+        private static void CreateScholarship(SelectUContext context, Scholarship scholarshipCreateDTO)
+        {
+            if (!context.Scholarship.Any(x => x.Description1 == scholarshipCreateDTO.Description1))
+            {
+                context.Scholarship.Add(scholarshipCreateDTO);
+                context.SaveChanges();
             }
         }
 

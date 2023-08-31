@@ -13,6 +13,8 @@ import { TokenInterceptor } from './providers/token.interceptor';
 import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ManageScholarshipsPageComponent } from './components/pages/manage-scholarships-page/manage-scholarships-page.component';
+import { ShortViewScholarshipsComponentComponent } from './components/shared/short-view-scholarships-component/short-view-scholarships-component.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
@@ -27,8 +29,8 @@ import {
 import NavbarComponent from './components/layouts/navbar/navbar.component';
 import LoginPageComponent from './components/pages/login-page/login-page.component';
 import LoginFormComponent from './components/shared/login-form/login-form.component';
-import RegisterFormComponent from './components/shared/register-form/register-form.component';
 import RegisterPageComponent from './components/pages/register-page/register-page.component';
+import RegisterFormComponent from './components/shared/register-form/register-form.component';
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
 
 @NgModule({
@@ -38,8 +40,10 @@ import LandingPageComponent from './components/pages/landing-page/landing-page.c
     NavbarComponent,
     LoginPageComponent,
     LoginFormComponent,
-    RegisterFormComponent,
+    ManageScholarshipsPageComponent,
+    ShortViewScholarshipsComponentComponent,
     RegisterPageComponent,
+    RegisterFormComponent,
     LandingPageComponent,
   ],
   imports: [

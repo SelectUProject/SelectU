@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -7,6 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 class NavbarComponent {
   @Input() title: string = 'Title';
+  admissionName = environment.admissionName;
 }
 
 export default NavbarComponent;

@@ -24,17 +24,22 @@
             class="nav-link active"
             aria-current="page"
             [routerLink]="'/find-scholarships'"
-            >Find Scholarships</a
+            >Find {{ admissionName }}</a
           >
         </li>
         <li class="nav-item mx-5">
           <a class="nav-link" [routerLink]="'/my-scholarships'"
-            >My Applications</a
+            >My {{ admissionName }}</a
+          >
+        </li>
+        <li class="nav-item mx-5">
+          <a class="nav-link" [routerLink]="'/manage-scholarships'"
+            >Manage {{ admissionName }}</a
           >
         </li>
         <li class="nav-item mx-5">
           <a class="nav-link" [routerLink]="'/saved-scholarships'"
-            >Saved Scholarship</a
+            >Saved {{ admissionName }}</a
           >
         </li>
       </ul>
