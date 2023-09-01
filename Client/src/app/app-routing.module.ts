@@ -5,6 +5,7 @@ import LoginPageComponent from './components/pages/login-page/login-page.compone
 import { ManageScholarshipsPageComponent } from './components/pages/manage-scholarships-page/manage-scholarships-page.component';
 import RegisterPageComponent from './components/pages/register-page/register-page.component';
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
+import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 //components
 
 const routes: Routes = [
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: 'manage-scholarships',
         component: ManageScholarshipsPageComponent,
+      },
+      {
+        path: 'my-applications',
+        component: MyApplicationsComponent,
       },
       //     { path: 'signup', component: LandingComponent },
       { path: 'register', component: RegisterPageComponent },

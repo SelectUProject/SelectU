@@ -32,6 +32,9 @@ import LoginFormComponent from './components/shared/login-form/login-form.compon
 import RegisterPageComponent from './components/pages/register-page/register-page.component';
 import RegisterFormComponent from './components/shared/register-form/register-form.component';
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
+import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
+import { ShortViewMyApplicationsComponent } from './components/shared/short-view-my-applications/short-view-my-applications.component';
+
 
 @NgModule({
   declarations: [
@@ -42,6 +45,8 @@ import LandingPageComponent from './components/pages/landing-page/landing-page.c
     LoginFormComponent,
     ManageScholarshipsPageComponent,
     ShortViewScholarshipsComponentComponent,
+    MyApplicationsComponent,
+    ShortViewMyApplicationsComponent,
     RegisterPageComponent,
     RegisterFormComponent,
     LandingPageComponent,

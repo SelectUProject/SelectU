@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Client",
+    "\\Client\\src",
+    "\\Client\\src\\app",
+    "\\Client\\src\\app\\components",
+    "\\Client\\src\\app\\components\\pages",
+    "\\Client\\src\\app\\components\\pages\\manage-scholarships-page",
+    "\\Client\\src\\app\\components\\shared",
+    "\\Client\\src\\app\\components\\shared\\short-view-scholarships-component",
+    "\\Client\\src\\app\\models"
+  ],
+  "SelectedNode": "\\API\\SelectU.sln",
+  "PreviewInSolutionExplorer": false
+}

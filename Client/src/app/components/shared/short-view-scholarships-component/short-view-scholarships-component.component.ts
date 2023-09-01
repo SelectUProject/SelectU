@@ -9,3 +9,4 @@ import { ScholarshipShortViewDTO } from '../../../models/ScholarshipShortViewDTO
 export class ShortViewScholarshipsComponentComponent {
   @Input() scholarship: ScholarshipShortViewDTO;
 }
+
