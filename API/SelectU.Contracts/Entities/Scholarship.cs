@@ -5,7 +5,7 @@ namespace SelectU.Contracts.Entities
     public class Scholarship
     {
         public Guid Id {get; set;}
-        public string? ScholarshipCreatorId { get; set;}
+        public string ScholarshipCreatorId { get; set;}
         public string? School { get; set; }
         public string? ImageURL { get; set; }
         public string? Value1 { get; set; }

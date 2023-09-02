@@ -25,8 +25,8 @@ namespace SelectU.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("get")]
-        public async Task<IActionResult> GetscholarshipDetailsAsync(Guid id)
+        [HttpGet("details")]
+        public async Task<IActionResult> GetScholarshipDetailsAsync(Guid id)
         {
             
             try
@@ -43,6 +43,53 @@ namespace SelectU.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Scholarship {id}, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpPost("active-scholarships")]
+        public async Task<IActionResult> GetActiveScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO)
+        {
+
+            try
+            {
+                var scholarship = await _scholarshipService.GetActiveScholarshipAsync(scholarshipSearchDTO);
+
+                if (scholarship == null)
+                {
+                    return BadRequest("Scholarship not found");
+                }
+
+                return Ok(scholarship);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpPost("created-scholarships")]
+        public async Task<IActionResult> GetMyCreatedScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO )
+        {
+
+            try
+            {
+                string userId = HttpContext.GetUserId();
+                var scholarship = await _scholarshipService.GetMyCreatedScholarshipsAsync(scholarshipSearchDTO, userId);
+
+                if (scholarship == null)
+                {
+                    return BadRequest("Scholarship not found");
+                }
+
+                return Ok(scholarship);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship, {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
