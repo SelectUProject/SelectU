@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SelectU.Migrations.Migrations
 {
     /// <inheritdoc />
-    public partial class Scholarship_creation : Migration
+    public partial class Init_Scholarships : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,6 +16,7 @@ namespace SelectU.Migrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ScholarshipCreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     School = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Value1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -34,7 +35,17 @@ namespace SelectU.Migrations.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Scholarships", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Scholarships_Users_ScholarshipCreatorId",
+                        column: x => x.ScholarshipCreatorId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Scholarships_ScholarshipCreatorId",
+                table: "Scholarships",
+                column: "ScholarshipCreatorId");
         }
 
         /// <inheritdoc />

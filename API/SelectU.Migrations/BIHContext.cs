@@ -13,7 +13,7 @@ namespace SelectU.Migrations
         }
 
         public DbSet<User> User { get; set; }
-        public DbSet<Scholarship> Scholarship { get; set; }
+        public DbSet<Scholarship> Scholarships { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
