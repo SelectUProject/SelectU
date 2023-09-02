@@ -182,6 +182,9 @@ namespace SelectU.Migrations.Migrations
                     b.Property<string>("ImageURL")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ScholarshipCreatorId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("School")
                         .HasColumnType("nvarchar(max)");
 
@@ -205,7 +208,9 @@ namespace SelectU.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Scholarships", (string)null);
+                    b.HasIndex("ScholarshipCreatorId");
+
+                    b.ToTable("Scholarships");
                 });
 
             modelBuilder.Entity("SelectU.Contracts.Entities.User", b =>
@@ -355,6 +360,15 @@ namespace SelectU.Migrations.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SelectU.Contracts.Entities.Scholarship", b =>
+                {
+                    b.HasOne("SelectU.Contracts.Entities.User", "ScholarshipCreator")
+                        .WithMany()
+                        .HasForeignKey("ScholarshipCreatorId");
+
+                    b.Navigation("ScholarshipCreator");
                 });
 #pragma warning restore 612, 618
         }

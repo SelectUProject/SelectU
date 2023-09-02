@@ -1,8 +1,11 @@
-﻿namespace SelectU.Contracts.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SelectU.Contracts.Entities
 {
     public class Scholarship
     {
         public Guid Id {get; set;}
+        public string? ScholarshipCreatorId { get; set;}
         public string? School { get; set; }
         public string? ImageURL { get; set; }
         public string? Value1 { get; set; }
@@ -17,5 +20,8 @@
         public DateTimeOffset? EndDate { get; set; }
         public DateTimeOffset? DateCreated { get; set; }
         public DateTimeOffset? DateModified { get; set; }
+        [ForeignKey("ScholarshipCreatorId")]
+        public virtual User? ScholarshipCreator { get; set; }
+
     }
 }

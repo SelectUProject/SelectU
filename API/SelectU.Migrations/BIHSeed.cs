@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
@@ -90,8 +91,10 @@ namespace SelectU.Migrations
 
         private static void SeedScholarships(SelectUContext context)
         {
-            Scholarship scholarship1 =new Scholarship
+            User user = context.User.Where(x => x.Email == "darcy@selectu.com").FirstOrDefault();
+            Scholarship scholarship1 = new Scholarship
             {
+                ScholarshipCreatorId = user?.Id,
                 School = "Xavier1",
                 Value1 = "$1000 Dollars",
                 ShortDescription1 = "Tech Scholarship1",
@@ -105,6 +108,7 @@ namespace SelectU.Migrations
 
             Scholarship scholarship2 = new Scholarship
             {
+                ScholarshipCreatorId = user?.Id,
                 School = "Xavier2",
                 Value1 = "$1000 Dollars",
                 ShortDescription1 = "Tech Scholarship2",
@@ -118,6 +122,7 @@ namespace SelectU.Migrations
 
             Scholarship scholarship3 = new Scholarship
             {
+                ScholarshipCreatorId = user?.Id,
                 School = "Xavier3",
                 Value1 = "$1000 Dollars",
                 ShortDescription1 = "Tech Scholarship3",
@@ -126,15 +131,15 @@ namespace SelectU.Migrations
                 Country = "Australia",
                 StartDate = DateTimeOffset.Now,
                 EndDate = DateTime.Today.AddDays(32),
-            }; 
+            };
             CreateScholarship(context, scholarship3);
         }
 
         private static void CreateScholarship(SelectUContext context, Scholarship scholarshipCreateDTO)
         {
-            if (!context.Scholarship.Any(x => x.Description1 == scholarshipCreateDTO.Description1))
+            if (!context.Scholarships.Any(x => x.Description1 == scholarshipCreateDTO.Description1))
             {
-                context.Scholarship.Add(scholarshipCreateDTO);
+                context.Scholarships.Add(scholarshipCreateDTO);
                 context.SaveChanges();
             }
         }
