@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using SelectU.Contracts.Enums;
 
 namespace SelectU.Contracts.Entities
 {
@@ -15,7 +16,8 @@ namespace SelectU.Contracts.Entities
         public string? Description1 { get; set; }
         public string? Description2 { get; set; }
         public string? State { get; set; }
-        public string? Country { get; set; }
+        public string? City { get; set; }
+        public StatusEnum Status { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public DateTimeOffset? DateCreated { get; set; }

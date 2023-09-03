@@ -100,7 +100,7 @@ namespace SelectU.Migrations
                 ShortDescription1 = "Tech Scholarship1",
                 Description1 = "test1",
                 State = "VIC",
-                Country = "Australia",
+                City = "Australia",
                 StartDate = DateTimeOffset.Now,
                 EndDate = DateTime.Today.AddDays(4),
             };
@@ -114,7 +114,7 @@ namespace SelectU.Migrations
                 ShortDescription1 = "Tech Scholarship2",
                 Description1 = "test2",
                 State = "VIC",
-                Country = "Australia",
+                City = "Australia",
                 StartDate = DateTimeOffset.Now,
                 EndDate = DateTime.Today.AddDays(1),
             };
@@ -128,7 +128,7 @@ namespace SelectU.Migrations
                 ShortDescription1 = "Tech Scholarship3",
                 Description1 = "test3",
                 State = "VIC",
-                Country = "Australia",
+                City = "Australia",
                 StartDate = DateTimeOffset.Now,
                 EndDate = DateTime.Today.AddDays(32),
             };
