@@ -161,7 +161,7 @@ namespace SelectU.Migrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Country")
+                    b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("DateCreated")
@@ -170,10 +170,7 @@ namespace SelectU.Migrations.Migrations
                     b.Property<DateTimeOffset?>("DateModified")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Description1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description2")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("EndDate")
@@ -183,15 +180,17 @@ namespace SelectU.Migrations.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ScholarshipCreatorId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ScholarshipFormTemplate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("School")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ShortDescription1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShortDescription2")
+                    b.Property<string>("ShortDescription")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("StartDate")
@@ -200,10 +199,10 @@ namespace SelectU.Migrations.Migrations
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Value1")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Value2")
+                    b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -211,6 +210,41 @@ namespace SelectU.Migrations.Migrations
                     b.HasIndex("ScholarshipCreatorId");
 
                     b.ToTable("Scholarships");
+                });
+
+            modelBuilder.Entity("SelectU.Contracts.Entities.ScholarshipApplication", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("DateCreated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("DateModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ScholarshipApplicantId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ScholarshipFormAnswer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ScholarshipId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScholarshipApplicantId");
+
+                    b.HasIndex("ScholarshipId");
+
+                    b.ToTable("ScholarshipApplications");
                 });
 
             modelBuilder.Entity("SelectU.Contracts.Entities.User", b =>
@@ -366,9 +400,30 @@ namespace SelectU.Migrations.Migrations
                 {
                     b.HasOne("SelectU.Contracts.Entities.User", "ScholarshipCreator")
                         .WithMany()
-                        .HasForeignKey("ScholarshipCreatorId");
+                        .HasForeignKey("ScholarshipCreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ScholarshipCreator");
+                });
+
+            modelBuilder.Entity("SelectU.Contracts.Entities.ScholarshipApplication", b =>
+                {
+                    b.HasOne("SelectU.Contracts.Entities.User", "ScholarshipApplicant")
+                        .WithMany()
+                        .HasForeignKey("ScholarshipApplicantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SelectU.Contracts.Entities.Scholarship", "Scholarship")
+                        .WithMany()
+                        .HasForeignKey("ScholarshipId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Scholarship");
+
+                    b.Navigation("ScholarshipApplicant");
                 });
 #pragma warning restore 612, 618
         }
