@@ -19,13 +19,17 @@ namespace SelectU.Core.Services
         {
             return await _unitOfWork.ScholarshipApplications.GetAsync(id);
         }
-        public async Task<List<ScholarshipApplication>> GetActiveScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO)
+        public async Task<List<ScholarshipApplication>> GetActiveScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isAdmin)
         {
+            if (isAdmin)
+            {
+                return await _unitOfWork.ScholarshipApplications
+                             .Where(x => x.Status == Contracts.Enums.StatusEnum.Pending && x.Scholarship!.ScholarshipCreatorId == id)
+                             .ToListAsync();
+            }
             return await _unitOfWork.ScholarshipApplications
-                .Where(x => x.Status == Contracts.Enums.StatusEnum.Pending)
+                .Where(x => x.Status == Contracts.Enums.StatusEnum.Pending && x.ScholarshipApplicant!.Id == id)
                 .ToListAsync();
         }
-
-
     }
 }

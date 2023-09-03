@@ -1,8 +1,10 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Enums;
+using SelectU.Contracts.Extensions;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
@@ -47,21 +49,25 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = $"{UserRoles.Admin}, {UserRoles.User}")]
         [HttpPost("active-scholarship-applications")]
         public async Task<IActionResult> GetActiveScholarshipsAsync([FromBody] ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO)
         {
 
             try
             {
-                var scholarship = await _scholarshipApplicationService.GetActiveScholarshipApplicationsAsync(scholarshipApplicationSearchDTO);
+                var scholarships = await _scholarshipApplicationService.GetActiveScholarshipApplicationsAsync(
+                    scholarshipApplicationSearchDTO, 
+                    HttpContext.GetUserId(), 
+                    UserRoleEnum.Admin == User.GetLoggedInUserRole()
+                    );
 
-                if (scholarship == null)
+                if (scholarships == null)
                 {
                     return BadRequest("Scholarship not found");
                 }
 
-                return Ok(scholarship);
+                return Ok(scholarships);
             }
             catch (Exception ex)
             {
@@ -69,6 +75,5 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

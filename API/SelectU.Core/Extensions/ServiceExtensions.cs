@@ -65,6 +65,7 @@ namespace SelectU.Core.Extensions
             services.AddScoped<ICachingService, CachingService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IScholarshipService, ScholarshipService>();
+            services.AddScoped<IScholarshipApplicationService, ScholarshipApplicationService>();
             services.AddScoped<IBlobStorageService, BlobStorageService>();
 
             //Validators
