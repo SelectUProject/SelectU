@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.IdentityModel.Tokens;
 using SelectU.Contracts;
 using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
@@ -241,6 +242,63 @@ namespace SelectU.Core.Services
             }
 
             await _userManager.ResetAccessFailedCountAsync(user);
+        }
+        public async Task<ICollection<User>> GetAllUsersAsync()
+        {
+            return await _userManager.Users.ToListAsync();
+        }
+        public async Task DeleteUserAsync(string userId)
+        {
+            if (userId.IsNullOrEmpty())
+            {
+                throw new ArgumentNullException(nameof(userId), "User ID cannot be null");
+            }
+            var user = await GetUserAsync(userId);
+            if (user != null)
+            {
+                user = await GetUserAsync(userId);
+                await _userManager.Users.Where(x => x.Equals(user)).ExecuteDeleteAsync();
+            }
+            else
+                throw new NotFoundException("User not Found");
+        }
+        public async Task AddRolesToUserAsync(string userId, ICollection<string> roleNames)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                await _userManager.AddToRolesAsync(user, roleNames);
+            }
+            else
+            {
+                throw new NotFoundException("User not Found");
+            }
+        }
+
+        public async Task RemoveRolesFromUserAsync(string userId, ICollection<string> roleNames)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                await _userManager.RemoveFromRolesAsync(user, roleNames);
+            }
+            else
+            {
+                throw new NotFoundException("User not Found");
+            }
+        }
+
+        public async Task<ICollection<string>> GetUserRolesAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                return await _userManager.GetRolesAsync(user);
+            }
+            else
+            {
+                throw new NotFoundException("User not Found");
+            }
         }
     }
 }

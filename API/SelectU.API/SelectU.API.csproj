@@ -34,4 +34,8 @@
     <ProjectReference Include="..\SelectU.Migrations\SelectU.Migrations.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
+
 </Project>

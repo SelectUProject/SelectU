@@ -9,7 +9,7 @@ namespace SelectU.Contracts.DTO
 {
     public class UpdateUserRolesDTO
     {
-        public required string userId { get; set; }
+        public required string UserId { get; set; }
         public ICollection<string>? RemoveRoles { get; set; }
         public ICollection<string>? AddRoles { get; set;}
     }

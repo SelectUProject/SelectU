@@ -9,7 +9,7 @@ namespace SelectU.Core.Validators
         public UpdateUserRolesDTOValidator()
         {
             RuleFor(x => x).Must(r => (r.RemoveRoles.IsNullOrEmpty() == false || r.AddRoles.IsNullOrEmpty() == false)).WithMessage("You must at least add or remove one role");
-            RuleFor(x => x.userId).NotEmpty().WithMessage("User ID is required");
+            RuleFor(x => x.UserId).NotEmpty().WithMessage("User ID is required");
         }
     }
 }

@@ -5,7 +5,7 @@ namespace SelectU.Contracts.DTO
 {
     public class UserUpdateDTO
     {
-        public string Id { get; set; } = null!;
+        public string Id { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }
