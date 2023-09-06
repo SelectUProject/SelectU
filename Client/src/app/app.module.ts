@@ -32,6 +32,8 @@ import LoginFormComponent from './components/shared/login-form/login-form.compon
 import RegisterPageComponent from './components/pages/register-page/register-page.component';
 import RegisterFormComponent from './components/shared/register-form/register-form.component';
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
+import { SavedScholarshipsPageComponent } from './components/pages/saved-scholarships-page/saved-scholarships-page.component';
+import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import LandingPageComponent from './components/pages/landing-page/landing-page.c
     RegisterPageComponent,
     RegisterFormComponent,
     LandingPageComponent,
+    SavedScholarshipsPageComponent,
+    FindScholarshipsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
