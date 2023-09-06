@@ -20,9 +20,9 @@ namespace SelectU.Core.Services
             return await _unitOfWork.ScholarshipApplications.GetAsync(id);
         }
 
-        public async Task<List<ScholarshipApplication>> GetMyScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isAdmin)
+        public async Task<List<ScholarshipApplication>> GetMyScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isStaff)
         {
-            if (isAdmin)
+            if (isStaff)
             {
                 return await _unitOfWork.ScholarshipApplications
                              .Where(x => x.Status == Contracts.Enums.StatusEnum.Pending && x.Scholarship!.ScholarshipCreatorId == id)
