@@ -50,13 +50,13 @@ namespace SelectU.API.Controllers
         }
 
         [Authorize(Roles = $"{UserRoles.Admin}, {UserRoles.User}")]
-        [HttpPost("active-scholarship-applications")]
-        public async Task<IActionResult> GetActiveScholarshipsAsync([FromBody] ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO)
+        [HttpPost("my-scholarship-applications")]
+        public async Task<IActionResult> GetMyScholarshipsAsync([FromBody] ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO)
         {
 
             try
             {
-                var scholarships = await _scholarshipApplicationService.GetActiveScholarshipApplicationsAsync(
+                var scholarships = await _scholarshipApplicationService.GetMyScholarshipApplicationsAsync(
                     scholarshipApplicationSearchDTO, 
                     HttpContext.GetUserId(), 
                     UserRoleEnum.Admin == User.GetLoggedInUserRole()

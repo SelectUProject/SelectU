@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Services;
@@ -51,10 +52,32 @@ namespace SelectU.API.Controllers
         [HttpPost("active-scholarships")]
         public async Task<IActionResult> GetActiveScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO)
         {
-
             try
             {
-                var scholarship = await _scholarshipService.GetActiveScholarshipAsync(scholarshipSearchDTO);
+                var scholarships = await _scholarshipService.GetActiveScholarshipAsync(scholarshipSearchDTO);
+
+                if (scholarships == null)
+                {
+                    return BadRequest("Scholarship not found");
+                }
+
+                return Ok(scholarships);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(UserRoles.Admin)]
+        [HttpPost("created-scholarships")]
+        public async Task<IActionResult> GetMyCreatedScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO )
+        {
+            try
+            {
+                string userId = HttpContext.GetUserId();
+                var scholarship = await _scholarshipService.GetMyCreatedScholarshipsAsync(scholarshipSearchDTO, userId);
 
                 if (scholarship == null)
                 {
@@ -70,11 +93,10 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize]
-        [HttpPost("created-scholarships")]
-        public async Task<IActionResult> GetMyCreatedScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO )
+        [Authorize(UserRoles.Admin)]
+        [HttpPost("create-scholarship")]
+        public async Task<IActionResult> CreateScholarshipAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO)
         {
-
             try
             {
                 string userId = HttpContext.GetUserId();

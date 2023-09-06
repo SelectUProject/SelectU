@@ -8,6 +8,6 @@ namespace SelectU.Contracts.Services
     public interface IScholarshipApplicationService
     {
         Task<ScholarshipApplication> GetScholarshipApplicationAsync(Guid id);
-        Task<List<ScholarshipApplication>> GetActiveScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isAdmin );
+        Task<List<ScholarshipApplication>> GetMyScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isAdmin);
     }
 }

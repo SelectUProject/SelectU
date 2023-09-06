@@ -26,10 +26,11 @@ namespace SelectU.Core.Services
         {
             return await _unitOfWork.Scholarships.GetAsync(id);
         }
+
         public async Task<List<Scholarship>> GetActiveScholarshipAsync(ScholarshipSearchDTO scholarshipSearchDTO)
         {
             return await _unitOfWork.Scholarships
-                .Where(x => x.StartDate <= DateTime.Now && x.EndDate >= DateTime.Now)
+                .Where(x => x.StartDate <= DateTime.Now && x.EndDate >= DateTime.Now && x.Status == StatusEnum.Pending)
                 .ToListAsync();
         }
 

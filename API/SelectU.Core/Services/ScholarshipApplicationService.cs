@@ -19,7 +19,8 @@ namespace SelectU.Core.Services
         {
             return await _unitOfWork.ScholarshipApplications.GetAsync(id);
         }
-        public async Task<List<ScholarshipApplication>> GetActiveScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isAdmin)
+
+        public async Task<List<ScholarshipApplication>> GetMyScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isAdmin)
         {
             if (isAdmin)
             {
