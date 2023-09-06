@@ -13,13 +13,14 @@ namespace SelectU.Migrations
         }
 
         public DbSet<User> User { get; set; }
-        public DbSet<Scholarship> Scholarship { get; set; }
+        public DbSet<Scholarship> Scholarships { get; set; }
+        public DbSet<ScholarshipApplication> ScholarshipApplications { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<User>().ToTable("Users");
-            modelBuilder.Entity<Scholarship>().ToTable("Scholarships");
             modelBuilder.Entity<IdentityRole>().ToTable("Roles");
             modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles").HasKey(k => new { k.RoleId, k.UserId });
             modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
