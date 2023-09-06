@@ -49,7 +49,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Admin}, {UserRoles.User}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [HttpPost("my-scholarship-applications")]
         public async Task<IActionResult> GetMyScholarshipsAsync([FromBody] ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO)
         {
@@ -59,7 +59,7 @@ namespace SelectU.API.Controllers
                 var scholarships = await _scholarshipApplicationService.GetMyScholarshipApplicationsAsync(
                     scholarshipApplicationSearchDTO, 
                     HttpContext.GetUserId(), 
-                    UserRoleEnum.Admin == User.GetLoggedInUserRole()
+                    UserRoleEnum.Staff == User.GetLoggedInUserRole()
                     );
 
                 if (scholarships == null)
