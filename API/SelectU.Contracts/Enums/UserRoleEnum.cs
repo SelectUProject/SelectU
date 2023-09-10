@@ -3,6 +3,8 @@
     public enum UserRoleEnum
     {
         Admin,
+        Staff,
+        Reviewer,
         User
     }
 }

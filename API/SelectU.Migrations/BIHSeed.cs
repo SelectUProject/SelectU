@@ -15,6 +15,8 @@ namespace SelectU.Migrations
         {
             SeedRoles(context, roleManager);
             SeedAdmin(context, userManager);
+            SeedReviewer(context, userManager);
+            SeedStaff(context, userManager);
             SeedUsers(context, userManager);
             SeedScholarships(context);
             SeedScholarshipApplications(context);
@@ -41,11 +43,40 @@ namespace SelectU.Migrations
                 IdentityResult roleResult = roleManager.
                 CreateAsync(role).Result;
             }
+            if (!roleManager.RoleExistsAsync(UserRoles.Staff).Result)
+            {
+                IdentityRole role = new IdentityRole
+                {
+                    Name = UserRoles.Staff
+                };
+                IdentityResult roleResult = roleManager.
+                CreateAsync(role).Result;
+            }
+
+            if (!roleManager.RoleExistsAsync(UserRoles.Reviewer).Result)
+            {
+                IdentityRole role = new IdentityRole
+                {
+                    Name = UserRoles.Reviewer
+                };
+                IdentityResult roleResult = roleManager.
+                CreateAsync(role).Result;
+            }
         }
         private static void SeedAdmin(SelectUContext context, UserManager<User> userManager)
         {
             string admin = "admin@selectu.com";
             CreateUser(userManager, admin, UserRoles.Admin, "Password1");
+        }
+        private static void SeedReviewer(SelectUContext context, UserManager<User> userManager)
+        {
+            string reviewer = "reviewer@selectu.com";
+            CreateUser(userManager, reviewer, UserRoles.Reviewer, "Password1");
+        }
+        private static void SeedStaff(SelectUContext context, UserManager<User> userManager)
+        {
+            string staff = "staff@selectu.com";
+            CreateUser(userManager, staff, UserRoles.Staff, "Password1");
         }
 
         private static void SeedUsers(SelectUContext context, UserManager<User> userManager)
