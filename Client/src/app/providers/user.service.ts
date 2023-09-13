@@ -43,7 +43,7 @@ export class UserService {
 
   async getUserDetails() {
     return await firstValueFrom(
-      this.http.get<UserUpdateDTO>(`${Config.api}/user/details`)
+      this.http.get<UserUpdateDTO>(`${Config.api}/User/details`)
     );
   }
 
