@@ -180,7 +180,7 @@ class RegisterFormComponent implements OnInit {
           username: registerForm.email,
           password: registerForm.password,
         });
-        this.router.navigate(['account']);
+        this.router.navigate(['find-scholarships']);
       })
       .catch((response) => {
         if (response.error?.errors) {

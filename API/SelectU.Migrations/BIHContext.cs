@@ -16,6 +16,9 @@ namespace SelectU.Migrations
         }
 
         public DbSet<User> User { get; set; }
+        public DbSet<Scholarship> Scholarships { get; set; }
+        public DbSet<ScholarshipApplication> ScholarshipApplications { get; set; }
+
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<WorkExperience> WorkExperiences { get; set; }
 
@@ -30,7 +33,6 @@ namespace SelectU.Migrations
             modelBuilder.Entity<UserProfile>()
                 .Property(nameof(UserProfile.Skills))
                 .HasConversion<SemicolonSplitStringConverter, SplitStringComparer>();
-
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<IdentityRole>().ToTable("Roles");
             modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles").HasKey(k => new { k.RoleId, k.UserId });

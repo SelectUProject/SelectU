@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SelectU.Migrations;
 
@@ -11,9 +12,11 @@ using SelectU.Migrations;
 namespace SelectU.Migrations.Migrations
 {
     [DbContext(typeof(SelectUContext))]
-    partial class SelectUContextModelSnapshot : ModelSnapshot
+    [Migration("20230903075935_Init_Scholarships")]
+    partial class Init_Scholarships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,46 +156,6 @@ namespace SelectU.Migrations.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("SelectU.Contracts.Entities.Certification", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UserProfileId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserProfileId");
-
-                    b.ToTable("Certification");
-                });
-
-            modelBuilder.Entity("SelectU.Contracts.Entities.Skill", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UserProfileId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserProfileId");
-
-                    b.ToTable("Skill");
                 });
 
             modelBuilder.Entity("SelectU.Contracts.Entities.Scholarship", b =>
@@ -385,70 +348,6 @@ namespace SelectU.Migrations.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("SelectU.Contracts.Entities.UserProfile", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AboutMe")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfilePicID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid?>("WorkExperienceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("UserProfiles");
-                });
-
-            modelBuilder.Entity("SelectU.Contracts.Entities.WorkExperience", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("EndDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("OnGoing")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("StartDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid?>("UserProfileId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("WorkExperienceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserProfileId");
-
-                    b.HasIndex("WorkExperienceId");
-
-                    b.ToTable("WorkExperiences");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -498,59 +397,6 @@ namespace SelectU.Migrations.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("SelectU.Contracts.Entities.Certification", b =>
-                {
-                    b.HasOne("SelectU.Contracts.Entities.UserProfile", null)
-                        .WithMany("Certifications")
-                        .HasForeignKey("UserProfileId");
-                });
-
-            modelBuilder.Entity("SelectU.Contracts.Entities.Skill", b =>
-                {
-                    b.HasOne("SelectU.Contracts.Entities.UserProfile", null)
-                        .WithMany("Skills")
-                        .HasForeignKey("UserProfileId");
-                });
-
-            modelBuilder.Entity("SelectU.Contracts.Entities.UserProfile", b =>
-                {
-                    b.HasOne("SelectU.Contracts.Entities.User", "User")
-                        .WithOne("UserProfile")
-                        .HasForeignKey("SelectU.Contracts.Entities.UserProfile", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SelectU.Contracts.Entities.WorkExperience", b =>
-                {
-                    b.HasOne("SelectU.Contracts.Entities.UserProfile", "UserProfile")
-                        .WithMany()
-                        .HasForeignKey("UserProfileId");
-
-                    b.HasOne("SelectU.Contracts.Entities.UserProfile", null)
-                        .WithMany("WorkExperience")
-                        .HasForeignKey("WorkExperienceId");
-
-                    b.Navigation("UserProfile");
-                });
-
-            modelBuilder.Entity("SelectU.Contracts.Entities.User", b =>
-                {
-                    b.Navigation("UserProfile")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SelectU.Contracts.Entities.UserProfile", b =>
-                {
-                    b.Navigation("Certifications");
-
-                    b.Navigation("Skills");
-
-                    b.Navigation("WorkExperience");
                 });
 
             modelBuilder.Entity("SelectU.Contracts.Entities.Scholarship", b =>
