@@ -34,6 +34,8 @@ import RegisterFormComponent from './components/shared/register-form/register-fo
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
 import { SavedScholarshipsPageComponent } from './components/pages/saved-scholarships-page/saved-scholarships-page.component';
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
+import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
+import { ShortViewMyApplicationsComponent } from './components/shared/short-view-my-applications/short-view-my-applications.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { FindScholarshipsComponent } from './components/pages/find-scholarships/
     LandingPageComponent,
     SavedScholarshipsPageComponent,
     FindScholarshipsComponent,
+    MyApplicationsComponent,
+    ShortViewMyApplicationsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
