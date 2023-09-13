@@ -1,16 +1,16 @@
 import { GenderEnum } from './GenderEnum';
 
 export interface UserUpdateDTO {
-  Id: string;
-  FirstName: string;
-  LastName: string;
-  DateOfBirth: Date;
-  Gender: GenderEnum;
-  Email: string;
-  PhoneNumber: string;
-  Address: string;
-  Suburb: string;
-  Postcode: string;
-  State: string;
-  Country: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: Date;
+  gender: GenderEnum;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  suburb: string;
+  postcode: string;
+  state: string;
+  country: string;
 }

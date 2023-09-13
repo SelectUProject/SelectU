@@ -1,11 +1,11 @@
 <div class="container mt-5">
-    <h3>User List</h3>
-    <ul class="list-group">
-      <li *ngFor="let user of users" class="list-group-item d-flex justify-content-between align-items-center">
+  <h3>User List</h3>
+  <ul class="list-group">
+    <!-- <li *ngFor="let user of users" class="list-group-item d-flex justify-content-between align-items-center">
         <div>
           <span>ID: {{ user.Id }} | Full Name: {{ user.FirstName }}</span>
         </div>
-        <!-- <div>
+        <div>
           <div class="form-group">
             <label for="role">Role:</label>
             <select class="form-control" id="role" [(ngModel)]="user.role">
@@ -15,7 +15,7 @@
           </div>
           <button class="btn btn-primary" (click)="viewUserProfile(user.id)">View Profile</button>
           <button class="btn btn-danger" (click)="deleteUser(user.id)">Delete User</button>
-        </div> -->
-      </li>
-    </ul>
-  </div>
+        </div>
+      </li> -->
+  </ul>
+</div>

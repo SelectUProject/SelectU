@@ -3,12 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using SelectU.Contracts.DTO;
-using SelectU.Contracts.Enums;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
-using SelectU.Core.Helpers;
-using SelectU.Core.Services;
 
 namespace SelectU.API.Controllers
 {
@@ -240,23 +237,23 @@ namespace SelectU.API.Controllers
         public async Task<IActionResult> GetUserDetailsAsync([FromRoute] Guid userId)
         {
             try
-            {
+        {
                 var user = await _userService.GetUserAsync(userId.ToString());
 
-                if (user == null)
-                {
+        if (user == null)
+        {
                     return BadRequest("User not found");
-                }
+        }
 
-                var response = new UserUpdateDTO(user);
+        var response = new UserUpdateDTO(user);
 
-                return Ok(response);
-            }
+        return Ok(response);
+        }
             catch (Exception ex)
-            {
+        {
                 _logger.LogError(ex, $"User {userId}, {ex.Message}");
-                return BadRequest(ex.Message);
-            }
+        return BadRequest(ex.Message);
+        }
         }
 
         [Authorize]
