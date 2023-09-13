@@ -7,6 +7,8 @@ import RegisterPageComponent from './components/pages/register-page/register-pag
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
 import { SavedScholarshipsPageComponent } from './components/pages/saved-scholarships-page/saved-scholarships-page.component';
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
+import { UserProfilePageComponent } from './components/pages/user-profile-page/user-profile-page.component';
+import { AdminPageComponent } from './components/pages/admin-page/admin-page.component';
 //components
 
 const routes: Routes = [
@@ -41,6 +43,16 @@ const routes: Routes = [
       //     { path: 'signup', component: LandingComponent },
       { path: 'register', component: RegisterPageComponent },
       //     { path: '404', component: ErrorComponent },
+      {
+        path: 'profile',
+        component: UserProfilePageComponent,
+      },
+      {
+        path: 'admin-dashboard',
+        component: AdminPageComponent,
+        
+      }
+
     ],
   },
   // {
