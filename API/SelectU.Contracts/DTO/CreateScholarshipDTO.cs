@@ -4,14 +4,15 @@ namespace SelectU.Contracts.DTO
 {
     public class CreateScholarshipDTO
     {
-        public string? Email { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? Password { get; set; }
-        public DateTimeOffset? DateOfBirth { get; set; }
-        public GenderEnum? Gender { get; set; }
-        public string? PhoneNumber { get; set; }
+        public string? School { get; set; }
+        public string? ImageURL { get; set; }
+        public string? Value { get; set; }
+        public string? ShortDescription { get; set; }
+        public string? Description { get; set; }
+        public required string ScholarshipFormTemplate { get; set; }
+        public string? City { get; set; }
         public string? State { get; set; }
-        public string? Country { get; set; }
+        public DateTimeOffset? StartDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
     }
 }

@@ -1,15 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SelectU.Contracts;
-using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
-using SelectU.Contracts.Infrastructure;
 using SelectU.Contracts.Services;
-using SelectU.Core.Exceptions;
-using SelectU.Migrations;
 
 namespace SelectU.Core.Services
 {
@@ -41,6 +35,25 @@ namespace SelectU.Core.Services
 
         public async Task<ResponseDTO> CreateScholarshipAsync(CreateScholarshipDTO createScholarshipDTO, string id)
         {
+
+            Scholarship scholarship = new Scholarship
+            {
+                ScholarshipCreatorId = id,
+                ScholarshipFormTemplate = createScholarshipDTO.ScholarshipFormTemplate,
+                School = createScholarshipDTO.School,
+                Value = createScholarshipDTO.Value,
+                ShortDescription = createScholarshipDTO.ShortDescription,
+                Description = createScholarshipDTO.Description,
+                State = createScholarshipDTO.State,
+                City = createScholarshipDTO.City,
+                StartDate = createScholarshipDTO.StartDate,
+                EndDate = createScholarshipDTO.EndDate,
+                DateCreated = DateTimeOffset.Now,
+                DateModified = DateTimeOffset.Now,
+            };
+
+            _unitOfWork.Scholarships.Add(scholarship);
+
             return new ResponseDTO { Success = true, Message = "Scholarship created successfully." };
         }
 
