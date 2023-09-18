@@ -12,7 +12,6 @@ namespace SelectU.Contracts.Services
         Task ChangePasswordAsync(string id, ChangePasswordDTO passwordDTO);
         Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto);
         Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto);
-        Task UpdateUserProfileAsync(string id, UpdateUserProfileDTO updateDTO);
         Task<ICollection<User>> GetAllUsersAsync();
         Task RemoveRolesFromUserAsync(string id, ICollection<string> roleNames);
         Task AddRolesToUserAsync(string id, ICollection<string> roleNames);

@@ -110,8 +110,7 @@ namespace SelectU.Migrations
                     Email = userEmail,
                     EmailConfirmed = true,
                     Gender = GenderEnum.Male,
-                    DateCreated = DateTimeOffset.Now,
-                    UserProfile = new UserProfile()
+                    DateCreated = DateTimeOffset.Now
                 };
 
                 var result = userManager.CreateAsync(newUser, password).Result;

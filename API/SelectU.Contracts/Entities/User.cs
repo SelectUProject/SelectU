@@ -15,8 +15,9 @@ namespace SelectU.Contracts.Entities
         public string? Postcode { get; set; }
         public string? State { get; set; }
         public string? Country { get; set; }
+        public string? ProfilePicID { get; set; }
+        public string? AboutMe { get; set; }
         public DateTimeOffset? DateCreated { get; set; }
         public DateTimeOffset? DateModified { get; set; }
-        public required UserProfile UserProfile { get; set; } = null!;
     }
 }

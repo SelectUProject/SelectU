@@ -1,11 +1,16 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SelectU.Contracts.Config;
+using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
+using SelectU.Core.Services;
+using System.IO;
 
 namespace SelectU.API.Controllers
 {
@@ -15,29 +20,33 @@ namespace SelectU.API.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
+        private readonly AzureBlobSettingsConfig _azureBlobSettingsConfig;
+        private readonly IBlobStorageService _blobStorageService;
         private readonly IValidator<UserUpdateDTO> _userDetailsValidator;
         private readonly IValidator<ChangePasswordDTO> _passwordValidator;
         private readonly IValidator<UserRegisterDTO> _userRegisterValidator;
-        private readonly IValidator<UpdateUserProfileDTO> _userProfileUpdateValidator;
         private readonly IValidator<UpdateUserRolesDTO> _userRolesUpdateValidator;
 
         public UserController(ILogger<UserController> logger,
             IUserService userService,
+            IBlobStorageService blobStorageService,
+            IOptions<AzureBlobSettingsConfig> azureBlobSettingsConfig,
             IValidator<UserUpdateDTO> userDetailsValidator,
             IValidator<ChangePasswordDTO> passwordValidator,
             IValidator<UserRegisterDTO> userRegisterValidator,
-            IValidator<UpdateUserProfileDTO> userProfileUpdateValidator,
             IValidator<UpdateUserRolesDTO> userRolesUpdateValidator)
         {
             _logger = logger;
             _userService = userService;
+            _blobStorageService = blobStorageService;
+            _azureBlobSettingsConfig = azureBlobSettingsConfig.Value;
             _userDetailsValidator = userDetailsValidator;
             _passwordValidator = passwordValidator;
             _userRegisterValidator = userRegisterValidator;
-            _userProfileUpdateValidator = userProfileUpdateValidator;
             _userRolesUpdateValidator = userRolesUpdateValidator;
+            _blobStorageService = blobStorageService;
         }
-
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [Authorize]
         [HttpGet("details")]
         public async Task<IActionResult> GetUserDetailsAsync()
@@ -62,7 +71,7 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [Authorize]
         [HttpPatch("details/update")]
         public async Task<IActionResult> UpdateUserDetailsAsync([FromBody] UserUpdateDTO userDetails)
@@ -90,34 +99,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }
-        [Authorize]
-        [HttpPatch("profile/update")]
-        public async Task<IActionResult> UpdateUserProfileAsync([FromBody] UpdateUserProfileDTO userProfile)
-        {
-            string userId = HttpContext.GetUserId();
-            try { 
-
-                var validationResult = await _userProfileUpdateValidator.ValidateAsync(userProfile);
-
-                if (validationResult.IsValid)
-                {
-                    await _userService.UpdateUserProfileAsync(userId, userProfile);
-
-                    return Ok(new ResponseDTO { Success = true, Message = "User profile updated successfully." });
-                }
-                return BadRequest(validationResult);
-            }
-            catch (UserUpdateException ex)
-            {
-                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"UserId {userProfile.UserId}, {ex.Message}");
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
-            }
-        }
-
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [Authorize]
         [HttpPatch("change-password")]
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] ChangePasswordDTO passwordDTO)
@@ -195,7 +177,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }
-
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
         {
@@ -212,7 +194,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
@@ -232,30 +214,32 @@ namespace SelectU.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }
+
+        [Authorize(Roles = $"{UserRoles.Staff}")]
         [Authorize]
         [HttpGet("details/{userId}")]
         public async Task<IActionResult> GetUserDetailsAsync([FromRoute] Guid userId)
         {
             try
-        {
+            {
                 var user = await _userService.GetUserAsync(userId.ToString());
 
-        if (user == null)
-        {
+                if (user == null)
+                {
                     return BadRequest("User not found");
-        }
+                }
 
-        var response = new UserUpdateDTO(user);
+                var response = new UserUpdateDTO(user);
 
-        return Ok(response);
-        }
+                return Ok(response);
+            }
             catch (Exception ex)
-        {
+            {
                 _logger.LogError(ex, $"User {userId}, {ex.Message}");
-        return BadRequest(ex.Message);
+                return BadRequest(ex.Message);
+            }
         }
-        }
-
+        [Authorize(Roles = $"{UserRoles.Staff}")]
         [Authorize]
         [HttpGet("list")]
         public async Task<IActionResult> GetAllUsersAsync()
@@ -277,7 +261,113 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [HttpPost("photo/upload")]
+        public async Task<IActionResult> UploadProfilePic([FromRoute] string userId, [FromBody] Stream file)
+        {
+            try
+            {
+                var user = await _userService.GetUserAsync(userId);
 
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                string imageID = await _blobStorageService.UploadFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, file);
+                var updateUser = new UserUpdateDTO(user);
+                updateUser.ProfilePicID = imageID;
+                await _userService.UpdateUserDetailsAsync(userId, updateUser);
+
+                if (!user.ProfilePicID.IsNullOrEmpty())
+                {
+                    await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
+                }
+
+                return Ok(new { Message = "File uploaded successfully", ImageID = imageID });
+
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [HttpDelete("photo/delete")]
+        public async Task<IActionResult> DeleteProfilePic([FromRoute] string userId)
+        {
+            try
+            {
+                var user = await _userService.GetUserAsync(userId);
+
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+                bool result = false;
+
+                if (!user.ProfilePicID.IsNullOrEmpty()) 
+                {
+                    result = await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
+                }
+                else
+                {
+                    return BadRequest(new ResponseDTO { Success = result, Message = "Profile Picture does not exist" });
+                }
+
+                return Ok(new ResponseDTO { Success = result, Message = "Profile Picture Delete" });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [HttpGet("photo/download")]
+        public async Task<IActionResult> DownloadProfilePic([FromRoute] string userId)
+        {
+            try
+            {
+
+                var user = await _userService.GetUserAsync(userId);
+
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+                Stream stream = null;
+
+                if (!user.ProfilePicID.IsNullOrEmpty())
+                {
+                    stream = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
+                }
+                else
+                {
+                    return BadRequest(new ResponseDTO { Success = false, Message = "Profile Picture does not exist" });
+                }
+
+                return Ok(stream);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
         [HttpPatch("admin/details/update")]
         public async Task<IActionResult> AdminUpdateUserDetailsAsync([FromBody] UserUpdateDTO userDetails)
@@ -309,39 +399,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }
-
-        [Authorize]
-        [HttpPatch("admin/profile/update")]
-        public async Task<IActionResult> AdminUpdateUserProfileAsync([FromBody] UpdateUserProfileDTO userProfile)
-        {
-            try
-            {
-                if (userProfile.UserId.IsNullOrEmpty())
-                {
-                    return BadRequest(new ResponseDTO { Success = false, Message = "User ID is required" });
-                }
-
-                var validationResult = await _userProfileUpdateValidator.ValidateAsync(userProfile);
-
-                if (validationResult.IsValid)
-                {
-                    await _userService.UpdateUserProfileAsync(userProfile.UserId, userProfile);
-
-                    return Ok(new ResponseDTO { Success = true, Message = "User profile updated successfully." });
-                }
-                return BadRequest(validationResult);
-            }
-            catch (UserUpdateException ex)
-            {
-                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"UserId {userProfile.UserId}, {ex.Message}");
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
-            }
-        }
-
+        [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
         [HttpDelete("admin/delete/{userId}")]
         public async Task<IActionResult> AdminDeleteUserAsync([FromRoute] Guid userId)
@@ -360,7 +418,7 @@ namespace SelectU.API.Controllers
             }
 
         }
-
+        [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
         [HttpPatch("admin/roles/update")]
         public async Task<IActionResult> AdminUpdateUserRolesAsync([FromBody] UpdateUserRolesDTO updateUserRoles)
@@ -388,6 +446,7 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
         [HttpGet("admin/roles/details/{userId}")]
         public async Task<IActionResult> AdminGetUserRolesAsync([FromRoute] Guid userId)
@@ -396,7 +455,7 @@ namespace SelectU.API.Controllers
             {
                 var roles = await _userService.GetUserRolesAsync(userId.ToString());
 
-                return Ok(new ResponseDTO { Success = true, Message = "User roles updated successfully." });
+                return Ok(roles);
             }
             catch (Exception ex)
             {

@@ -17,6 +17,8 @@ namespace SelectU.Contracts.DTO
         public string? Postcode { get; set; }
         public string? State { get; set; }
         public string? Country { get; set; }
+        public string? ProfilePicID { get; set; }
+        public string? AboutMe { get; set; }
 
         public UserUpdateDTO() { }
 
@@ -34,6 +36,8 @@ namespace SelectU.Contracts.DTO
             Postcode = user.Postcode;
             State = user.State;
             Country = user.Country;
+            ProfilePicID = user.ProfilePicID;
+            AboutMe = user.AboutMe;
         }
     }
 }

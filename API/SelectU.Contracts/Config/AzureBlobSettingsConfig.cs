@@ -8,7 +8,8 @@ namespace SelectU.Contracts.Config
 {
     public class AzureBlobSettingsConfig
     {
-        public string ContainerName { get; set; } = null!;
+        public string ProfilePicContainerName { get; set; } = null!;
+        public string FileContainerName { get; set; } = null!;
         public string ConnectionString { get; set; } = null!;
     }
 }

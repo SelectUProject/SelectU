@@ -90,8 +90,7 @@ namespace SelectU.Core.Services
                 UserName = registerDTO.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 DateCreated = DateTimeOffset.UtcNow,
-                DateModified = DateTimeOffset.UtcNow,
-                UserProfile = new UserProfile()
+                DateModified = DateTimeOffset.UtcNow
             };
 
             if (registerDTO.Password == null)
@@ -141,29 +140,6 @@ namespace SelectU.Core.Services
             if (!result.Succeeded)
             {
                 throw new UserUpdateException("Failed to update user details.");
-            }
-        }
-        public async Task UpdateUserProfileAsync(string id, UpdateUserProfileDTO updateDTO)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-
-            if (user.UserProfile == null)
-            {
-                user.UserProfile = new UserProfile();
-            }
-
-            user.UserProfile.AboutMe = updateDTO.AboutMe;
-            user.UserProfile.Skills = updateDTO.Skills;
-            user.UserProfile.Certifications = updateDTO.Certifications;
-            var workExperience = new List<WorkExperience>();
-            updateDTO.WorkExperience?.ToList().ForEach(x => workExperience.Add(x.ToWorkExperience()));
-            user.UserProfile.WorkExperience = workExperience;
-
-            var result = await _userManager.UpdateAsync(user);
-
-            if (!result.Succeeded)
-            {
-                throw new UserUpdateException("Failed to update user profile.");
             }
         }
         public async Task ChangePasswordAsync(string id, ChangePasswordDTO passwordDTO)

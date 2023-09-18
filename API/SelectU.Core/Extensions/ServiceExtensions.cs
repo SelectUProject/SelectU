@@ -71,7 +71,6 @@ namespace SelectU.Core.Extensions
             //Validators
             services.AddScoped<IValidator<UserRegisterDTO>, UserRegisterDTOValidator>();
             services.AddScoped<IValidator<UserUpdateDTO>, UserUpdateDTOValidator>();
-            services.AddScoped<IValidator<UpdateUserProfileDTO>, UpdateUserProfileDTOValidator>();
             services.AddScoped<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
             services.AddScoped<IValidator<UpdateUserRolesDTO>, UpdateUserRolesDTOValidator>();
             return services;

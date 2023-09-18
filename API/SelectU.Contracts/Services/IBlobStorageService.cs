@@ -8,9 +8,9 @@ namespace SelectU.Contracts.Services
 {
     public interface IBlobStorageService
     {
-        Task UploadFileAsync(string blobName, Stream content);
-        Task<Stream> DownloadFileAsync(string blobName);
-        Task<bool> DeleteFileAsync(string blobName);
-        Task<bool> UpdateFileAsync(string blobName, Stream content);
+        Task<string> UploadFileAsync(string containerName, Stream content);
+        Task<Stream> DownloadFileAsync(string containerName, string blobName);
+        Task<bool> DeleteFileAsync(string containerName, string blobName);
+        Task<bool> UpdateFileAsync(string containerName, string blobName, Stream content);
     }
 }

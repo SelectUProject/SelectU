@@ -14,39 +14,44 @@ namespace SelectU.Core.Services
 {
     public class BlobStorageService : IBlobStorageService
     {
-        private readonly BlobContainerClient _containerClient;
+        private readonly BlobServiceClient _blobServiceClient;
+        private readonly AzureBlobSettingsConfig _config;
         public BlobStorageService(IOptions<AzureBlobSettingsConfig> azureBlobSettingsConfig)
         {
-            AzureBlobSettingsConfig config = azureBlobSettingsConfig.Value;
-            BlobServiceClient blobServiceClient = new BlobServiceClient(config.ConnectionString);
-            _containerClient = blobServiceClient.GetBlobContainerClient(config.ContainerName);
+            _config = azureBlobSettingsConfig.Value;
+            BlobServiceClient blobServiceClient = new BlobServiceClient(_config.ConnectionString);
         }
 
-        public async Task UploadFileAsync(string blobName, Stream content)
+        public async Task<string> UploadFileAsync(string containerName, Stream content)
         {
-            BlobClient blobClient = _containerClient.GetBlobClient(blobName);
-
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            string blobName = Guid.NewGuid().ToString(); // Generate a new GUID-based blob name
+            BlobClient blobClient = containerClient.GetBlobClient(blobName);
             await blobClient.UploadAsync(content, true);
+            return blobName;
         }
 
-        public async Task<Stream> DownloadFileAsync(string blobName)
+        public async Task<Stream> DownloadFileAsync(string containerName, string blobName)
         {
-            BlobClient blobClient = _containerClient.GetBlobClient(blobName);
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            BlobClient blobClient = containerClient.GetBlobClient(blobName);
 
             BlobDownloadInfo blobDownloadInfo = await blobClient.DownloadAsync();
             return blobDownloadInfo.Content;
         }
 
-        public async Task<bool> DeleteFileAsync(string blobName)
+        public async Task<bool> DeleteFileAsync(string containerName, string blobName)
         {
-            BlobClient blobClient = _containerClient.GetBlobClient(blobName);
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            BlobClient blobClient = containerClient.GetBlobClient(blobName);
 
             return await blobClient.DeleteIfExistsAsync();
         }
 
-        public async Task<bool> UpdateFileAsync(string blobName, Stream content)
+        public async Task<bool> UpdateFileAsync(string containerName, string blobName, Stream content)
         {
-            BlobClient blobClient = _containerClient.GetBlobClient(blobName);
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            BlobClient blobClient = containerClient.GetBlobClient(blobName);
 
             await blobClient.UploadAsync(content, true);
             return true;
