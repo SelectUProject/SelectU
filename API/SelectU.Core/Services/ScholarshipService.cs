@@ -39,5 +39,11 @@ namespace SelectU.Core.Services
             return await _unitOfWork.Scholarships.Where(x => x.ScholarshipCreatorId == id).ToListAsync();
         }
 
+        public async Task<ResponseDTO> CreateScholarshipAsync(CreateScholarshipDTO createScholarshipDTO, string id)
+        {
+            return new ResponseDTO { Success = true, Message = "Scholarship created successfully." };
+        }
+
+
     }
 }

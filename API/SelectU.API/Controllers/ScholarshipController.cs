@@ -95,12 +95,12 @@ namespace SelectU.API.Controllers
 
         [Authorize(UserRoles.Admin)]
         [HttpPost("create-scholarship")]
-        public async Task<IActionResult> CreateScholarshipAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO)
+        public async Task<IActionResult> CreateScholarshipAsync([FromBody] CreateScholarshipDTO createScholarshipDTO)
         {
             try
             {
                 string userId = HttpContext.GetUserId();
-                var scholarship = await _scholarshipService.GetMyCreatedScholarshipsAsync(scholarshipSearchDTO, userId);
+                var scholarship = await _scholarshipService.CreateScholarshipAsync(createScholarshipDTO, userId);
 
                 if (scholarship == null)
                 {
