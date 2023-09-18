@@ -5,6 +5,8 @@ import { Config } from './config';
 import { TokenService } from './token.service';
 import { ScholarshipApplicationDTO } from '../models/ScholarshipApplicationDTO';
 import { ScholarshipApplicationSearchDTO } from '../models/ScholarshipApplicationSearchDTO';
+import { ScholarshipApplicationCreateDTO } from '../models/ScholarshipApplicationCreateDTO';
+import { ResponseDTO } from '../models/ResponseDTO';
 @Injectable({
   providedIn: 'root',
 })
@@ -27,6 +29,17 @@ export class ScholarshipApplicationService {
       this.http.patch<ScholarshipApplicationDTO[]>(
         `${Config.api}/ScholarshipApplication/my-scholarship-applications`,
         scholarshipApplicationSearchDTO
+      )
+    );
+  }
+
+  async createScholarshipApplications(
+    scholarshipApplicationCreateDTO: ScholarshipApplicationCreateDTO
+  ) {
+    return await firstValueFrom(
+      this.http.patch<ResponseDTO>(
+        `${Config.api}/ScholarshipApplication/create-scholarship-application`,
+        scholarshipApplicationCreateDTO
       )
     );
   }

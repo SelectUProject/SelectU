@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
+using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Extensions;
 using SelectU.Contracts.Services;
@@ -28,7 +29,7 @@ namespace SelectU.API.Controllers
 
         [Authorize]
         [HttpGet("details")]
-        public async Task<IActionResult> GetScholarshipDetailsAsync(Guid id)
+        public async Task<IActionResult> GetScholarshipApplicationDetailsAsync(Guid id)
         {
             
             try
@@ -37,21 +38,21 @@ namespace SelectU.API.Controllers
 
                 if (scholarship == null)
                 {
-                    return BadRequest("Scholarship application not found");
+                    return BadRequest("Scholarship Application not found");
                 }
 
                 return Ok(scholarship);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Scholarship application {id}, {ex.Message}");
+                _logger.LogError(ex, $"Scholarship Application {id}, {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
 
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [HttpPost("my-scholarship-applications")]
-        public async Task<IActionResult> GetMyScholarshipsAsync([FromBody] ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO)
+        public async Task<IActionResult> GetMyScholarshipApplicationsAsync([FromBody] ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO)
         {
 
             try
@@ -64,14 +65,39 @@ namespace SelectU.API.Controllers
 
                 if (scholarships == null)
                 {
-                    return BadRequest("Scholarship not found");
+                    return BadRequest("Scholarship Application not found");
                 }
 
                 return Ok(scholarships);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Scholarship, {ex.Message}");
+                _logger.LogError(ex, $"Scholarship Application, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(UserRoles.User)]
+        [HttpPost("create-scholarship-application")]
+        public async Task<IActionResult> CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO)
+        {
+            try
+            {
+                var response = await _scholarshipApplicationService.CreateScholarshipApplicationAsync(
+                    scholarshipApplicationCreateDTO,
+                    HttpContext.GetUserId()
+                    );
+
+                if (response == null)
+                {
+                    return BadRequest("Scholarship Application failed to create");
+                }
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship Application, {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }

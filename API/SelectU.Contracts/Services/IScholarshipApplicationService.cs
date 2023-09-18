@@ -9,5 +9,8 @@ namespace SelectU.Contracts.Services
     {
         Task<ScholarshipApplication> GetScholarshipApplicationAsync(Guid id);
         Task<List<ScholarshipApplication>> GetMyScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isAdmin);
+        Task<ResponseDTO> CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO, string id);
+
+        
     }
 }

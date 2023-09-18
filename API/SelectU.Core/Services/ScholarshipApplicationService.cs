@@ -32,5 +32,24 @@ namespace SelectU.Core.Services
                 .Where(x => x.Status == Contracts.Enums.StatusEnum.Pending && x.ScholarshipApplicant!.Id == id)
                 .ToListAsync();
         }
+
+        public async Task<ResponseDTO> CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO, string id)
+        {
+            ScholarshipApplication scholarshipApplication = new ScholarshipApplication
+            {
+                ScholarshipApplicantId = id,
+                ScholarshipId = scholarshipApplicationCreateDTO.ScholarshipId,
+                ScholarshipFormAnswer = scholarshipApplicationCreateDTO.ScholarshipFormAnswer,
+                Status = Contracts.Enums.StatusEnum.Pending,
+                DateCreated = DateTimeOffset.Now,
+                DateModified = DateTimeOffset.Now,
+            };
+
+            _unitOfWork.ScholarshipApplications.Add(scholarshipApplication);
+
+            return new ResponseDTO { Success = true, Message = "Scholarship Application created successfully." };
+
+        }
     }
 }
+
