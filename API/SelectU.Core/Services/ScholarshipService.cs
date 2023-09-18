@@ -4,6 +4,7 @@ using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Services;
+using System.Text.Json;
 
 namespace SelectU.Core.Services
 {
@@ -33,26 +34,29 @@ namespace SelectU.Core.Services
             return await _unitOfWork.Scholarships.Where(x => x.ScholarshipCreatorId == id).ToListAsync();
         }
 
-        public async Task<ResponseDTO> CreateScholarshipAsync(CreateScholarshipDTO createScholarshipDTO, string id)
+        public async Task<ResponseDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string id)
         {
 
             Scholarship scholarship = new Scholarship
             {
                 ScholarshipCreatorId = id,
-                ScholarshipFormTemplate = createScholarshipDTO.ScholarshipFormTemplate,
-                School = createScholarshipDTO.School,
-                Value = createScholarshipDTO.Value,
-                ShortDescription = createScholarshipDTO.ShortDescription,
-                Description = createScholarshipDTO.Description,
-                State = createScholarshipDTO.State,
-                City = createScholarshipDTO.City,
-                StartDate = createScholarshipDTO.StartDate,
-                EndDate = createScholarshipDTO.EndDate,
+                ScholarshipFormTemplate = JsonSerializer.Serialize(scholarshipCreateDTO.ScholarshipFormTemplate),
+                School = scholarshipCreateDTO.School,
+                Value = scholarshipCreateDTO.Value,
+                ShortDescription = scholarshipCreateDTO.ShortDescription,
+                Description = scholarshipCreateDTO.Description,
+                Status = StatusEnum.Pending,
+                State = scholarshipCreateDTO.State,
+                City = scholarshipCreateDTO.City,
+                StartDate = scholarshipCreateDTO.StartDate,
+                EndDate = scholarshipCreateDTO.EndDate,
                 DateCreated = DateTimeOffset.Now,
                 DateModified = DateTimeOffset.Now,
             };
 
             _unitOfWork.Scholarships.Add(scholarship);
+
+            await _unitOfWork.CommitAsync();
 
             return new ResponseDTO { Success = true, Message = "Scholarship created successfully." };
         }

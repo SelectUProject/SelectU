@@ -1,12 +1,12 @@
-import { GenderEnum } from './GenderEnum';
+import { ScholarshipFormSectionDTO } from './ScholarshipFormSectionDTO';
 
-export interface CreateScholarshipDTO {
+export interface ScholarshipCreateDTO {
   school: string;
   imageURL: string;
   value: string;
   shortDescription: string;
   description: Date;
-  scholarshipFormTemplate: GenderEnum;
+  scholarshipFormTemplate: ScholarshipFormSectionDTO[];
   city: string;
   state: string;
   startDate: Date;

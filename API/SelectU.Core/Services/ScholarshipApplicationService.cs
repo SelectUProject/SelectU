@@ -3,6 +3,7 @@ using SelectU.Contracts;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Services;
+using System.Text.Json;
 
 namespace SelectU.Core.Services
 {
@@ -39,13 +40,15 @@ namespace SelectU.Core.Services
             {
                 ScholarshipApplicantId = id,
                 ScholarshipId = scholarshipApplicationCreateDTO.ScholarshipId,
-                ScholarshipFormAnswer = scholarshipApplicationCreateDTO.ScholarshipFormAnswer,
+                ScholarshipFormAnswer = JsonSerializer.Serialize(scholarshipApplicationCreateDTO.ScholarshipFormAnswer),
                 Status = Contracts.Enums.StatusEnum.Pending,
                 DateCreated = DateTimeOffset.Now,
                 DateModified = DateTimeOffset.Now,
             };
 
             _unitOfWork.ScholarshipApplications.Add(scholarshipApplication);
+
+            await _unitOfWork.CommitAsync();
 
             return new ResponseDTO { Success = true, Message = "Scholarship Application created successfully." };
 
