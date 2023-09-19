@@ -1,4 +1,5 @@
 ﻿using SelectU.Contracts.Entities;
+using SelectU.Contracts.Enums;
 using System.Text.Json;
 
 namespace SelectU.Contracts.DTO
@@ -14,6 +15,7 @@ namespace SelectU.Contracts.DTO
         public List<ScholarshipFormSectionDTO> ScholarshipFormTemplate { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
+        public StatusEnum Status { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
 
@@ -25,6 +27,7 @@ namespace SelectU.Contracts.DTO
             School = scholarship.School;
             ImageURL = scholarship.ImageURL;
             Value = scholarship.Value;
+            Status = scholarship.Status;
             ShortDescription = scholarship.ShortDescription;
             Description = scholarship.Description;
             ScholarshipFormTemplate = JsonSerializer.Deserialize<List<ScholarshipFormSectionDTO>>(scholarship.ScholarshipFormTemplate);

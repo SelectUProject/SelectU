@@ -12,7 +12,7 @@ namespace SelectU.Contracts.DTO
         public  Guid ScholarshipId { get; set; }
         public List<ScholarshipFormSectionAnswerDTO> ScholarshipFormAnswer { get; set; }
         public StatusEnum Status { get; set; }
-        public Scholarship? Scholarship { get; set; }
+        public ScholarshipUpdateDTO? Scholarship { get; set; }
 
         public ScholarshipApplicationUpdateDTO() { }
 
@@ -22,7 +22,7 @@ namespace SelectU.Contracts.DTO
             ScholarshipApplicantId = scholarshipApplication.ScholarshipApplicantId;
             ScholarshipId = scholarshipApplication.ScholarshipId;
             ScholarshipFormAnswer = JsonSerializer.Deserialize<List<ScholarshipFormSectionAnswerDTO>>(scholarshipApplication.ScholarshipFormAnswer);
-            Scholarship = scholarshipApplication.Scholarship;
+            Scholarship = new ScholarshipUpdateDTO(scholarshipApplication.Scholarship);
         }
 
     }

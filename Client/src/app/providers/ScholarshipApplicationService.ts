@@ -7,6 +7,7 @@ import { ScholarshipApplicationDTO } from '../models/ScholarshipApplicationDTO';
 import { ScholarshipApplicationSearchDTO } from '../models/ScholarshipApplicationSearchDTO';
 import { ScholarshipApplicationCreateDTO } from '../models/ScholarshipApplicationCreateDTO';
 import { ResponseDTO } from '../models/ResponseDTO';
+import { ScholarshipApplicationUpdateDTO } from '../models/ScholarshipApplicationUpdateDTO';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,7 +16,7 @@ export class ScholarshipApplicationService {
 
   async getScholarshipApplicationDetails(id: any) {
     return await firstValueFrom(
-      this.http.get<ScholarshipApplicationDTO>(
+      this.http.get<ScholarshipApplicationUpdateDTO>(
         `${Config.api}/ScholarshipApplication/details`,
         id
       )
@@ -26,7 +27,7 @@ export class ScholarshipApplicationService {
     scholarshipApplicationSearchDTO: ScholarshipApplicationSearchDTO
   ) {
     return await firstValueFrom(
-      this.http.patch<ScholarshipApplicationDTO[]>(
+      this.http.patch<ScholarshipApplicationUpdateDTO[]>(
         `${Config.api}/ScholarshipApplication/my-scholarship-applications`,
         scholarshipApplicationSearchDTO
       )
