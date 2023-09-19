@@ -4,6 +4,8 @@ using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Services;
+using SelectU.Core.Exceptions;
+using System.Collections.Generic;
 using System.Text.Json;
 
 namespace SelectU.Core.Services
@@ -17,25 +19,45 @@ namespace SelectU.Core.Services
             _unitOfWork = context;
         }
 
-        public async Task<Scholarship> GetScholarshipAsync(Guid id)
+        //TODO 
+        //Create custom exceptions
+
+        public async Task<ScholarshipUpdateDTO> GetScholarshipAsync(Guid id)
         {
-            return await _unitOfWork.Scholarships.GetAsync(id);
+            var Scholarship = await _unitOfWork.Scholarships.GetAsync(id);
+
+            if (Scholarship == null)
+            {
+                return null;
+            }
+
+            return new ScholarshipUpdateDTO(Scholarship);
         }
 
-        public async Task<List<Scholarship>> GetActiveScholarshipAsync(ScholarshipSearchDTO scholarshipSearchDTO)
+        public async Task<List<ScholarshipUpdateDTO>> GetActiveScholarshipAsync(ScholarshipSearchDTO scholarshipSearchDTO)
         {
-            return await _unitOfWork.Scholarships
+            var Scholarships = await _unitOfWork.Scholarships
                 .Where(x => x.StartDate <= DateTime.Now && x.EndDate >= DateTime.Now && x.Status == StatusEnum.Pending)
                 .ToListAsync();
+
+            return Scholarships
+                .Select(scholarship => new ScholarshipUpdateDTO(scholarship))
+                .ToList();
         }
 
-        public async Task<List<Scholarship>> GetMyCreatedScholarshipsAsync(ScholarshipSearchDTO scholarshipSearchDTO, string id)
+        public async Task<List<ScholarshipUpdateDTO>> GetMyCreatedScholarshipsAsync(ScholarshipSearchDTO scholarshipSearchDTO, string id)
         {
-            return await _unitOfWork.Scholarships.Where(x => x.ScholarshipCreatorId == id).ToListAsync();
+            var Scholarships = await _unitOfWork.Scholarships.Where(x => x.ScholarshipCreatorId == id).ToListAsync();
+
+            return Scholarships
+                .Select(scholarship => new ScholarshipUpdateDTO(scholarship))
+                .ToList();
         }
 
-        public async Task<ResponseDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string id)
+            public async Task<ResponseDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string id)
         {
+            //TODO
+            //check the names align up and don't double up
 
             Scholarship scholarship = new Scholarship
             {

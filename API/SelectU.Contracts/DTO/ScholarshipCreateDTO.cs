@@ -2,6 +2,7 @@
 {
     public class ScholarshipCreateDTO
     {
+        public Guid? Id { get; set; }
         public string? School { get; set; }
         public string? ImageURL { get; set; }
         public string? Value { get; set; }

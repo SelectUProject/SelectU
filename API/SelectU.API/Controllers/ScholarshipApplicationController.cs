@@ -77,7 +77,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(UserRoles.User)]
+        [Authorize(Roles = UserRoles.User)]
         [HttpPost("create-scholarship-application")]
         public async Task<IActionResult> CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO)
         {

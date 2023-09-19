@@ -36,6 +36,10 @@ namespace SelectU.Core.Services
 
         public async Task<ResponseDTO> CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO, string id)
         {
+            //TODO
+            //check all required form feilds are answered and valid.
+            //check the names align up
+            
             ScholarshipApplication scholarshipApplication = new ScholarshipApplication
             {
                 ScholarshipApplicantId = id,
