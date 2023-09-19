@@ -40,7 +40,7 @@ namespace SelectU.Core.Services
                 .Where(x => x.StartDate <= DateTime.Now && x.EndDate >= DateTime.Now && x.Status == StatusEnum.Pending)
                 .ToListAsync();
 
-            return Scholarships
+            return Scholarships 
                 .Select(scholarship => new ScholarshipUpdateDTO(scholarship))
                 .ToList();
         }

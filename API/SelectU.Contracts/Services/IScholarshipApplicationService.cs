@@ -7,8 +7,8 @@ namespace SelectU.Contracts.Services
 {
     public interface IScholarshipApplicationService
     {
-        Task<ScholarshipApplication> GetScholarshipApplicationAsync(Guid id);
-        Task<List<ScholarshipApplication>> GetMyScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isAdmin);
+        Task<ScholarshipApplicationUpdateDTO> GetScholarshipApplicationAsync(Guid id);
+        Task<List<ScholarshipApplicationUpdateDTO>> GetMyScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isAdmin);
         Task<ResponseDTO> CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO, string id);
 
         
