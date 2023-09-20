@@ -5,11 +5,11 @@ namespace SelectU.Contracts.DTO
 {
     public class ScholarshipSearchDTO
     {
-        public string? Id { get; set; }
+        public Guid? Id { get; set; }
         public string? School { get; set; }
         public string? Description { get; set; }
         public string? City { get; set; }
-        public StatusEnum Status { get; set; }
+        public StatusEnum? Status { get; set; }
         public string? Value { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }

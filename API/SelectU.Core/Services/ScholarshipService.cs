@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SelectU.Contracts;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Services;
-using SelectU.Core.Exceptions;
-using System.Collections.Generic;
 using System.Text.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace SelectU.Core.Services
 {
@@ -40,7 +40,9 @@ namespace SelectU.Core.Services
                 .Where(x => x.StartDate <= DateTime.Now && x.EndDate >= DateTime.Now && x.Status == StatusEnum.Pending)
                 .ToListAsync();
 
-            return Scholarships 
+            var FilterScholarshps = await FilterQuery(scholarshipSearchDTO, Scholarships);
+
+            return FilterScholarshps
                 .Select(scholarship => new ScholarshipUpdateDTO(scholarship))
                 .ToList();
         }
@@ -49,7 +51,9 @@ namespace SelectU.Core.Services
         {
             var Scholarships = await _unitOfWork.Scholarships.Where(x => x.ScholarshipCreatorId == id).ToListAsync();
 
-            return Scholarships
+            var FilterScholarshps = await FilterQuery(scholarshipSearchDTO, Scholarships);
+
+            return FilterScholarshps
                 .Select(scholarship => new ScholarshipUpdateDTO(scholarship))
                 .ToList();
         }
@@ -81,6 +85,46 @@ namespace SelectU.Core.Services
             await _unitOfWork.CommitAsync();
 
             return new ResponseDTO { Success = true, Message = "Scholarship created successfully." };
+        }
+
+        public async Task<List<Scholarship>> FilterQuery(ScholarshipSearchDTO scholarshipSearchDTO, List<Scholarship> scholarships)
+        {
+            IEnumerable<Scholarship> filteredScholarships = scholarships;
+
+            if (scholarshipSearchDTO.Id != null)
+            {
+                filteredScholarships = filteredScholarships.Where(x => x.Id == scholarshipSearchDTO.Id);
+            }
+            if (!string.IsNullOrEmpty(scholarshipSearchDTO.Description))
+            {
+                filteredScholarships = filteredScholarships.Where(x => x.Description == scholarshipSearchDTO.Description);
+            }
+            if (!string.IsNullOrEmpty(scholarshipSearchDTO.School))
+            {
+                filteredScholarships = filteredScholarships.Where(x => x.School == scholarshipSearchDTO.School);
+            }
+            if (!string.IsNullOrEmpty(scholarshipSearchDTO.City))
+            {
+                filteredScholarships = filteredScholarships.Where(x => x.City == scholarshipSearchDTO.City);
+            }
+            if (!string.IsNullOrEmpty(scholarshipSearchDTO.Value))
+            {
+                filteredScholarships = filteredScholarships.Where(x => x.Value == scholarshipSearchDTO.Value);
+            }
+            if (scholarshipSearchDTO.Status != null)
+            {
+                filteredScholarships = filteredScholarships.Where(x => x.Status == scholarshipSearchDTO.Status);
+            }
+            if (scholarshipSearchDTO.StartDate != null)
+            {
+                filteredScholarships = filteredScholarships.Where(x => x.StartDate == scholarshipSearchDTO.StartDate);
+            }
+            if (scholarshipSearchDTO.EndDate != null)
+            {
+                filteredScholarships = filteredScholarships.Where(x => x.EndDate == scholarshipSearchDTO.EndDate);
+            }
+
+            return await Task.FromResult(filteredScholarships.ToList());
         }
 
 

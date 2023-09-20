@@ -45,6 +45,21 @@ namespace SelectU.Core.Services
                 query = query.Where(x => x.ScholarshipApplicant.Id == id);
             }
 
+            if (scholarshipApplicationSearchDTO.Id != null)
+            {
+                query = query.Where(x => x.Id == scholarshipApplicationSearchDTO.Id);
+            }
+            if (!string.IsNullOrEmpty(scholarshipApplicationSearchDTO.Description))
+            {
+                query = query.Where(x => x.Scholarship.Description == scholarshipApplicationSearchDTO.Description);
+
+            }
+            if (!string.IsNullOrEmpty(scholarshipApplicationSearchDTO.School))
+            {
+                query = query.Where(x => x.Scholarship.School == scholarshipApplicationSearchDTO.School);
+
+            }
+
             var scholarshipApplications = await query.ToListAsync();
 
             return scholarshipApplications
