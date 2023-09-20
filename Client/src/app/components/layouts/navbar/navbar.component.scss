@@ -1,0 +1,9 @@
+@import "../../../../scss/mixins";
+
+.dropdown-menu {
+  right: -80px;
+
+  @include respond-below(lg) {
+    right: -580px;
+  }
+}

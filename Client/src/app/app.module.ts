@@ -18,6 +18,7 @@ import { ShortViewScholarshipsComponentComponent } from './components/shared/sho
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
+import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 import {
   SocialLoginModule,
   GoogleSigninButtonModule,
@@ -63,6 +64,7 @@ import { FindScholarshipsComponent } from './components/pages/find-scholarships/
     BsDatepickerModule,
     MdbValidationModule,
     MdbCollapseModule,
+    MdbDropdownModule,
     SocialLoginModule,
     GoogleSigninButtonModule,
   ],

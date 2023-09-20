@@ -1,83 +1,116 @@
-<nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" [routerLink]="''">
-      <img
-        src="assets/images/selectu_icon.svg"
-        width="80"
-        alt="SelectU"
-        loading="lazy"
-      />
-    </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      (click)="buttonsNav.toggle()"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
-    <div class="collapse navbar-collapse" mdbCollapse #buttonsNav="mdbCollapse">
-      <ul class="navbar-nav mx-auto text-center">
-        <li class="nav-item mx-5">
-          <a
-            class="nav-link active"
-            aria-current="page"
-            [routerLink]="'/find-scholarships'"
-            >Find {{ admissionName }}</a
-          >
-        </li>
-        <li class="nav-item mx-5">
-          <a class="nav-link" [routerLink]="'/my-scholarships'"
-            >My {{ admissionName }}</a
-          >
-        </li>
-        <li class="nav-item mx-5">
-          <a class="nav-link" [routerLink]="'/manage-scholarships'"
-            >Manage {{ admissionName }}</a
-          >
-        </li>
-        <li class="nav-item mx-5">
-          <a class="nav-link" [routerLink]="'/saved-scholarships'"
-            >Saved {{ admissionName }}</a
-          >
-        </li>
-      </ul>
-      <ul class="navbar-nav text-center">
-        <li class="nav-item mx-2">
-          <a
-            role="button"
-            class="btn btn-link px-3 me-2"
-            [routerLink]="'/login'"
-            >Login</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            role="button"
-            class="btn btn-primary me-3"
-            [routerLink]="'/register'"
-          >
-            Sign up for free
-          </a>
-        </li>
-        <!-- <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            [routerLink]="''"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Login
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" [routerLink]="''">Action</a></li>
-            <li><a class="dropdown-item" [routerLink]="''">Another action</a></li>
-            <li><a class="dropdown-item" [routerLink]="''">Something else here</a></li>
-          </ul>
-        </li> -->
-      </ul>
+<header class="row">
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand ms-2" [routerLink]="''">
+        <img
+          src="assets/images/selectu_icon.svg"
+          width="80"
+          alt="SelectU"
+          loading="lazy"
+        />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        (click)="buttonsNav.toggle()"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+      <div
+        class="collapse navbar-collapse"
+        mdbCollapse
+        #buttonsNav="mdbCollapse"
+      >
+        <ul
+          *ngIf="tokenService.IsAuthenticated"
+          class="navbar-nav mx-auto text-center"
+        >
+          <li class="nav-item mx-5">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              [routerLink]="'/find-scholarships'"
+              >Find {{ admissionName }}</a
+            >
+          </li>
+          <li class="nav-item mx-5">
+            <a class="nav-link" [routerLink]="'/my-scholarships'"
+              >My {{ admissionName }}</a
+            >
+          </li>
+          <li class="nav-item mx-5">
+            <a class="nav-link" [routerLink]="'/manage-scholarships'"
+              >Manage {{ admissionName }}</a
+            >
+          </li>
+          <li class="nav-item mx-5">
+            <a class="nav-link" [routerLink]="'/saved-scholarships'"
+              >Saved {{ admissionName }}</a
+            >
+          </li>
+        </ul>
+        <ul
+          *ngIf="!tokenService.IsAuthenticated"
+          class="navbar-nav text-center ms-auto me-2"
+        >
+          <li class="nav-item mx-2">
+            <a
+              role="button"
+              class="btn btn-link px-3 me-2"
+              [routerLink]="'/login'"
+              >Login</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              role="button"
+              class="btn btn-primary me-3"
+              [routerLink]="'/register'"
+            >
+              Sign up for free
+            </a>
+          </li>
+        </ul>
+        <ul
+          *ngIf="tokenService.IsAuthenticated"
+          class="navbar-nav text-center ms-auto me-2"
+        >
+          <li mdbDropdown class="nav-item dropdown me-2 me-lg-1">
+            <a
+              class="nav-link dropdown-toggle"
+              id="navbarDropdown"
+              role="button"
+              mdbDropdownToggle
+              aria-expanded="false"
+            >
+              <i class="fas fa-user me-2"></i
+              ><ng-container *ngIf="userDetails">
+                {{ userDetails.firstName }}
+              </ng-container>
+            </a>
+            <ul
+              mdbDropdownMenu
+              class="dropdown-menu"
+              aria-labelledby="navbarDropdown"
+            >
+              <li>
+                <a class="dropdown-item" href="#">Account</a>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="javascript:void(0)"
+                  (click)="logout()"
+                  >Logout</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+</header>

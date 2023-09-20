@@ -5,6 +5,8 @@ import LoginPageComponent from './components/pages/login-page/login-page.compone
 import { ManageScholarshipsPageComponent } from './components/pages/manage-scholarships-page/manage-scholarships-page.component';
 import RegisterPageComponent from './components/pages/register-page/register-page.component';
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
+import { AuthGuard } from './providers/auth.guard';
+import { Role } from './models/Role';
 import { SavedScholarshipsPageComponent } from './components/pages/saved-scholarships-page/saved-scholarships-page.component';
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 //components
@@ -15,12 +17,12 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', component: LandingPageComponent },
-      //     {
-      //       path: 'dashboard',
-      //       canActivate: [AuthGuard],
-      //       data: { role: Role.User },
-      //       children: [{ path: '', component: DashboardComponent }],
-      //     },
+      // {
+      //   path: 'account',
+      //   canActivate: [AuthGuard],
+      //   data: { role: Role.User },
+      //   children: [{ path: '', component: AccountPageComponent }],
+      // },
       { path: 'login', component: LoginPageComponent },
       {
         path: 'saved-scholarships',
