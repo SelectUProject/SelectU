@@ -1,5 +1,5 @@
 export interface ScholarshipApplicationSearchDTO {
-  id: string;
-  name: string;
+  id: any;
+  description: string;
   school: string;
 }
