@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { GENDERS_LIST } from 'src/app/constants/Genders';
 import { STATES_LIST } from 'src/app/constants/States';
 import { NumberLookupDTO, StringLookupDTO } from 'src/app/models/LookupDTOs';
+import { Role } from 'src/app/models/Role';
 import { UserRegisterDTO } from 'src/app/models/UserRegisterDTO';
 import { ValidateUniqueEmailAddressRequestDTO } from 'src/app/models/ValidateUniqueEmailAddressDTO';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -87,7 +88,15 @@ class RegisterFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.tokenService.clearToken();
+    if (this.tokenService.IsAuthenticated) {
+      if (this.tokenService.role == Role.Staff) {
+        this.router.navigate(['/manage-scholarships']);
+      } else {
+        this.router.navigate(['/find-scholarships']);
+      }
+    } else {
+      this.tokenService.clearToken();
+    }
     this.setupForm();
     this.setupSocialAuthService();
   }

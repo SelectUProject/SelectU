@@ -1,0 +1,379 @@
+//tint and shade colour
+//Lighten a colour
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+//a tag states
+//@include hover-state {}
+@mixin hover-state {
+  &:hover, &:focus {
+    @content;
+  }
+}
+
+//Linear Gradient
+//@include linearGradient($gradient);
+@mixin linearGradient($gradient) {
+  background-image: -o-linear-gradient($gradient);
+  background-image: -ms-linear-gradient($gradient);
+  background-image: -webkit-linear-gradient($gradient);
+  background-image: -moz-linear-gradient($gradient);
+  background-image: linear-gradient($gradient);
+}
+
+
+//RGB Color with opacity
+//@include background-opacity($color, $opacity);
+@mixin background-opacity($color, $opacity) {
+  background: $color; /* The Fallback */
+  background: rgba($color, $opacity) !important;
+}
+
+
+//Transition
+//@include transition(transitionType .3s ease);
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+//Transition Delay
+//@include transitionDelay(transitionTime);
+@mixin transitionDelay($dtime) {
+  -webkit-transition-delay: $dtime;
+  -moz-transition-delay: $dtime;
+  -ms-transition-delay: $dtime;
+  -o-transition-delay: $dtime;
+  transition-delay: $dtime;
+}
+
+
+//Tranform X
+//@include transformValue(transform);
+@mixin transformValue($transform) {
+  -moz-transform: $transform;
+  -webkit-transform: $transform;
+  -ms-transform: $transform;
+  transform: $transform;
+}
+
+//Tranform X
+//@include transformValueX(transformX);
+@mixin transformValueX($transformX) {
+  -moz-transform: translateX($transformX);
+  -webkit-transform: translateX($transformX);
+  -ms-transform: translateX($transformX);
+  transform: translateX($transformX);
+}
+
+//Tranform Y
+//@include transformValueY(transformValue);
+@mixin transformValueY($transformY) {
+  -moz-transform: translateY($transformY);
+  -webkit-transform: translateY($transformY);
+  -ms-transform: translateY($transformY);
+  transform: translateY($transformY);
+}
+
+//Vertical Align
+//@include verticalAlign($topPos);
+@mixin verticalAlign($topPos) {
+  position: absolute;
+  top: $topPos;
+  -moz-transform: translateY(-$topPos);
+  -webkit-transform: translateY(-$topPos);
+  -ms-transform: translateY(-$topPos);
+  transform: translateY(-$topPos);
+}
+
+//Horizontal Align
+//@include horizontalAlign($leftPos);
+@mixin horizontalAlign($leftPos) {
+  position: absolute;
+  left: $leftPos;
+  -moz-transform: translateX(-$leftPos);
+  -webkit-transform: translateX(-$leftPos);
+  -ms-transform: translateX(-$leftPos);
+  transform: translateX(-$leftPos);
+}
+
+
+//Rotate
+//@include rotate($degValue);
+@mixin rotate($degValue) {
+  -moz-transform: rotate($degValue);
+  -webkit-transform: rotate($degValue);
+  -ms-transform: rotate($degValue);
+  transform: rotate($degValue);
+}
+
+//Center Align
+//@include centerAlign;
+@mixin centerAlign {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+//Flexbox
+//@include flexBox;
+@mixin flexBox {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+//Flexbox
+//@include flexInlineBox;
+@mixin flexInlineBox {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: inline-flex;
+}
+
+// Flex
+// - applies to: flex containers
+//@include flex($value);
+// 0 0 auto | 0 0 50%
+@mixin flex($value) {
+  -webkit-flex: $value;
+  -moz-flex: $value;
+  -ms-flex: $value;
+  -o-flex: $value;
+  flex: $value;
+}
+
+
+//@include flexAlignCenter($pos);
+@mixin flexAlignCenter($pos) {
+  -webkit-box-align: $pos;
+  -moz-box-align: $pos;
+  -ms-flex-align: $pos;
+  -webkit-align-items: $pos;
+  align-items: $pos;
+}
+
+
+//@include flexVerticalAlignContent($vpos);
+@mixin flexVerticalAlignContent($vpos) {
+  -webkit-box-pack: ($vpos);
+  -webkit-justify-content: ($vpos);
+  -ms-flex-pack: ($vpos);
+  justify-content: ($vpos);
+}
+
+
+//@include flexCenterContent;
+@mixin flexCenterContent {
+  -webkit-justify-content: center !important;
+  -webkit-box-pack: center !important;
+  -ms-flex-pack: center !important;
+  justify-content: center !important;
+}
+
+
+// Display Order
+// - applies to: flex items
+// <integer>
+@mixin flexOrder($val) {
+  -webkit-box-ordinal-group: $val;
+  -moz-box-ordinal-group: $val;
+  -ms-flex-order: $val;
+  -webkit-order: $val;
+  order: $val;
+}
+
+// Flex Flow Direction
+// - applies to: flex containers
+//@include flexDirection(row);
+// row | row-reverse | column | column-reverse
+@mixin flexDirection($direction) {
+  -webkit-flex-direction: $direction;
+  -moz-flex-direction: $direction;
+  -ms-flex-direction: $direction;
+  flex-direction: $direction;
+}
+
+// Flex Wrap
+// - applies to: flex containers
+//@include flexWrap(wrap);
+// nowrap | wrap | wrap-reverse
+@mixin flexWrap($wrap) {
+  -webkit-flex-wrap: $wrap;
+  -moz-flex-wrap: $wrap;
+  -ms-flex-wrap: $wrap;
+  -o-flex-wrap: $wrap;
+  flex-wrap: $wrap;
+}
+
+//Append !important after mixin
+//selector: ---- $i;
+$i: unquote("!important");
+
+//Math Calc Function
+//@include calc(width, #{"100% - 20px"});
+@mixin calc($property, $expression...) {
+  #{$property}: -moz-calc(#{$expression}) $i;
+  #{$property}: -o-calc(#{$expression}) $i;
+  #{$property}: -webkit-calc(#{$expression}) $i;
+  #{$property}: calc(#{$expression}) $i;
+}
+
+//Box Shadow
+//@include boxShadow($shadow);
+@mixin boxShadow($shadow) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+//Form field webkit autofull
+//@include autocompleteColor ($background, $color)
+@mixin autocompleteColor($background, $color) {
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px $background inset;
+    -webkit-text-fill-color: $color;
+    caret-color: $color;
+    font-style: normal;
+  }
+}
+
+//Full width inside container
+@mixin full-width {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+//Form placeholder text styling
+@mixin placeholder {
+  ::-webkit-input-placeholder {
+    @content
+  }
+
+  :-moz-placeholder {
+    @content
+  }
+
+  ::-moz-placeholder {
+    @content
+  }
+
+  :-ms-input-placeholder {
+    @content
+  }
+}
+
+
+
+// A map of breakpoints.
+$breakpoints: (
+  xs: 420px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+
+// @include respond-above(sm) {}
+@mixin respond-above($breakpoint) {
+
+  // If the breakpoint exists in the map.
+  @if map-has-key($breakpoints, $breakpoint) {
+
+    // Get the breakpoint value.
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    // Write the media query.
+    @media (min-width: $breakpoint-value) {
+      @content;
+    }
+  
+  // If the breakpoint doesn't exist in the map.
+  } @else {
+
+    // Log a warning.
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
+
+
+//
+//  RESPOND BELOW
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+// @include respond-below(sm) {}
+@mixin respond-below($breakpoint) {
+
+  // If the breakpoint exists in the map.
+  @if map-has-key($breakpoints, $breakpoint) {
+
+    // Get the breakpoint value.
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    // Write the media query.
+    @media (max-width: ($breakpoint-value - 1)) {
+      @content;
+    }
+  
+  // If the breakpoint doesn't exist in the map.
+  } @else {
+
+    // Log a warning.
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
+
+
+//
+//  RESPOND BETWEEN
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+// @include respond-between(sm, md) {}
+@mixin respond-between($lower, $upper) {
+
+  // If both the lower and upper breakpoints exist in the map.
+  @if map-has-key($breakpoints, $lower) and map-has-key($breakpoints, $upper) {
+
+    // Get the lower and upper breakpoints.
+    $lower-breakpoint: map-get($breakpoints, $lower);
+    $upper-breakpoint: map-get($breakpoints, $upper);
+
+    // Write the media query.
+    @media (min-width: $lower-breakpoint) and (max-width: ($upper-breakpoint - 1)) {
+      @content;
+    }
+  
+  // If one or both of the breakpoints don't exist.
+  } @else {
+
+    // If lower breakpoint is invalid.
+    @if (map-has-key($breakpoints, $lower) == false) {
+
+      // Log a warning.
+      @warn 'Your lower breakpoint was invalid: #{$lower}.';
+    }
+
+    // If upper breakpoint is invalid.
+    @if (map-has-key($breakpoints, $upper) == false) {
+
+      // Log a warning.
+      @warn 'Your upper breakpoint was invalid: #{$upper}.';
+    }
+  }
+}

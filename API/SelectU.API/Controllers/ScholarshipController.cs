@@ -8,6 +8,7 @@ using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
 using SelectU.Core.Helpers;
+using System.Data;
 
 namespace SelectU.API.Controllers
 {
@@ -70,7 +71,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Staff)]
         [HttpPost("created-scholarships")]
         public async Task<IActionResult> GetMyCreatedScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO )
         {
@@ -93,14 +94,14 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Staff)]
         [HttpPost("create-scholarship")]
-        public async Task<IActionResult> CreateScholarshipAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO)
+        public async Task<IActionResult> CreateScholarshipAsync([FromBody] ScholarshipCreateDTO scholarshipCreateDTO)
         {
             try
             {
                 string userId = HttpContext.GetUserId();
-                var scholarship = await _scholarshipService.GetMyCreatedScholarshipsAsync(scholarshipSearchDTO, userId);
+                var scholarship = await _scholarshipService.CreateScholarshipAsync(scholarshipCreateDTO, userId);
 
                 if (scholarship == null)
                 {

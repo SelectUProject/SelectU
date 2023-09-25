@@ -5,9 +5,10 @@ namespace SelectU.Contracts.Services
 {
     public interface IScholarshipService
     {
-        Task<Scholarship> GetScholarshipAsync(Guid id);
-        Task<List<Scholarship>> GetActiveScholarshipAsync(ScholarshipSearchDTO ScholarshipSearchDTO);
-        Task<List<Scholarship>> GetMyCreatedScholarshipsAsync(ScholarshipSearchDTO ScholarshipSearchDTO, string id);
+        Task<ScholarshipUpdateDTO> GetScholarshipAsync(Guid id);
+        Task<List<ScholarshipUpdateDTO>> GetActiveScholarshipAsync(ScholarshipSearchDTO ScholarshipSearchDTO);
+        Task<List<ScholarshipUpdateDTO>> GetMyCreatedScholarshipsAsync(ScholarshipSearchDTO ScholarshipSearchDTO, string id);
+        Task<ResponseDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string id);
         //Task UpdateUserDetailsAsync(string id, UserUpdateDTO updateDTO);
         //Task ChangePasswordAsync(string id, ChangePasswordDTO passwordDTO);
         //Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto);

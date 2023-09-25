@@ -34,15 +34,15 @@ class LoginFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.tokenService.IsAuthenticated) {
-      if(this.tokenService.role ==Role.Staff){
+      if (this.tokenService.role == Role.Staff) {
         this.router.navigate(['/manage-scholarships']);
-      }else{
+      } else {
         this.router.navigate(['/find-scholarships']);
       }
     } else {
       this.tokenService.clearToken();
-      this.setupForm();
     }
+    this.setupForm();
   }
 
   setupForm() {
@@ -62,9 +62,9 @@ class LoginFormComponent implements OnInit {
       .login(<LoginDTO>this.loginForm.value)
       .then((response) => {
         this.tokenService.setToken(response);
-        if(response.role ==Role.Staff){
+        if (response.role == Role.Staff) {
           this.router.navigate(['/manage-scholarships']);
-        }else{
+        } else {
           this.router.navigate(['/find-scholarships']);
         }
       })

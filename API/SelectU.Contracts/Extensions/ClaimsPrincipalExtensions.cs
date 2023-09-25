@@ -13,6 +13,14 @@ namespace SelectU.Contracts.Extensions
             {
                 return UserRoleEnum.Admin;
             }
+            else if (principal.IsInRole(UserRoles.Reviewer))
+            {
+                return UserRoleEnum.Reviewer;
+            }
+            else if (principal.IsInRole(UserRoles.Staff))
+            {
+                return UserRoleEnum.Staff;
+            }
 
             return UserRoleEnum.User;
             //throw new Exception("Unable to retrieve User's role");
