@@ -50,8 +50,8 @@ namespace SelectU.Core.Extensions
                     .AddSingleton(x => x.GetRequiredService<IOptions<ServiceBusConfig>>().Value);
             services.Configure<AppConfig>(configuration.GetSection("Config"))
                     .AddSingleton(x => x.GetRequiredService<IOptions<AppConfig>>().Value);
-            services.Configure<SmtpConfig>(configuration.GetSection("AzureBlobSettings"))
-                    .AddSingleton(x => x.GetRequiredService<IOptions<SmtpConfig>>().Value);
+            services.Configure<AzureBlobSettingsConfig>(configuration.GetSection("AzureBlobSettings"))
+                    .AddSingleton(x => x.GetRequiredService<IOptions<AzureBlobSettingsConfig>>().Value);
 
             services.AddMemoryCache();
             // Add services to the container.
