@@ -41,7 +41,18 @@
             >
           </li>
           <li class="nav-item mx-5">
-            <a class="nav-link" [routerLink]="'/manage-scholarships'"
+            <a
+              *ngIf="this.tokenService.role == STAFF"
+              class="nav-link"
+              [routerLink]="'/create-scholarships'"
+              >Create {{ admissionName }}</a
+            >
+          </li>
+          <li class="nav-item mx-5">
+            <a
+              *ngIf="this.tokenService.role == STAFF"
+              class="nav-link"
+              [routerLink]="'/manage-scholarships'"
               >Manage {{ admissionName }}</a
             >
           </li>
@@ -96,7 +107,7 @@
               aria-labelledby="navbarDropdown"
             >
               <li>
-                <a class="dropdown-item" href="#">Account</a>
+                <a class="dropdown-item" [routerLink]="'/account'">Account</a>
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li>

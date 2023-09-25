@@ -12,8 +12,8 @@ using SelectU.Migrations;
 namespace SelectU.Migrations.Migrations
 {
     [DbContext(typeof(SelectUContext))]
-    [Migration("20230918002959_RemovedUserProfile")]
-    partial class RemovedUserProfile
+    [Migration("20230925083631_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
