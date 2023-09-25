@@ -1,0 +1,11 @@
+
+<div class="container mt-5 rounded">
+    <div class="row justify-content-center"
+         *ngFor="let application of this.application">
+
+      <app-short-view-my-applications
+        [application]="application"
+      ></app-short-view-my-applications>
+      
+    </div>
+ </div>

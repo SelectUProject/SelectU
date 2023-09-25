@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\API",
+    "\\Client",
+    "\\Client\\src",
+    "\\Client\\src\\app",
+    "\\Client\\src\\app\\components",
+    "\\Client\\src\\app\\components\\shared",
+    "\\Client\\src\\app\\components\\shared\\short-view-scholarships-component",
+    "\\Client\\src\\app\\models",
+    "\\Client\\src\\scss"
+  ],
+  "SelectedNode": "\\Client\\src\\app\\components\\shared\\short-view-my-applications\\short-view-my-applications.component.html",
+  "PreviewInSolutionExplorer": false
+}
