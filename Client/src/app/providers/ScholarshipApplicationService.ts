@@ -27,7 +27,7 @@ export class ScholarshipApplicationService {
     scholarshipApplicationSearchDTO: ScholarshipApplicationSearchDTO
   ) {
     return await firstValueFrom(
-      this.http.patch<ScholarshipApplicationUpdateDTO[]>(
+      this.http.post<ScholarshipApplicationUpdateDTO[]>(
         `${Config.api}/ScholarshipApplication/my-scholarship-applications`,
         scholarshipApplicationSearchDTO
       )
@@ -38,7 +38,7 @@ export class ScholarshipApplicationService {
     scholarshipApplicationCreateDTO: ScholarshipApplicationCreateDTO
   ) {
     return await firstValueFrom(
-      this.http.patch<ResponseDTO>(
+      this.http.post<ResponseDTO>(
         `${Config.api}/ScholarshipApplication/create-scholarship-application`,
         scholarshipApplicationCreateDTO
       )
