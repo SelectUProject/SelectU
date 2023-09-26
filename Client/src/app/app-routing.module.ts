@@ -11,6 +11,7 @@ import { SavedScholarshipsPageComponent } from './components/pages/saved-scholar
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { UserProfilePageComponent } from './components/pages/user-profile-page/user-profile-page.component';
+import { TempUserInvitePageComponent } from './components/pages/temp-user-invite-page/temp-user-invite-page.component';
 
 //components
 
@@ -43,12 +44,17 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { role: Role.Staff },
       },
-      //     { path: 'signup', component: LandingComponent },
       { path: 'register', component: RegisterPageComponent },
       //     { path: '404', component: ErrorComponent },
       {
         path: 'my-scholarships',
         component: MyApplicationsComponent,
+      },
+      {
+        path: 'invite-temp-user',
+        component: TempUserInvitePageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin] },
       },
     ],
   },

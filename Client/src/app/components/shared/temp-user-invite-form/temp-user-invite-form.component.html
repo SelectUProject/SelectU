@@ -1,0 +1,63 @@
+<form>
+  <!-- Email input -->
+  <mdb-form-control class="mb-4">
+    <input mdbValidate mdbInput type="email" id="email" class="form-control" />
+    <label mdbLabel class="form-label" for="form4Example2">Email</label>
+  </mdb-form-control>
+
+  <div class="row">
+    <div class="col">
+      <!-- First Name input -->
+      <mdb-form-control class="mb-4">
+        <input
+          mdbValidate
+          mdbInput
+          type="text"
+          id="firstName"
+          class="form-control"
+        />
+        <label mdbLabel class="form-label" for="form4Example1"
+          >First Name</label
+        >
+      </mdb-form-control>
+    </div>
+
+    <div class="col">
+      <!-- Last Name input -->
+      <mdb-form-control class="mb-4">
+        <input
+          mdbValidate
+          mdbInput
+          type="text"
+          id="lastName"
+          class="form-control"
+        />
+        <label mdbLabel class="form-label" for="form4Example1">Last Name</label>
+      </mdb-form-control>
+    </div>
+  </div>
+
+  <!-- Login Expiry input -->
+  <mdb-form-control class="mb-4">
+    <input
+      mdbValidate
+      mdbInput
+      type="text"
+      id="expiry"
+      class="form-control"
+      bsDatepicker
+      [bsConfig]="{ containerClass: 'theme-dark-blue' }"
+      formControlName="expiry"
+    />
+    <label mdbLabel class="form-label" for="expiry">Login Expiry</label>
+  </mdb-form-control>
+
+  <!-- Invite button -->
+  <button
+    mdbRipple
+    type="button"
+    class="w-20 btn btn-primary btn-block ms-auto"
+  >
+    Invite
+  </button>
+</form>
