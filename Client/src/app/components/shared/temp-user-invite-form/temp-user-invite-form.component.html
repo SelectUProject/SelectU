@@ -1,8 +1,19 @@
-<form>
+<form [formGroup]="inviteForm" (ngSubmit)="invite()">
   <!-- Email input -->
   <mdb-form-control class="mb-4">
-    <input mdbValidate mdbInput type="email" id="email" class="form-control" />
-    <label mdbLabel class="form-label" for="form4Example2">Email</label>
+    <input
+      mdbValidate
+      mdbInput
+      type="email"
+      id="email"
+      class="form-control"
+      formControlName="email"
+      (blur)="validateExistingEmail()"
+    />
+    <label mdbLabel class="form-label" for="email">Email</label>
+    <mdb-error *ngIf="existingEmail && (email?.dirty || email?.touched)"
+      >This email is already registered.</mdb-error
+    >
   </mdb-form-control>
 
   <div class="row">
@@ -18,6 +29,9 @@
         />
         <label mdbLabel class="form-label" for="form4Example1"
           >First Name</label
+        >
+        <mdb-error *ngIf="existingEmail && (email?.dirty || email?.touched)"
+          >This email is already registered.</mdb-error
         >
       </mdb-form-control>
     </div>
@@ -46,7 +60,10 @@
       id="expiry"
       class="form-control"
       bsDatepicker
-      [bsConfig]="{ containerClass: 'theme-dark-blue' }"
+      [bsConfig]="{
+        containerClass: 'theme-dark-blue',
+        dateInputFormat: 'MMMM Do YYYY, h:mm:ss a'
+      }"
       formControlName="expiry"
     />
     <label mdbLabel class="form-label" for="expiry">Login Expiry</label>

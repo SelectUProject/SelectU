@@ -39,7 +39,7 @@ import { MyApplicationsComponent } from './components/pages/my-applications/my-a
 import { ShortViewMyApplicationsComponent } from './components/shared/short-view-my-applications/short-view-my-applications.component';
 import { EmptyScholarshipsComponent } from './components/shared/empty-scholarships/empty-scholarships.component';
 import { TempUserInvitePageComponent } from './components/pages/temp-user-invite-page/temp-user-invite-page.component';
-import { TempUserInviteFormComponent } from './components/shared/temp-user-invite-form/temp-user-invite-form.component';
+import TempUserInviteFormComponent from './components/shared/temp-user-invite-form/temp-user-invite-form.component';
 
 @NgModule({
   declarations: [

@@ -62,11 +62,12 @@ namespace SelectU.Core.Extensions
             services.AddScoped<IEmailClient, EmailClient>();
             services.AddScoped<ICache, InMemoryCache>();
 
-            services.AddScoped<ICachingService, CachingService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IScholarshipService, ScholarshipService>();
-            services.AddScoped<IScholarshipApplicationService, ScholarshipApplicationService>();
             services.AddScoped<IBlobStorageService, BlobStorageService>();
+            services.AddScoped<ICachingService, CachingService>();
+            services.AddScoped<IScholarshipApplicationService, ScholarshipApplicationService>();
+            services.AddScoped<IScholarshipService, ScholarshipService>();
+            services.AddScoped<ITempUserService, TempUserService>();
+            services.AddScoped<IUserService, UserService>();
 
             //Validators
             services.AddScoped<IValidator<UserRegisterDTO>, UserRegisterDTOValidator>();
