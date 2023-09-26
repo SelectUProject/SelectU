@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ADMIN, STAFF } from 'src/app/constants/userRoles';
+import { ADMIN, STAFF, USER } from 'src/app/constants/userRoles';
 import { UserUpdateDTO } from 'src/app/models/UserUpdateDTO';
 import { TokenService } from 'src/app/providers/token.service';
 import { UserService } from 'src/app/providers/user.service';
@@ -16,6 +16,7 @@ class NavbarComponent {
   admissionName = environment.admissionName;
   ADMIN = ADMIN;
   STAFF = STAFF;
+  USER = USER;
   userDetails: UserUpdateDTO;
 
   constructor(
