@@ -18,36 +18,22 @@ namespace SelectU.API.Controllers
     [Route("[controller]")]
     public class TempUserController : ControllerBase
     {
-        private readonly ILogger<UserController> _logger;
+        private readonly ILogger<TempUserController> _logger;
         private readonly IUserService _userService;
         private readonly ITempUserService _tempUserService;
-        private readonly AzureBlobSettingsConfig _azureBlobSettingsConfig;
-        private readonly IBlobStorageService _blobStorageService;
-        private readonly IValidator<UserUpdateDTO> _userDetailsValidator;
-        private readonly IValidator<ChangePasswordDTO> _passwordValidator;
-        private readonly IValidator<UserRegisterDTO> _userRegisterValidator;
-        private readonly IValidator<UpdateUserRolesDTO> _userRolesUpdateValidator;
+        private readonly IValidator<TempUserInviteDTO> _tempUserInviteValidator;
 
-        public TempUserController(ILogger<UserController> logger,
+        public TempUserController(
+            ILogger<TempUserController> logger,
             IUserService userService,
             ITempUserService tempUserService,
-            IBlobStorageService blobStorageService,
-            IOptions<AzureBlobSettingsConfig> azureBlobSettingsConfig,
-            IValidator<UserUpdateDTO> userDetailsValidator,
-            IValidator<ChangePasswordDTO> passwordValidator,
-            IValidator<UserRegisterDTO> userRegisterValidator,
-            IValidator<UpdateUserRolesDTO> userRolesUpdateValidator)
+            IValidator<TempUserInviteDTO> tempUserInviteValidator
+            )
         {
             _logger = logger;
             _userService = userService;
             _tempUserService = tempUserService;
-            _blobStorageService = blobStorageService;
-            _azureBlobSettingsConfig = azureBlobSettingsConfig.Value;
-            _userDetailsValidator = userDetailsValidator;
-            _passwordValidator = passwordValidator;
-            _userRegisterValidator = userRegisterValidator;
-            _userRolesUpdateValidator = userRolesUpdateValidator;
-            _blobStorageService = blobStorageService;
+            _tempUserInviteValidator = tempUserInviteValidator;
         }
 
         [HttpPost("validate")]
@@ -65,6 +51,36 @@ namespace SelectU.API.Controllers
 
                 return Ok(response);
 
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPost("invite")]
+        public async Task<IActionResult> Register(TempUserInviteDTO inviteDTO)
+        {
+            try
+            {
+                var validationResult = await _tempUserInviteValidator.ValidateAsync(inviteDTO);
+
+                if (validationResult.IsValid)
+                {
+                    ResponseDTO response;
+
+                    await _tempUserService.InviteTempUserAsync(inviteDTO);
+
+                    response = new ResponseDTO { Success = true, Message = "User created successfully." };
+
+                    return Ok(response);
+                }
+                return BadRequest(validationResult);
+            }
+            catch (TempUserException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
             }
             catch (Exception ex)
             {

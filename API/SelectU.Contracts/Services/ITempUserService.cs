@@ -7,7 +7,7 @@ namespace SelectU.Contracts.Services
     {
         Task<ValidateUniqueEmailAddressResponseDTO> ValidateUniqueEmailAddressAsync(string emailAddress);
 
-        Task InviteTempUserAsync();
+        Task InviteTempUserAsync(TempUserInviteDTO inviteDTO);
 
         Task UpdateTempUserExpiryAsync();
 

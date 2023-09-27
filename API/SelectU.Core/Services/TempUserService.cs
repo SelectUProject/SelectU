@@ -1,16 +1,20 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SelectU.Contracts;
+using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Infrastructure;
 using SelectU.Contracts.Services;
+using SelectU.Core.Exceptions;
+using SelectU.Core.Helpers;
 
 namespace SelectU.Core.Services
 {
     public class TempUserService : ITempUserService
     {
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailClient _emailclient;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -20,6 +24,7 @@ namespace SelectU.Core.Services
             IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _emailclient = emailClient;
             _unitOfWork = unitOfWork;
         }
@@ -49,9 +54,35 @@ namespace SelectU.Core.Services
             return response;
         }
 
-        Task ITempUserService.InviteTempUserAsync()
+        public async Task InviteTempUserAsync(TempUserInviteDTO inviteDTO)
         {
-            throw new NotImplementedException();
+            var user = new User
+            {
+                Email = inviteDTO.Email,
+                FirstName = inviteDTO.FirstName,
+                LastName = inviteDTO.LastName,
+                UserName = inviteDTO.Email,
+                LoginExpiry = inviteDTO.Expiry,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                DateCreated = DateTimeOffset.UtcNow,
+                DateModified = DateTimeOffset.UtcNow
+            };
+
+            var password = PasswordHelper.GenerateRandomPassword(12, 1);
+
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (!result.Succeeded)
+            {
+                throw new TempUserException("Failed to create User.");
+            }
+
+            if (await _roleManager.RoleExistsAsync(UserRoles.Reviewer))
+            {
+                await _userManager.AddToRoleAsync(user, UserRoles.Reviewer);
+            }
+
+            await _emailclient.SendTempUserInviteEmailASync(inviteDTO, password);
         }
 
         Task ITempUserService.UpdateTempUserExpiryAsync()

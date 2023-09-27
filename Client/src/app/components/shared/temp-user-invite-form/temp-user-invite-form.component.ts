@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TempUserInviteDTO } from 'src/app/models/TempUserInviteDTO';
 import { ValidateUniqueEmailAddressRequestDTO } from 'src/app/models/ValidateUniqueEmailAddressDTO';
 import { AuthService } from 'src/app/providers/auth.service';
 import { TempUserService } from 'src/app/providers/tempUser.service';
@@ -29,7 +30,7 @@ class TempUserInviteFormComponent {
   }
 
   get expiry() {
-    return this.inviteForm.get('lastName');
+    return this.inviteForm.get('expiry');
   }
 
   constructor(
@@ -64,8 +65,6 @@ class TempUserInviteFormComponent {
 
   async validateExistingEmail() {
     this.existingEmail = false;
-    console.log(this.email);
-    console.log(this.email?.valid);
 
     if (!!this.email && this.email.valid) {
       let request: ValidateUniqueEmailAddressRequestDTO = {
@@ -89,24 +88,26 @@ class TempUserInviteFormComponent {
   async invite() {
     this.saving = true;
     this.isError = false;
-    //   let inviteForm = <UserRegisterDTO>this.inviteForm.value;
+    console.log(this.inviteForm.value);
 
-    //   await this.tempUserService
-    //     .invite(registerForm)
-    //     .then(() => {
-    //       console.log('Successful Invitation');
-    //     })
-    //     .catch((response) => {
-    //       if (response.error?.errors) {
-    //         this.errMsg = 'One or more validation errors occurred.';
-    //         response.error?.errors?.forEach((form: any) => {
-    //           this.setFormError(form.propertyName);
-    //         });
-    //       } else if (!response.success) {
-    //         this.errMsg = response.error.message;
-    //       }
-    //       this.isError = true;
-    //     });
+    let inviteForm = <TempUserInviteDTO>this.inviteForm.value;
+
+    await this.tempUserService
+      .inviteTempUser(inviteForm)
+      .then(() => {
+        console.log('Successful Invitation');
+      })
+      .catch((response) => {
+        if (response.error?.errors) {
+          this.errMsg = 'One or more validation errors occurred.';
+          response.error?.errors?.forEach((form: any) => {
+            this.setFormError(form.propertyName);
+          });
+        } else if (!response.success) {
+          this.errMsg = response.error.message;
+        }
+        this.isError = true;
+      });
     this.saving = false;
   }
 

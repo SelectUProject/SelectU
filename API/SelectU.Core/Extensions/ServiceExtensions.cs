@@ -70,10 +70,11 @@ namespace SelectU.Core.Extensions
             services.AddScoped<IUserService, UserService>();
 
             //Validators
+            services.AddScoped<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
+            services.AddScoped<IValidator<TempUserInviteDTO>, TempUserInviteDTOValidator>();
+            services.AddScoped<IValidator<UpdateUserRolesDTO>, UpdateUserRolesDTOValidator>();
             services.AddScoped<IValidator<UserRegisterDTO>, UserRegisterDTOValidator>();
             services.AddScoped<IValidator<UserUpdateDTO>, UserUpdateDTOValidator>();
-            services.AddScoped<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
-            services.AddScoped<IValidator<UpdateUserRolesDTO>, UpdateUserRolesDTOValidator>();
             return services;
         }
         public static IServiceCollection AddIdentity(this IServiceCollection services)

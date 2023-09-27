@@ -6,6 +6,7 @@ import {
   ValidateUniqueEmailAddressResponseDTO,
 } from '../models/ValidateUniqueEmailAddressDTO';
 import { Config } from './config';
+import { TempUserInviteDTO } from '../models/TempUserInviteDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,15 @@ export class TempUserService {
     return await firstValueFrom(
       this.http.post<ValidateUniqueEmailAddressResponseDTO>(
         `${Config.api}/tempUser/validate`,
+        request
+      )
+    );
+  }
+
+  async inviteTempUser(request: TempUserInviteDTO) {
+    return await firstValueFrom(
+      this.http.post<ValidateUniqueEmailAddressResponseDTO>(
+        `${Config.api}/tempUser/invite`,
         request
       )
     );
