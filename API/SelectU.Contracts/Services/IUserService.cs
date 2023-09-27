@@ -8,7 +8,7 @@ namespace SelectU.Contracts.Services
         Task<User> GetUserAsync(string id);
         Task<ValidateUniqueEmailAddressResponseDTO> ValidateUniqueEmailAddressAsync(string email);
         Task RegisterUserAsync(UserRegisterDTO registerDTO);
-        Task UpdateUserDetailsAsync(string id, UserUpdateDTO updateDTO);
+        Task UpdateUserDetailsAsync(string id, UserDetailsDTO updateDTO);
         Task ChangePasswordAsync(string id, ChangePasswordDTO passwordDTO);
         Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto);
         Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto);

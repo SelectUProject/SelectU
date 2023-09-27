@@ -3,7 +3,7 @@ using SelectU.Contracts.Enums;
 
 namespace SelectU.Contracts.DTO
 {
-    public class UserUpdateDTO
+    public class UserDetailsDTO
     {
         public string Id { get; set; }
         public string? FirstName { get; set; }
@@ -20,9 +20,9 @@ namespace SelectU.Contracts.DTO
         public string? ProfilePicID { get; set; }
         public string? AboutMe { get; set; }
 
-        public UserUpdateDTO() { }
+        public UserDetailsDTO() { }
 
-        public UserUpdateDTO(User user)
+        public UserDetailsDTO(User user)
         {
             Id = user.Id;
             Email = user.Email;

@@ -3,7 +3,7 @@ using SelectU.Contracts.DTO;
 
 namespace SelectU.Core.Validators
 {
-    public class UserUpdateDTOValidator : AbstractValidator<UserUpdateDTO>
+    public class UserUpdateDTOValidator : AbstractValidator<UserDetailsDTO>
     {
         public UserUpdateDTOValidator()
         {

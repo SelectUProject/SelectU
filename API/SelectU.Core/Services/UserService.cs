@@ -113,7 +113,7 @@ namespace SelectU.Core.Services
             await _emailclient.SendRegistrationEmailASync(registerDTO);
         }
 
-        public async Task UpdateUserDetailsAsync(string id, UserUpdateDTO updateDTO)
+        public async Task UpdateUserDetailsAsync(string id, UserDetailsDTO updateDTO)
         {
             var user = await _userManager.FindByIdAsync(id);
 
