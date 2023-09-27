@@ -91,6 +91,13 @@ namespace SelectU.Core.Services
             return new ResponseDTO { Success = true, Message = "Scholarship Application created successfully." };
 
         }
+
+        public async Task<ScholarshipApplicationCreateDTO> ValidateScholarshipApplication(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO)
+        {
+
+
+            return scholarshipApplicationCreateDTO;
+        }
     }
 }
 

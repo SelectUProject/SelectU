@@ -5,6 +5,7 @@ using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Services;
+using SelectU.Core.Exceptions;
 using System.Text.Json;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -62,20 +63,22 @@ namespace SelectU.Core.Services
         {
             //TODO
             //check the names align up and don't double up
+            ScholarshipCreateDTO validatedScholarship = ValidateScholarship(scholarshipCreateDTO);
+            
 
             Scholarship scholarship = new Scholarship
             {
                 ScholarshipCreatorId = id,
-                ScholarshipFormTemplate = JsonSerializer.Serialize(scholarshipCreateDTO.ScholarshipFormTemplate),
-                School = scholarshipCreateDTO.School,
-                Value = scholarshipCreateDTO.Value,
-                ShortDescription = scholarshipCreateDTO.ShortDescription,
-                Description = scholarshipCreateDTO.Description,
+                ScholarshipFormTemplate = JsonSerializer.Serialize(validatedScholarship.ScholarshipFormTemplate),
+                School = validatedScholarship.School,
+                Value = validatedScholarship.Value,
+                ShortDescription = validatedScholarship.ShortDescription,
+                Description = validatedScholarship.Description,
                 Status = StatusEnum.Pending,
-                State = scholarshipCreateDTO.State,
-                City = scholarshipCreateDTO.City,
-                StartDate = scholarshipCreateDTO.StartDate,
-                EndDate = scholarshipCreateDTO.EndDate,
+                State = validatedScholarship.State,
+                City = validatedScholarship.City,
+                StartDate = validatedScholarship.StartDate,
+                EndDate = validatedScholarship.EndDate,
                 DateCreated = DateTimeOffset.Now,
                 DateModified = DateTimeOffset.Now,
             };
@@ -125,6 +128,46 @@ namespace SelectU.Core.Services
             }
 
             return await Task.FromResult(filteredScholarships.ToList());
+        }
+
+        public ScholarshipCreateDTO ValidateScholarship(ScholarshipCreateDTO scholarshipCreateDTO)
+        {
+            ScholarshipCreateDTO validatedScholarship = scholarshipCreateDTO;
+
+
+            if (validatedScholarship.EndDate > validatedScholarship.StartDate)
+            {
+                throw new ScholarshipException("End date is after start date.");
+            }
+
+            if (validatedScholarship.ScholarshipFormTemplate.Count > 0)
+            {
+                var seenNames = new HashSet<string>();
+
+                foreach (var formTemplate in validatedScholarship.ScholarshipFormTemplate)
+                {
+                    if (string.IsNullOrEmpty(formTemplate.Name))
+                    {
+                        throw new ScholarshipException("Not all form sections have names.");
+                    }
+
+                    if (!seenNames.Add(formTemplate.Name))
+                    {
+                        throw new ScholarshipException($"Duplicate Name found: {formTemplate.Name}");
+                    }
+
+                    if (formTemplate.Type == ScholarshipFormTypeEnum.Option && (formTemplate.Options == null || formTemplate.Options.Count == 0))
+                    {
+                        throw new ScholarshipException($"Form section '{formTemplate.Name}' of type 'option' has no Options.");
+                    }
+                }
+            }
+            else
+            {
+                throw new ScholarshipException("No form sections");
+            }
+
+            return validatedScholarship;
         }
 
 

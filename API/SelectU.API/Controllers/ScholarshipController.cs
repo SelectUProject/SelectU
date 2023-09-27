@@ -110,6 +110,10 @@ namespace SelectU.API.Controllers
 
                 return Ok(scholarship);
             }
+            catch (ScholarshipException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Scholarship, {ex.Message}");
