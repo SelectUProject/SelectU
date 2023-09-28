@@ -11,6 +11,7 @@ import { SavedScholarshipsPageComponent } from './components/pages/saved-scholar
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { UserProfilePageComponent } from './components/pages/user-profile-page/user-profile-page.component';
+import { UpdateUserProfilePageComponent } from './components/pages/update-user-profile-page/update-user-profile-page.component';
 
 //components
 
@@ -53,6 +54,10 @@ const routes: Routes = [
       {
         path: 'my-applications',
         component: MyApplicationsComponent,
+      },
+      {
+        path: 'update-account',
+        component: UpdateUserProfilePageComponent,
       },
     ],
   },

@@ -11,6 +11,8 @@ import { environment } from 'src/environments/environment';
 export class UserProfilePageComponent implements OnInit {
   userDetails: UserUpdateDTO;
 
+  gender: string;
+
   admissionName = environment.admissionName;
 
 
@@ -29,5 +31,29 @@ export class UserProfilePageComponent implements OnInit {
       .catch((response) => {
         console.log(response);
       });
+
+      this.gender = getGenderString(this.userDetails.gender);
   }
+
+}
+
+function getGenderString(genderCode: number): string {
+  let genderString: string;
+
+  switch (genderCode) {
+    case 0:
+      genderString = "Male";
+      break;
+    case 1:
+      genderString = "Female";
+      break;
+    case 2:
+      genderString = "Other";
+      break;
+    default:
+      genderString = "Unknown";
+      break;
+  }
+
+  return genderString;
 }

@@ -14,25 +14,25 @@
           </div>
           <div class="card-body">
             <ul class="list-group">
-              <li class="list-group-item">
+              <!-- <li class="list-group-item">
                 <strong>ID: </strong>
                 <span id="userId">{{ userDetails.id }}</span>
-              </li>
+              </li> -->
               <li class="list-group-item">
                 <strong>Full Name: </strong>
-                <span id="fullName">{{ userDetails.firstName }}</span>
+                <span id="fullName">{{ userDetails.firstName }} {{userDetails.lastName}} </span>
               </li>
-              <li class="list-group-item">
+              <!-- <li class="list-group-item">
                 <strong>First Name: </strong>
                 <span id="firstName">{{ userDetails.lastName }}</span>
-              </li>
+              </li> -->
               <li class="list-group-item">
                 <strong>Date of Birth: </strong>
-                <span id="dob">01/01/1990</span>
+                <span id="dob">{{userDetails.dateOfBirth}}</span>
               </li>
               <li class="list-group-item">
                 <strong>Gender: </strong>
-                <span id="gender">{{ userDetails.gender }}</span>
+                <span id="gender">{{ gender }}</span>
               </li>
               <li class="list-group-item">
                 <strong>Email: </strong>
