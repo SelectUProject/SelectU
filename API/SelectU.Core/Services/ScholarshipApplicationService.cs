@@ -73,7 +73,7 @@ namespace SelectU.Core.Services
         public async Task<ResponseDTO> CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO, string id)
         {
 
-            await ValidateScholarshipApplication(scholarshipApplicationCreateDTO);
+            await ValidateScholarshipApplication(scholarshipApplicationCreateDTO, id);
 
             ScholarshipApplication scholarshipApplication = new ScholarshipApplication
             {
@@ -93,9 +93,14 @@ namespace SelectU.Core.Services
 
         }
 
-        public async Task<ScholarshipApplicationCreateDTO> ValidateScholarshipApplication(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO)
+        public async Task<ScholarshipApplicationCreateDTO> ValidateScholarshipApplication(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO, string id)
         {
-            //TODO
+            var alreadyApplied = await _unitOfWork.ScholarshipApplications.AnyAsync(x => x.ScholarshipId == scholarshipApplicationCreateDTO.ScholarshipId && x.ScholarshipApplicantId == id);
+            if (alreadyApplied)
+            {
+                throw new ScholarshipApplicationException($"Applications are limited to one per user.");
+            }
+
             var scholarShip = _unitOfWork.Scholarships.Where(x => x.Id == scholarshipApplicationCreateDTO.ScholarshipId).FirstOrDefault();
 
             if (scholarShip != null) {
