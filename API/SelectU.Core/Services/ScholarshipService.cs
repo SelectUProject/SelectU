@@ -135,10 +135,21 @@ namespace SelectU.Core.Services
             ScholarshipCreateDTO validatedScholarship = scholarshipCreateDTO;
 
 
-            if (validatedScholarship.EndDate > validatedScholarship.StartDate)
+            if (validatedScholarship.StartDate > validatedScholarship.EndDate)
             {
-                throw new ScholarshipException("End date is after start date.");
+                throw new ScholarshipException("Start date is after end date.");
             }
+
+            if (validatedScholarship.StartDate <= DateTime.Now)
+            {
+                throw new ScholarshipApplicationException("The start date has already passed.");
+            }
+
+            if (validatedScholarship.EndDate <= DateTime.Now)
+            {
+                throw new ScholarshipApplicationException("The end date has already passed.");
+            }
+
 
             if (validatedScholarship.ScholarshipFormTemplate.Count > 0)
             {
@@ -153,7 +164,7 @@ namespace SelectU.Core.Services
 
                     if (!seenNames.Add(formTemplate.Name))
                     {
-                        throw new ScholarshipException($"Duplicate Name found: {formTemplate.Name}");
+                        throw new ScholarshipException($"Duplicate name found: {formTemplate.Name}");
                     }
 
                     if (formTemplate.Type == ScholarshipFormTypeEnum.Option && (formTemplate.Options == null || formTemplate.Options.Count == 0))
