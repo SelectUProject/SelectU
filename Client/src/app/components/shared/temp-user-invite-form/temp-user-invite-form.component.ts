@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { TempUserInviteDTO } from 'src/app/models/TempUserInviteDTO';
 import { ValidateUniqueEmailAddressRequestDTO } from 'src/app/models/ValidateUniqueEmailAddressDTO';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -36,7 +37,8 @@ class TempUserInviteFormComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private tempUserService: TempUserService
+    private tempUserService: TempUserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -96,6 +98,7 @@ class TempUserInviteFormComponent {
       .inviteTempUser(inviteForm)
       .then(() => {
         this.success = true;
+        this.router.navigate(['/view-temp-users']);
       })
       .catch((response) => {
         if (response.error?.errors) {

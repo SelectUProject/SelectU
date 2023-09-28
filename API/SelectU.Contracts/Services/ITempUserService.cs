@@ -9,6 +9,8 @@ namespace SelectU.Contracts.Services
 
         Task InviteTempUserAsync(TempUserInviteDTO inviteDTO);
 
+        Task<List<TempUserDTO>> GetTempUsersAsync();
+
         Task UpdateTempUserExpiryAsync();
 
 

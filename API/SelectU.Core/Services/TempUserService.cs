@@ -85,6 +85,15 @@ namespace SelectU.Core.Services
             await _emailclient.SendTempUserInviteEmailASync(inviteDTO, password);
         }
 
+        public async Task<List<TempUserDTO>> GetTempUsersAsync()
+        {
+            var users = await _userManager.GetUsersInRoleAsync(UserRoles.Reviewer);
+
+            var tempUsers = users.Select(user => new TempUserDTO(user)).ToList();
+            
+            return tempUsers;
+        }
+
         Task ITempUserService.UpdateTempUserExpiryAsync()
         {
             throw new NotImplementedException();

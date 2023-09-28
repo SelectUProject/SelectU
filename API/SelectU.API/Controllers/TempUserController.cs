@@ -88,5 +88,22 @@ namespace SelectU.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }
+
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
+        [HttpGet("list")]
+        public async Task<IActionResult> GetAllTempUsersAsync()
+        {
+            try
+            {
+                var tempUsers = await _tempUserService.GetTempUsersAsync();
+
+                return Ok(tempUsers);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to get list of temp users");
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

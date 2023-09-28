@@ -12,6 +12,7 @@ import { FindScholarshipsComponent } from './components/pages/find-scholarships/
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { UserProfilePageComponent } from './components/pages/user-profile-page/user-profile-page.component';
 import { TempUserInvitePageComponent } from './components/pages/temp-user-invite-page/temp-user-invite-page.component';
+import { TempUserTablePageComponent } from './components/pages/temp-user-table-page/temp-user-table-page.component';
 
 //components
 
@@ -53,6 +54,12 @@ const routes: Routes = [
       {
         path: 'invite-temp-user',
         component: TempUserInvitePageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin] },
+      },
+      {
+        path: 'view-temp-users',
+        component: TempUserTablePageComponent,
         canActivate: [AuthGuard],
         data: { role: [Role.Staff, Role.Admin] },
       },

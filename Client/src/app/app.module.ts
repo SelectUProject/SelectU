@@ -40,6 +40,8 @@ import { ShortViewMyApplicationsComponent } from './components/shared/short-view
 import { EmptyScholarshipsComponent } from './components/shared/empty-scholarships/empty-scholarships.component';
 import { TempUserInvitePageComponent } from './components/pages/temp-user-invite-page/temp-user-invite-page.component';
 import TempUserInviteFormComponent from './components/shared/temp-user-invite-form/temp-user-invite-form.component';
+import TempUserTableComponent from './components/shared/temp-user-table/temp-user-table.component';
+import { TempUserTablePageComponent } from './components/pages/temp-user-table-page/temp-user-table-page.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,8 @@ import TempUserInviteFormComponent from './components/shared/temp-user-invite-fo
     EmptyScholarshipsComponent,
     TempUserInvitePageComponent,
     TempUserInviteFormComponent,
+    TempUserTableComponent,
+    TempUserTablePageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

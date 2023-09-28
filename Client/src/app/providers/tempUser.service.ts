@@ -7,6 +7,7 @@ import {
 } from '../models/ValidateUniqueEmailAddressDTO';
 import { Config } from './config';
 import { TempUserInviteDTO } from '../models/TempUserInviteDTO';
+import { TempUserDTO } from '../models/TempUserDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,12 @@ export class TempUserService {
         `${Config.api}/tempUser/invite`,
         request
       )
+    );
+  }
+
+  async getTempUsers() {
+    return await firstValueFrom(
+      this.http.get<TempUserDTO[]>(`${Config.api}/tempUser/list`)
     );
   }
 }
