@@ -27,7 +27,7 @@
           *ngIf="tokenService.IsAuthenticated"
           class="navbar-nav mx-auto text-center"
         >
-          <li class="nav-item mx-5">
+          <li *ngIf="this.tokenService.role == USER" class="nav-item mx-5">
             <a
               class="nav-link active"
               aria-current="page"
@@ -35,28 +35,22 @@
               >Find {{ admissionName }}</a
             >
           </li>
-          <li class="nav-item mx-5">
+          <li *ngIf="this.tokenService.role == USER" class="nav-item mx-5">
             <a class="nav-link" [routerLink]="'/my-scholarships'"
               >My {{ admissionName }}</a
             >
           </li>
-          <li class="nav-item mx-5">
-            <a
-              *ngIf="this.tokenService.role == STAFF"
-              class="nav-link"
-              [routerLink]="'/create-scholarships'"
+          <li *ngIf="this.tokenService.role == STAFF" class="nav-item mx-5">
+            <a class="nav-link" [routerLink]="'/create-scholarships'"
               >Create {{ admissionName }}</a
             >
           </li>
-          <li class="nav-item mx-5">
-            <a
-              *ngIf="this.tokenService.role == STAFF"
-              class="nav-link"
-              [routerLink]="'/manage-scholarships'"
+          <li *ngIf="this.tokenService.role == STAFF" class="nav-item mx-5">
+            <a class="nav-link" [routerLink]="'/manage-scholarships'"
               >Manage {{ admissionName }}</a
             >
           </li>
-          <li class="nav-item mx-5">
+          <li *ngIf="this.tokenService.role == USER" class="nav-item mx-5">
             <a class="nav-link" [routerLink]="'/saved-scholarships'"
               >Saved {{ admissionName }}</a
             >

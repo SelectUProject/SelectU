@@ -2,17 +2,17 @@
   <div class="row justify-content-center mb-3">
     <div class="col-11 row">
       <div class="col-1 image-container">
-        <img src="{{ scholarship.image }}" alt="Example" />
+        <img src="{{ scholarship.imageURL }}" alt="Example" />
       </div>
       <div class="col-3">
         <p class="m-0">
-          <strong>{{ scholarship.scholarshipTitle }}</strong>
+          <strong>{{ scholarship.description }}</strong>
         </p>
         <p class="m-0">
-          {{ scholarship.address }}
+          {{ scholarship.city }}
         </p>
         <p class="m-0 purpleText">
-          {{ scholarship.scholarshipValue }}
+          {{ scholarship.value }}
         </p>
       </div>
     </div>

@@ -5,12 +5,12 @@ import { MyApplicationShortViewDTO } from '../../../models/MyApplicationShortVie
 @Component({
   selector: 'app-my-applications',
   templateUrl: './my-applications.component.html',
-  styleUrls: ['./my-applications.component.scss']
+  styleUrls: ['./my-applications.component.scss'],
 })
-
 export class MyApplicationsComponent {
   admissionName = environment.admissionName;
-  application: MyApplicationShortViewDTO[] = [
+  emptyText = `You have no ${this.admissionName} applications.`;
+  scholarships: MyApplicationShortViewDTO[] = [
     {
       image: '../../../../assets/images/testImage.png',
       applicationValue: '$1000 Dollars',
@@ -18,7 +18,7 @@ export class MyApplicationsComponent {
       address: 'Melbourne',
       school: 'Xavier',
       description: 'test bruh bruh bruh bruh bruh',
-      status: 'pending', 
+      status: 'pending',
     },
     {
       image: '../../../../assets/images/testImage.png',
@@ -27,7 +27,7 @@ export class MyApplicationsComponent {
       address: 'Melbourne',
       school: 'Xavier',
       description: 'test bruh bruh bruh bruh bruh',
-      status: 'uploaded', 
+      status: 'uploaded',
     },
     {
       image: '../../../../assets/images/testImage.png',
@@ -36,12 +36,7 @@ export class MyApplicationsComponent {
       address: 'Melbourne',
       school: 'Xavier',
       description: 'test bruh bruh bruh bruh bruh',
-      status: 'accepted', 
+      status: 'accepted',
     },
   ];
-
-  
 }
-
-
-

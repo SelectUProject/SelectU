@@ -1,1 +1,35 @@
-<p>find-scholarships works!</p>
+<div class="container mt-5 py-5 rounded">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <div class="row">
+        <div class="input-group">
+          <div class="form-outline">
+            <input
+              id="search-focus"
+              type="search"
+              id="form1"
+              class="form-control"
+            />
+            <label class="form-label" for="form1">Search</label>
+          </div>
+          <button type="button" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-5 rounded">
+  <div
+    class="row justify-content-center"
+    *ngFor="let scholarship of this.scholarships"
+  >
+    <app-short-view-scholarships-component
+      [scholarship]="scholarship"
+    ></app-short-view-scholarships-component>
+  </div>
+  <div class="row justify-content-center" *ngIf="this.scholarships.length == 0">
+    <app-empty-scholarships [text]="emptyText"></app-empty-scholarships>
+  </div>
+</div>
