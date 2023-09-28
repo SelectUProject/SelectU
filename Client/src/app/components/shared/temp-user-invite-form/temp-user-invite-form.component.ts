@@ -15,7 +15,8 @@ class TempUserInviteFormComponent {
   isError: boolean = false;
   errMsg: string = 'An error has occurred!';
   existingEmail: boolean = false;
-  saving: boolean = false;
+  inviting: boolean = false;
+  success: boolean = false;
 
   get email() {
     return this.inviteForm.get('email');
@@ -86,16 +87,15 @@ class TempUserInviteFormComponent {
   }
 
   async invite() {
-    this.saving = true;
+    this.inviting = true;
     this.isError = false;
-    console.log(this.inviteForm.value);
 
     let inviteForm = <TempUserInviteDTO>this.inviteForm.value;
 
     await this.tempUserService
       .inviteTempUser(inviteForm)
       .then(() => {
-        console.log('Successful Invitation');
+        this.success = true;
       })
       .catch((response) => {
         if (response.error?.errors) {
@@ -108,7 +108,7 @@ class TempUserInviteFormComponent {
         }
         this.isError = true;
       });
-    this.saving = false;
+    this.inviting = false;
   }
 
   setFormError(propertyName: string) {
