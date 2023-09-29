@@ -81,7 +81,7 @@ export class CreateScholarshipComponent implements OnInit {
         value: ['Something here', Validators.required],
         shortDescription: ['The best scholarship', Validators.required],
         description: ['The best scholarship everr', Validators.required],
-        scholarshipFormTemplate: [[], Validators.required],
+        scholarshipFormTemplate: [this.scholarshipFormSections, Validators.required],
         city: ['Kyiv', Validators.required],
         state: ['California', Validators.required],
         startDate: [new Date(), Validators.required],

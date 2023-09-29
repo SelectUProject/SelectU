@@ -18,10 +18,11 @@ export class FormCreatorAreaComponent {
   onDrop(event: CdkDragDrop<ScholarshipFormSectionDTO[]>): void {
     this.dragAndDropService.drop(event)
 
-    // Open edit dialog box ONLY if the form builder item was dragged from the Form Components sidebar
-    // if (event.previousContainer !== event.container) {
-    //   this.openDialog(event.currentIndex)
-    // }
+    // TODO: Open edit dialog box ONLY if the form builder item was dragged from the Form Components sidebar
+    if (event.previousContainer !== event.container) {
+      // this.openDialog(event.currentIndex)
+      console.log(event)
+    }
   }
 
   deleteFormSection(formSection: ScholarshipFormSectionDTO): void {

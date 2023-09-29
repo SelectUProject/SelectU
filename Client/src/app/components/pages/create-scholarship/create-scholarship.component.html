@@ -8,15 +8,19 @@
             (click)="switchTabTo(tab)"
             class="nav-item"
           >
-            <a class="nav-link" [class.active]="currentTab === tab">{{ tab }}</a>
+            <a class="nav-link" [class.active]="currentTab === tab">{{
+              tab
+            }}</a>
           </li>
         </ul>
       </div>
       <div class="card-body">
-        <form [formGroup]="createScholarshipForm" (ngSubmit)="createScholarship()">
+        <form
+          [formGroup]="createScholarshipForm"
+          (ngSubmit)="createScholarship()"
+        >
           <ng-container *ngIf="currentTab === 'scholarshipInformationTab'">
             <div class="container p-5">
-  
               <label for="school">School</label>
               <div class="input-group mb-3">
                 <input
@@ -26,7 +30,7 @@
                   formControlName="school"
                 />
               </div>
-  
+
               <label for="imageURL">imageURL</label>
               <div class="input-group mb-3">
                 <input
@@ -36,7 +40,7 @@
                   formControlName="imageURL"
                 />
               </div>
-  
+
               <label for="value">value</label>
               <div class="input-group mb-3">
                 <input
@@ -46,7 +50,7 @@
                   formControlName="value"
                 />
               </div>
-  
+
               <label for="shortDescription">shortDescription</label>
               <div class="input-group mb-3">
                 <input
@@ -56,7 +60,7 @@
                   formControlName="shortDescription"
                 />
               </div>
-  
+
               <label for="description">description</label>
               <div class="input-group mb-3">
                 <input
@@ -66,7 +70,7 @@
                   formControlName="description"
                 />
               </div>
-  
+
               <label for="city">city</label>
               <div class="input-group mb-3">
                 <input
@@ -76,7 +80,7 @@
                   formControlName="city"
                 />
               </div>
-  
+
               <label for="state">state</label>
               <div class="input-group mb-3">
                 <input
@@ -86,7 +90,7 @@
                   formControlName="state"
                 />
               </div>
-  
+
               <label for="startDate">startDate</label>
               <div class="input-group mb-3">
                 <input
@@ -96,7 +100,7 @@
                   formControlName="startDate"
                 />
               </div>
-  
+
               <label for="endDate">startDate</label>
               <div class="input-group mb-3">
                 <input
@@ -106,20 +110,18 @@
                   formControlName="endDate"
                 />
               </div>
-  
             </div>
           </ng-container>
-  
+
           <ng-container *ngIf="currentTab === 'formBuilderTab'">
             <div class="row">
               <div class="col-md-3">
                 <app-form-section-list-sidebar></app-form-section-list-sidebar>
               </div>
               <div class="col-md-9">
-                <div class="container mt-3 ml-md-0 p-5">
+                <div class="container">
                   <div class="row">
                     <div class="col-md-12">
-                      <h2 class="mb-5">Application form</h2>
                       <app-form-creator-area
                         [formSections]="scholarshipFormSections"
                       ></app-form-creator-area>
@@ -129,7 +131,7 @@
               </div>
             </div>
           </ng-container>
-  
+
           <button class="button" type="submit">Create Scholarship</button>
         </form>
       </div>

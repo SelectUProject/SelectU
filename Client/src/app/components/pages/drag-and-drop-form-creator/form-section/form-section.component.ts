@@ -12,9 +12,9 @@ import { FormSectionEditDialogBoxComponent } from '../form-section-edit-dialog-b
 })
 export class FormSectionComponent {
   @Input() formSectionData: ScholarshipFormSectionDTO;
+  @Input() isInApplicationForm: boolean; // to check if the form section is dragged inside of an application form
 
   @Output() destroy: EventEmitter<ScholarshipFormSectionDTO> = new EventEmitter();
-  @Output() isInApplicationForm: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private editDialog: MatDialog) {}
 
@@ -43,27 +43,7 @@ export class FormSectionComponent {
     this.destroy.emit(this.formSectionData);
   }
 
-  // For form section that has the enum type of ScholarshipFormTypeEnum.Option
-  // removeFormSectionOptionValue(index: number): void {
-  //   if (this.isOptionFormSection()) {
-  //     this.formSectionData.options?.splice(index, 1);
-  //   }
-  // }
-
   isOptionFormSection(): boolean {
     return this.formSectionData.type === ScholarshipFormTypeEnum.Option;
   }
-
-  isInApplicationFormEmitter(): void {
-    this.isInApplicationForm.emit(true);
-  }
-
-  // onDrop(event: CdkDragDrop<ScholarshipFormSectionDTO[]>): void {
-  //   this.dragAndDropService.drop(event)
-
-  //   // Open edit dialog box ONLY if the form builder item was dragged from the Form Components sidebar
-  //   if (event.previousContainer !== event.container) {
-  //     this.openDialog(event.currentIndex)
-  //   }
-  // }
 }

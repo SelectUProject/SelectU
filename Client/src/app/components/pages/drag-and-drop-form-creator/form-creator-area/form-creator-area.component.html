@@ -19,6 +19,7 @@
       <div class="card mb-3">
         <app-form-section
           [formSectionData]="formSection"
+          [isInApplicationForm]="true"
           (destroy)="deleteFormSection($event)"
         ></app-form-section>
       </div>
