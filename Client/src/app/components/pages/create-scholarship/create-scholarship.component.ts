@@ -6,6 +6,8 @@ import { ScholarshipCreateDTO } from 'src/app/models/ScholarshipCreateDTO';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
 import { ScholarshipFormSectionListService } from 'src/app/services/scholarship-form-section-list/scholarship-form-section-list.service';
+import { StringLookupDTO } from 'src/app/models/LookupDTOs';
+import { STATES_LIST } from 'src/app/constants/States';
 
 @Component({
   selector: 'app-create-scholarship',
@@ -14,6 +16,7 @@ import { ScholarshipFormSectionListService } from 'src/app/services/scholarship-
 })
 export class CreateScholarshipComponent implements OnInit {
   createScholarshipForm: FormGroup;
+  states: StringLookupDTO[] = STATES_LIST;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -31,7 +34,7 @@ export class CreateScholarshipComponent implements OnInit {
   currentTab: string = "scholarshipInformationTab";
 
   // TODO: maybe make this an enum?
-  tabs: string[] = ["scholarshipInformationTab", "formBuilderTab", "previewApplicationTab"];
+  tabs: string[] = ["scholarshipInformationTab", "formBuilderTab"];
 
   switchTabTo(tabName: string): void {
     this.currentTab = tabName;

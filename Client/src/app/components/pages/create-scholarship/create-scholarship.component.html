@@ -21,7 +21,7 @@
         >
           <ng-container *ngIf="currentTab === 'scholarshipInformationTab'">
             <div class="container p-5">
-              <label for="school">School</label>
+              <label for="school" class="form-label">School</label>
               <div class="input-group mb-3">
                 <input
                   type="text"
@@ -31,17 +31,17 @@
                 />
               </div>
 
-              <label for="imageURL">imageURL</label>
+              <label for="imageURL" class="form-label">Upload Image</label>
               <div class="input-group mb-3">
                 <input
-                  type="text"
                   class="form-control"
+                  type="file"
                   id="imageURL"
                   formControlName="imageURL"
                 />
               </div>
 
-              <label for="value">value</label>
+              <label for="value" class="form-label">Value</label>
               <div class="input-group mb-3">
                 <input
                   type="text"
@@ -51,7 +51,9 @@
                 />
               </div>
 
-              <label for="shortDescription">shortDescription</label>
+              <label for="shortDescription" class="form-label"
+                >Short Description</label
+              >
               <div class="input-group mb-3">
                 <input
                   type="text"
@@ -61,7 +63,7 @@
                 />
               </div>
 
-              <label for="description">description</label>
+              <label for="description" class="form-label">Description</label>
               <div class="input-group mb-3">
                 <input
                   type="text"
@@ -71,7 +73,7 @@
                 />
               </div>
 
-              <label for="city">city</label>
+              <label for="city" class="form-label">City</label>
               <div class="input-group mb-3">
                 <input
                   type="text"
@@ -81,30 +83,28 @@
                 />
               </div>
 
-              <label for="state">state</label>
+              <label for="state" class="form-label">State</label>
               <div class="input-group mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="state"
-                  formControlName="state"
-                />
+                <select class="form-select" formControlName="state">
+                  <option [value]="null" disabled>Select a state</option>
+                  <option *ngFor="let state of states" [value]="state.value">{{ state.name }}</option>
+                </select>
               </div>
 
-              <label for="startDate">startDate</label>
+              <label for="startDate" class="form-label">Start Date</label>
               <div class="input-group mb-3">
                 <input
-                  type="text"
+                  type="date"
                   class="form-control"
                   id="startDate"
                   formControlName="startDate"
                 />
               </div>
 
-              <label for="endDate">startDate</label>
+              <label for="endDate" class="form-label">End Date</label>
               <div class="input-group mb-3">
                 <input
-                  type="text"
+                  type="date"
                   class="form-control"
                   id="endDate"
                   formControlName="endDate"

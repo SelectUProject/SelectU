@@ -6,13 +6,13 @@
         cdkDropList
         id="form-section-list"
         cdkDropListSortingDisabled
-        [cdkDropListData]="formSections"
+        [cdkDropListData]="baseFormSections"
         cdkDropListConnectedTo="form-creator-area"
         class="list-group"
         (cdkDropListDropped)="onDrop($event)"
       >
         <div
-          *ngFor="let formSection of formSections"
+          *ngFor="let formSection of baseFormSections"
           class="list-group-item"
           cdkDrag
         >

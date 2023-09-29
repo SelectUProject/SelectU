@@ -11,7 +11,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
   styleUrls: ['./form-section-list-sidebar.component.scss']
 })
 export class FormSectionListSidebarComponent {
-  formSections: ScholarshipFormSectionDTO[] = [];
+  baseFormSections: ScholarshipFormSectionDTO[] = [];
 
   constructor(private dragAndDropService: DragAndDropService<ScholarshipFormSectionDTO[]>) {
     this.setupFormSections()
@@ -29,7 +29,7 @@ export class FormSectionListSidebarComponent {
         options: [],
       }
 
-      this.formSections.push(formSection);
+      this.baseFormSections.push(formSection);
     }
   }
 
