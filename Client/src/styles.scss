@@ -14,3 +14,28 @@
 @import "node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss";
 
 @import "../src/scss/mixins";
+
+// Import Poppins font
+@mixin fontPoppins($name, $weight, $style) {
+  @font-face {
+    font-family: Poppins;
+    src: url('/assets/fonts/Poppins/#{$name}.ttf') format("truetype");
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
+
+@include fontPoppins('Poppins-Thin', 100, normal);
+@include fontPoppins('Poppins-ExtraLight', 200, normal);
+@include fontPoppins('Poppins-Light', 300, normal);
+@include fontPoppins('Poppins-Regular', normal, normal);
+@include fontPoppins('Poppins-Italic', normal, italic);
+@include fontPoppins('Poppins-Medium', 500, normal);
+@include fontPoppins('Poppins-Bold', bold, normal);
+@include fontPoppins('Poppins-ExtraBold', 800, normal);
+@include fontPoppins('Poppins-Black', 900, normal);
+
+* {
+  font-family: Poppins;
+}
+
