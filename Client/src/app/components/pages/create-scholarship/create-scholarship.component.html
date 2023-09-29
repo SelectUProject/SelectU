@@ -1,0 +1,136 @@
+<div cdkDropListGroup class="container-fluid p-5">
+  <div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li
+          *ngFor="let tab of tabs"
+          (click)="switchTabTo(tab)"
+          class="nav-item"
+        >
+          <a class="nav-link" [class.active]="currentTab === tab">{{ tab }}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="createScholarshipForm" (ngSubmit)="createScholarship()">
+        <ng-container *ngIf="currentTab === 'scholarshipInformationTab'">
+          <div class="container p-5">
+
+            <label for="school">School</label>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="school"
+                formControlName="school"
+              />
+            </div>
+
+            <label for="imageURL">imageURL</label>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="imageURL"
+                formControlName="imageURL"
+              />
+            </div>
+
+            <label for="value">value</label>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="value"
+                formControlName="value"
+              />
+            </div>
+
+            <label for="shortDescription">shortDescription</label>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="shortDescription"
+                formControlName="shortDescription"
+              />
+            </div>
+
+            <label for="description">description</label>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="description"
+                formControlName="description"
+              />
+            </div>
+
+            <label for="city">city</label>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="city"
+                formControlName="city"
+              />
+            </div>
+
+            <label for="state">state</label>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="state"
+                formControlName="state"
+              />
+            </div>
+
+            <label for="startDate">startDate</label>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="startDate"
+                formControlName="startDate"
+              />
+            </div>
+
+            <label for="endDate">startDate</label>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="endDate"
+                formControlName="endDate"
+              />
+            </div>
+
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="currentTab === 'formBuilderTab'">
+          <div class="row">
+            <div class="col-md-3">
+              <app-sidebar></app-sidebar>
+            </div>
+            <div class="col-md-9">
+              <div class="container mt-3 ml-md-0 p-5">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h2 class="mb-5">Application form</h2>
+                    <app-form-creator-area
+                      [formSections]="scholarshipFormSections"
+                    ></app-form-creator-area>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <button class="button" type="submit">Create Scholarship</button>
+      </form>
+    </div>
+  </div>
+</div>

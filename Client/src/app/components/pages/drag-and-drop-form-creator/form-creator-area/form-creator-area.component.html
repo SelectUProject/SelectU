@@ -1,0 +1,27 @@
+<div class="form-builder-ui">
+  <div
+    id="form-builder-area"
+    cdkDropListConnectedTo="form-builder-components-list"
+    cdkDropList
+    [cdkDropListData]="formSections"
+    class="list-group"
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    <div
+      *ngFor="
+        let formSection of formSections;
+        index as i
+      "
+      class="list-group-item"
+      cdkDrag
+      cdkDragBoundary=".form-builder-ui"
+    >
+      <div class="card mb-3">
+        <app-form-section
+          [formSectionData]="formSection"
+          (destroy)="deleteFormSection($event)"
+        ></app-form-section>
+      </div>
+    </div>
+  </div>
+</div>
