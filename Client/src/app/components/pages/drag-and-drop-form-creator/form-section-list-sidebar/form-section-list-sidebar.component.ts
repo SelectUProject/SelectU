@@ -18,10 +18,12 @@ export class FormSectionListSidebarComponent {
   }
 
   setupFormSections(): void {
-    for (const formSectionType in ScholarshipFormTypeEnum) {
+    const enumKeys = Object.keys(ScholarshipFormTypeEnum).filter((v) => isNaN(Number(v)));
+
+    for (const formSectionTypeKey of enumKeys) {
       const formSection: ScholarshipFormSectionDTO = {
         uuid: uuidv4(),
-        type: ScholarshipFormTypeEnum[formSectionType as keyof typeof ScholarshipFormTypeEnum],
+        type: ScholarshipFormTypeEnum[formSectionTypeKey as keyof typeof ScholarshipFormTypeEnum],
         name: "",
         required: true,
         options: [],
