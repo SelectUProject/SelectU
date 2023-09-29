@@ -8,6 +8,7 @@ import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum'
 import { ScholarshipCreateDTO } from 'src/app/models/ScholarshipCreateDTO';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
+import { ScholarshipFormSectionListService } from 'src/app/services/scholarship-form-section-list/scholarship-form-section-list.service';
 
 @Component({
   selector: 'app-create-scholarship',
@@ -21,6 +22,7 @@ export class CreateScholarshipComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _scholarshipService: ScholarshipService,
+    private _scholarshipFormSectionListService: ScholarshipFormSectionListService,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -90,7 +92,7 @@ export class CreateScholarshipComponent implements OnInit {
         value: ['Something here', Validators.required],
         shortDescription: ['The best scholarship', Validators.required],
         description: ['Some description here', Validators.required],
-        scholarshipFormTemplate: [this.scholarshipFormSections, Validators.required],
+        scholarshipFormTemplate: [this._scholarshipFormSectionListService.formSections, Validators.required],
         city: ['Melbourne', Validators.required],
         state: ['Victoria', Validators.required],
         startDate: [new Date(), Validators.required],
@@ -101,19 +103,20 @@ export class CreateScholarshipComponent implements OnInit {
 
   createScholarship() {
     let createScholarshipForm = <ScholarshipCreateDTO>this.createScholarshipForm.value;
+    console.log(createScholarshipForm);
 
-    this._scholarshipService
-      .createScholarship(createScholarshipForm)
-      .then((response) => {
-        this._snackBar.open(response.message, 'X', {
-          duration: 5000
-        });
+    // this._scholarshipService
+    //   .createScholarship(createScholarshipForm)
+    //   .then((response) => {
+    //     this._snackBar.open(response.message, 'X', {
+    //       duration: 5000
+    //     });
 
-        this._router.navigate(['/manage-scholarships']);
-      })
-      .catch((response) => {
-        // TODO: add an error snackbar here
-        console.error(response);
-      });
+    //     this._router.navigate(['/manage-scholarships']);
+    //   })
+    //   .catch((response) => {
+    //     // TODO: add an error snackbar here
+    //     console.error(response);
+    //   });
   }
 }

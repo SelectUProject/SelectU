@@ -15,6 +15,7 @@ export class FormSectionComponent {
   @Input() isInApplicationForm: boolean; // to check if the form section is dragged inside of an application form
 
   @Output() destroy: EventEmitter<ScholarshipFormSectionDTO> = new EventEmitter();
+  @Output() updateFormSectionData: EventEmitter<ScholarshipFormSectionDTO> = new EventEmitter();
 
   constructor(private editDialog: MatDialog) {}
 
@@ -35,6 +36,7 @@ export class FormSectionComponent {
       if (result !== undefined) {
         // Updating the current form section data with the user edited information
         this.formSectionData = result;
+        this.updateFormSectionData.emit(this.formSectionData);
       }
     })
   }

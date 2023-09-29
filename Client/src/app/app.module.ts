@@ -62,6 +62,7 @@ import { FormSectionComponent } from './components/pages/drag-and-drop-form-crea
 import { FormSectionEditDialogBoxComponent } from './components/pages/drag-and-drop-form-creator/form-section-edit-dialog-box/form-section-edit-dialog-box.component';
 import { FormCreatorAreaComponent } from './components/pages/drag-and-drop-form-creator/form-creator-area/form-creator-area.component';
 import { FormSectionListSidebarComponent } from './components/pages/drag-and-drop-form-creator/form-section-list-sidebar/form-section-list-sidebar.component';
+import { ScholarshipFormSectionListService } from './services/scholarship-form-section-list/scholarship-form-section-list.service';
 
 @NgModule({
   declarations: [
@@ -139,7 +140,8 @@ import { FormSectionListSidebarComponent } from './components/pages/drag-and-dro
         ],
       } as SocialAuthServiceConfig,
     },
-    DragAndDropService
+    DragAndDropService,
+    ScholarshipFormSectionListService,
   ],
   bootstrap: [AppComponent],
 })
