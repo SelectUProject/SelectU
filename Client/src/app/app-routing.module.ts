@@ -64,6 +64,10 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { role: [Role.Staff, Role.Admin] },
       },
+      {
+        path: 'create-scholarships',
+        component: CreateScholarshipComponent,
+      }
     ],
   },
   // {
