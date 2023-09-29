@@ -23,6 +23,7 @@ import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   SocialLoginModule,
   GoogleSigninButtonModule,
@@ -116,6 +117,7 @@ import { FormSectionListSidebarComponent } from './components/pages/drag-and-dro
     NgbdSortableHeader,
     DragDropModule,
     MatDialogModule,
+    MatSnackBarModule,
   ],
   providers: [
     DatePipe,

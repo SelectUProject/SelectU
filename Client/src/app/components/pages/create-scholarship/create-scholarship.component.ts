@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { ScholarshipFormSectionDTO } from 'src/app/models/ScholarshipFormSectionDTO';
 import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum';
 import { ScholarshipCreateDTO } from 'src/app/models/ScholarshipCreateDTO';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ScholarshipService } from 'src/app/providers/scholarship.service';
 
 @Component({
   selector: 'app-create-scholarship',
@@ -13,7 +17,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class CreateScholarshipComponent implements OnInit {
   createScholarshipForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _router: Router,
+    private _scholarshipService: ScholarshipService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.setupForm();
@@ -32,7 +41,7 @@ export class CreateScholarshipComponent implements OnInit {
   dateItem: ScholarshipFormSectionDTO = {
     uuid: uuidv4(),
     type: ScholarshipFormTypeEnum.Date,
-    name: "HAHAHAHAHAHAAHAHA Enter your date of birth:",
+    name: "Enter your date of birth:",
     required: false,
   }
 
@@ -74,25 +83,37 @@ export class CreateScholarshipComponent implements OnInit {
   ]
 
   setupForm() {
-    this.createScholarshipForm = this.formBuilder.group(
+    this.createScholarshipForm = this._formBuilder.group(
       {
         school: ['Test 1', Validators.required],
         imageURL: ['test.png', Validators.required],
         value: ['Something here', Validators.required],
         shortDescription: ['The best scholarship', Validators.required],
-        description: ['The best scholarship everr', Validators.required],
+        description: ['Some description here', Validators.required],
         scholarshipFormTemplate: [this.scholarshipFormSections, Validators.required],
-        city: ['Kyiv', Validators.required],
-        state: ['California', Validators.required],
+        city: ['Melbourne', Validators.required],
+        state: ['Victoria', Validators.required],
         startDate: [new Date(), Validators.required],
         endDate: [new Date(), Validators.required]
       }
     );
   }
 
-  async createScholarship() {
+  createScholarship() {
     let createScholarshipForm = <ScholarshipCreateDTO>this.createScholarshipForm.value;
 
-    console.log(createScholarshipForm);
+    this._scholarshipService
+      .createScholarship(createScholarshipForm)
+      .then((response) => {
+        this._snackBar.open(response.message, 'X', {
+          duration: 5000
+        });
+
+        this._router.navigate(['/manage-scholarships']);
+      })
+      .catch((response) => {
+        // TODO: add an error snackbar here
+        console.error(response);
+      });
   }
 }

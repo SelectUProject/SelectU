@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ScholarshipFormSectionDTO } from 'src/app/models/ScholarshipFormSectionDTO';
 import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum';
-import { MIN_RADIO_BUTTON_INPUTS } from 'src/constants';
+import { MIN_RADIO_BUTTON_INPUTS } from 'src/app/constants/FormConstraints';
 
 @Component({
   selector: 'app-form-section-edit-dialog-box',
