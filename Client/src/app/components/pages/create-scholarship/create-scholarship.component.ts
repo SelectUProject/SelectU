@@ -92,6 +92,7 @@ export class CreateScholarshipComponent implements OnInit {
 
   async createScholarship() {
     let createScholarshipForm = <ScholarshipCreateDTO>this.createScholarshipForm.value;
+
     console.log(createScholarshipForm);
   }
 }

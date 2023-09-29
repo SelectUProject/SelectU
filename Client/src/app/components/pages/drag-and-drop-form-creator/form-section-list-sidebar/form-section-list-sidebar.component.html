@@ -1,25 +1,25 @@
-<!-- <div class="container py-5">
+<div class="container py-5">
   <h5 class="fw-semibold">Form Components</h5>
 
   <div class="row">
     <div class="col">
       <div
         cdkDropList
-        id="form-builder-components-list"
+        id="form-section-list"
         cdkDropListSortingDisabled
-        [cdkDropListData]="scholarshipFormBuilderItems"
-        cdkDropListConnectedTo="list-2"
+        [cdkDropListData]="formSections"
+        cdkDropListConnectedTo="form-creator-area"
         class="list-group scholarship-form-item-list"
         (cdkDropListDropped)="onDrop($event)"
       >
         <div
-          *ngFor="let formItem of scholarshipFormBuilderItems"
+          *ngFor="let formSection of formSections"
           class="list-group-item scholarship-form-item-block"
           cdkDrag
         >
-          {{ formItem.itemDisplayName }}
+          {{ formSection.type }}
         </div>
       </div>
     </div>
   </div>
-</div> -->
+</div>
