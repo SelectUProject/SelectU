@@ -62,7 +62,7 @@ namespace SelectU.Core.Services
                 FirstName = inviteDTO.FirstName,
                 LastName = inviteDTO.LastName,
                 UserName = inviteDTO.Email,
-                LoginExpiry = inviteDTO.Expiry,
+                LoginExpiry = inviteDTO.LoginExpiry,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 DateCreated = DateTimeOffset.UtcNow,
                 DateModified = DateTimeOffset.UtcNow

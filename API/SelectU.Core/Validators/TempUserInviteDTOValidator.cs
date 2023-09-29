@@ -11,7 +11,7 @@ namespace SelectU.Core.Validators
             RuleFor(x => x.Email).EmailAddress().WithMessage("Not a valid email address");
             RuleFor(x => x.FirstName).NotEmpty().WithMessage("First Name is required");
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Last Name is required");
-            RuleFor(x => x.Expiry).NotEmpty().WithMessage("Login Expiry is required");
+            RuleFor(x => x.LoginExpiry).NotEmpty().WithMessage("Login Expiry is required");
         }
     }
 }

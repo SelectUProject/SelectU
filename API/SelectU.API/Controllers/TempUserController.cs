@@ -36,6 +36,7 @@ namespace SelectU.API.Controllers
             _tempUserInviteValidator = tempUserInviteValidator;
         }
 
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpPost("validate")]
         public async Task<IActionResult> ValidateUniqueEmailAddressAsync([FromBody] ValidateUniqueEmailAddressRequestDTO userDetails)
         {
@@ -59,6 +60,7 @@ namespace SelectU.API.Controllers
             }
         }
 
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpPost("invite")]
         public async Task<IActionResult> Register(TempUserInviteDTO inviteDTO)
         {
@@ -103,6 +105,39 @@ namespace SelectU.API.Controllers
             {
                 _logger.LogError(ex, $"Failed to get list of temp users");
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.Admin}")]
+        [Authorize]
+        [HttpPatch("login-expiry")]
+        public async Task<IActionResult> UpdateLoginExpiry([FromBody] DateTimeOffset loginExpiry)
+        {
+            try
+            {
+                if (userDetails.Id.IsNullOrEmpty())
+                {
+                    return BadRequest(new ResponseDTO { Success = false, Message = "User ID is required" });
+                }
+
+                var validationResult = await _userDetailsValidator.ValidateAsync(userDetails);
+
+                if (validationResult.IsValid)
+                {
+                    await _userService.UpdateUserDetailsAsync(userDetails.Id, userDetails);
+
+                    return Ok(new ResponseDTO { Success = true, Message = "User details updated successfully." });
+                }
+                return BadRequest(validationResult);
+            }
+            catch (UserUpdateException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"UserId {userDetails.Id}, {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }
     }

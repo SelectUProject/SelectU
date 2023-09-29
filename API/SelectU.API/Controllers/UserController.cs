@@ -215,7 +215,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [Authorize]
         [HttpGet("details/{userId}")]
         public async Task<IActionResult> GetUserDetailsAsync([FromRoute] Guid userId)
@@ -239,7 +239,7 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles = $"{UserRoles.Staff}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [Authorize]
         [HttpGet("list")]
         public async Task<IActionResult> GetAllUsersAsync()

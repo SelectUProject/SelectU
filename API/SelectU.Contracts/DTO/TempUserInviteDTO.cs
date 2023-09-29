@@ -7,6 +7,6 @@ namespace SelectU.Contracts.DTO
         public string? Email { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public DateTimeOffset? Expiry { get; set; }
+        public DateTimeOffset? LoginExpiry { get; set; }
     }
 }

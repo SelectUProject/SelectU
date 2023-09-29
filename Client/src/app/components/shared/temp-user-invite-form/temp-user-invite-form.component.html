@@ -60,16 +60,18 @@
           mdbValidate
           mdbInput
           type="text"
-          id="expiry"
+          id="loginExpiry"
           class="form-control"
           bsDatepicker
           [bsConfig]="{
             containerClass: 'theme-dark-blue',
             dateInputFormat: 'MMMM Do YYYY, h:mm:ss a'
           }"
-          formControlName="expiry"
+          formControlName="loginExpiry"
         />
-        <label mdbLabel class="form-label" for="expiry">Login Expiry</label>
+        <label mdbLabel class="form-label" for="loginExpiry"
+          >Login Expiry</label
+        >
       </mdb-form-control>
     </div>
   </div>

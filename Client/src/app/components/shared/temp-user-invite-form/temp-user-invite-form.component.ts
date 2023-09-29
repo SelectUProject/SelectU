@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TempUserInviteDTO } from 'src/app/models/TempUserInviteDTO';
@@ -11,7 +11,7 @@ import { TempUserService } from 'src/app/providers/tempUser.service';
   templateUrl: './temp-user-invite-form.component.html',
   styleUrls: ['./temp-user-invite-form.component.scss'],
 })
-class TempUserInviteFormComponent {
+class TempUserInviteFormComponent implements OnInit {
   inviteForm: FormGroup;
   isError: boolean = false;
   errMsg: string = 'An error has occurred!';
@@ -31,8 +31,8 @@ class TempUserInviteFormComponent {
     return this.inviteForm.get('lastName');
   }
 
-  get expiry() {
-    return this.inviteForm.get('expiry');
+  get loginExpiry() {
+    return this.inviteForm.get('loginExpiry');
   }
 
   constructor(
@@ -62,7 +62,7 @@ class TempUserInviteFormComponent {
           Validators.pattern('^[a-zA-Z ]+$'),
         ]),
       ],
-      expiry: ['', Validators.required],
+      loginExpiry: ['', Validators.required],
     });
   }
 

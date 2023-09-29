@@ -12,6 +12,10 @@
   background-color: $gray-100;
 }
 
-.purpleText{
-  color:#7946df	
+.purpleText {
+  color: #7946df;
+}
+
+bs-datepicker-container {
+  z-index: 9999 !important;
 }
