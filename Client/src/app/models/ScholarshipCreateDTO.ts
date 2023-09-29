@@ -5,7 +5,7 @@ export interface ScholarshipCreateDTO {
   imageURL: string;
   value: string;
   shortDescription: string;
-  description: Date;
+  description: string;
   scholarshipFormTemplate: ScholarshipFormSectionDTO[];
   city: string;
   state: string;

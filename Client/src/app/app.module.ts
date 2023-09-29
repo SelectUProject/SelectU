@@ -19,6 +19,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   SocialLoginModule,
   GoogleSigninButtonModule,
@@ -38,6 +41,13 @@ import { FindScholarshipsComponent } from './components/pages/find-scholarships/
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { ShortViewMyApplicationsComponent } from './components/shared/short-view-my-applications/short-view-my-applications.component';
 import { EmptyScholarshipsComponent } from './components/shared/empty-scholarships/empty-scholarships.component';
+import { CreateScholarshipComponent } from './components/pages/create-scholarship/create-scholarship.component';
+import { DragAndDropService } from './services/drag-and-drop/drag-and-drop.service';
+import { FormSectionComponent } from './components/pages/drag-and-drop-form-creator/form-section/form-section.component';
+import { FormSectionEditDialogBoxComponent } from './components/pages/drag-and-drop-form-creator/form-section-edit-dialog-box/form-section-edit-dialog-box.component';
+import { FormCreatorAreaComponent } from './components/pages/drag-and-drop-form-creator/form-creator-area/form-creator-area.component';
+import { FormSectionListSidebarComponent } from './components/pages/drag-and-drop-form-creator/form-section-list-sidebar/form-section-list-sidebar.component';
+import { ScholarshipFormSectionListService } from './services/scholarship-form-section-list/scholarship-form-section-list.service';
 
 @NgModule({
   declarations: [
@@ -56,6 +66,11 @@ import { EmptyScholarshipsComponent } from './components/shared/empty-scholarshi
     MyApplicationsComponent,
     ShortViewMyApplicationsComponent,
     EmptyScholarshipsComponent,
+    CreateScholarshipComponent,
+    FormSectionComponent,
+    FormSectionEditDialogBoxComponent,
+    FormCreatorAreaComponent,
+    FormSectionListSidebarComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -73,6 +88,9 @@ import { EmptyScholarshipsComponent } from './components/shared/empty-scholarshi
     MdbDropdownModule,
     SocialLoginModule,
     GoogleSigninButtonModule,
+    DragDropModule,
+    MatDialogModule,
+    MatSnackBarModule,
   ],
   providers: [
     DatePipe,
@@ -96,6 +114,8 @@ import { EmptyScholarshipsComponent } from './components/shared/empty-scholarshi
         ],
       } as SocialAuthServiceConfig,
     },
+    DragAndDropService,
+    ScholarshipFormSectionListService,
   ],
   bootstrap: [AppComponent],
 })

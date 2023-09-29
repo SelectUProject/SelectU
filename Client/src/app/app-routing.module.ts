@@ -11,6 +11,7 @@ import { SavedScholarshipsPageComponent } from './components/pages/saved-scholar
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { UserProfilePageComponent } from './components/pages/user-profile-page/user-profile-page.component';
+import { CreateScholarshipComponent } from './components/pages/create-scholarship/create-scholarship.component';
 
 //components
 
@@ -50,6 +51,10 @@ const routes: Routes = [
         path: 'my-scholarships',
         component: MyApplicationsComponent,
       },
+      {
+        path: 'create-scholarships',
+        component: CreateScholarshipComponent,
+      }
     ],
   },
   // {

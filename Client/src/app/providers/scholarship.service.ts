@@ -44,7 +44,7 @@ export class ScholarshipService {
   async createScholarship(scholarshipCreateDTO: ScholarshipCreateDTO) {
     return await firstValueFrom(
       this.http.post<ResponseDTO>(
-        `${Config.api}/Scholarship/create-scholarships`,
+        `${Config.api}/Scholarship/create-scholarship`,
         scholarshipCreateDTO
       )
     );
