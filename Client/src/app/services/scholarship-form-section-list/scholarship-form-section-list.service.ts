@@ -19,4 +19,8 @@ export class ScholarshipFormSectionListService {
       this.formSections.findIndex(fS => fS.uuid === editedFormSection.uuid)
     ] = editedFormSection;
   }
+
+  clear() {
+		this.formSections.splice(0, this.formSections.length);
+	}
 }

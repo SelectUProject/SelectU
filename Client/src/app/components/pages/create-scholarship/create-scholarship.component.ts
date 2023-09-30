@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from 'src/app/providers/toast.service';
 
@@ -14,7 +14,8 @@ import { STATES_LIST } from 'src/app/constants/States';
   templateUrl: './create-scholarship.component.html',
   styleUrls: ['./create-scholarship.component.scss']
 })
-export class CreateScholarshipComponent implements OnInit {
+export class CreateScholarshipComponent implements OnInit, OnDestroy {
+  file: any;
   createScholarshipForm: FormGroup;
   states: StringLookupDTO[] = STATES_LIST;
 
@@ -30,6 +31,10 @@ export class CreateScholarshipComponent implements OnInit {
     this.setupForm();
   }
 
+  ngOnDestroy(): void {
+		this._scholarshipFormSectionListService.clear();
+	}
+
   // The scholarship creation page should always open Scholarship Information tab first
   currentTab: string = "scholarshipInformationTab";
 
@@ -44,7 +49,7 @@ export class CreateScholarshipComponent implements OnInit {
     this.createScholarshipForm = this._formBuilder.group(
       {
         school: ['', Validators.required],
-        imageURL: ['', Validators.required],
+        imageURL: [this.file, Validators.required],
         value: ['', Validators.required],
         shortDescription: ['', Validators.required],
         description: ['', Validators.required],
