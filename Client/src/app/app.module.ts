@@ -22,8 +22,6 @@ import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   SocialLoginModule,
   GoogleSigninButtonModule,
@@ -63,6 +61,7 @@ import { FormSectionEditDialogBoxComponent } from './components/pages/drag-and-d
 import { FormCreatorAreaComponent } from './components/pages/drag-and-drop-form-creator/form-creator-area/form-creator-area.component';
 import { FormSectionListSidebarComponent } from './components/pages/drag-and-drop-form-creator/form-section-list-sidebar/form-section-list-sidebar.component';
 import { ScholarshipFormSectionListService } from './services/scholarship-form-section-list/scholarship-form-section-list.service';
+import { ToastsContainerComponent } from './components/shared/toasts-container/toasts-container.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +96,7 @@ import { ScholarshipFormSectionListService } from './services/scholarship-form-s
     FormSectionEditDialogBoxComponent,
     FormCreatorAreaComponent,
     FormSectionListSidebarComponent,
+    ToastsContainerComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -117,8 +117,6 @@ import { ScholarshipFormSectionListService } from './services/scholarship-form-s
     MdbModalModule,
     NgbdSortableHeader,
     DragDropModule,
-    MatDialogModule,
-    MatSnackBarModule,
   ],
   providers: [
     DatePipe,

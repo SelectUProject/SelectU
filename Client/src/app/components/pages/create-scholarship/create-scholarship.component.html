@@ -13,15 +13,15 @@
             }}</a>
           </li>
         </ul>
-        <div class="text-end">
-          <button class="btn btn-success" type="submit">Create Scholarship</button>
-        </div>
       </div>
       <div class="card-body">
         <form
           [formGroup]="createScholarshipForm"
           (ngSubmit)="createScholarship()"
         >
+          <span class="text-end">
+            <button class="btn btn-success" type="submit">Create Scholarship</button>
+          </span>
           <ng-container *ngIf="currentTab === 'scholarshipInformationTab'">
             <div class="container p-5">
               <label for="school" class="form-label">School</label>

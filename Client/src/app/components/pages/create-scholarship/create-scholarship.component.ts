@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from 'src/app/providers/toast.service';
 
 import { ScholarshipCreateDTO } from 'src/app/models/ScholarshipCreateDTO';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,7 +23,7 @@ export class CreateScholarshipComponent implements OnInit {
     private _router: Router,
     private _scholarshipService: ScholarshipService,
     private _scholarshipFormSectionListService: ScholarshipFormSectionListService,
-    private _snackBar: MatSnackBar
+    private _toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -63,8 +63,9 @@ export class CreateScholarshipComponent implements OnInit {
     this._scholarshipService
       .createScholarship(createScholarshipForm)
       .then((response) => {
-        this._snackBar.open(response.message, 'X', {
-          duration: 5000
+        this._toastService.show(response.message, {
+          classname: 'bg-success text-light',
+          delay: 5000
         });
 
         this._router.navigate(['/manage-scholarships']);

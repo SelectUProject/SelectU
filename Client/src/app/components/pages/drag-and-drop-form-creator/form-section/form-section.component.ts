@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { cloneDeep } from 'lodash';
+
 import { ScholarshipFormSectionDTO } from 'src/app/models/ScholarshipFormSectionDTO';
 import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum';
 import { FormSectionEditDialogBoxComponent } from '../form-section-edit-dialog-box/form-section-edit-dialog-box.component';
@@ -17,28 +18,29 @@ export class FormSectionComponent {
   @Output() destroy: EventEmitter<ScholarshipFormSectionDTO> = new EventEmitter();
   @Output() updateFormSectionData: EventEmitter<ScholarshipFormSectionDTO> = new EventEmitter();
 
-  constructor(private editDialog: MatDialog) {}
+  constructor(private _editModalService: NgbModal) {}
 
   getFormSectionTypeDisplayName(): string {
     return `${ScholarshipFormTypeEnum[this.formSectionData.type]} Input`;
   }
 
   openFormSectionEditDialog(): void {
-    const dialogRef = this.editDialog.open(FormSectionEditDialogBoxComponent, {
-      data: {
-        // Passing the deep cloned form section data
-        formSectionData: cloneDeep(this.formSectionData),
-      },
-      disableClose: true,
-    })
+    const modalRef = this._editModalService.open(FormSectionEditDialogBoxComponent, {
+      // Ensuring that user can't close the modal box by clicking outside of it
+      backdrop: "static",
+      keyboard: false
+    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
+    // Passing the deep cloned form section data
+    modalRef.componentInstance.formSectionData = cloneDeep(this.formSectionData);
+
+    modalRef.result.then((result) => {
+      if (result) {
         // Updating the current form section data with the user edited information
         this.formSectionData = result;
         this.updateFormSectionData.emit(this.formSectionData);
       }
-    })
+    });
   }
 
   destroyItself(): void {

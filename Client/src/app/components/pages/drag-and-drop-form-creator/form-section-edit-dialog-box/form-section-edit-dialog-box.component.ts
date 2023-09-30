@@ -1,5 +1,6 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { ScholarshipFormSectionDTO } from 'src/app/models/ScholarshipFormSectionDTO';
 import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum';
 import { MIN_RADIO_BUTTON_INPUTS } from 'src/app/constants/FormConstraints';
@@ -10,17 +11,14 @@ import { MIN_RADIO_BUTTON_INPUTS } from 'src/app/constants/FormConstraints';
   styleUrls: ['./form-section-edit-dialog-box.component.scss']
 })
 export class FormSectionEditDialogBoxComponent {
-  formSectionData: ScholarshipFormSectionDTO;
+  @Input() public formSectionData: ScholarshipFormSectionDTO;
+  @Output() passEntry: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-    private dialogRef: MatDialogRef<FormSectionEditDialogBoxComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-  ) {
-    this.formSectionData = data.formSectionData;
-  }
+  constructor(public activeModal: NgbActiveModal) {}
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  passBack(): void {
+    this.passEntry.emit(this.formSectionData);
+    this.activeModal.close(this.formSectionData);
   }
 
   // FOR RADIO BUTTONS (TODO: maybe should be a seperate component)
