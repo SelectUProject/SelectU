@@ -1,7 +1,8 @@
 <div cdkDropListGroup class="container mt-5 rounded">
   <div class="row justify-content-center">
     <div class="card">
-      <div class="card-header">
+      <div class="card-header d-flex justify-content-between align-items-center">
+
         <ul class="nav nav-tabs card-header-tabs">
           <li
             *ngFor="let tab of tabs"
@@ -13,15 +14,14 @@
             }}</a>
           </li>
         </ul>
+        <button class="btn btn-success" type="submit" form="create-scholarship-form">Create Scholarship</button>
       </div>
       <div class="card-body">
         <form
+          id="create-scholarship-form"
           [formGroup]="createScholarshipForm"
           (ngSubmit)="createScholarship()"
         >
-          <span class="text-end">
-            <button class="btn btn-success" type="submit">Create Scholarship</button>
-          </span>
           <ng-container *ngIf="currentTab === 'scholarshipInformationTab'">
             <div class="container p-5">
               <label for="school" class="form-label">School</label>
