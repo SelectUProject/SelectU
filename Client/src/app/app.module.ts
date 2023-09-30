@@ -21,7 +21,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DragDropModule, CdkDragHandle } from '@angular/cdk/drag-drop';
 import {
   SocialLoginModule,
   GoogleSigninButtonModule,
@@ -117,6 +117,7 @@ import { ToastsContainerComponent } from './components/shared/toasts-container/t
     MdbModalModule,
     NgbdSortableHeader,
     DragDropModule,
+    CdkDragHandle,
   ],
   providers: [
     DatePipe,

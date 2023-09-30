@@ -1,21 +1,12 @@
-<div class="card">
-  <div class="card-header">
-    <i cdkDragHandle class="bi bi-arrows-move h6 me-3"></i>
-    <span class="d-inline-block">
+<div cdkDrag cdkDragBoundary=".form-builder-ui" class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+      <i cdkDragHandle class="bi bi-arrows-move h5 me-3"></i>
       <h6 class="card-title">
         {{ getFormSectionTypeDisplayName() }}
       </h6>
-    </span>
-  </div>
-  <ng-container *ngIf="isInApplicationForm">
-    <div class="card-body">
-      <div class="card-text">
-        <p class="form-builder-area__field-name rounded">
-          {{ formSectionData.name }}
-        </p>
-      </div>
     </div>
-    <div class="card-footer text-end">
+    <div *ngIf="isInApplicationForm" class="d-flex">
       <button
         type="button"
         (click)="openFormSectionEditDialog()"
@@ -30,6 +21,15 @@
       >
         <i class="bi bi-trash3-fill h6 me-2"></i>Delete
       </button>
+    </div>
+  </div>
+  <ng-container *ngIf="isInApplicationForm">
+    <div class="card-body">
+      <div class="card-text">
+        <p class="form-builder-area__field-name rounded">
+          {{ formSectionData.name }}
+        </p>
+      </div>
     </div>
   </ng-container>
 </div>
