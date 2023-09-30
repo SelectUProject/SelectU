@@ -1,9 +1,11 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { v4 as uuidv4 } from 'uuid';
 
 import { ScholarshipFormSectionListService } from 'src/app/services/scholarship-form-section-list/scholarship-form-section-list.service';
 import { ScholarshipFormSectionDTO } from 'src/app/models/ScholarshipFormSectionDTO';
 import { DragAndDropService } from 'src/app/services/drag-and-drop/drag-and-drop.service';
+import { FormSectionComponent } from '../form-section/form-section.component';
 
 @Component({
   selector: 'app-form-creator-area',
@@ -23,12 +25,16 @@ export class FormCreatorAreaComponent implements OnInit {
   }
 
   onDrop(event: CdkDragDrop<ScholarshipFormSectionDTO[]>): void {
+    // Dropping form sectioon to the form creator area
     this._dragAndDropService.drop(event)
 
-    // TODO: Open edit dialog box ONLY if the form builder item was dragged from the Form Components sidebar
+    // Generating a new uuid for the form section
+    event.container.data[event.currentIndex].uuid = uuidv4();
+
+    // Open edit dialog box ONLY if the form builder item was dragged from the Form Components sidebar
     if (event.previousContainer !== event.container) {
       // this.openDialog(event.currentIndex)
-      console.log(event)
+      console.log(event.container)
     }
   }
 

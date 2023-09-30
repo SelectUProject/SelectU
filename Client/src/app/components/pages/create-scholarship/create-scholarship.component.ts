@@ -20,10 +20,10 @@ export class CreateScholarshipComponent implements OnInit, OnDestroy {
   states: StringLookupDTO[] = STATES_LIST;
 
   constructor(
-    private _formBuilder: FormBuilder,
     private _router: Router,
     private _scholarshipService: ScholarshipService,
     private _scholarshipFormSectionListService: ScholarshipFormSectionListService,
+    private _formBuilder: FormBuilder,
     private _toastService: ToastService
   ) {}
 
@@ -36,10 +36,8 @@ export class CreateScholarshipComponent implements OnInit, OnDestroy {
 	}
 
   // The scholarship creation page should always open Scholarship Information tab first
-  currentTab: string = "scholarshipInformationTab";
-
-  // TODO: maybe make this an enum?
   tabs: string[] = ["scholarshipInformationTab", "formBuilderTab"];
+  currentTab: string = this.tabs[0];
 
   switchTabTo(tabName: string): void {
     this.currentTab = tabName;
@@ -49,15 +47,16 @@ export class CreateScholarshipComponent implements OnInit, OnDestroy {
     this.createScholarshipForm = this._formBuilder.group(
       {
         school: ['', Validators.required],
-        imageURL: [this.file, Validators.required],
+        imageURL: ['', Validators.required],
         value: ['', Validators.required],
         shortDescription: ['', Validators.required],
         description: ['', Validators.required],
-        scholarshipFormTemplate: [this._scholarshipFormSectionListService.formSections, Validators.required],
+        // TODO: Fix the validation for formSections array, the array doesn't get updated when using this._formBuilder.array(this._scholarshipFormSectionListService.formSections, Validators.required)
+        scholarshipFormTemplate: [this._scholarshipFormSectionListService.formSections],
         city: ['', Validators.required],
         state: ['', Validators.required],
-        startDate: [new Date(), Validators.required],
-        endDate: [new Date(), Validators.required]
+        startDate: ['', Validators.required],
+        endDate: ['', Validators.required]
       }
     );
   }
@@ -76,8 +75,10 @@ export class CreateScholarshipComponent implements OnInit, OnDestroy {
         this._router.navigate(['/manage-scholarships']);
       })
       .catch((response) => {
-        // TODO: add an error snackbar here
-        console.error(response);
+        this._toastService.show(response.message, {
+          classname: 'bg-danger text-light',
+          delay: 5000
+        });
       });
   }
 }

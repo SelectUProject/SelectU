@@ -19,6 +19,7 @@
           class="btn btn-success"
           type="submit"
           form="create-scholarship-form"
+          [disabled]="!createScholarshipForm.valid"
         >
           Create Scholarship
         </button>
@@ -31,102 +32,155 @@
         >
           <ng-container *ngIf="currentTab === 'scholarshipInformationTab'">
             <div class="container p-5">
+              <h5 class="mb-4">Scholarship details</h5>
               <div class="row">
-                <div class="col-md-6">
-                  <label for="school" class="form-label">School</label>
-                  <div class="input-group mb-3">
+                <div class="col-md-9">
+                  <mdb-form-control class="mb-4">
                     <input
-                      type="text"
-                      class="form-control"
-                      id="school"
-                      formControlName="school"
-                    />
-                  </div>
-
-                  <label for="shortDescription" class="form-label">Title</label>
-                  <div class="input-group mb-3">
-                    <input
+                      mdbValidate
+                      mdbInput
                       type="text"
                       class="form-control"
                       id="shortDescription"
                       formControlName="shortDescription"
                     />
-                  </div>
-
-                  <label for="city" class="form-label">City</label>
-                  <div class="input-group mb-3">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="city"
-                      formControlName="city"
-                    />
-                  </div>
-
-                  <label for="startDate" class="form-label">Start Date</label>
-                  <div class="input-group mb-3">
-                    <input
-                      type="date"
-                      class="form-control"
-                      id="startDate"
-                      formControlName="startDate"
-                    />
-                  </div>
-
-                  <label for="imageURL" class="form-label">Upload Image</label>
-                  <div class="input-group mb-3">
-                    <input
-                      class="form-control"
-                      type="file"
-                      id="imageURL"
-                      formControlName="imageURL"
-                    />
-                  </div>
+                    <label mdbLabel for="shortDescription" class="form-label"
+                      >Scholarship Title</label
+                    >
+                  </mdb-form-control>
                 </div>
-                <div class="col-md-6">
-                  <label for="value" class="form-label">Value</label>
-                  <div class="input-group mb-3">
+                <div class="col-md-3">
+                  <mdb-form-control class="mb-4">
                     <input
+                      mdbValidate
+                      mdbInput
                       type="text"
                       class="form-control"
                       id="value"
                       formControlName="value"
                     />
-                  </div>
-
-                  <label for="description" class="form-label"
-                    >Description</label
-                  >
-                  <div class="input-group mb-3">
+                    <label mdbLabel for="value" class="form-label"
+                      >Scholarship Value</label
+                    >
+                  </mdb-form-control>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <mdb-form-control class="mb-4">
                     <input
+                      mdbValidate
+                      mdbInput
                       type="text"
                       class="form-control"
                       id="description"
                       formControlName="description"
                     />
-                  </div>
-
-                  <label for="state" class="form-label">State</label>
-                  <div class="input-group mb-3">
-                    <select class="form-select" formControlName="state">
-                      <option [value]="null" disabled>Select a state</option>
-                      <option
-                        *ngFor="let state of states"
-                        [value]="state.value"
-                      >
-                        {{ state.name }}
-                      </option>
-                    </select>
-                  </div>
-                  <label for="endDate" class="form-label">End Date</label>
-                  <div class="input-group mb-3">
+                    <label mdbLabel for="description" class="form-label"
+                      >Description</label
+                    >
+                  </mdb-form-control>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <mdb-form-control class="mb-4">
                     <input
+                      mdbValidate
+                      mdbInput
+                      type="date"
+                      class="form-control"
+                      id="startDate"
+                      formControlName="startDate"
+                    />
+                    <label mdbLabel for="startDate" class="form-label"
+                      >Start Date</label
+                    >
+                  </mdb-form-control>
+                </div>
+                <div class="col-md-6">
+                  <mdb-form-control class="mb-4">
+                    <input
+                      mdbValidate
+                      mdbInput
                       type="date"
                       class="form-control"
                       id="endDate"
                       formControlName="endDate"
                     />
+                    <label mdbLabel for="endDate" class="form-label"
+                      >End Date</label
+                    >
+                  </mdb-form-control>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-6">
+                  <h5 class="mb-4">School Information</h5>
+                  <mdb-form-control class="mb-4">
+                    <input
+                      mdbValidate
+                      mdbInput
+                      type="text"
+                      class="form-control"
+                      id="school"
+                      formControlName="school"
+                    />
+                    <label mdbLabel for="school" class="form-label"
+                      >School</label
+                    >
+                  </mdb-form-control>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mdb-form-control class="mb-4">
+                        <input
+                          mdbValidate
+                          mdbInput
+                          type="text"
+                          class="form-control"
+                          id="city"
+                          formControlName="city"
+                        />
+                        <label mdbLabel for="city" class="form-label"
+                          >City</label
+                        >
+                      </mdb-form-control>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-control" class="mb-4">
+                        <select
+                          class="form-select"
+                          formControlName="state"
+                          id="state"
+                        >
+                          <option [value]="null" disabled>
+                            Select a state
+                          </option>
+                          <option
+                            *ngFor="let state of states"
+                            [value]="state.value"
+                          >
+                            {{ state.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
+                </div>
+                <div class="col-md-6">
+                  <h5 class="mb-4">Upload Image</h5>
+                  <mdb-form-control class="mb-4">
+                    <input
+                      mdbValidate
+                      mdbInput
+                      class="form-control"
+                      type="file"
+                      id="imageURL"
+                      formControlName="imageURL"
+                    />
+                  </mdb-form-control>
                 </div>
               </div>
             </div>

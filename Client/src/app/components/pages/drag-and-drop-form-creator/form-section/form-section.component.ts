@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { cloneDeep } from 'lodash';
 
 import { ScholarshipFormSectionDTO } from 'src/app/models/ScholarshipFormSectionDTO';
@@ -11,7 +11,7 @@ import { FormSectionEditDialogBoxComponent } from '../form-section-edit-dialog-b
   templateUrl: './form-section.component.html',
   styleUrls: ['./form-section.component.scss']
 })
-export class FormSectionComponent {
+export class FormSectionComponent implements OnChanges {
   @Input() formSectionData: ScholarshipFormSectionDTO;
   @Input() isInApplicationForm: boolean; // to check if the form section is dragged inside of an application form
 
@@ -19,6 +19,9 @@ export class FormSectionComponent {
   @Output() updateFormSectionData: EventEmitter<ScholarshipFormSectionDTO> = new EventEmitter();
 
   constructor(private _editModalService: NgbModal) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+  }
 
   getFormSectionTypeDisplayName(): string {
     return `${ScholarshipFormTypeEnum[this.formSectionData.type]} Input`;

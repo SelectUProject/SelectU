@@ -9,7 +9,6 @@
         [cdkDropListData]="baseFormSections"
         cdkDropListConnectedTo="form-creator-area"
         class="list-group"
-        (cdkDropListDropped)="onDrop($event)"
       >
         <div
           *ngFor="let formSection of baseFormSections"
