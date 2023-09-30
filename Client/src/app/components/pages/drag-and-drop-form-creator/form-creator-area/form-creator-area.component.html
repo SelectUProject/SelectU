@@ -1,4 +1,4 @@
-<div class="form-builder-ui container">
+<div class="form-builder-ui p-5">
   <div
     id="form-creator-area"
     cdkDropListConnectedTo="form-section-list"
@@ -7,15 +7,12 @@
     class="list-group"
     (cdkDropListDropped)="onDrop($event)"
   >
-    <div *ngIf="formSections.length === 0">
-      Drag your form sections here
-    </div>
     <div
       *ngFor="
         let formSection of formSections;
         index as i
       "
-      class="list-group-item"
+      class="list-group-item p-0"
       cdkDrag
       cdkDragBoundary=".form-builder-ui"
     >
@@ -26,5 +23,8 @@
         (updateFormSectionData)="updateFormSectionData($event)"
       ></app-form-section>
     </div>
+    <p>
+      Drag your form sections here
+    </p>
   </div>
 </div>

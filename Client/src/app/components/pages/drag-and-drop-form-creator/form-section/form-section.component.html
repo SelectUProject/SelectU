@@ -1,10 +1,10 @@
-<div class="card mb-3">
+<div class="card">
   <div class="card-header">
-    <i cdkDragHandle class="bi bi-arrows-move h4 me-3"></i>
+    <i cdkDragHandle class="bi bi-arrows-move h6 me-3"></i>
     <span class="d-inline-block">
-      <h5 class="card-title">
+      <h6 class="card-title">
         {{ getFormSectionTypeDisplayName() }}
-      </h5>
+      </h6>
     </span>
   </div>
   <ng-container *ngIf="isInApplicationForm">
@@ -14,9 +14,6 @@
           {{ formSectionData.name }}
         </p>
       </div>
-      <p class="card-text">
-        <small class="text-muted">0 options</small>
-      </p>
     </div>
     <div class="card-footer text-end">
       <button
