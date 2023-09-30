@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUri: 'https://api.selectu.com',
+  apiBaseUri: 'https://selectu-backend.azurewebsites.net',
 };
