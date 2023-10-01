@@ -262,7 +262,7 @@ namespace SelectU.API.Controllers
             }
         }
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
-        [HttpPost("photo/upload")]
+        [HttpPost("photo/{userId}/upload")]
         public async Task<IActionResult> UploadProfilePic([FromRoute] string userId, [FromBody] Stream file)
         {
             try
@@ -297,7 +297,7 @@ namespace SelectU.API.Controllers
             }
         }
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
-        [HttpDelete("photo/delete")]
+        [HttpDelete("photo/{userId}/delete")]
         public async Task<IActionResult> DeleteProfilePic([FromRoute] string userId)
         {
             try
@@ -331,7 +331,7 @@ namespace SelectU.API.Controllers
             }
         }
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
-        [HttpGet("photo/download")]
+        [HttpGet("photo/{userId}/download")]
         public async Task<IActionResult> DownloadProfilePic([FromRoute] string userId)
         {
             try
