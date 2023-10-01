@@ -50,4 +50,13 @@ export class ScholarshipService {
       )
     );
   }
+
+  async updateScholarship(scholarshipCreateDTO: ScholarshipCreateDTO) {
+    return await firstValueFrom(
+      this.http.post<ResponseDTO>(
+        `${Config.api}/Scholarship/update`,
+        scholarshipCreateDTO
+      )
+    );
+  }
 }
