@@ -14,7 +14,7 @@ import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ManageScholarshipsPageComponent } from './components/pages/manage-scholarships-page/manage-scholarships-page.component';
-import { ShortViewScholarshipsComponentComponent } from './components/shared/short-view-scholarships-component/short-view-scholarships-component.component';
+import { ShortViewScholarshipsComponent } from './components/shared/short-view-scholarships/short-view-scholarships.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
@@ -39,6 +39,9 @@ import { MyApplicationsComponent } from './components/pages/my-applications/my-a
 import { ShortViewMyApplicationsComponent } from './components/shared/short-view-my-applications/short-view-my-applications.component';
 import { EmptyScholarshipsComponent } from './components/shared/empty-scholarships/empty-scholarships.component';
 import { ScholarshipSearchFormComponent } from './components/shared/scholarship-search-form/scholarship-search-form.component';
+import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
+import { LongViewScholarshipsComponent } from './components/shared/long-view-scholarships/long-view-scholarships.component';
+import { ScholarshipApplicationFormComponent } from './components/shared/scholarship-application-form/scholarship-application-form.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,7 @@ import { ScholarshipSearchFormComponent } from './components/shared/scholarship-
     LoginPageComponent,
     LoginFormComponent,
     ManageScholarshipsPageComponent,
-    ShortViewScholarshipsComponentComponent,
+    ShortViewScholarshipsComponent,
     RegisterPageComponent,
     RegisterFormComponent,
     LandingPageComponent,
@@ -58,6 +61,9 @@ import { ScholarshipSearchFormComponent } from './components/shared/scholarship-
     ShortViewMyApplicationsComponent,
     EmptyScholarshipsComponent,
     ScholarshipSearchFormComponent,
+    CreateScholarshipApplicationPageComponent,
+    LongViewScholarshipsComponent,
+    ScholarshipApplicationFormComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

@@ -37,7 +37,12 @@
         <button *ngIf="this.tokenService.role == STAFF" class="btn btn-primary">
           Edit
         </button>
-        <button *ngIf="this.tokenService.role == USER" class="btn btn-primary">
+        <button
+          *ngIf="this.tokenService.role == USER"
+          (click)="this.scholarshipService.scholarship = this.scholarship"
+          [routerLink]="'/create-scholarship-application'"
+          class="btn btn-primary"
+        >
           Apply
         </button>
         <button class="btn btn-sercondary">View Details</button>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { Config } from './config';
 import { TokenService } from './token.service';
 import { ScholarshipApplicationDTO } from '../models/ScholarshipApplicationDTO';
@@ -13,6 +13,8 @@ import { ScholarshipUpdateDTO } from '../models/ScholarshipUpdateDTO';
   providedIn: 'root',
 })
 export class ScholarshipService {
+  public scholarship: ScholarshipUpdateDTO;
+
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
   async getScholarshipDetails(id: any) {
