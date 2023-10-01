@@ -29,10 +29,10 @@ export class EditScholarshipPageComponent {
   }
 
   setupForm(): void {
-    const scholarshipId = this._route.snapshot.paramMap.get('id') as string;
+    const scholarshipId = this._route.snapshot.paramMap.get('id');
 
     this._scholarshipService
-      .getScholarshipDetails(JSON.stringify(scholarshipId))
+      .getScholarshipDetails(scholarshipId)
         .then((response) => {
           this.scholarship = response as unknown as ScholarshipUpdateDTO;
           this._scholarshipFormSectionListService.formSections = this.scholarship.scholarshipFormTemplate;
@@ -40,7 +40,8 @@ export class EditScholarshipPageComponent {
           this.populateForm();
         })
         .catch((response) => {
-          console.log(response);
+          this._toastService.show(response.message, { classname: 'bg-danger text-light'} );
+          this._router.navigate(['/manage-scholarships']);
         })
   }
 
