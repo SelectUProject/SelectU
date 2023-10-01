@@ -1,6 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using SelectU.Contracts.Config;
 using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Enums;
@@ -8,7 +11,9 @@ using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
 using SelectU.Core.Helpers;
+using SelectU.Core.Services;
 using System.Data;
+using System.Drawing;
 
 namespace SelectU.API.Controllers
 {
@@ -18,12 +23,18 @@ namespace SelectU.API.Controllers
     {
         private readonly ILogger<ScholarshipController> _logger;
         private readonly IScholarshipService _scholarshipService;
+        private readonly AzureBlobSettingsConfig _azureBlobSettingsConfig;
+        private readonly IBlobStorageService _blobStorageService;
 
-        public ScholarshipController(ILogger<ScholarshipController> logger,
+        public ScholarshipController(ILogger<ScholarshipController> logger, 
+            IBlobStorageService blobStorageService,
+            IOptions<AzureBlobSettingsConfig> azureBlobSettingsConfig,
             IScholarshipService scholarshipService)
         {
             _logger = logger;
             _scholarshipService = scholarshipService;
+            _blobStorageService = blobStorageService;
+            _azureBlobSettingsConfig = azureBlobSettingsConfig.Value;
         }
 
         [Authorize]
@@ -165,6 +176,129 @@ namespace SelectU.API.Controllers
                 _logger.LogError(ex, $"Scholarship, {ex.Message}");
                 return BadRequest(ex.Message);
             }
+        }
+
+        [Authorize(Roles = $"{UserRoles.Staff}")]
+        [HttpPost("photo/upload/{scholarshipId}")]
+        public async Task<IActionResult> UploadPic([FromRoute] Guid scholarshipId, [FromBody] Stream file)
+        {
+            try
+            {
+                if (!IsValidImage(file))
+                {
+                    return BadRequest("Uploaded File is not a vaild image");
+                }
+                var scholarship = await _scholarshipService.GetScholarshipAsync(scholarshipId);
+
+                if (scholarship == null)
+                {
+                    return BadRequest("scholarship not found");
+                }
+
+                string imageID = await _blobStorageService.UploadFileAsync(_azureBlobSettingsConfig.FileContainerName, file);
+                scholarship.ImageURL = imageID;
+                await _scholarshipService.UpdateScholarshipsAsync(scholarship);
+                if (!scholarship.ImageURL.IsNullOrEmpty())
+                {
+                    await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.FileContainerName, scholarship.ImageURL);
+                }
+
+                return Ok(new { Message = "File uploaded successfully", ImageID = imageID });
+
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.Staff}")]
+        [HttpDelete("photo/delete/{scholarshipId}")]
+        public async Task<IActionResult> DeletePic([FromRoute] Guid scholarshipId)
+        {
+            try
+            {
+                var scholarship = await _scholarshipService.GetScholarshipAsync(scholarshipId);
+
+                if (scholarship == null)
+                {
+                    return BadRequest("User not found");
+                }
+                bool result = false;
+
+                if (!scholarship.ImageURL.IsNullOrEmpty())
+                {
+                    result = await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, scholarship.ImageURL);
+                }
+                else
+                {
+                    return BadRequest(new ResponseDTO { Success = result, Message = "Picture does not exist" });
+                }
+
+                return Ok(new ResponseDTO { Success = result, Message = "Picture Delete" });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.Staff}")]
+        [HttpGet("photo/download/{applicationId}")]
+        public async Task<IActionResult> DownloadPic([FromRoute] Guid applicationId)
+        {
+            try
+            {
+
+                var scholarship = await _scholarshipService.GetScholarshipAsync(applicationId);
+
+                if (scholarship == null)
+                {
+                    return BadRequest("scholarship not found");
+                }
+
+                if (!scholarship.ImageURL.IsNullOrEmpty())
+                {
+                    var stream = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.FileContainerName, scholarship.ImageURL);
+                    return Ok(stream);
+                }
+                else
+                {
+                    return BadRequest(new ResponseDTO { Success = false, Message = "Picture does not exist" });
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        private bool IsValidImage(Stream file)
+        {
+            try
+            {
+                using (Image newImage = Image.FromStream(file))
+                { }
+            }
+            catch (OutOfMemoryException ex)
+            {
+                //The file does not have a valid image format.
+                //-or- GDI+ does not support the pixel format of the file
+
+                return false;
+            }
+            return true;
         }
     }
 }
