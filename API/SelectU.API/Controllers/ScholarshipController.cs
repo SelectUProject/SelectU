@@ -50,7 +50,7 @@ namespace SelectU.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("active-scholarships")]
+        [HttpPost("active")]
         public async Task<IActionResult> GetActiveScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO)
         {
             try
@@ -72,7 +72,7 @@ namespace SelectU.API.Controllers
         }
 
         [Authorize(Roles = UserRoles.Staff)]
-        [HttpPost("created-scholarships")]
+        [HttpPost("list/creator")]
         public async Task<IActionResult> GetMyCreatedScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO )
         {
             try
@@ -95,7 +95,7 @@ namespace SelectU.API.Controllers
         }
 
         [Authorize(Roles = UserRoles.Staff)]
-        [HttpPost("create-scholarship")]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateScholarshipAsync([FromBody] ScholarshipCreateDTO scholarshipCreateDTO)
         {
             try
@@ -109,6 +109,52 @@ namespace SelectU.API.Controllers
                 }
 
                 return Ok(scholarship);
+            }
+            catch (ScholarshipException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize(Roles = UserRoles.Staff)]
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateScholarshipAsync([FromBody] ScholarshipUpdateDTO scholarshipUpdateDTO)
+        {
+            try
+            {
+                var response = await _scholarshipService.UpdateScholarshipsAsync(scholarshipUpdateDTO);
+
+                return Ok(response);
+            }
+            catch (ScholarshipException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize(Roles = UserRoles.Staff)]
+        [HttpDelete("delete/{scholarshipId}")]
+        public async Task<IActionResult> DeleteScholarshipAsync([FromRoute] Guid scholarshipId)
+        {
+            try
+            {
+                string userId = HttpContext.GetUserId();
+                var scholarship = await _scholarshipService.GetScholarshipAsync(scholarshipId);
+                if ((scholarship.ScholarshipCreatorId != userId) || HttpContext.User.IsInRole(UserRoles.Admin))
+                {
+                    var response = await _scholarshipService.DeleteScholarshipsAsync(scholarshipId);
+
+                    return Ok(response);
+                }
+                return BadRequest($"You may only delete your own created scholarships unless you are a {UserRoles.Admin}");
             }
             catch (ScholarshipException ex)
             {

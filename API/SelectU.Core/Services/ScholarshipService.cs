@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SelectU.Contracts;
 using SelectU.Contracts.DTO;
@@ -181,6 +182,52 @@ namespace SelectU.Core.Services
             return validatedScholarship;
         }
 
+        public async Task<ResponseDTO> UpdateScholarshipsAsync(ScholarshipUpdateDTO ScholarshipUpdateDTO)
+        {
+            if (ScholarshipUpdateDTO.Id != null)
+            {
+                var oldScholarship = await GetScholarshipAsync((Guid)ScholarshipUpdateDTO.Id);
+                if(oldScholarship == null)
+                {
+                    throw new NotFoundException("Scholarship not Found");
+                }
+                Scholarship updatedScholarship = new Scholarship
+                {
+                    Id = (Guid)ScholarshipUpdateDTO.Id,
+                    ScholarshipFormTemplate = JsonSerializer.Serialize(ScholarshipUpdateDTO.ScholarshipFormTemplate) ?? JsonSerializer.Serialize(oldScholarship.ScholarshipFormTemplate),
+                    School = ScholarshipUpdateDTO.School ?? oldScholarship.School,
+                    Value = ScholarshipUpdateDTO.Value ??oldScholarship.Value,
+                    ShortDescription = ScholarshipUpdateDTO.ShortDescription ?? oldScholarship.ShortDescription,
+                    ScholarshipCreatorId = ScholarshipUpdateDTO.ScholarshipCreatorId ?? oldScholarship.ScholarshipCreatorId,
+                    Description = ScholarshipUpdateDTO.Description ?? oldScholarship.Description,
+                    Status = (StatusEnum)(ScholarshipUpdateDTO.Status != null ? ScholarshipUpdateDTO.Status : oldScholarship.Status),
+                    State = ScholarshipUpdateDTO.State ?? oldScholarship.State,
+                    City = ScholarshipUpdateDTO.City ?? oldScholarship.City,
+                    StartDate = ScholarshipUpdateDTO.StartDate ?? oldScholarship.StartDate,
+                    EndDate = ScholarshipUpdateDTO.EndDate ?? oldScholarship.EndDate,
+                    DateModified = DateTimeOffset.Now
+                };
 
+                _unitOfWork.Scholarships.Update(updatedScholarship);
+
+                await _unitOfWork.CommitAsync();
+
+                return new ResponseDTO { Success = true, Message = "Scholarship updated successfully." };
+            }
+            throw new ArgumentNullException(nameof(ScholarshipUpdateDTO.Id), "Scholarship Id cannot be null");
+        }
+
+        public async Task<ResponseDTO> DeleteScholarshipsAsync(Guid id)
+        {
+                var oldScholarship = await GetScholarshipAsync(id);
+                if (oldScholarship == null)
+                {
+                    throw new NotFoundException("Scholarship not Found");
+                }
+
+                await _unitOfWork.Scholarships.DeleteAsync(id);
+
+                return new ResponseDTO { Success = true, Message = "Scholarship deleted successfully." };
+        }
     }
 }
