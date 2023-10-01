@@ -5,5 +5,5 @@
 export const environment = {
   production: false,
   admissionName: 'Scholarships',
-  apiBaseUri: 'https://selectu-backend.azurewebsites.net',
+  apiBaseUri: 'https://localhost:7293',
 };
