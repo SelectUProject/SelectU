@@ -16,11 +16,13 @@
             <ul class="list-group">
               <li class="list-group-item">
                 <strong>Full Name: </strong>
-                <span id="fullName">{{ userDetails.firstName }} {{userDetails.lastName}} </span>
+                <span id="fullName"
+                  >{{ userDetails.firstName }} {{ userDetails.lastName }}
+                </span>
               </li>
               <li class="list-group-item">
                 <strong>Date of Birth: </strong>
-                <span id="dob">{{userDetails.dateOfBirth}}</span>
+                <span id="dob">{{ userDetails.dateOfBirth }}</span>
               </li>
               <li class="list-group-item">
                 <strong>Gender: </strong>
@@ -51,10 +53,8 @@
                 <span id="state">{{ userDetails.state }}</span>
               </li>
             </ul>
-            <button
-            (click)="redirect()"
-            class="btn btn-primary btn-block mb-3">
-            Update account information
+            <button (click)="redirect()" class="btn btn-primary btn-block mb-3">
+              Update account information
             </button>
           </div>
         </div>

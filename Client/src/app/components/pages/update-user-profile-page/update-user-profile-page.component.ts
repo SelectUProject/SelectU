@@ -144,7 +144,7 @@ export class UpdateUserProfilePageComponent {
     this.saving = true;
     this.isError = false;
     let updateAccountForm = <UserUpdateDTO>this.updateAccountForm.value;
-
+    updateAccountForm.id = this.userDetails.id;
     await this.userService
       .updateUserDetails(updateAccountForm)
       .then(() => {

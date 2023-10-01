@@ -16,8 +16,7 @@ export class UserProfilePageComponent implements OnInit {
 
   admissionName = environment.admissionName;
 
-
-  constructor(private userService: UserService, private router:Router) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.getUserDetails();
@@ -33,14 +32,12 @@ export class UserProfilePageComponent implements OnInit {
         console.log(response);
       });
 
-      this.gender = getGenderString(this.userDetails.gender);
+    this.gender = getGenderString(this.userDetails.gender);
   }
 
-  redirect(){
-
-    this.router.navigate(['./update-user-profile-page.component.scss'])
+  redirect() {
+    this.router.navigate(['/update-account']);
   }
-
 }
 
 function getGenderString(genderCode: number): string {
@@ -48,16 +45,16 @@ function getGenderString(genderCode: number): string {
 
   switch (genderCode) {
     case 0:
-      genderString = "Male";
+      genderString = 'Male';
       break;
     case 1:
-      genderString = "Female";
+      genderString = 'Female';
       break;
     case 2:
-      genderString = "Other";
+      genderString = 'Other';
       break;
     default:
-      genderString = "Unknown";
+      genderString = 'Unknown';
       break;
   }
 
