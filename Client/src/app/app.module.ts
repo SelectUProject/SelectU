@@ -38,6 +38,7 @@ import { FindScholarshipsComponent } from './components/pages/find-scholarships/
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { ShortViewMyApplicationsComponent } from './components/shared/short-view-my-applications/short-view-my-applications.component';
 import { EmptyScholarshipsComponent } from './components/shared/empty-scholarships/empty-scholarships.component';
+import { ScholarshipSearchFormComponent } from './components/shared/scholarship-search-form/scholarship-search-form.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { EmptyScholarshipsComponent } from './components/shared/empty-scholarshi
     MyApplicationsComponent,
     ShortViewMyApplicationsComponent,
     EmptyScholarshipsComponent,
+    ScholarshipSearchFormComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

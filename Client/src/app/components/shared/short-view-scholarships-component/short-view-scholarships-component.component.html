@@ -31,8 +31,12 @@
       <div class="">
         <h6>Actions</h6>
 
-        <!-- <button>Apply</button> -->
-        <button class="btn btn-primary">Edit</button>
+        <button *ngIf="this.tokenService.role == STAFF" class="btn btn-primary">
+          Edit
+        </button>
+        <button *ngIf="this.tokenService.role == USER" class="btn btn-primary">
+          Apply
+        </button>
         <button class="btn btn-sercondary">View Details</button>
       </div>
     </div>

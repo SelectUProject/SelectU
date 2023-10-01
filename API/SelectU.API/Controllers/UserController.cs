@@ -239,6 +239,7 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Staff}")]
         [Authorize]
         [HttpGet("list")]
@@ -261,6 +262,7 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [HttpPost("photo/upload")]
         public async Task<IActionResult> UploadProfilePic([FromRoute] string userId, [FromBody] Stream file)
@@ -296,6 +298,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [HttpDelete("photo/delete")]
         public async Task<IActionResult> DeleteProfilePic([FromRoute] string userId)
@@ -330,6 +333,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [HttpGet("photo/download")]
         public async Task<IActionResult> DownloadProfilePic([FromRoute] string userId)
@@ -366,7 +370,6 @@ namespace SelectU.API.Controllers
             }
         }
 
-
         [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
         [HttpPatch("admin/details/update")]
@@ -399,6 +402,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
         [HttpDelete("admin/delete/{userId}")]
@@ -418,6 +422,7 @@ namespace SelectU.API.Controllers
             }
 
         }
+
         [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
         [HttpPatch("admin/roles/update")]
@@ -446,6 +451,7 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
         [HttpGet("admin/roles/details/{userId}")]

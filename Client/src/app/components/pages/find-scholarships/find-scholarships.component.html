@@ -1,24 +1,7 @@
 <div class="container mt-5 py-5 rounded">
-  <div class="row justify-content-center">
-    <div class="col-6">
-      <div class="row">
-        <div class="input-group">
-          <div class="form-outline">
-            <input
-              id="search-focus"
-              type="search"
-              id="form1"
-              class="form-control"
-            />
-            <label class="form-label" for="form1">Search</label>
-          </div>
-          <button type="button" class="btn btn-primary">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-scholarship-search-form
+    (scholarships)="handleSearchEvent($event)"
+  ></app-scholarship-search-form>
 </div>
 <div class="container mt-5 rounded">
   <div
