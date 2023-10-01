@@ -92,7 +92,7 @@ export class EditScholarshipPageComponent {
   }
 
   deleteScholarship() {
-    alert(`Are you sure you want to delete this scholarship:\n"${this.scholarship.shortDescription}"?`)
+    confirm(`Are you sure you want to delete this scholarship:\n"${this.scholarship.shortDescription}"?`)
 
     // TODO: Add an API call to delete scholarship
   }

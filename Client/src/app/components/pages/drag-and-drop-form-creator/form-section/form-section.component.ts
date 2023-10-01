@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { cloneDeep } from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 
 import { ScholarshipFormSectionDTO } from 'src/app/models/ScholarshipFormSectionDTO';
 import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum';
@@ -11,7 +12,7 @@ import { FormSectionEditDialogBoxComponent } from '../form-section-edit-dialog-b
   templateUrl: './form-section.component.html',
   styleUrls: ['./form-section.component.scss']
 })
-export class FormSectionComponent implements OnChanges {
+export class FormSectionComponent implements OnInit {
   @Input() formSectionData: ScholarshipFormSectionDTO;
   @Input() isInApplicationForm: boolean; // to check if the form section is dragged inside of an application form
 
@@ -20,7 +21,9 @@ export class FormSectionComponent implements OnChanges {
 
   constructor(private _editModalService: NgbModal) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnInit() {
+    // Generates a unique ID when the form section is created
+    this.formSectionData.uuid = uuidv4();
   }
 
   getFormSectionTypeDisplayName(): string {

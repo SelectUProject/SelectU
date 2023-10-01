@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 import { ScholarshipFormSectionDTO } from 'src/app/models/ScholarshipFormSectionDTO';
 import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum';
