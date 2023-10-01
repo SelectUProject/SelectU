@@ -59,4 +59,12 @@ export class ScholarshipService {
       )
     );
   }
+
+  async deleteScholarship(id: any) {
+    return await firstValueFrom(
+      this.http.delete<ResponseDTO>(
+        `${Config.api}/Scholarship/delete/${id}`,
+      )
+    );
+  }
 }

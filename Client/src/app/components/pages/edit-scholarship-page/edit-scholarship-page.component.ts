@@ -123,8 +123,23 @@ export class EditScholarshipPageComponent {
   }
 
   deleteScholarship() {
-    confirm(`Are you sure you want to delete this scholarship:\n"${this.scholarship.shortDescription}"?`)
+    const deleteConfirm = confirm(`Are you sure you want to delete this scholarship:\n"${this.scholarship.shortDescription}"?`);
 
-    // TODO: Add an API call to delete scholarship
+    if (deleteConfirm) {
+      this._scholarshipService
+        .deleteScholarship(this.scholarship.id)
+        .then((response) => {
+          this._toastService.show(response.message, {
+            classname: 'bg-success text-light',
+          });
+
+          this._router.navigate(['/manage-scholarships']);
+        })
+        .catch((response) => {
+          this._toastService.show(response.message, {
+            classname: 'bg-danger text-light',
+          });
+        });
+    }
   }
 }
