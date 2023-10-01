@@ -1,0 +1,8 @@
+<div class="conatainer mt-5 mb-2">
+  <h3 class="text-center">Edit scholarship</h3>
+</div>
+<app-scholarship-editor
+  [scholarshipFormGroup]="editScholarshipForm"
+  (updateButtonClick)="updateScholarship()"
+  (deleteButtonClick)="deleteScholarship()"
+></app-scholarship-editor>

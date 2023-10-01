@@ -15,20 +15,43 @@
             }}</a>
           </li>
         </ul>
-        <button
-          class="btn btn-success"
-          type="submit"
-          form="create-scholarship-form"
-          [disabled]="!createScholarshipForm.valid"
-        >
-          Create Scholarship
-        </button>
+        <div *ngIf="newScholarship; else existingFormActions">
+          <button
+            class="btn btn-success me-2"
+            type="submit"
+            form="scholarship-editor"
+            [disabled]="!scholarshipFormGroup.valid"
+            (click)="emitCreateButtonClick()"
+          >
+            Create Scholarship
+          </button>
+        </div>
+        <ng-template #existingFormActions>
+          <div>
+            <button
+              class="btn btn-secondary me-2"
+              type="submit"
+              form="scholarship-editor"
+              [disabled]="!scholarshipFormGroup.valid"
+              (click)="emitUpdateButtonClick()"
+            >
+              Update Scholarship
+            </button>
+            <button
+              class="btn btn-danger me-2"
+              form="scholarship-editor"
+              [disabled]="!scholarshipFormGroup.valid"
+              (click)="emitDeleteButtonClick()"
+            >
+              Delete Scholarship
+            </button>
+          </div>
+        </ng-template>
       </div>
       <div class="card-body">
         <form
-          id="create-scholarship-form"
-          [formGroup]="createScholarshipForm"
-          (ngSubmit)="createScholarship()"
+          id="scholarship-editor"
+          [formGroup]="scholarshipFormGroup"
         >
           <ng-container *ngIf="currentTab === 'scholarshipInformationTab'">
             <div class="container p-5">
@@ -86,12 +109,16 @@
                 <div class="col-md-6">
                   <mdb-form-control class="mb-4">
                     <input
+                      ngbDatepicker
+                      #dp1="ngbDatepicker"
                       mdbValidate
                       mdbInput
-                      type="date"
+                      type="text"
                       class="form-control"
+                      autocomplete="off"
                       id="startDate"
                       formControlName="startDate"
+                      (click)="dp1.toggle()"
                     />
                     <label mdbLabel for="startDate" class="form-label"
                       >Start Date</label
@@ -101,12 +128,16 @@
                 <div class="col-md-6">
                   <mdb-form-control class="mb-4">
                     <input
+                      ngbDatepicker
+                      #dp2="ngbDatepicker"
                       mdbValidate
                       mdbInput
-                      type="date"
+                      type="text"
                       class="form-control"
+                      autocomplete="off"
                       id="endDate"
                       formControlName="endDate"
+                      (click)="dp2.toggle()"
                     />
                     <label mdbLabel for="endDate" class="form-label"
                       >End Date</label

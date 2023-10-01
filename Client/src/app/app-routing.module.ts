@@ -14,6 +14,8 @@ import UserInvitePageComponent from './components/pages/user-invite-page/user-in
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 import { CreateScholarshipComponent } from './components/pages/create-scholarship/create-scholarship.component';
+import { CreateScholarshipPageComponent } from './components/pages/create-scholarship-page/create-scholarship-page.component';
+import { EditScholarshipPageComponent } from './components/pages/edit-scholarship-page/edit-scholarship-page.component';
 
 //components
 
@@ -66,7 +68,15 @@ const routes: Routes = [
       },
       {
         path: 'create-scholarships',
-        component: CreateScholarshipComponent,
+        component: CreateScholarshipPageComponent,
+        canActivate: [AuthGuard],
+        data: { role: Role.Staff },
+      },
+      {
+        path: 'scholarship/:id/edit',
+        component: EditScholarshipPageComponent,
+        canActivate: [AuthGuard],
+        data: { role: Role.Staff },
       }
     ],
   },

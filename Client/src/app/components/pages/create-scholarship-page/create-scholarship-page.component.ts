@@ -1,23 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ToastService } from 'src/app/providers/toast.service';
-
-import { ScholarshipCreateDTO } from 'src/app/models/ScholarshipCreateDTO';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { ScholarshipCreateDTO } from 'src/app/models/ScholarshipCreateDTO';
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
+import { ToastService } from 'src/app/providers/toast.service';
 import { ScholarshipFormSectionListService } from 'src/app/services/scholarship-form-section-list/scholarship-form-section-list.service';
-import { StringLookupDTO } from 'src/app/models/LookupDTOs';
-import { STATES_LIST } from 'src/app/constants/States';
 
 @Component({
-  selector: 'app-create-scholarship',
-  templateUrl: './create-scholarship.component.html',
-  styleUrls: ['./create-scholarship.component.scss']
+  selector: 'app-create-scholarship-page',
+  templateUrl: './create-scholarship-page.component.html',
+  styleUrls: ['./create-scholarship-page.component.scss']
 })
-export class CreateScholarshipComponent implements OnInit, OnDestroy {
-  file: any;
+export class CreateScholarshipPageComponent {
   createScholarshipForm: FormGroup;
-  states: StringLookupDTO[] = STATES_LIST;
 
   constructor(
     private _router: Router,
@@ -31,18 +27,6 @@ export class CreateScholarshipComponent implements OnInit, OnDestroy {
     this.setupForm();
   }
 
-  ngOnDestroy(): void {
-		this._scholarshipFormSectionListService.clear();
-	}
-
-  // The scholarship creation page should always open Scholarship Information tab first
-  tabs: string[] = ["scholarshipInformationTab", "formBuilderTab"];
-  currentTab: string = this.tabs[0];
-
-  switchTabTo(tabName: string): void {
-    this.currentTab = tabName;
-  }
-
   setupForm() {
     this.createScholarshipForm = this._formBuilder.group(
       {
@@ -51,7 +35,6 @@ export class CreateScholarshipComponent implements OnInit, OnDestroy {
         value: ['', Validators.required],
         shortDescription: ['', Validators.required],
         description: ['', Validators.required],
-        // TODO: Fix the validation for formSections array, the array doesn't get updated when using this._formBuilder.array(this._scholarshipFormSectionListService.formSections, Validators.required)
         scholarshipFormTemplate: [this._scholarshipFormSectionListService.formSections],
         city: ['', Validators.required],
         state: ['', Validators.required],
@@ -63,6 +46,20 @@ export class CreateScholarshipComponent implements OnInit, OnDestroy {
 
   createScholarship() {
     let createScholarshipForm = <ScholarshipCreateDTO>this.createScholarshipForm.value;
+
+    // TODO: Streamline this, need to convert from NgbDate to regular Date bc that's the type
+    createScholarshipForm.startDate = new Date(
+      (createScholarshipForm.startDate as any).year,
+      (createScholarshipForm.startDate as any).month - 1,
+      (createScholarshipForm.startDate as any).day
+    )
+
+    // TODO: Streamline this, need to convert from NgbDate to regular Date bc that's the type
+    createScholarshipForm.endDate = new Date(
+      (createScholarshipForm.endDate as any).year,
+      (createScholarshipForm.endDate as any).month - 1,
+      (createScholarshipForm.endDate as any).day
+    )
 
     this._scholarshipService
       .createScholarship(createScholarshipForm)

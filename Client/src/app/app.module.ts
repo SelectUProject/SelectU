@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainLayoutComponent } from './components/layouts/main-layout/main-layout.component';
@@ -55,6 +55,7 @@ import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable
 import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
 import { ViewApplicationDetailModalComponent } from './components/shared/view-application-detail-modal/view-application-detail-modal.component';
 import { CreateScholarshipComponent } from './components/pages/create-scholarship/create-scholarship.component';
+import { ScholarshipEditorComponent } from './components/pages/scholarship-editor/scholarship-editor.component';
 import { DragAndDropService } from './services/drag-and-drop/drag-and-drop.service';
 import { FormSectionComponent } from './components/pages/drag-and-drop-form-creator/form-section/form-section.component';
 import { FormSectionEditDialogBoxComponent } from './components/pages/drag-and-drop-form-creator/form-section-edit-dialog-box/form-section-edit-dialog-box.component';
@@ -62,6 +63,8 @@ import { FormCreatorAreaComponent } from './components/pages/drag-and-drop-form-
 import { FormSectionListSidebarComponent } from './components/pages/drag-and-drop-form-creator/form-section-list-sidebar/form-section-list-sidebar.component';
 import { ScholarshipFormSectionListService } from './services/scholarship-form-section-list/scholarship-form-section-list.service';
 import { ToastsContainerComponent } from './components/shared/toasts-container/toasts-container.component';
+import { EditScholarshipPageComponent } from './components/pages/edit-scholarship-page/edit-scholarship-page.component';
+import { CreateScholarshipPageComponent } from './components/pages/create-scholarship-page/create-scholarship-page.component';
 
 @NgModule({
   declarations: [
@@ -92,11 +95,14 @@ import { ToastsContainerComponent } from './components/shared/toasts-container/t
     ViewDetailsModalComponent,
     ViewApplicationDetailModalComponent
     CreateScholarshipComponent,
+    ScholarshipEditorComponent,
     FormSectionComponent,
     FormSectionEditDialogBoxComponent,
     FormCreatorAreaComponent,
     FormSectionListSidebarComponent,
     ToastsContainerComponent,
+    EditScholarshipPageComponent,
+    CreateScholarshipPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -105,6 +111,7 @@ import { ToastsContainerComponent } from './components/shared/toasts-container/t
     HttpClientModule,
     FormsModule,
     NgbModule,
+    NgbDatepickerModule,
     MdbTabsModule,
     MdbFormsModule,
     BrowserAnimationsModule,
