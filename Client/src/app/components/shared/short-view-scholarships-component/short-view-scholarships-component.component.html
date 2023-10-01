@@ -6,13 +6,16 @@
       </div>
       <div class="col-3">
         <p class="m-0">
-          <strong>{{ scholarship.description }}</strong>
+          <strong>{{ scholarship.school }}</strong> -
+          <strong>{{ scholarship.shortDescription }}</strong>
         </p>
-        <p class="m-0">
-          {{ scholarship.city }}
+        <p class="m-0">City: {{ scholarship.city }}</p>
+        <p class="m-0 purpleText">Value: {{ scholarship.value }}</p>
+        <p *ngIf="scholarship.startDate" class="m-0 purpleText">
+          Start Date: {{ scholarship.startDate | date : "dd/MM/yyyy" }}
         </p>
-        <p class="m-0 purpleText">
-          {{ scholarship.value }}
+        <p *ngIf="scholarship.endDate" class="m-0 purpleText">
+          End Date: {{ scholarship.endDate | date : "dd/MM/yyyy" }}
         </p>
       </div>
     </div>
