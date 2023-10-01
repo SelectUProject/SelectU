@@ -20,15 +20,14 @@ export class ScholarshipService {
   async getScholarshipDetails(id: any) {
     return await firstValueFrom(
       this.http.get<ScholarshipUpdateDTO>(
-        `${Config.api}/Scholarship/details`,
-        id
+        `${Config.api}/Scholarship/details?id=${id}`
       )
     );
   }
   async getActiveScholarships(scholarshipSearchDTO: ScholarshipSearchDTO) {
     return await firstValueFrom(
       this.http.post<ScholarshipUpdateDTO[]>(
-        `${Config.api}/Scholarship/active-scholarships`,
+        `${Config.api}/Scholarship/active`,
         scholarshipSearchDTO
       )
     );
@@ -37,7 +36,7 @@ export class ScholarshipService {
   async getCreatedScholarship(scholarshipSearchDTO: ScholarshipSearchDTO) {
     return await firstValueFrom(
       this.http.post<ScholarshipUpdateDTO[]>(
-        `${Config.api}/Scholarship/created-scholarships`,
+        `${Config.api}/Scholarship/list/creator`,
         scholarshipSearchDTO
       )
     );
@@ -46,7 +45,7 @@ export class ScholarshipService {
   async createScholarship(scholarshipCreateDTO: ScholarshipCreateDTO) {
     return await firstValueFrom(
       this.http.post<ResponseDTO>(
-        `${Config.api}/Scholarship/create-scholarships`,
+        `${Config.api}/Scholarship/create`,
         scholarshipCreateDTO
       )
     );
