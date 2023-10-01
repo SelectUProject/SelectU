@@ -1,0 +1,106 @@
+<div class="container mt-3 mb-3 border rounded p-3">
+  <form [formGroup]="scholarshipForm" (ngSubmit)="apply()">
+    <div
+      *ngFor="let section of scholarship.scholarshipFormTemplate"
+      class="mb-4"
+    >
+      <!-- Handle different form control types based on the type property -->
+      <ng-container [ngSwitch]="section.type">
+        <!-- Text input -->
+        <div class="col" *ngSwitchCase="ScholarshipFormTypeEnum.String">
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="text"
+              class="form-control"
+              id="{{ section.name }}"
+              formControlName="{{ section.name }}"
+            />
+            <label mdbLabel class="form-label" for="{{ section.name }}">
+              {{ section.name }}
+            </label>
+          </mdb-form-control>
+        </div>
+
+        <!-- Checkbox -->
+        <div class="col" *ngSwitchCase="ScholarshipFormTypeEnum.Boolean">
+          <mdb-checkbox
+            [formControlName]="section.name"
+            class="form-check-input"
+          ></mdb-checkbox>
+          <label class="form-check-label">{{ section.name }}</label>
+        </div>
+
+        <!-- Date input -->
+        <div class="col" *ngSwitchCase="ScholarshipFormTypeEnum.Date">
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="date"
+              class="form-control"
+              id="{{ section.name }}"
+              formControlName="{{ section.name }}"
+            />
+            <label mdbLabel class="form-label" for="{{ section.name }}">
+              {{ section.name }}
+            </label>
+          </mdb-form-control>
+        </div>
+
+        <!-- File input -->
+        <div class="col" *ngSwitchCase="ScholarshipFormTypeEnum.File">
+          <label mdbLabel class="form-label" for="{{ section.name }}">
+            {{ section.name }}
+          </label>
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="file"
+              class="form-control"
+              id="{{ section.name }}"
+              formControlName="{{ section.name }}"
+            />
+          </mdb-form-control>
+        </div>
+
+        <!-- Handle other form control types as needed -->
+      </ng-container>
+
+      <!-- Display validation errors if any -->
+      <div
+        *ngIf="
+          scholarshipForm.get(section.name)?.invalid &&
+          scholarshipForm.get(section.name)?.touched
+        "
+        class="text-danger"
+      >
+        <p *ngIf="scholarshipForm.get(section.name)?.hasError('required')">
+          This field is required.
+        </p>
+        <!-- Add more validation messages for other validators as needed -->
+      </div>
+    </div>
+
+    <button
+      mdbRipple
+      *ngIf="!submitting"
+      [disabled]="!scholarshipForm.valid"
+      type="submit"
+      class="btn btn-primary btn-block mb-3"
+    >
+      Apply
+    </button>
+    <button
+      *ngIf="submitting"
+      class="btn btn-primary btn-block mb-3"
+      type="button"
+      disabled
+    >
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+    </button>
+  </form>
+</div>

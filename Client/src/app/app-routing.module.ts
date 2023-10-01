@@ -11,6 +11,7 @@ import { SavedScholarshipsPageComponent } from './components/pages/saved-scholar
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { UserProfilePageComponent } from './components/pages/user-profile-page/user-profile-page.component';
+import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 
 //components
 
@@ -32,8 +33,14 @@ const routes: Routes = [
         component: UserProfilePageComponent,
       },
       {
-        path: 'find-scholarships',
+        path: `find-scholarships`,
         component: FindScholarshipsComponent,
+        canActivate: [AuthGuard],
+        data: { role: Role.User },
+      },
+      {
+        path: `create-scholarship-application`,
+        component: CreateScholarshipApplicationPageComponent,
         canActivate: [AuthGuard],
         data: { role: Role.User },
       },

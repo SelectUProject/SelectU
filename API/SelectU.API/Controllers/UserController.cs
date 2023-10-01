@@ -10,6 +10,7 @@ using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
 using SelectU.Core.Services;
+using System.Drawing;
 using System.IO;
 
 namespace SelectU.API.Controllers
@@ -239,6 +240,7 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Staff}")]
         [Authorize]
         [HttpGet("list")]
@@ -261,12 +263,17 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [HttpPost("photo/{userId}/upload")]
         public async Task<IActionResult> UploadProfilePic([FromRoute] string userId, [FromBody] Stream file)
         {
             try
             {
+                if (!IsValidImage(file))
+                {
+                    return BadRequest("Uploaded File is not a vaild image");
+                }
                 var user = await _userService.GetUserAsync(userId);
 
                 if (user == null)
@@ -296,6 +303,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [HttpDelete("photo/{userId}/delete")]
         public async Task<IActionResult> DeleteProfilePic([FromRoute] string userId)
@@ -330,6 +338,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [HttpGet("photo/{userId}/download")]
         public async Task<IActionResult> DownloadProfilePic([FromRoute] string userId)
@@ -343,18 +352,16 @@ namespace SelectU.API.Controllers
                 {
                     return BadRequest("User not found");
                 }
-                Stream stream = null;
 
                 if (!user.ProfilePicID.IsNullOrEmpty())
                 {
-                    stream = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
+                   var stream = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
+                    return Ok(stream);
                 }
                 else
                 {
                     return BadRequest(new ResponseDTO { Success = false, Message = "Profile Picture does not exist" });
                 }
-
-                return Ok(stream);
             }
             catch (ArgumentException ex)
             {
@@ -365,7 +372,6 @@ namespace SelectU.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
 
         [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
@@ -399,6 +405,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
         [HttpDelete("admin/delete/{userId}")]
@@ -418,6 +425,7 @@ namespace SelectU.API.Controllers
             }
 
         }
+
         [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
         [HttpPatch("admin/roles/update")]
@@ -446,6 +454,7 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Admin}")]
         [Authorize]
         [HttpGet("admin/roles/details/{userId}")]
@@ -462,6 +471,22 @@ namespace SelectU.API.Controllers
                 _logger.LogError(ex, $"Failed to get user roles");
                 return BadRequest(ex.Message);
             }
+        }
+        private bool IsValidImage(Stream file)
+        {
+            try
+            {
+                using (Image newImage = Image.FromStream(file))
+                { }
+            }
+            catch (OutOfMemoryException ex)
+            {
+                //The file does not have a valid image format.
+                //-or- GDI+ does not support the pixel format of the file
+
+                return false;
+            }
+            return true;
         }
     }
 }

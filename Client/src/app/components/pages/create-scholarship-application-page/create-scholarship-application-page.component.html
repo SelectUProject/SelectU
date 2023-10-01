@@ -1,0 +1,8 @@
+<div *ngIf="this.scholarshipService.scholarship">
+  <app-long-view-scholarships
+    [scholarship]="this.scholarshipService.scholarship"
+  ></app-long-view-scholarships>
+  <app-scholarship-application-form
+    [scholarship]="this.scholarshipService.scholarship"
+  ></app-scholarship-application-form>
+</div>
