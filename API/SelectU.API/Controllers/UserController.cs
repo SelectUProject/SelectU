@@ -10,6 +10,7 @@ using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
 using SelectU.Core.Services;
+using System.Drawing;
 using System.IO;
 
 namespace SelectU.API.Controllers
@@ -269,6 +270,10 @@ namespace SelectU.API.Controllers
         {
             try
             {
+                if (!IsValidImage(file))
+                {
+                    return BadRequest("Uploaded File is not a vaild image");
+                }
                 var user = await _userService.GetUserAsync(userId);
 
                 if (user == null)
@@ -347,18 +352,16 @@ namespace SelectU.API.Controllers
                 {
                     return BadRequest("User not found");
                 }
-                Stream stream = null;
 
                 if (!user.ProfilePicID.IsNullOrEmpty())
                 {
-                    stream = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
+                   var stream = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
+                    return Ok(stream);
                 }
                 else
                 {
                     return BadRequest(new ResponseDTO { Success = false, Message = "Profile Picture does not exist" });
                 }
-
-                return Ok(stream);
             }
             catch (ArgumentException ex)
             {
@@ -468,6 +471,22 @@ namespace SelectU.API.Controllers
                 _logger.LogError(ex, $"Failed to get user roles");
                 return BadRequest(ex.Message);
             }
+        }
+        private bool IsValidImage(Stream file)
+        {
+            try
+            {
+                using (Image newImage = Image.FromStream(file))
+                { }
+            }
+            catch (OutOfMemoryException ex)
+            {
+                //The file does not have a valid image format.
+                //-or- GDI+ does not support the pixel format of the file
+
+                return false;
+            }
+            return true;
         }
     }
 }
