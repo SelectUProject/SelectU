@@ -1,212 +1,189 @@
-<p>update-user-profile-page works!</p>
-<form [formGroup]="updateAccountForm" (ngSubmit)="updateProfile()">
-  
-    <mdb-form-control class="mb-4">
-      <input
-        mdbValidate
-        mdbInput
-        type="email"
-        id="email"
-        class="form-control"
-        formControlName="email"
-        (blur)="validateExistingEmail()"
-        
-      />
-      <label mdbLabel class="form-label" for="email">Email</label>
+<div class="container mt-5 py-5 rounded">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <form [formGroup]="updateAccountForm" (ngSubmit)="updateProfile()">
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="email"
+            id="email"
+            class="form-control"
+            formControlName="email"
+          />
+          <label mdbLabel class="form-label" for="email">Email</label>
+          <mdb-error
+            *ngIf="
+              email?.invalid &&
+              !existingEmail &&
+              (email?.dirty || email?.touched)
+            "
+            >Email is required</mdb-error
+          >
+          <mdb-error *ngIf="existingEmail && (email?.dirty || email?.touched)"
+            >This email is already registered.</mdb-error
+          >
+        </mdb-form-control>
 
-      <mdb-error
-        *ngIf="
-        email?.invalid && !existingEmail && (email?.dirty || email?.touched)
-        "
-        >Email is required</mdb-error
-      >
-    </mdb-form-control>
-  
-    <mdb-form-control class="mb-4">
-      <input
-        mdbValidate
-        mdbInput
-        type="text"
-        id="firstName"
-        class="form-control"
-        formControlName="firstName"
-      />
-      <label mdbLabel class="form-label" for="firstName">First Name</label>
-      <mdb-error
-        *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)"
-        >First Name is required</mdb-error
-      >
-    </mdb-form-control>
-  
-    <mdb-form-control class="mb-4">
-      <input
-        mdbValidate
-        mdbInput
-        type="text"
-        id="lastName"
-        class="form-control"
-        formControlName="lastName"
-      />
-      <label mdbLabel class="form-label" for="lastName">Last Name</label>
-      <mdb-error
-        *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
-        >Last Name is required</mdb-error
-      >
-    </mdb-form-control>
-  
-    <!-- <mdb-form-control class="mb-4">
-      <input
-        mdbValidate
-        mdbInput
-        type="password"
-        id="password"
-        class="form-control"
-        formControlName="password"
-      />
-      <label mdbLabel class="form-label" for="password">Password</label>
-      <mdb-error
-        *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-        >Password must be 9 characters long, include 1 capital and 1
-        number.</mdb-error
-      >
-    </mdb-form-control>
-  
-    <mdb-form-control class="mb-4">
-      <input
-        mdbValidate
-        mdbInput
-        type="password"
-        id="confirmPassword"
-        class="form-control"
-        formControlName="confirmPassword"
-      />
-      <label mdbLabel class="form-label" for="confirmPassword"
-        >Confirm password</label
-      >
-      <mdb-error
-        *ngIf="
-          confirmPassword?.invalid &&
-          (confirmPassword?.dirty || confirmPassword?.touched)
-        "
-        >Passwords must match</mdb-error
-      >
-    </mdb-form-control> -->
-  
-    <mdb-form-control class="mb-4">
-      <input
-        mdbValidate
-        mdbInput
-        type="text"
-        id="dateOfBirth"
-        class="form-control"
-        bsDatepicker
-        [bsConfig]="{containerClass: 'theme-dark-blue',}"
-        [maxDate]="todayDate"
-        formControlName="dateOfBirth"
-      />
-      <label mdbLabel class="form-label" for="dateOfBirth">Date Of Birth</label>
-      <mdb-error
-        *ngIf="
-          dateOfBirth?.invalid && (dateOfBirth?.dirty || dateOfBirth?.touched)
-        "
-        >Date Of Birth is required</mdb-error
-      >
-    </mdb-form-control>
-  
-    <mdb-form-control class="mb-4">
-      <select
-        mdbValidate
-        mdbInput
-        type="select"
-        id="gender"
-        class="form-control"
-        formControlName="gender"
-      >
-        <option value="" disabled selected></option>
-        <option *ngFor="let gender of genders" [ngValue]="gender.value">
-          {{ gender.name }}
-        </option>
-      </select>
-      <label mdbLabel class="form-label" for="gender">Gender</label>
-      <mdb-error *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)"
-        >Gender is required</mdb-error
-      >
-    </mdb-form-control>
-  
-    <mdb-form-control class="mb-4">
-      <input
-        mdbValidate
-        mdbInput
-        type="tel"
-        id="phoneNumber"
-        class="form-control"
-        formControlName="phoneNumber"
-      />
-      <label mdbLabel class="form-label" for="phoneNumber">Phone Number</label>
-      <mdb-error
-        *ngIf="
-          phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)
-        "
-        >Please provide a valid phone number</mdb-error
-      >
-    </mdb-form-control>
-  
-    <mdb-form-control class="mb-4">
-      <input
-        mdbValidate
-        mdbInput
-        type="text"
-        id="state"
-        class="form-control"
-        formControlName="state"
-      />
-      <label mdbLabel class="form-label" for="state">State</label>
-      <mdb-error *ngIf="state?.invalid && (state?.dirty || state?.touched)"
-        >State is required</mdb-error
-      >
-    </mdb-form-control>
-  
-    <mdb-form-control class="mb-4">
-      <input
-        mdbValidate
-        mdbInput
-        type="text"
-        id="country"
-        class="form-control"
-        formControlName="country"
-      />
-      <label mdbLabel class="form-label" for="country">Country</label>
-      <mdb-error *ngIf="country?.invalid && (country?.dirty || country?.touched)"
-        >Country is required</mdb-error
-      >
-    </mdb-form-control>
-  
-    <button
-      mdbRipple
-      *ngIf="!saving"
-      [disabled]="!updateAccountForm.valid"
-      type="submit"
-      class="btn btn-primary btn-block mb-3"
-    >
-      Register
-    </button>
-    <button
-      *ngIf="saving"
-      class="btn btn-primary btn-block mb-3"
-      type="button"
-      disabled
-    >
-      <span
-        class="spinner-border spinner-border-sm"
-        role="status"
-        aria-hidden="true"
-      ></span>
-    </button>
-  </form>
-  
-  <ng-container *ngIf="isError">
-    <div class="alert alert-danger my-3" role="alert">
-      {{ errMsg }}
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="text"
+            id="firstName"
+            class="form-control"
+            formControlName="firstName"
+          />
+          <label mdbLabel class="form-label" for="firstName">First Name</label>
+          <mdb-error
+            *ngIf="
+              firstName?.invalid && (firstName?.dirty || firstName?.touched)
+            "
+            >First Name is required</mdb-error
+          >
+        </mdb-form-control>
+
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="text"
+            id="lastName"
+            class="form-control"
+            formControlName="lastName"
+          />
+          <label mdbLabel class="form-label" for="lastName">Last Name</label>
+          <mdb-error
+            *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
+            >Last Name is required</mdb-error
+          >
+        </mdb-form-control>
+
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="text"
+            id="dateOfBirth"
+            class="form-control"
+            bsDatepicker
+            [bsConfig]="{containerClass: 'theme-dark-blue',}"
+            [maxDate]="todayDate"
+            formControlName="dateOfBirth"
+          />
+          <label mdbLabel class="form-label" for="dateOfBirth"
+            >Date Of Birth</label
+          >
+          <mdb-error
+            *ngIf="
+              dateOfBirth?.invalid &&
+              (dateOfBirth?.dirty || dateOfBirth?.touched)
+            "
+            >Date Of Birth is required</mdb-error
+          >
+        </mdb-form-control>
+
+        <mdb-form-control class="mb-4">
+          <select
+            mdbValidate
+            mdbInput
+            type="select"
+            id="gender"
+            class="form-control"
+            formControlName="gender"
+          >
+            <option value="" disabled selected></option>
+            <option *ngFor="let gender of genders" [ngValue]="gender.value">
+              {{ gender.name }}
+            </option>
+          </select>
+          <label mdbLabel class="form-label" for="gender">Gender</label>
+          <mdb-error
+            *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)"
+            >Gender is required</mdb-error
+          >
+        </mdb-form-control>
+
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="tel"
+            id="phoneNumber"
+            class="form-control"
+            formControlName="phoneNumber"
+          />
+          <label mdbLabel class="form-label" for="phoneNumber"
+            >Phone Number</label
+          >
+          <mdb-error
+            *ngIf="
+              phoneNumber?.invalid &&
+              (phoneNumber?.dirty || phoneNumber?.touched)
+            "
+            >Please provide a valid phone number</mdb-error
+          >
+        </mdb-form-control>
+
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="text"
+            id="state"
+            class="form-control"
+            formControlName="state"
+          />
+          <label mdbLabel class="form-label" for="state">State</label>
+          <mdb-error *ngIf="state?.invalid && (state?.dirty || state?.touched)"
+            >State is required</mdb-error
+          >
+        </mdb-form-control>
+
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="text"
+            id="country"
+            class="form-control"
+            formControlName="country"
+          />
+          <label mdbLabel class="form-label" for="country">Country</label>
+          <mdb-error
+            *ngIf="country?.invalid && (country?.dirty || country?.touched)"
+            >Country is required</mdb-error
+          >
+        </mdb-form-control>
+
+        <button
+          mdbRipple
+          *ngIf="!saving"
+          [disabled]="!updateAccountForm.valid"
+          type="submit"
+          class="btn btn-primary btn-block mb-3"
+        >
+          Update
+        </button>
+        <button
+          *ngIf="saving"
+          class="btn btn-primary btn-block mb-3"
+          type="button"
+          disabled
+        >
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+        </button>
+      </form>
+
+      <ng-container *ngIf="isError">
+        <div class="alert alert-danger my-3" role="alert">
+          {{ errMsg }}
+        </div>
+      </ng-container>
     </div>
-  </ng-container>
-  
+  </div>
+</div>

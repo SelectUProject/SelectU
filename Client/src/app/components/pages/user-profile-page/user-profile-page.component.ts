@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserUpdateDTO } from 'src/app/models/UserUpdateDTO';
 import { UserService } from 'src/app/providers/user.service';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile-page',
@@ -16,7 +17,7 @@ export class UserProfilePageComponent implements OnInit {
   admissionName = environment.admissionName;
 
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router:Router) {}
 
   ngOnInit(): void {
     this.getUserDetails();
@@ -33,6 +34,11 @@ export class UserProfilePageComponent implements OnInit {
       });
 
       this.gender = getGenderString(this.userDetails.gender);
+  }
+
+  redirect(){
+
+    this.router.navigate(['./update-user-profile-page.component.scss'])
   }
 
 }

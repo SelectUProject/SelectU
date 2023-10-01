@@ -13,6 +13,7 @@ import { MyApplicationsComponent } from './components/pages/my-applications/my-a
 import { UserProfilePageComponent } from './components/pages/user-profile-page/user-profile-page.component';
 import { UpdateUserProfilePageComponent } from './components/pages/update-user-profile-page/update-user-profile-page.component';
 
+
 //components
 
 const routes: Routes = [
@@ -31,6 +32,7 @@ const routes: Routes = [
       {
         path: 'account',
         component: UserProfilePageComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'find-scholarships',
@@ -53,6 +55,7 @@ const routes: Routes = [
       },
       {
         path: 'update-account',
+        canActivate: [AuthGuard],
         component: UpdateUserProfilePageComponent,
       },
     ],
@@ -71,7 +74,7 @@ const routes: Routes = [
       initialNavigation: 'enabledBlocking',
       scrollPositionRestoration: 'top',
       anchorScrolling: 'enabled',
-    }),
+    }), 
   ],
   exports: [RouterModule],
 })

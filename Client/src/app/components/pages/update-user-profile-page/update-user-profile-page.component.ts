@@ -24,7 +24,7 @@ import { UserUpdateDTO } from 'src/app/models/UserUpdateDTO';
 @Component({
   selector: 'app-update-user-profile-page',
   templateUrl: './update-user-profile-page.component.html',
-  styleUrls: ['./update-user-profile-page.component.scss']
+  styleUrls: ['./update-user-profile-page.component.scss'],
 })
 export class UpdateUserProfilePageComponent {
   genders: NumberLookupDTO[] = GENDERS_LIST;
@@ -38,7 +38,7 @@ export class UpdateUserProfilePageComponent {
   registered: boolean = false;
   socialUser: SocialUser;
 
-  // Fill form with existing account information: 
+  // Fill form with existing account information:
   userDetails: UserUpdateDTO;
 
   async getUserDetails() {
@@ -46,14 +46,12 @@ export class UpdateUserProfilePageComponent {
       .getUserDetails()
       .then((response) => {
         this.userDetails = response;
+        this.setupForm();
       })
       .catch((response) => {
         console.log(response);
       });
   }
-
-
-
 
   get email() {
     return this.updateAccountForm.get('email');
@@ -66,14 +64,6 @@ export class UpdateUserProfilePageComponent {
   get lastName() {
     return this.updateAccountForm.get('lastName');
   }
-
-  // get password() {
-  //   return this.updateAccountForm.get('password');
-  // }
-
-  // get confirmPassword() {
-  //   return this.updateAccountForm.get('confirmPassword');
-  // }
 
   get dateOfBirth() {
     return this.updateAccountForm.get('dateOfBirth');
@@ -104,10 +94,8 @@ export class UpdateUserProfilePageComponent {
   ) {}
 
   ngOnInit(): void {
-    // fill existing account information
     this.getUserDetails();
 
-    this.setupForm(this.userDetails);
     this.setupSocialAuthService();
   }
 
@@ -118,102 +106,90 @@ export class UpdateUserProfilePageComponent {
     });
   }
 
-  setupForm(userDetails: UserUpdateDTO) {
-    userDetails = userDetails; 
-    this.updateAccountForm = this.formBuilder.group(
-      {
-        email: [
-          '',
-          Validators.compose([Validators.required, Validators.email]),
-        ],
-        firstName: [
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.pattern('^[a-zA-Z ]+$'),
-          ]),
-        ],
-        lastName: [
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.pattern('^[a-zA-Z ]+$'),
-          ]),
-        ],
-        password: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern(
-              '(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=[^0-9]*[0-9]).{8,}'
-            ),
-          ],
-        ],
-        confirmPassword: ['', [Validators.required]],
-        dateOfBirth: ['', Validators.required],
-        gender: ['', Validators.required],
-        phoneNumber: [
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.pattern('^[0-9]+$'),
-          ]),
-        ],
-        state: ['', Validators.required],
-        country: ['', Validators.required],
-      },
-      { validators: [this.matchingPasswords('password', 'confirmPassword')] }
-    );
+  setupForm() {
+    this.updateAccountForm = this.formBuilder.group({
+      email: [
+        this.userDetails.email,
+        Validators.compose([Validators.required, Validators.email]),
+      ],
+      firstName: [
+        this.userDetails.firstName,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z ]+$'),
+        ]),
+      ],
+      lastName: [
+        this.userDetails.lastName,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z ]+$'),
+        ]),
+      ],
+      dateOfBirth: [this.userDetails.dateOfBirth, Validators.required],
+      gender: [this.userDetails.gender, Validators.required],
+      phoneNumber: [
+        this.userDetails.phoneNumber,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[0-9]+$'),
+        ]),
+      ],
+      state: [this.userDetails.state, Validators.required],
+      country: [this.userDetails.country, Validators.required],
+    });
   }
 
-  matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
-    return (control: AbstractControl) => {
-      const password = control.get(passwordKey)?.value;
-      const confirmPassword = control.get(confirmPasswordKey)?.value;
+  async updateProfile() {
+    this.saving = true;
+    this.isError = false;
+    let updateAccountForm = <UserUpdateDTO>this.updateAccountForm.value;
 
-      if (password !== confirmPassword) {
-        control
-          .get('confirmPassword')
-          ?.setErrors({ passwordsDoNotMatch: true });
-
-        return { passwordsDoNotMatch: true };
-      }
-
-      return null;
-    };
+    await this.userService
+      .updateUserDetails(updateAccountForm)
+      .then(() => {
+        console.log('Successfully Updated');
+        this.router.navigate(['account']);
+      })
+      .catch((response) => {
+        if (response.error?.errors) {
+          this.errMsg = 'One or more validation errors occurred.';
+          response.error?.errors?.forEach((form: any) => {
+            this.setFormError(form.propertyName);
+          });
+        } else if (!response.success) {
+          this.errMsg = response.error.message;
+        }
+        this.isError = true;
+      });
+    this.saving = false;
   }
 
-async updateProfile(){
+  // async validateExistingEmail() {
+  //   this.existingEmail = false;
+  //   if (!!this.email && this.email.valid) {
+  //     let request: ValidateUniqueEmailAddressRequestDTO = {
+  //       email: this.email.value,
+  //     };
 
-}
-
-
-  async validateExistingEmail() {
-    this.existingEmail = false;
-    if (!!this.email && this.email.valid) {
-      let request: ValidateUniqueEmailAddressRequestDTO = {
-        email: this.email.value,
-      };
-
-      await this.userService
-        .validateUniqueEmailAddress(request)
-        .then((response) => {
-          if (response.isUnique == false && !!this.email) {
-            this.existingEmail = true;
-            this.email.setErrors({ existingEmail: true });
-          }
-        })
-        .catch((response) => {
-          console.log(response);
-        });
-    }
-  }
+  //     await this.userService
+  //       .validateUniqueEmailAddress(request)
+  //       .then((response) => {
+  //         if (response.isUnique == false && !!this.email) {
+  //           this.existingEmail = true;
+  //           this.email.setErrors({ existingEmail: true });
+  //         }
+  //       })
+  //       .catch((response) => {
+  //         console.log(response);
+  //       });
+  //   }
+  // }
 
   setFormError(propertyName: string) {
     propertyName = propertyName.charAt(0).toLowerCase() + propertyName.slice(1);
-    this.updateAccountForm.controls[propertyName]?.setErrors({ required: true });
+    this.updateAccountForm.controls[propertyName]?.setErrors({
+      required: true,
+    });
   }
-
-
-
 }
