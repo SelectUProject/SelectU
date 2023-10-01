@@ -136,7 +136,7 @@ export class EditScholarshipPageComponent {
           this._router.navigate(['/manage-scholarships']);
         })
         .catch((response) => {
-          this._toastService.show(response.message, {
+          this._toastService.show(response.error, {
             classname: 'bg-danger text-light',
           });
         });

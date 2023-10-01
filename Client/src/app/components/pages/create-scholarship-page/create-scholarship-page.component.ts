@@ -72,7 +72,7 @@ export class CreateScholarshipPageComponent {
         this._router.navigate(['/manage-scholarships']);
       })
       .catch((response) => {
-        this._toastService.show(response.message, {
+        this._toastService.show(response.error.message, {
           classname: 'bg-danger text-light',
           delay: 5000
         });
