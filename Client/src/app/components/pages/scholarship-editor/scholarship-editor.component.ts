@@ -30,7 +30,7 @@ export class ScholarshipEditorComponent implements OnDestroy {
 	}
 
   // The scholarship creation page should always open Scholarship Information tab first
-  tabs: string[] = ["scholarshipInformationTab", "formBuilderTab"];
+  tabs: string[] = ["details", "form builder"];
   currentTab: string = this.tabs[0];
 
   switchTabTo(tabName: string): void {
