@@ -1,13 +1,24 @@
+<div class="page-header">
+  <h3>Active Applications</h3>
+</div>
+<div class="container mt-3 p-3 rounded">
+  <app-scholarship-search-form
+    (scholarships)="handleSearchEvent($event)"
+  ></app-scholarship-search-form>
+</div>
 <div class="container mt-5 rounded">
   <div
     class="row justify-content-center"
-    *ngFor="let scholarship of this.scholarships"
+    *ngFor="let scholarshipApplication of this.scholarshipApplications"
   >
     <app-short-view-my-applications
-      [application]="scholarship"
+      [scholarshipApplication]="scholarshipApplication"
     ></app-short-view-my-applications>
   </div>
-  <div class="row justify-content-center" *ngIf="this.scholarships.length == 0">
+  <div
+    class="row justify-content-center"
+    *ngIf="this.scholarshipApplications.length == 0"
+  >
     <app-empty-scholarships [text]="emptyText"></app-empty-scholarships>
   </div>
 </div>

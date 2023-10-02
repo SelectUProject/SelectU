@@ -1,22 +1,62 @@
 <div class="container mt-3 mb-3 border rounded p-3">
   <div class="row justify-content-center mb-3">
-
-
-
-    <div class="col-12 row">
-      <div [ngClass]="getStatusClass()"> <i [ngClass]="getStatusIcon"></i>{{application.status}}</div>
+    <div class="col-9 row">
+      <!-- <div [ngClass]="getStatusClass()"> <i [ngClass]="getStatusIcon"></i>{{application.status}}</div> -->
       <div class="col-1 image-container">
-        <img src="{{ application.image }}" alt="Example" />
+        <img
+          class="image-container"
+          *ngIf="scholarshipApplication.scholarship.imageURL != null"
+          src="{{ scholarshipApplication.scholarship.imageURL }}"
+          alt="Example"
+        />
+        <img
+          class="image-container"
+          *ngIf="scholarshipApplication.scholarship.imageURL == null"
+          src="../../../../assets/images/testImage.png"
+          alt="Example"
+        />
       </div>
       <div class="col-3">
         <p class="m-0">
-          <strong>{{ application.applicationTitle }}</strong>
+          <strong>{{ scholarshipApplication.scholarship.school }}</strong>
         </p>
         <p class="m-0">
-          {{ application.address }}
+          {{ scholarshipApplication.scholarship.city }}
         </p>
         <p class="m-0 purpleText">
-          {{ application.applicationValue }}
+          {{ scholarshipApplication.scholarship.value }}
+        </p>
+      </div>
+    </div>
+    <div class="col-3 text-end">
+      <div class="row">
+        <p>
+          Date Applied:
+          {{ scholarshipApplication.dateCreated | date : "dd/MM/yyyy" }}
+        </p>
+      </div>
+      <div class="row">
+        <p>
+          Status: {{ getStatus() }}
+          <i
+            *ngIf="scholarshipApplication.status == 0"
+            class="fa-regular fa-circle-xmark"
+            style="color: #ff0000"
+          ></i>
+          <i
+            *ngIf="scholarshipApplication.status == 1"
+            class="fa-regular fa-circle-check"
+            style="color: #1eff00"
+          ></i>
+          <i
+            *ngIf="scholarshipApplication.status == 2"
+            class="fa-regular fa-clock"
+          ></i>
+          <i
+            *ngIf="scholarshipApplication.status == 3"
+            class="fa-regular fa-circle-xmark"
+            style="color: #ff0000"
+          ></i>
         </p>
       </div>
     </div>
@@ -26,8 +66,7 @@
     <div class="col-9">
       <h6>Description</h6>
       <p>
-        
-        {{ application.description }}
+        {{ scholarshipApplication.scholarship.description }}
       </p>
     </div>
     <div class="col-3 float-end">

@@ -2,7 +2,18 @@
   <div class="row justify-content-center mb-3">
     <div class="col-11 row">
       <div class="col-1 image-container">
-        <img src="{{ scholarship.imageURL }}" alt="Example" />
+        <img
+          class="image-container"
+          *ngIf="scholarship.imageURL != null"
+          src="{{ scholarship.imageURL }}"
+          alt="Example"
+        />
+        <img
+          class="image-container"
+          *ngIf="scholarship.imageURL == null"
+          src="../../../../assets/images/testImage.png"
+          alt="Example"
+        />
       </div>
       <div class="col-3">
         <p class="m-0">

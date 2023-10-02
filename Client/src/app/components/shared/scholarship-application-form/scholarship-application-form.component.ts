@@ -6,6 +6,7 @@ import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum'
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
 import { ScholarshipApplicationService } from 'src/app/providers/ScholarshipApplicationService';
 import { ScholarshipApplicationCreateDTO } from 'src/app/models/ScholarshipApplicationCreateDTO';
+import { ScholarshipFormSectionAnswerDTO } from 'src/app/models/ScholarshipFormSectionAnswerDTO';
 
 @Component({
   selector: 'app-scholarship-application-form',
@@ -18,6 +19,7 @@ export class ScholarshipApplicationFormComponent implements OnInit {
   ScholarshipFormTypeEnum = ScholarshipFormTypeEnum; // Make enum available in the template
   submitting: boolean = false;
   isError: boolean;
+  errMsg: string;
 
   constructor(
     private fb: FormBuilder,
@@ -62,26 +64,53 @@ export class ScholarshipApplicationFormComponent implements OnInit {
       console.log('Form Data:', this.scholarshipForm);
       console.log('Form Data:', formData);
 
+      const formAnswers: ScholarshipFormSectionAnswerDTO[] = [];
+
+      // Loop through formData and create ScholarshipFormSectionAnswerDTO objects
+      for (const key in formData) {
+        if (formData.hasOwnProperty(key)) {
+          const answer: ScholarshipFormSectionAnswerDTO = {
+            name: key,
+            value: formData[key],
+          };
+          formAnswers.push(answer);
+        }
+      }
+
+      let formAnswer: ScholarshipApplicationCreateDTO = {
+        scholarshipId: this.scholarship.id,
+        scholarshipFormAnswer: formAnswers,
+      };
+
       // Assuming you have a service called scholarshipApplicationService to handle the submission
       this.scholarshipApplicationService
-        .createScholarshipApplications(
-          <ScholarshipApplicationCreateDTO>formData
-        )
+        .createScholarshipApplications(formAnswer)
         .then((response) => {
           // Handle success response from the backend
           console.log('Submission Successful:', response);
           // Optionally, reset the form or perform other actions
           this.scholarshipForm.reset();
         })
-        .catch((error) => {
-          // Handle error response from the backend
-          console.error('Submission Error:', error);
-          // Set an error flag or display an error message
+        .catch((response) => {
+          if (response.error.errors) {
+            this.errMsg = 'One or more validation errors occurred.';
+            // response.error.errors?.forEach((form: any) => {
+            //   this.setFormError(form.propertyName);
+            // });
+          } else if (!response.success) {
+            this.errMsg = response.error.message;
+          }
           this.isError = true;
         })
         .finally(() => {
           this.submitting = false;
         });
     }
+  }
+
+  setFormError(propertyName: string) {
+    //fix
+    // propertyName = propertyName.charAt(0).toLowerCase() + propertyName.slice(1);
+    // this.scholarshipForm.controls[propertyName]?.setErrors({ required: true });
   }
 }
