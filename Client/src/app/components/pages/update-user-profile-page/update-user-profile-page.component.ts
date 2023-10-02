@@ -77,6 +77,18 @@ export class UpdateUserProfilePageComponent {
     return this.updateAccountForm.get('phoneNumber');
   }
 
+  get address() {
+    return this.updateAccountForm.get('address');
+  }
+
+  get suburb() {
+    return this.updateAccountForm.get('suburb');
+  }
+
+  get postcode() {
+    return this.updateAccountForm.get('postcode');
+  }
+
   get state() {
     return this.updateAccountForm.get('state');
   }
@@ -135,6 +147,9 @@ export class UpdateUserProfilePageComponent {
           Validators.pattern('^[0-9]+$'),
         ]),
       ],
+      address: [this.userDetails.address, Validators.required],
+      suburb: [this.userDetails.suburb, Validators.required],
+      postcode: [this.userDetails.postcode, Validators.required],
       state: [this.userDetails.state, Validators.required],
       country: [this.userDetails.country, Validators.required],
     });

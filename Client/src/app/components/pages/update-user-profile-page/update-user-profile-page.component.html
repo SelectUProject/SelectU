@@ -130,6 +130,51 @@
             mdbValidate
             mdbInput
             type="text"
+            id="address"
+            class="form-control"
+            formControlName="address"
+          />
+          <label mdbLabel class="form-label" for="address">Address</label>
+          <mdb-error *ngIf="address?.invalid && (address?.dirty || address?.touched)"
+            >Address is required</mdb-error
+          >
+        </mdb-form-control>
+
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="text"
+            id="suburb"
+            class="form-control"
+            formControlName="suburb"
+          />
+          <label mdbLabel class="form-label" for="suburb">Suburb</label>
+          <mdb-error *ngIf="suburb?.invalid && (suburb?.dirty || suburb?.touched)"
+            >Suburb is required</mdb-error
+          >
+        </mdb-form-control>
+
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="text"
+            id="postcode"
+            class="form-control"
+            formControlName="postcode"
+          />
+          <label mdbLabel class="form-label" for="postcode">Postcode</label>
+          <mdb-error *ngIf="postcode?.invalid && (postcode?.dirty || postcode?.touched)"
+            >Postcode is required</mdb-error
+          >
+        </mdb-form-control>
+
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="text"
             id="state"
             class="form-control"
             formControlName="state"
