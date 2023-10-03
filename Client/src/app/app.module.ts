@@ -25,6 +25,7 @@ import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 // Custom components
 import NavbarComponent from './components/layouts/navbar/navbar.component';
@@ -42,6 +43,11 @@ import { ScholarshipSearchFormComponent } from './components/shared/scholarship-
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 import { LongViewScholarshipsComponent } from './components/shared/long-view-scholarships/long-view-scholarships.component';
 import { ScholarshipApplicationFormComponent } from './components/shared/scholarship-application-form/scholarship-application-form.component';
+import { TempUserInvitePageComponent } from './components/pages/temp-user-invite-page/temp-user-invite-page.component';
+import TempUserInviteFormComponent from './components/shared/temp-user-invite-form/temp-user-invite-form.component';
+import TempUserTableComponent from './components/shared/temp-user-table/temp-user-table.component';
+import { TempUserTablePageComponent } from './components/pages/temp-user-table-page/temp-user-table-page.component';
+import TempUserUpdateModalComponent from './components/shared/temp-user-update-modal/temp-user-update-modal.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +70,11 @@ import { ScholarshipApplicationFormComponent } from './components/shared/scholar
     CreateScholarshipApplicationPageComponent,
     LongViewScholarshipsComponent,
     ScholarshipApplicationFormComponent,
+    TempUserInvitePageComponent,
+    TempUserInviteFormComponent,
+    TempUserTableComponent,
+    TempUserTablePageComponent,
+    TempUserUpdateModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -81,6 +92,7 @@ import { ScholarshipApplicationFormComponent } from './components/shared/scholar
     MdbDropdownModule,
     SocialLoginModule,
     GoogleSigninButtonModule,
+    MdbModalModule,
   ],
   providers: [
     DatePipe,

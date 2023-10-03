@@ -82,4 +82,13 @@ export class UserService {
       )
     );
   }
+
+  async adminUpdateUserDetails(user: UserUpdateDTO) {
+    return await firstValueFrom(
+      this.http.patch<ResponseDTO>(
+        `${Config.api}/user/admin/details/update`,
+        user
+      )
+    );
+  }
 }
