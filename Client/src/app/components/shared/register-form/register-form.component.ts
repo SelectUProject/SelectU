@@ -154,10 +154,6 @@ class RegisterFormComponent implements OnInit {
     );
   }
 
-  loginWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
-
   matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
     return (control: AbstractControl) => {
       const password = control.get(passwordKey)?.value;
