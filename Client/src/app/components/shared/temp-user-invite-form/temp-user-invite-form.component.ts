@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TempUserInviteDTO } from 'src/app/models/TempUserInviteDTO';
 import { ValidateUniqueEmailAddressRequestDTO } from 'src/app/models/ValidateUniqueEmailAddressDTO';
-import { AuthService } from 'src/app/providers/auth.service';
+import { Config } from 'src/app/providers/config';
 import { TempUserService } from 'src/app/providers/tempUser.service';
 
 @Component({
@@ -18,6 +18,8 @@ class TempUserInviteFormComponent implements OnInit {
   existingEmail: boolean = false;
   inviting: boolean = false;
   success: boolean = false;
+  timezone = Config.dateTimezone;
+  format = Config.dateFormat;
 
   get email() {
     return this.inviteForm.get('email');

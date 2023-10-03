@@ -89,15 +89,30 @@ namespace SelectU.Core.Services
         {
             var users = await _userManager.GetUsersInRoleAsync(UserRoles.Reviewer);
 
-            var tempUsers = users.Select(user => new TempUserDTO(user)).ToList();
-            
+            var tempUsers = users.OrderByDescending(x => x.LoginExpiry).Select(user => new TempUserDTO(user)).ToList();
+
             return tempUsers;
         }
 
-        Task ITempUserService.UpdateTempUserExpiryAsync()
+        public async Task UpdateTempUserExpiryAsync(string id, TempUserUpdateDTO updateDTO)
         {
-            throw new NotImplementedException();
-        }
+            var user = await _userManager.FindByIdAsync(id);
 
+            if (user == null)
+            {
+                throw new TempUserException("User not found.");
+            }
+
+            user.LoginExpiry = updateDTO.LoginExpiry;
+            user.DateModified = DateTimeOffset.Now;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                throw new TempUserException("Failed to update user details.");
+            }
+        }
     }
+
 }

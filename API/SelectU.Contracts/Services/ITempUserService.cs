@@ -11,7 +11,7 @@ namespace SelectU.Contracts.Services
 
         Task<List<TempUserDTO>> GetTempUsersAsync();
 
-        Task UpdateTempUserExpiryAsync();
+        Task UpdateTempUserExpiryAsync(string id, TempUserUpdateDTO updateDTO);
 
 
     }

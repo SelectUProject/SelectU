@@ -13,7 +13,7 @@
       <td>{{ user.email }}</td>
       <td>{{ user.firstName }}</td>
       <td>{{ user.lastName }}</td>
-      <td>{{ user.loginExpiry | date : "short" }}</td>
+      <td>{{ user.loginExpiry | date : "dd/MM/yy hh:mm" }}</td>
       <td>
         <button
           type="button"
@@ -22,8 +22,24 @@
         >
           Update
         </button>
-        <button type="button" class="btn btn-danger mx-2">Kick</button>
+        <button
+          type="button"
+          class="btn btn-danger mx-2"
+          (click)="kick(user.id)"
+        >
+          Kick
+        </button>
       </td>
     </tr>
   </tbody>
 </table>
+
+<ngb-toast
+  class="bg-success text-light text-center w-75 position-absolute bottom-0 start-50 translate-middle"
+  *ngIf="success"
+  [delay]="2000"
+  [autohide]="true"
+  (hidden)="success = false"
+>
+  User Updated Successfully!
+</ngb-toast>

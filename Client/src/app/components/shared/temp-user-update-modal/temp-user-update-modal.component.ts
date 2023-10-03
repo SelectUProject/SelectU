@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { TempUserDTO } from 'src/app/models/TempUserDTO';
+import { TempUserUpdateDTO } from 'src/app/models/TempUserUpdateDTO';
 import { UserUpdateDTO } from 'src/app/models/UserUpdateDTO';
-import { UserService } from 'src/app/providers/user.service';
+import { TempUserService } from 'src/app/providers/tempUser.service';
 
 @Component({
   selector: 'app-temp-user-update-modal',
@@ -11,18 +12,18 @@ import { UserService } from 'src/app/providers/user.service';
   styleUrls: ['./temp-user-update-modal.component.scss'],
 })
 class TempUserUpdateModalComponent implements OnInit {
+  @Output() successEvent = new EventEmitter();
+
   user: TempUserDTO;
 
   updateForm: FormGroup;
-  isError: boolean = false;
   errMsg: string = 'An error has occurred!';
   updating: boolean = false;
-  success: boolean = false;
 
   constructor(
     public tempUserUpdateModalRef: MdbModalRef<TempUserUpdateModalComponent>,
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private tempUserService: TempUserService
   ) {}
 
   ngOnInit(): void {
@@ -57,15 +58,14 @@ class TempUserUpdateModalComponent implements OnInit {
 
   async update() {
     this.updating = true;
-    this.isError = false;
 
-    let updateForm = <UserUpdateDTO>this.updateForm.value;
+    let updateForm = <TempUserUpdateDTO>this.updateForm.value;
     updateForm.id = this.user.id;
 
-    await this.userService
-      .adminUpdateUserDetails(updateForm)
+    await this.tempUserService
+      .updateTempUserExpiry(updateForm)
       .then(() => {
-        this.success = true;
+        this.successEvent.emit();
       })
       .catch((response) => {
         if (response.error?.errors) {
@@ -76,7 +76,6 @@ class TempUserUpdateModalComponent implements OnInit {
         } else if (!response.success) {
           this.errMsg = response.error.message;
         }
-        this.isError = true;
       });
     this.updating = false;
   }

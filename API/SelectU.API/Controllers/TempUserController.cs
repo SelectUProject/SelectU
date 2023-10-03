@@ -22,18 +22,21 @@ namespace SelectU.API.Controllers
         private readonly IUserService _userService;
         private readonly ITempUserService _tempUserService;
         private readonly IValidator<TempUserInviteDTO> _tempUserInviteValidator;
+        private readonly IValidator<TempUserUpdateDTO> _tempUserUpdateValidator;
 
         public TempUserController(
             ILogger<TempUserController> logger,
             IUserService userService,
             ITempUserService tempUserService,
-            IValidator<TempUserInviteDTO> tempUserInviteValidator
+            IValidator<TempUserInviteDTO> tempUserInviteValidator,
+            IValidator<TempUserUpdateDTO> tempUserUpdateValidator
             )
         {
             _logger = logger;
             _userService = userService;
             _tempUserService = tempUserService;
             _tempUserInviteValidator = tempUserInviteValidator;
+            _tempUserUpdateValidator = tempUserUpdateValidator;
         }
 
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
@@ -108,35 +111,35 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Admin}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [Authorize]
         [HttpPatch("login-expiry")]
-        public async Task<IActionResult> UpdateLoginExpiry([FromBody] DateTimeOffset loginExpiry)
+        public async Task<IActionResult> UpdateLoginExpiry(TempUserUpdateDTO updateDTO)
         {
             try
             {
-                if (userDetails.Id.IsNullOrEmpty())
+                if (updateDTO.Id.IsNullOrEmpty())
                 {
                     return BadRequest(new ResponseDTO { Success = false, Message = "User ID is required" });
                 }
 
-                var validationResult = await _userDetailsValidator.ValidateAsync(userDetails);
+                var validationResult = await _tempUserUpdateValidator.ValidateAsync(updateDTO);
 
                 if (validationResult.IsValid)
                 {
-                    await _userService.UpdateUserDetailsAsync(userDetails.Id, userDetails);
+                    await _tempUserService.UpdateTempUserExpiryAsync(updateDTO.Id, updateDTO);
 
                     return Ok(new ResponseDTO { Success = true, Message = "User details updated successfully." });
                 }
                 return BadRequest(validationResult);
             }
-            catch (UserUpdateException ex)
+            catch (TempUserException ex)
             {
                 return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"UserId {userDetails.Id}, {ex.Message}");
+                _logger.LogError(ex, $"UserId {updateDTO.Id}, {ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }

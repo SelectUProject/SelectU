@@ -12,6 +12,10 @@ import TempUserUpdateModalComponent from '../temp-user-update-modal/temp-user-up
 class TempUserTableComponent implements OnInit {
   tempUserUpdateModalRef: MdbModalRef<TempUserUpdateModalComponent>;
   tempUsers: TempUserDTO[];
+  success: boolean = false;
+  isError: boolean = false;
+  errMsg: string = 'An error has occurred!';
+  updating: boolean = false;
 
   constructor(
     private tempUserService: TempUserService,
@@ -29,10 +33,42 @@ class TempUserTableComponent implements OnInit {
   }
 
   openModal(user: TempUserDTO) {
+    this.success = false;
     this.tempUserUpdateModalRef = this.modalService.open(
       TempUserUpdateModalComponent,
       { data: { user } }
     );
+    this.tempUserUpdateModalRef.component.successEvent.subscribe(() => {
+      this.success = true;
+      this.getTempUsers();
+      this.tempUserUpdateModalRef.close();
+    });
+  }
+
+  async kick(userId: string) {
+    this.updating = true;
+    this.success = false;
+
+    const updateForm = {
+      id: userId,
+      loginExpiry: new Date(),
+    };
+
+    await this.tempUserService
+      .updateTempUserExpiry(updateForm)
+      .then(() => {
+        this.success = true;
+        this.getTempUsers();
+      })
+      .catch((response) => {
+        if (response.error?.errors) {
+          this.errMsg = 'One or more validation errors occurred.';
+          console.log(response.error.errors);
+        } else if (!response.success) {
+          console.log(response.error.message);
+        }
+      });
+    this.updating = false;
   }
 }
 
