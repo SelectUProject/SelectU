@@ -161,6 +161,31 @@ namespace SelectU.API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("google-register")]
+        public async Task<IActionResult> GoogleRegister(GoogleAuthDTO authDTO)
+        {
+            try
+            {
+                ResponseDTO response;
+
+                await _userService.RegisterGoogleUserAsync(authDTO);
+
+                response = new ResponseDTO { Success = true, Message = "User created successfully." };
+
+                return Ok(response);
+            }
+            catch (UserRegisterException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
+            }
+        }
+
         [HttpPost("validate")]
         public async Task<IActionResult> ValidateUniqueEmailAddressAsync([FromBody] ValidateUniqueEmailAddressRequestDTO userDetails)
         {
@@ -317,7 +342,7 @@ namespace SelectU.API.Controllers
                 }
                 bool result = false;
 
-                if (!user.ProfilePicID.IsNullOrEmpty()) 
+                if (!user.ProfilePicID.IsNullOrEmpty())
                 {
                     result = await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
                 }
@@ -354,7 +379,7 @@ namespace SelectU.API.Controllers
 
                 if (!user.ProfilePicID.IsNullOrEmpty())
                 {
-                   var stream = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
+                    var stream = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
                     return Ok(stream);
                 }
                 else

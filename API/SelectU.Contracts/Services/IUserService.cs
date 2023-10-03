@@ -8,6 +8,7 @@ namespace SelectU.Contracts.Services
         Task<User> GetUserAsync(string id);
         Task<ValidateUniqueEmailAddressResponseDTO> ValidateUniqueEmailAddressAsync(string email);
         Task RegisterUserAsync(UserRegisterDTO registerDTO);
+        Task RegisterGoogleUserAsync(GoogleAuthDTO authDTO);
         Task UpdateUserDetailsAsync(string id, UserUpdateDTO updateDTO);
         Task ChangePasswordAsync(string id, ChangePasswordDTO passwordDTO);
         Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto);

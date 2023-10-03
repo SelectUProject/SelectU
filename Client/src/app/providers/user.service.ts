@@ -14,6 +14,7 @@ import {
 } from '../models/ValidateUniqueEmailAddressDTO';
 import { Config } from './config';
 import { TokenService } from './token.service';
+import { GoogleAuthDTO } from '../models/GoogleAuthDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,15 @@ export class UserService {
       this.http.post<RegistrationResponseDTO>(
         `${Config.api}/user/register`,
         registerDTO
+      )
+    );
+  }
+
+  async googleRegister(authDTO: GoogleAuthDTO) {
+    return await firstValueFrom(
+      this.http.post<RegistrationResponseDTO>(
+        `${Config.api}/user/google-register`,
+        authDTO
       )
     );
   }

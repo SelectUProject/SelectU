@@ -7,6 +7,7 @@ import { LoginDTO } from '../models/LoginDTO';
 import { ResponseDTO } from '../models/ResponseDTO';
 import { Config } from './config';
 import { TokenService } from './token.service';
+import { GoogleAuthDTO } from '../models/GoogleAuthDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,15 @@ export class AuthService {
   async login(loginDto: LoginDTO) {
     return await firstValueFrom(
       this.http.post<AuthToken>(`${Config.api}/authenticate/login`, loginDto)
+    );
+  }
+
+  async googleLogin(authDTO: GoogleAuthDTO) {
+    return await firstValueFrom(
+      this.http.post<AuthToken>(
+        `${Config.api}/authenticate/google-login`,
+        authDTO
+      )
     );
   }
 

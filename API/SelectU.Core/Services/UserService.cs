@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SelectU.Contracts;
+using SelectU.Contracts.Config;
 using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
@@ -11,6 +14,7 @@ using SelectU.Contracts.Enums;
 using SelectU.Contracts.Infrastructure;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
+using static Google.Apis.Auth.GoogleJsonWebSignature;
 
 namespace SelectU.Core.Services
 {
@@ -20,16 +24,19 @@ namespace SelectU.Core.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailClient _emailclient;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly GoogleConfig _googleConfig;
 
         public UserService(UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
             IEmailClient emailClient,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IOptions<GoogleConfig> googleConfig)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _emailclient = emailClient;
             _unitOfWork = unitOfWork;
+            _googleConfig = googleConfig.Value;
         }
 
         public async Task<User> GetUserAsync(string id)
@@ -111,6 +118,47 @@ namespace SelectU.Core.Services
             }
 
             await _emailclient.SendRegistrationEmailASync(registerDTO);
+        }
+
+        public async Task RegisterGoogleUserAsync(GoogleAuthDTO authDTO)
+        {
+            ValidationSettings settings = new ValidationSettings();
+
+            settings.Audience = new List<string>() { _googleConfig.ClientId };
+
+            Payload payload = await ValidateAsync(authDTO.IdToken, settings);
+
+            var existingUser = await _userManager.FindByNameAsync(payload.Email);
+
+            if (existingUser != null)
+            {
+                throw new UserRegisterException("An account already exists for the email attached to this account.");
+            }
+
+            var user = new User
+            {
+                Email = payload.Email,
+                FirstName = payload.GivenName,
+                LastName = payload.FamilyName,
+                UserName = payload.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                DateCreated = DateTimeOffset.UtcNow,
+                DateModified = DateTimeOffset.UtcNow
+            };
+
+            var result = await _userManager.CreateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                throw new UserRegisterException("Failed to create User.");
+            }
+
+            if (await _roleManager.RoleExistsAsync(UserRoles.User))
+            {
+                await _userManager.AddToRoleAsync(user, UserRoles.User);
+            }
+
+            await _emailclient.SendRegistrationEmailASync(new UserRegisterDTO(payload));
         }
 
         public async Task UpdateUserDetailsAsync(string id, UserUpdateDTO updateDTO)

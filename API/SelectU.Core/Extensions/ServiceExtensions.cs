@@ -46,6 +46,8 @@ namespace SelectU.Core.Extensions
                     .AddSingleton(x => x.GetRequiredService<IOptions<SmtpConfig>>().Value);
             services.Configure<EmailConfig>(configuration.GetSection("Email"))
                     .AddSingleton(x => x.GetRequiredService<IOptions<EmailConfig>>().Value);
+            services.Configure<GoogleConfig>(configuration.GetSection("Google"))
+                    .AddSingleton(x => x.GetRequiredService<IOptions<GoogleConfig>>().Value);
             services.Configure<ServiceBusConfig>(configuration.GetSection("ServiceBus"))
                     .AddSingleton(x => x.GetRequiredService<IOptions<ServiceBusConfig>>().Value);
             services.Configure<AppConfig>(configuration.GetSection("Config"))
