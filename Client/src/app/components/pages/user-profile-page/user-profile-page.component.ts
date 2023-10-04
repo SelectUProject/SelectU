@@ -3,6 +3,7 @@ import { UserUpdateDTO } from 'src/app/models/UserUpdateDTO';
 import { UserService } from 'src/app/providers/user.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-user-profile-page',
@@ -13,10 +14,13 @@ export class UserProfilePageComponent implements OnInit {
   userDetails: UserUpdateDTO;
 
   gender: string;
+  date: string | null;
+
+  
 
   admissionName = environment.admissionName;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private datepipe: DatePipe) {}
 
   ngOnInit(): void {
     this.getUserDetails();
@@ -33,6 +37,8 @@ export class UserProfilePageComponent implements OnInit {
       });
 
     this.gender = getGenderString(this.userDetails.gender);
+    let formated_date =this.datepipe.transform(this.userDetails.dateOfBirth, 'yyyy-MM-dd');
+    this.date = formated_date;
   }
 
   redirect() {

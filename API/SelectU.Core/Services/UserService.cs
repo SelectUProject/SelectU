@@ -132,6 +132,7 @@ namespace SelectU.Core.Services
             user.Suburb = updateDTO.Suburb;
             user.Postcode = updateDTO.Postcode;
             user.State = updateDTO.State;
+            user.Country = updateDTO.Country;
             user.UserName = updateDTO.Email;
             user.DateModified = DateTimeOffset.Now;
 

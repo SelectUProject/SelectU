@@ -20,7 +20,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { TokenService } from 'src/app/providers/token.service';
 import { UserService } from 'src/app/providers/user.service';
 import { UserUpdateDTO } from 'src/app/models/UserUpdateDTO';
-
+import { DatePipe } from '@angular/common'
 @Component({
   selector: 'app-update-user-profile-page',
   templateUrl: './update-user-profile-page.component.html',
@@ -37,6 +37,7 @@ export class UpdateUserProfilePageComponent {
   todayDate: Date = new Date();
   registered: boolean = false;
   socialUser: SocialUser;
+  
 
   // Fill form with existing account information:
   userDetails: UserUpdateDTO;
@@ -102,7 +103,8 @@ export class UpdateUserProfilePageComponent {
     private userService: UserService,
     private authService: AuthService,
     private router: Router,
-    private socialAuthService: SocialAuthService
+    private socialAuthService: SocialAuthService,
+    private datepipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -122,7 +124,10 @@ export class UpdateUserProfilePageComponent {
     this.updateAccountForm = this.formBuilder.group({
       email: [
         this.userDetails.email,
-        Validators.compose([Validators.required, Validators.email]),
+        Validators.compose([
+          Validators.required,
+          Validators.email
+        ]),
       ],
       firstName: [
         this.userDetails.firstName,
@@ -138,7 +143,7 @@ export class UpdateUserProfilePageComponent {
           Validators.pattern('^[a-zA-Z ]+$'),
         ]),
       ],
-      dateOfBirth: [this.userDetails.dateOfBirth, Validators.required],
+      dateOfBirth: [this.datepipe.transform(this.userDetails.dateOfBirth, 'dd/MM/yyyy'), Validators.required],
       gender: [this.userDetails.gender, Validators.required],
       phoneNumber: [
         this.userDetails.phoneNumber,
