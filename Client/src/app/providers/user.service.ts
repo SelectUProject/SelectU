@@ -15,6 +15,8 @@ import {
 import { Config } from './config';
 import { TokenService } from './token.service';
 import { GoogleAuthDTO } from '../models/GoogleAuthDTO';
+import { UserInviteDTO } from '../models/UserInviteDTO';
+import { LoginExpiryUpdateDTO } from '../models/LoginExpiryUpdateDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -99,6 +101,27 @@ export class UserService {
         `${Config.api}/user/admin/details/update`,
         user
       )
+    );
+  }
+
+  async inviteUser(request: UserInviteDTO) {
+    return await firstValueFrom(
+      this.http.post<ResponseDTO>(`${Config.api}/user/invite`, request)
+    );
+  }
+
+  async updateLoginExpiry(userId: string, updateDTO: LoginExpiryUpdateDTO) {
+    return await firstValueFrom(
+      this.http.patch<ResponseDTO>(
+        `${Config.api}/user/login-expiry/${userId}`,
+        updateDTO
+      )
+    );
+  }
+
+  async getAllUsers() {
+    return await firstValueFrom(
+      this.http.get<UserUpdateDTO[]>(`${Config.api}/user/list`)
     );
   }
 }

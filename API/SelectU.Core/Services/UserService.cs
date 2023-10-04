@@ -14,6 +14,7 @@ using SelectU.Contracts.Enums;
 using SelectU.Contracts.Infrastructure;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
+using SelectU.Core.Helpers;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
 namespace SelectU.Core.Services
@@ -117,7 +118,7 @@ namespace SelectU.Core.Services
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
             }
 
-            await _emailclient.SendRegistrationEmailASync(registerDTO);
+            await _emailclient.SendRegistrationEmailAsync(registerDTO);
         }
 
         public async Task RegisterGoogleUserAsync(GoogleAuthDTO authDTO)
@@ -158,7 +159,7 @@ namespace SelectU.Core.Services
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
             }
 
-            await _emailclient.SendRegistrationEmailASync(new UserRegisterDTO(payload));
+            await _emailclient.SendRegistrationEmailAsync(new UserRegisterDTO(payload));
         }
 
         public async Task UpdateUserDetailsAsync(string id, UserUpdateDTO updateDTO)
@@ -267,7 +268,7 @@ namespace SelectU.Core.Services
 
             await _userManager.ResetAccessFailedCountAsync(user);
         }
-        public async Task<ICollection<User>> GetAllUsersAsync()
+        public async Task<List<User>> GetAllUsersAsync()
         {
             return await _userManager.Users.ToListAsync();
         }
@@ -312,7 +313,7 @@ namespace SelectU.Core.Services
             }
         }
 
-        public async Task<ICollection<string>> GetUserRolesAsync(string userId)
+        public async Task<IList<string>> GetUserRolesAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user != null)
@@ -322,6 +323,67 @@ namespace SelectU.Core.Services
             else
             {
                 throw new NotFoundException("User not Found");
+            }
+        }
+
+        public async Task InviteUserAsync(UserInviteDTO inviteDTO)
+        {
+            if(inviteDTO.Role == UserRoles.Admin)
+            {
+                throw new UserInviteException("Cannot invite user with Admin role.");
+            }
+
+            var user = new User
+            {
+                Email = inviteDTO.Email,
+                FirstName = inviteDTO.FirstName,
+                LastName = inviteDTO.LastName,
+                UserName = inviteDTO.Email,
+                LoginExpiry = inviteDTO.LoginExpiry,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                DateCreated = DateTimeOffset.UtcNow,
+                DateModified = DateTimeOffset.UtcNow
+            };
+
+            var password = PasswordHelper.GenerateRandomPassword(12, 1);
+
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (!result.Succeeded)
+            {
+                throw new UserInviteException("Failed to create User.");
+            }
+
+            if (await _roleManager.RoleExistsAsync(inviteDTO.Role!))
+            {
+                await _userManager.AddToRoleAsync(user, inviteDTO.Role!);
+            }
+
+            await _emailclient.SendUserInviteEmailAsync(inviteDTO, password);
+        }
+
+        public async Task UpdateLoginExpiryAsync(string id, LoginExpiryUpdateDTO updateDTO)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                throw new UserUpdateException("User not found.");
+            }
+
+            if(await _userManager.IsInRoleAsync(user, UserRoles.Admin))
+            {
+                throw new UserUpdateException("Cannot update login expiry for user with Admin role.");
+            }
+
+            user.LoginExpiry = updateDTO.LoginExpiry;
+            user.DateModified = DateTimeOffset.Now;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                throw new UserUpdateException("Failed to update user details.");
             }
         }
     }

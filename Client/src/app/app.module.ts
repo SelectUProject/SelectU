@@ -45,11 +45,11 @@ import { ScholarshipSearchFormComponent } from './components/shared/scholarship-
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 import { LongViewScholarshipsComponent } from './components/shared/long-view-scholarships/long-view-scholarships.component';
 import { ScholarshipApplicationFormComponent } from './components/shared/scholarship-application-form/scholarship-application-form.component';
-import { TempUserInvitePageComponent } from './components/pages/temp-user-invite-page/temp-user-invite-page.component';
-import TempUserInviteFormComponent from './components/shared/temp-user-invite-form/temp-user-invite-form.component';
-import TempUserTableComponent from './components/shared/temp-user-table/temp-user-table.component';
-import { TempUserTablePageComponent } from './components/pages/temp-user-table-page/temp-user-table-page.component';
-import TempUserUpdateModalComponent from './components/shared/temp-user-update-modal/temp-user-update-modal.component';
+import UserInviteFormComponent from './components/shared/user-invite-form/user-invite-form.component';
+import UserTableComponent from './components/shared/user-table/user-table.component';
+import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
+import UserUpdateModalComponent from './components/shared/user-update-modal/user-update-modal.component';
+import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
 
 @NgModule({
   declarations: [
@@ -72,11 +72,11 @@ import TempUserUpdateModalComponent from './components/shared/temp-user-update-m
     CreateScholarshipApplicationPageComponent,
     LongViewScholarshipsComponent,
     ScholarshipApplicationFormComponent,
-    TempUserInvitePageComponent,
-    TempUserInviteFormComponent,
-    TempUserTableComponent,
-    TempUserTablePageComponent,
-    TempUserUpdateModalComponent,
+    UserInvitePageComponent,
+    UserInviteFormComponent,
+    UserTableComponent,
+    UserTablePageComponent,
+    UserUpdateModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

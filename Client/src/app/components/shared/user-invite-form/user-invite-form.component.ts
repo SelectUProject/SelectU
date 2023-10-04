@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TempUserInviteDTO } from 'src/app/models/TempUserInviteDTO';
+import { UserInviteDTO } from 'src/app/models/UserInviteDTO';
 import { ValidateUniqueEmailAddressRequestDTO } from 'src/app/models/ValidateUniqueEmailAddressDTO';
 import { Config } from 'src/app/providers/config';
-import { TempUserService } from 'src/app/providers/tempUser.service';
+import { UserService } from 'src/app/providers/user.service';
+import { USER, STAFF, REVIEWER } from 'src/app/constants/userRoles';
 
 @Component({
-  selector: 'app-temp-user-invite-form',
-  templateUrl: './temp-user-invite-form.component.html',
-  styleUrls: ['./temp-user-invite-form.component.scss'],
+  selector: 'app-user-invite-form',
+  templateUrl: './user-invite-form.component.html',
+  styleUrls: ['./user-invite-form.component.scss'],
 })
-class TempUserInviteFormComponent implements OnInit {
+class UserInviteFormComponent implements OnInit {
+  roles: string[] = [USER, STAFF, REVIEWER];
   inviteForm: FormGroup;
   isError: boolean = false;
   errMsg: string = 'An error has occurred!';
@@ -23,6 +25,10 @@ class TempUserInviteFormComponent implements OnInit {
 
   get email() {
     return this.inviteForm.get('email');
+  }
+
+  get role() {
+    return this.inviteForm.get('role');
   }
 
   get firstName() {
@@ -39,7 +45,7 @@ class TempUserInviteFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private tempUserService: TempUserService,
+    private userService: UserService,
     private router: Router
   ) {}
 
@@ -50,6 +56,7 @@ class TempUserInviteFormComponent implements OnInit {
   setupForm() {
     this.inviteForm = this.formBuilder.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
+      role: ['', Validators.required],
       firstName: [
         '',
         Validators.compose([
@@ -64,7 +71,7 @@ class TempUserInviteFormComponent implements OnInit {
           Validators.pattern('^[a-zA-Z ]+$'),
         ]),
       ],
-      loginExpiry: ['', Validators.required],
+      loginExpiry: [''],
     });
   }
 
@@ -76,7 +83,7 @@ class TempUserInviteFormComponent implements OnInit {
         email: this.email.value,
       };
 
-      await this.tempUserService
+      await this.userService
         .validateUniqueEmailAddress(request)
         .then((response) => {
           if (response.isUnique == false && !!this.email) {
@@ -94,13 +101,14 @@ class TempUserInviteFormComponent implements OnInit {
     this.inviting = true;
     this.isError = false;
 
-    let inviteForm = <TempUserInviteDTO>this.inviteForm.value;
+    let inviteForm = <UserInviteDTO>this.inviteForm.value;
+    inviteForm.loginExpiry = new Date(inviteForm.loginExpiry);
 
-    await this.tempUserService
-      .inviteTempUser(inviteForm)
+    await this.userService
+      .inviteUser(inviteForm)
       .then(() => {
         this.success = true;
-        this.router.navigate(['/view-temp-users']);
+        this.router.navigate(['/view-users']);
       })
       .catch((response) => {
         if (response.error?.errors) {
@@ -122,4 +130,4 @@ class TempUserInviteFormComponent implements OnInit {
   }
 }
 
-export default TempUserInviteFormComponent;
+export default UserInviteFormComponent;

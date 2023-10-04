@@ -27,6 +27,8 @@ namespace SelectU.API.Controllers
         private readonly IValidator<ChangePasswordDTO> _passwordValidator;
         private readonly IValidator<UserRegisterDTO> _userRegisterValidator;
         private readonly IValidator<UpdateUserRolesDTO> _userRolesUpdateValidator;
+        private readonly IValidator<UserInviteDTO> _userInviteValidator;
+        private readonly IValidator<LoginExpiryUpdateDTO> _loginExpiryUpdateValidator;
 
         public UserController(ILogger<UserController> logger,
             IUserService userService,
@@ -35,7 +37,9 @@ namespace SelectU.API.Controllers
             IValidator<UserUpdateDTO> userDetailsValidator,
             IValidator<ChangePasswordDTO> passwordValidator,
             IValidator<UserRegisterDTO> userRegisterValidator,
-            IValidator<UpdateUserRolesDTO> userRolesUpdateValidator)
+            IValidator<UpdateUserRolesDTO> userRolesUpdateValidator,
+            IValidator<UserInviteDTO> userInviteValidator,
+            IValidator<LoginExpiryUpdateDTO> loginExpiryUpdateValidator)
         {
             _logger = logger;
             _userService = userService;
@@ -46,8 +50,9 @@ namespace SelectU.API.Controllers
             _userRegisterValidator = userRegisterValidator;
             _userRolesUpdateValidator = userRolesUpdateValidator;
             _blobStorageService = blobStorageService;
+            _userInviteValidator = userInviteValidator;
+            _loginExpiryUpdateValidator = loginExpiryUpdateValidator;
         }
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [Authorize]
         [HttpGet("details")]
         public async Task<IActionResult> GetUserDetailsAsync()
@@ -274,12 +279,21 @@ namespace SelectU.API.Controllers
             {
                 var users = await _userService.GetAllUsersAsync();
 
+                List<UserUpdateDTO> response = new List<UserUpdateDTO>();
+
+                foreach(var user in users)
+                {
+                    var userRoles = await _userService.GetUserRolesAsync(user.Id) as List<string>;
+
+                    response.Add(new UserUpdateDTO(user, userRoles));
+                }
+
                 if (users == null)
                 {
                     return BadRequest("Users not found");
                 }
 
-                return Ok(users);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -511,6 +525,70 @@ namespace SelectU.API.Controllers
                 return false;
             }
             return true;
+        }
+
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
+        [HttpPost("invite")]
+        public async Task<IActionResult> Invite(UserInviteDTO inviteDTO)
+        {
+            try
+            {
+                var validationResult = await _userInviteValidator.ValidateAsync(inviteDTO);
+
+                if (validationResult.IsValid)
+                {
+                    ResponseDTO response;
+
+                    await _userService.InviteUserAsync(inviteDTO);
+
+                    response = new ResponseDTO { Success = true, Message = "User invited successfully." };
+
+                    return Ok(response);
+                }
+                return BadRequest(validationResult);
+            }
+            catch (UserInviteException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
+        [Authorize]
+        [HttpPatch("login-expiry/{userId}")]
+        public async Task<IActionResult> UpdateLoginExpiry([FromRoute] string userId, [FromBody] LoginExpiryUpdateDTO updateDTO)
+        {
+            try
+            {
+                if (userId.IsNullOrEmpty())
+                {
+                    return BadRequest(new ResponseDTO { Success = false, Message = "User ID is required" });
+                }
+
+                var validationResult = await _loginExpiryUpdateValidator.ValidateAsync(updateDTO);
+
+                if (validationResult.IsValid)
+                {
+                    await _userService.UpdateLoginExpiryAsync(userId, updateDTO);
+
+                    return Ok(new ResponseDTO { Success = true, Message = "User login expiry updated successfully." });
+                }
+                return BadRequest(validationResult);
+            }
+            catch (UserUpdateException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"UserId {userId}, {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
+            }
         }
     }
 }

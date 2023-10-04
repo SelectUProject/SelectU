@@ -68,13 +68,12 @@ namespace SelectU.Core.Extensions
             services.AddScoped<ICachingService, CachingService>();
             services.AddScoped<IScholarshipApplicationService, ScholarshipApplicationService>();
             services.AddScoped<IScholarshipService, ScholarshipService>();
-            services.AddScoped<ITempUserService, TempUserService>();
             services.AddScoped<IUserService, UserService>();
 
             //Validators
             services.AddScoped<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
-            services.AddScoped<IValidator<TempUserInviteDTO>, TempUserInviteDTOValidator>();
-            services.AddScoped<IValidator<TempUserUpdateDTO>, TempUserUpdateDTOValidator>();
+            services.AddScoped<IValidator<UserInviteDTO>, UserInviteDTOValidator>();
+            services.AddScoped<IValidator<LoginExpiryUpdateDTO>, LoginExpiryUpdateDTOValidator>();
             services.AddScoped<IValidator<UpdateUserRolesDTO>, UpdateUserRolesDTOValidator>();
             services.AddScoped<IValidator<UserRegisterDTO>, UserRegisterDTOValidator>();
             services.AddScoped<IValidator<UserUpdateDTO>, UserUpdateDTOValidator>();

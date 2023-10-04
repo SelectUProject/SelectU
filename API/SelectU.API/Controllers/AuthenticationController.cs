@@ -48,6 +48,11 @@ namespace SelectU.API.Controllers
             var user = await _userManager.FindByNameAsync(loginDTO.Username!);
             if (user != null)
             {
+                if(user.LoginExpiry != null && user.LoginExpiry < DateTimeOffset.UtcNow)
+                {
+                    return BadRequest(new ResponseDTO { Success = false, Message = "Your login has expired. Please contact your administrator." });
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(user, loginDTO.Password!, true, false);
 
                 if (result.Succeeded)
@@ -92,6 +97,11 @@ namespace SelectU.API.Controllers
             var user = await _userManager.FindByNameAsync(payload.Email);
             if (user != null)
             {
+                if (user.LoginExpiry != null && user.LoginExpiry < DateTimeOffset.UtcNow)
+                {
+                    return BadRequest(new ResponseDTO { Success = false, Message = "Your login has expired. Please contact your administrator." });
+                }
+
                 await _signInManager.SignInAsync(user, true);
 
                 var userRoles = await _userManager.GetRolesAsync(user);

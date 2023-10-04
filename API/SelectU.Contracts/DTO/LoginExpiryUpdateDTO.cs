@@ -2,9 +2,8 @@
 
 namespace SelectU.Contracts.DTO
 {
-    public class TempUserUpdateDTO
+    public class LoginExpiryUpdateDTO
     {
-        public string? Id { get; set; }
         public DateTimeOffset? LoginExpiry { get; set; }
     }
 }

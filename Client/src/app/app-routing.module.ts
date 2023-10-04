@@ -11,8 +11,8 @@ import { SavedScholarshipsPageComponent } from './components/pages/saved-scholar
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { UserProfilePageComponent } from './components/pages/user-profile-page/user-profile-page.component';
-import { TempUserInvitePageComponent } from './components/pages/temp-user-invite-page/temp-user-invite-page.component';
-import { TempUserTablePageComponent } from './components/pages/temp-user-table-page/temp-user-table-page.component';
+import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
+import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 
 //components
@@ -59,14 +59,14 @@ const routes: Routes = [
         component: MyApplicationsComponent,
       },
       {
-        path: 'invite-temp-user',
-        component: TempUserInvitePageComponent,
+        path: 'invite-user',
+        component: UserInvitePageComponent,
         canActivate: [AuthGuard],
         data: { role: [Role.Staff, Role.Admin] },
       },
       {
-        path: 'view-temp-users',
-        component: TempUserTablePageComponent,
+        path: 'view-users',
+        component: UserTablePageComponent,
         canActivate: [AuthGuard],
         data: { role: [Role.Staff, Role.Admin] },
       },

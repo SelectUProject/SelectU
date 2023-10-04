@@ -22,6 +22,31 @@
 
   <div class="row mb-2">
     <div class="col">
+      <!-- Role input -->
+      <mdb-form-control class="mb-4">
+        <select
+          mdbValidate
+          mdbInput
+          type="select"
+          id="role"
+          class="form-control"
+          formControlName="role"
+        >
+          <option value="" disabled selected></option>
+          <option *ngFor="let role of roles" [ngValue]="role">
+            {{ role }}
+          </option>
+        </select>
+        <label mdbLabel class="form-label" for="role">Role</label>
+        <mdb-error *ngIf="role?.invalid && (role?.dirty || role?.touched)"
+          >Role is required</mdb-error
+        >
+      </mdb-form-control>
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col">
       <!-- First Name input -->
       <mdb-form-control class="mb-4">
         <input

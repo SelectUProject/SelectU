@@ -1,34 +1,30 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { TempUserDTO } from 'src/app/models/TempUserDTO';
-import { TempUserUpdateDTO } from 'src/app/models/TempUserUpdateDTO';
 import { UserUpdateDTO } from 'src/app/models/UserUpdateDTO';
-import { TempUserService } from 'src/app/providers/tempUser.service';
+import { UserService } from 'src/app/providers/user.service';
 
 @Component({
-  selector: 'app-temp-user-update-modal',
-  templateUrl: './temp-user-update-modal.component.html',
-  styleUrls: ['./temp-user-update-modal.component.scss'],
+  selector: 'app-user-update-modal',
+  templateUrl: './user-update-modal.component.html',
+  styleUrls: ['./user-update-modal.component.scss'],
 })
-class TempUserUpdateModalComponent implements OnInit {
+class UserUpdateModalComponent implements OnInit {
   @Output() successEvent = new EventEmitter();
 
-  user: TempUserDTO;
+  user: UserUpdateDTO;
 
   updateForm: FormGroup;
   errMsg: string = 'An error has occurred!';
   updating: boolean = false;
 
   constructor(
-    public tempUserUpdateModalRef: MdbModalRef<TempUserUpdateModalComponent>,
+    public UserUpdateModalRef: MdbModalRef<UserUpdateModalComponent>,
     private formBuilder: FormBuilder,
-    private tempUserService: TempUserService
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    console.log(this.user);
-
     this.setupForm();
   }
 
@@ -59,11 +55,12 @@ class TempUserUpdateModalComponent implements OnInit {
   async update() {
     this.updating = true;
 
-    let updateForm = <TempUserUpdateDTO>this.updateForm.value;
-    updateForm.id = this.user.id;
+    const updateForm = {
+      loginExpiry: new Date(),
+    };
 
-    await this.tempUserService
-      .updateTempUserExpiry(updateForm)
+    await this.userService
+      .updateLoginExpiry(this.user.id, updateForm)
       .then(() => {
         this.successEvent.emit();
       })
@@ -86,4 +83,4 @@ class TempUserUpdateModalComponent implements OnInit {
   }
 }
 
-export default TempUserUpdateModalComponent;
+export default UserUpdateModalComponent;

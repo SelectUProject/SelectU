@@ -13,10 +13,13 @@ namespace SelectU.Contracts.Services
         Task ChangePasswordAsync(string id, ChangePasswordDTO passwordDTO);
         Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto);
         Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto);
-        Task<ICollection<User>> GetAllUsersAsync();
+        Task<List<User>> GetAllUsersAsync();
         Task RemoveRolesFromUserAsync(string id, ICollection<string> roleNames);
         Task AddRolesToUserAsync(string id, ICollection<string> roleNames);
-        Task<ICollection<string>> GetUserRolesAsync(string id);
+        Task<IList<string>> GetUserRolesAsync(string id);
         Task DeleteUserAsync(string id);
+        Task InviteUserAsync(UserInviteDTO inviteDTO);
+        Task UpdateLoginExpiryAsync(string id, LoginExpiryUpdateDTO updateDTO);
+
     }
 }

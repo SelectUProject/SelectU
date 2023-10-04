@@ -80,36 +80,36 @@
           *ngIf="
             this.tokenService.role == STAFF || this.tokenService.role == ADMIN
           "
-          class="nav-item dropdown me-2 me-lg-1"
+          class="nav-item dropdown me-2 me-lg-1 mx-5"
         >
           <a
             class="nav-link dropdown-toggle"
-            id="tempUserDropdown"
+            id="userDropdown"
             role="button"
             mdbDropdownToggle
             aria-expanded="false"
           >
-            Reviewers
+            Users
           </a>
           <ul
             mdbDropdownMenu
             class="dropdown-menu"
-            aria-labelledby="tempUserDropdown"
+            aria-labelledby="userDropdown"
           >
             <li>
               <a
                 class="dropdown-item"
                 aria-current="page"
-                [routerLink]="['/invite-temp-user']"
-                >Invite Reviewers</a
+                [routerLink]="['/invite-user']"
+                >Invite Users</a
               >
             </li>
             <li>
               <a
                 class="dropdown-item"
                 aria-current="page"
-                [routerLink]="['/view-temp-users']"
-                >View Reviewers</a
+                [routerLink]="['/view-users']"
+                >View Users</a
               >
             </li>
           </ul>

@@ -3,11 +3,10 @@ using SelectU.Contracts.DTO;
 
 namespace SelectU.Core.Validators
 {
-    public class TempUserUpdateDTOValidator : AbstractValidator<TempUserUpdateDTO>
+    public class LoginExpiryUpdateDTOValidator : AbstractValidator<LoginExpiryUpdateDTO>
     {
-        public TempUserUpdateDTOValidator()
+        public LoginExpiryUpdateDTOValidator()
         {
-            RuleFor(x => x.Id).NotEmpty().WithMessage("ID is required");
             RuleFor(x => x.LoginExpiry).NotEmpty().WithMessage("Login Expiry is required");
         }
     }
