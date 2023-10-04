@@ -46,10 +46,11 @@ import { CreateScholarshipApplicationPageComponent } from './components/pages/cr
 import { LongViewScholarshipsComponent } from './components/shared/long-view-scholarships/long-view-scholarships.component';
 import { ScholarshipApplicationFormComponent } from './components/shared/scholarship-application-form/scholarship-application-form.component';
 import UserInviteFormComponent from './components/shared/user-invite-form/user-invite-form.component';
-import UserTableComponent from './components/shared/user-table/user-table.component';
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import UserUpdateModalComponent from './components/shared/user-update-modal/user-update-modal.component';
 import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
+import UserTableComponent from './components/shared/user-table/user-table.component';
+import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable-header/ngbd-sortable-header.component';
 
 @NgModule({
   declarations: [
@@ -74,9 +75,9 @@ import UserInvitePageComponent from './components/pages/user-invite-page/user-in
     ScholarshipApplicationFormComponent,
     UserInvitePageComponent,
     UserInviteFormComponent,
-    UserTableComponent,
     UserTablePageComponent,
     UserUpdateModalComponent,
+    UserTableComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -95,6 +96,7 @@ import UserInvitePageComponent from './components/pages/user-invite-page/user-in
     SocialLoginModule,
     GoogleSigninButtonModule,
     MdbModalModule,
+    NgbdSortableHeader,
   ],
   providers: [
     DatePipe,

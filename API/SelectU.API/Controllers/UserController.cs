@@ -285,7 +285,7 @@ namespace SelectU.API.Controllers
                 {
                     var userRoles = await _userService.GetUserRolesAsync(user.Id) as List<string>;
 
-                    response.Add(new UserUpdateDTO(user, userRoles));
+                    response.Add(new UserUpdateDTO(user, userRoles?.FirstOrDefault()));
                 }
 
                 if (users == null)

@@ -19,10 +19,10 @@ namespace SelectU.Contracts.DTO
         public string? Country { get; set; }
         public string? ProfilePicID { get; set; }
         public string? AboutMe { get; set; }
+        public string? Role { get; set; }
         public DateTimeOffset? LoginExpiry { get; set; }
         public DateTimeOffset? DateCreated { get; set; }
         public DateTimeOffset? DateModified { get; set; }
-        public List<string>? Roles { get; set; }
 
         public UserUpdateDTO() { }
 
@@ -47,7 +47,7 @@ namespace SelectU.Contracts.DTO
             DateModified = user.DateModified;
         }
         
-        public UserUpdateDTO(User user, List<string>? roles)
+        public UserUpdateDTO(User user, string? role)
         {
             Id = user.Id;
             Email = user.Email;
@@ -66,7 +66,7 @@ namespace SelectU.Contracts.DTO
             LoginExpiry = user.LoginExpiry;
             DateCreated = user.DateCreated;
             DateModified = user.DateModified;
-            Roles = roles;
+            Role = role;
         }
     }
 }

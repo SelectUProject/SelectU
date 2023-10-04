@@ -1,8 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  Directive,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import UserUpdateModalComponent from '../user-update-modal/user-update-modal.component';
 import { UserService } from 'src/app/providers/user.service';
 import { UserUpdateDTO } from 'src/app/models/UserUpdateDTO';
+import {
+  NgbdSortableHeader,
+  SortEvent,
+} from './ngbd-sortable-header/ngbd-sortable-header.component';
+import { GenderEnum } from 'src/app/models/GenderEnum';
+
+const compare = (
+  v1: string | number | GenderEnum | Date,
+  v2: string | number | GenderEnum | Date
+) => (v1 > v2 ? -1 : v1 < v2 ? 1 : 0);
 
 @Component({
   selector: 'app-user-table',
@@ -17,6 +36,8 @@ class UserTableComponent implements OnInit {
   errMsg: string = 'An error has occurred!';
   updating: boolean = false;
 
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+
   constructor(
     private userService: UserService,
     private modalService: MdbModalService
@@ -24,6 +45,25 @@ class UserTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllUsers();
+  }
+
+  onSort({ column, direction }: SortEvent) {
+    // resetting other headers
+    this.headers.forEach((header) => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    // sorting users
+    if (direction === '' || column === '') {
+      this.getAllUsers();
+    } else {
+      this.users = [...this.users].sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'desc' ? res : -res;
+      });
+    }
   }
 
   getAllUsers() {

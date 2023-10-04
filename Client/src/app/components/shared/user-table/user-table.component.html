@@ -1,13 +1,114 @@
 <table class="table mb-0 bg-white">
   <thead class="bg-light">
     <tr>
-      <th>Email</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Roles</th>
-      <th>Date Created</th>
-      <th>Date Modified</th>
-      <th>Expiry</th>
+      <th
+        class="header"
+        role="button"
+        scope="col"
+        sortable="email"
+        (sort)="onSort($event)"
+      >
+        <div class="row">
+          <div class="col-3">Email</div>
+          <div class="col">
+            <i class="fa-solid fa-arrow-up mt-1"></i>
+            <i class="fa-solid fa-arrow-down mt-1"></i>
+          </div>
+        </div>
+      </th>
+      <th
+        class="header"
+        role="button"
+        scope="col"
+        sortable="firstName"
+        (sort)="onSort($event)"
+        [width]="105"
+      >
+        <div class="row">
+          <div class="col-7">First</div>
+          <div class="col">
+            <i class="fa-solid fa-arrow-up mt-1"></i>
+            <i class="fa-solid fa-arrow-down mt-1"></i>
+          </div>
+        </div>
+      </th>
+      <th
+        class="header"
+        role="button"
+        scope="col"
+        sortable="lastName"
+        (sort)="onSort($event)"
+        [width]="105"
+      >
+        <div class="row">
+          <div class="col-7">Last</div>
+          <div class="col">
+            <i class="fa-solid fa-arrow-up mt-1"></i>
+            <i class="fa-solid fa-arrow-down mt-1"></i>
+          </div>
+        </div>
+      </th>
+      <th
+        class="header"
+        role="button"
+        scope="col"
+        sortable="role"
+        (sort)="onSort($event)"
+        [width]="105"
+      >
+        <div class="row">
+          <div class="col-7">Role</div>
+          <div class="col">
+            <i class="fa-solid fa-arrow-up mt-1"></i>
+            <i class="fa-solid fa-arrow-down mt-1"></i>
+          </div>
+        </div>
+      </th>
+      <th
+        class="header"
+        role="button"
+        scope="col"
+        sortable="dateCreated"
+        (sort)="onSort($event)"
+      >
+        <div class="row">
+          <div class="col-7">Created</div>
+          <div class="col">
+            <i class="fa-solid fa-arrow-up mt-1"></i>
+            <i class="fa-solid fa-arrow-down mt-1"></i>
+          </div>
+        </div>
+      </th>
+      <th
+        class="header"
+        role="button"
+        scope="col"
+        sortable="dateModified"
+        (sort)="onSort($event)"
+      >
+        <div class="row">
+          <div class="col-7">Modified</div>
+          <div class="col">
+            <i class="fa-solid fa-arrow-up mt-1"></i>
+            <i class="fa-solid fa-arrow-down mt-1"></i>
+          </div>
+        </div>
+      </th>
+      <th
+        class="header"
+        role="button"
+        scope="col"
+        sortable="loginExpiry"
+        (sort)="onSort($event)"
+      >
+        <div class="row">
+          <div class="col-7">Expiry</div>
+          <div class="col">
+            <i class="fa-solid fa-arrow-up mt-1"></i>
+            <i class="fa-solid fa-arrow-down mt-1"></i>
+          </div>
+        </div>
+      </th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -16,25 +117,31 @@
       <td>{{ user.email }}</td>
       <td>{{ user.firstName }}</td>
       <td>{{ user.lastName }}</td>
-      <td>{{ user.roles }}</td>
+      <td>{{ user.role }}</td>
       <td>{{ user.dateCreated | date : "dd/MM/yy hh:mm" }}</td>
       <td>{{ user.dateModified | date : "dd/MM/yy hh:mm" }}</td>
       <td>{{ user.loginExpiry | date : "dd/MM/yy hh:mm" }}</td>
       <td>
-        <button
-          type="button"
-          class="btn btn-warning mx-2"
-          (click)="openModal(user)"
-        >
-          Update
-        </button>
-        <button
-          type="button"
-          class="btn btn-danger mx-2"
-          (click)="kick(user.id)"
-        >
-          Kick
-        </button>
+        <div class="row" *ngIf="user.role !== 'Admin'">
+          <div class="col-12 col-xxl-6 mb-2 mb-xxl-0">
+            <button
+              type="button"
+              class="btn btn-warning mx-2 w-100"
+              (click)="openModal(user)"
+            >
+              Update
+            </button>
+          </div>
+          <div class="col-12 col-xxl-6">
+            <button
+              type="button"
+              class="btn btn-danger mx-2 w-100"
+              (click)="kick(user.id)"
+            >
+              Kick
+            </button>
+          </div>
+        </div>
       </td>
     </tr>
   </tbody>
