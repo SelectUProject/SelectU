@@ -13,6 +13,7 @@ import { TokenService } from 'src/app/providers/token.service';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Role } from 'src/app/models/Role';
 import { ADMIN } from 'src/app/constants/userRoles';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-login-form',
@@ -29,7 +30,8 @@ class LoginFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private socialAuthService: SocialAuthService
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +45,14 @@ class LoginFormComponent implements OnInit {
       this.tokenService.clearToken();
     }
     this.setupForm();
+    this.setupSocialAuthService();
+  }
+
+  setupSocialAuthService() {
+    this.socialAuthService.authState.subscribe((user) => {
+      if (!user) return;
+      this.googleLogin(user);
+    });
   }
 
   setupForm() {
@@ -70,6 +80,25 @@ class LoginFormComponent implements OnInit {
       })
       .catch((response) => {
         this.loginForm.patchValue({ password: '' });
+        if (!response.success) {
+          this.errMsg = response.error.message;
+        }
+
+        this.submitting = false;
+        this.isError = true;
+      });
+  }
+
+  googleLogin(socialUser: SocialUser) {
+    this.submitting = true;
+    this.isError = false;
+    this.authService
+      .googleLogin({ IdToken: socialUser.idToken })
+      .then((response) => {
+        this.tokenService.setToken(response);
+        this.router.navigate(['/find-scholarships']);
+      })
+      .catch((response) => {
         if (!response.success) {
           this.errMsg = response.error.message;
         }

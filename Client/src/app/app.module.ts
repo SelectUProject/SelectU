@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { environment } from 'src/environments/environment';
+
 import { DatePipe } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +27,7 @@ import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 // Custom components
 import NavbarComponent from './components/layouts/navbar/navbar.component';
@@ -43,6 +46,12 @@ import { CreateScholarshipApplicationPageComponent } from './components/pages/cr
 import { LongViewScholarshipsComponent } from './components/shared/long-view-scholarships/long-view-scholarships.component';
 import { ScholarshipApplicationFormComponent } from './components/shared/scholarship-application-form/scholarship-application-form.component';
 import { ScholarshipApplicationSearchFormComponent } from './components/shared/scholarship-application-search-form/scholarship-application-search-form.component';
+import UserInviteFormComponent from './components/shared/user-invite-form/user-invite-form.component';
+import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
+import UserUpdateModalComponent from './components/shared/user-update-modal/user-update-modal.component';
+import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
+import UserTableComponent from './components/shared/user-table/user-table.component';
+import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable-header/ngbd-sortable-header.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +75,11 @@ import { ScholarshipApplicationSearchFormComponent } from './components/shared/s
     LongViewScholarshipsComponent,
     ScholarshipApplicationFormComponent,
     ScholarshipApplicationSearchFormComponent,
+    UserInvitePageComponent,
+    UserInviteFormComponent,
+    UserTablePageComponent,
+    UserUpdateModalComponent,
+    UserTableComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -83,6 +97,8 @@ import { ScholarshipApplicationSearchFormComponent } from './components/shared/s
     MdbDropdownModule,
     SocialLoginModule,
     GoogleSigninButtonModule,
+    MdbModalModule,
+    NgbdSortableHeader,
   ],
   providers: [
     DatePipe,
@@ -99,9 +115,7 @@ import { ScholarshipApplicationSearchFormComponent } from './components/shared/s
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '916817943783-uep7ecjsr44mroo06ig665nmsm0aad9t.apps.googleusercontent.com'
-            ),
+            provider: new GoogleLoginProvider(environment.googleClientId),
           },
         ],
       } as SocialAuthServiceConfig,

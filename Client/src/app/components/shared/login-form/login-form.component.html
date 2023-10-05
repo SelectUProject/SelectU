@@ -1,16 +1,19 @@
 <form [formGroup]="loginForm" (ngSubmit)="login()">
-  <!-- <div class="text-center mb-3">
+  <div class="text-center mb-3">
     <p>Sign in with:</p>
-    <button mdbRipple type="button" class="btn btn-secondary btn-floating mx-1">
+    <!-- <button mdbRipple type="button" class="btn btn-secondary btn-floating mx-1">
       <i class="fab fa-facebook-f"></i>
-    </button>
+    </button> -->
 
-    <button mdbRipple type="button" class="btn btn-secondary btn-floating mx-1">
-      <i class="fab fa-google"></i>
-    </button>
+    <asl-google-signin-button
+      type="icon"
+      size="large"
+      shape="circle"
+      class="btn btn-secondary btn-floating mx-1"
+    ></asl-google-signin-button>
   </div>
 
-  <p class="text-center">or:</p> -->
+  <p class="text-center">or:</p>
 
   <mdb-form-control class="mb-4">
     <input

@@ -46,6 +46,8 @@ namespace SelectU.Core.Extensions
                     .AddSingleton(x => x.GetRequiredService<IOptions<SmtpConfig>>().Value);
             services.Configure<EmailConfig>(configuration.GetSection("Email"))
                     .AddSingleton(x => x.GetRequiredService<IOptions<EmailConfig>>().Value);
+            services.Configure<GoogleConfig>(configuration.GetSection("Google"))
+                    .AddSingleton(x => x.GetRequiredService<IOptions<GoogleConfig>>().Value);
             services.Configure<ServiceBusConfig>(configuration.GetSection("ServiceBus"))
                     .AddSingleton(x => x.GetRequiredService<IOptions<ServiceBusConfig>>().Value);
             services.Configure<AppConfig>(configuration.GetSection("Config"))
@@ -62,17 +64,19 @@ namespace SelectU.Core.Extensions
             services.AddScoped<IEmailClient, EmailClient>();
             services.AddScoped<ICache, InMemoryCache>();
 
-            services.AddScoped<ICachingService, CachingService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IScholarshipService, ScholarshipService>();
-            services.AddScoped<IScholarshipApplicationService, ScholarshipApplicationService>();
             services.AddScoped<IBlobStorageService, BlobStorageService>();
+            services.AddScoped<ICachingService, CachingService>();
+            services.AddScoped<IScholarshipApplicationService, ScholarshipApplicationService>();
+            services.AddScoped<IScholarshipService, ScholarshipService>();
+            services.AddScoped<IUserService, UserService>();
 
             //Validators
+            services.AddScoped<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
+            services.AddScoped<IValidator<UserInviteDTO>, UserInviteDTOValidator>();
+            services.AddScoped<IValidator<LoginExpiryUpdateDTO>, LoginExpiryUpdateDTOValidator>();
+            services.AddScoped<IValidator<UpdateUserRolesDTO>, UpdateUserRolesDTOValidator>();
             services.AddScoped<IValidator<UserRegisterDTO>, UserRegisterDTOValidator>();
             services.AddScoped<IValidator<UserUpdateDTO>, UserUpdateDTOValidator>();
-            services.AddScoped<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
-            services.AddScoped<IValidator<UpdateUserRolesDTO>, UpdateUserRolesDTOValidator>();
             return services;
         }
         public static IServiceCollection AddIdentity(this IServiceCollection services)

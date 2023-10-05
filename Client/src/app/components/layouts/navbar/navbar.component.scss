@@ -1,6 +1,6 @@
 @import "../../../../scss/mixins";
 
-.dropdown-menu {
+.user-dropdown {
   right: -80px;
 
   @include respond-below(lg) {

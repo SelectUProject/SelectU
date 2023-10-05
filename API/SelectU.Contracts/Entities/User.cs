@@ -17,6 +17,7 @@ namespace SelectU.Contracts.Entities
         public string? Country { get; set; }
         public string? ProfilePicID { get; set; }
         public string? AboutMe { get; set; }
+        public DateTimeOffset? LoginExpiry { get; set; }
         public DateTimeOffset? DateCreated { get; set; }
         public DateTimeOffset? DateModified { get; set; }
     }
