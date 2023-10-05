@@ -7,7 +7,6 @@ import RegisterPageComponent from './components/pages/register-page/register-pag
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
 import { AuthGuard } from './providers/auth.guard';
 import { Role } from './models/Role';
-import { SavedScholarshipsPageComponent } from './components/pages/saved-scholarships-page/saved-scholarships-page.component';
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { UserProfilePageComponent } from './components/pages/user-profile-page/user-profile-page.component';
@@ -24,12 +23,6 @@ const routes: Routes = [
     children: [
       { path: '', component: LandingPageComponent },
       { path: 'login', component: LoginPageComponent },
-      {
-        path: 'saved-scholarships',
-        component: SavedScholarshipsPageComponent,
-        canActivate: [AuthGuard],
-        data: { role: Role.User },
-      },
       {
         path: 'account',
         component: UserProfilePageComponent,

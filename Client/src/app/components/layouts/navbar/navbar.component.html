@@ -64,16 +64,6 @@
           >
         </li>
         <li
-          *ngIf="
-            this.tokenService.role == USER || this.tokenService.role == ADMIN
-          "
-          class="nav-item mx-5"
-        >
-          <a class="nav-link" [routerLink]="'/saved-scholarships'"
-            >Saved {{ admissionName }}</a
-          >
-        </li>
-        <li
           mdbDropdown
           *ngIf="
             this.tokenService.role == STAFF || this.tokenService.role == ADMIN
