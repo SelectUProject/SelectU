@@ -7,6 +7,8 @@ import { ScholarshipService } from 'src/app/providers/scholarship.service';
 import { ScholarshipApplicationService } from 'src/app/providers/ScholarshipApplicationService';
 import { ScholarshipApplicationCreateDTO } from 'src/app/models/ScholarshipApplicationCreateDTO';
 import { ScholarshipFormSectionAnswerDTO } from 'src/app/models/ScholarshipFormSectionAnswerDTO';
+import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scholarship-application-form',
@@ -14,16 +16,20 @@ import { ScholarshipFormSectionAnswerDTO } from 'src/app/models/ScholarshipFormS
   styleUrls: ['./scholarship-application-form.component.scss'],
 })
 export class ScholarshipApplicationFormComponent implements OnInit {
+  admissionName = environment.admissionName;
   @Input() scholarship: ScholarshipUpdateDTO;
   scholarshipForm: FormGroup;
   ScholarshipFormTypeEnum = ScholarshipFormTypeEnum; // Make enum available in the template
   submitting: boolean = false;
   isError: boolean;
+  success: boolean;
   errMsg: string;
 
   constructor(
     private fb: FormBuilder,
-    private scholarshipApplicationService: ScholarshipApplicationService
+    private scholarshipApplicationService: ScholarshipApplicationService,
+    private router: Router
+
   ) {}
 
   ngOnInit(): void {
@@ -89,7 +95,8 @@ export class ScholarshipApplicationFormComponent implements OnInit {
           // Handle success response from the backend
           console.log('Submission Successful:', response);
           // Optionally, reset the form or perform other actions
-          this.scholarshipForm.reset();
+          this.success = true;
+          this.router.navigate(['/applications']);
         })
         .catch((response) => {
           if (response.error.errors) {
