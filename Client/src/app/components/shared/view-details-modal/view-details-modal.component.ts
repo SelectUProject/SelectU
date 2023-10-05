@@ -1,10 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { ScholarshipApplicationDTO } from 'src/app/models/ScholarshipApplicationDTO';
 import { ScholarshipUpdateDTO } from 'src/app/models/ScholarshipUpdateDTO';
-import { UserUpdateDTO } from 'src/app/models/UserUpdateDTO';
-import { UserService } from 'src/app/providers/user.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -26,10 +23,6 @@ class ViewDetailsModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-  }
-
-  apply(){
-
   }
 
 }
