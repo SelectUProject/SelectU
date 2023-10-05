@@ -23,7 +23,9 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', component: LandingPageComponent },
+      { path: 'register', component: RegisterPageComponent },
       { path: 'login', component: LoginPageComponent },
+      //     { path: '404', component: ErrorComponent },
       {
         path: 'saved-scholarships',
         component: SavedScholarshipsPageComponent,
@@ -33,12 +35,13 @@ const routes: Routes = [
       {
         path: 'account',
         component: UserProfilePageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.User, Role.Staff] },
       },
       {
-        path: `find-scholarships`,
+        path: `scholarships`,
         component: FindScholarshipsComponent,
         canActivate: [AuthGuard],
-        data: { role: Role.User },
       },
       {
         path: `create-scholarship-application`,
@@ -47,16 +50,10 @@ const routes: Routes = [
         data: { role: Role.User },
       },
       {
-        path: 'manage-scholarships',
-        component: ManageScholarshipsPageComponent,
-        canActivate: [AuthGuard],
-        data: { role: Role.Staff },
-      },
-      { path: 'register', component: RegisterPageComponent },
-      //     { path: '404', component: ErrorComponent },
-      {
-        path: 'applications',
+        path: 'my-applications',
         component: MyApplicationsComponent,
+        canActivate: [AuthGuard],
+        data: { role: Role.User },
       },
       {
         path: 'invite-user',

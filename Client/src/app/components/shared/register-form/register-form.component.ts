@@ -88,11 +88,7 @@ class RegisterFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.tokenService.IsAuthenticated) {
-      if (this.tokenService.role == Role.Staff) {
-        this.router.navigate(['/manage-scholarships']);
-      } else {
-        this.router.navigate(['/find-scholarships']);
-      }
+      this.router.navigate(['/scholarships']);
     } else {
       this.tokenService.clearToken();
     }

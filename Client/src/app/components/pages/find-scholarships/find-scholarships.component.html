@@ -1,12 +1,12 @@
-<div class="page-header">
-  <h3>Find {{ admissionName }}</h3>
-</div>
-<div class="container mt-3 p-3 rounded">
-  <app-scholarship-search-form
-    (scholarships)="handleSearchEvent($event)"
-  ></app-scholarship-search-form>
-</div>
-<div class="container mt-5 rounded">
+<div class="container mt-5 p-4 rounded">
+  <div class="row page-header">
+    <h3>Find {{ admissionName }}</h3>
+  </div>
+  <div class="row">
+    <app-scholarship-search-form
+      (scholarships)="handleSearchEvent($event)"
+    ></app-scholarship-search-form>
+  </div>
   <div
     class="row justify-content-center"
     *ngFor="let scholarship of this.scholarships"

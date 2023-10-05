@@ -81,7 +81,7 @@ import ViewDetailsModalComponent from './components/shared/view-details-modal/vi
     UserTablePageComponent,
     UserUpdateModalComponent,
     UserTableComponent,
-    ViewDetailsModalComponent
+    ViewDetailsModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
