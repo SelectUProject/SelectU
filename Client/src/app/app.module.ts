@@ -45,12 +45,14 @@ import { ScholarshipSearchFormComponent } from './components/shared/scholarship-
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 import { LongViewScholarshipsComponent } from './components/shared/long-view-scholarships/long-view-scholarships.component';
 import { ScholarshipApplicationFormComponent } from './components/shared/scholarship-application-form/scholarship-application-form.component';
+import { ScholarshipApplicationSearchFormComponent } from './components/shared/scholarship-application-search-form/scholarship-application-search-form.component';
 import UserInviteFormComponent from './components/shared/user-invite-form/user-invite-form.component';
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import UserUpdateModalComponent from './components/shared/user-update-modal/user-update-modal.component';
 import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
 import UserTableComponent from './components/shared/user-table/user-table.component';
 import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable-header/ngbd-sortable-header.component';
+import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
 
 @NgModule({
   declarations: [
@@ -73,11 +75,13 @@ import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable
     CreateScholarshipApplicationPageComponent,
     LongViewScholarshipsComponent,
     ScholarshipApplicationFormComponent,
+    ScholarshipApplicationSearchFormComponent,
     UserInvitePageComponent,
     UserInviteFormComponent,
     UserTablePageComponent,
     UserUpdateModalComponent,
     UserTableComponent,
+    ViewDetailsModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

@@ -25,6 +25,5 @@ export class CreateScholarshipApplicationPageComponent implements OnInit {
     if (!this.scholarshipService.scholarship) {
       this.router.navigate(['/find-scholarships']);
     }
-    console.log(this.scholarshipService.scholarship);
   }
 }

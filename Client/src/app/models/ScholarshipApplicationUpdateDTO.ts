@@ -9,5 +9,6 @@ export interface ScholarshipApplicationUpdateDTO {
   scholarshipFormAnswer: ScholarshipFormSectionAnswerDTO[];
   scholarshipApplicantId: any;
   status: StatusEnum;
+  dateCreated: Date;
   scholarship: ScholarshipUpdateDTO;
 }

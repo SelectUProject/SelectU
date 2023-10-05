@@ -36,11 +36,14 @@
           <mdb-form-control>
             <input
               mdbInput
-              type="date"
+              type="text"
+              bsDatepicker
               class="form-control"
               id="{{ section.name }}"
+              [bsConfig]="{containerClass: 'theme-dark-blue',}"
               formControlName="{{ section.name }}"
             />
+
             <label mdbLabel class="form-label" for="{{ section.name }}">
               {{ section.name }}
             </label>
@@ -103,4 +106,19 @@
       ></span>
     </button>
   </form>
+  <ng-container *ngIf="isError">
+    <div class="alert alert-danger my-3" role="alert">
+      {{ errMsg }}
+    </div>
+  </ng-container>
 </div>
+
+<ngb-toast
+  class="bg-success text-light text-center w-75 position-absolute bottom-0 start-50 translate-middle"
+  *ngIf="success"
+  [delay]="2000"
+  [autohide]="true"
+  (hidden)="success = false"
+>
+  Application created
+</ngb-toast>

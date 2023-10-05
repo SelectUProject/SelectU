@@ -33,18 +33,19 @@ namespace SelectU.Core.Services
 
         public async Task<List<ScholarshipApplicationUpdateDTO>> GetMyScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isStaff)
         {
-            IQueryable<ScholarshipApplication> query = _unitOfWork.ScholarshipApplications
-                .Where(x => x.Status == StatusEnum.Pending)
-                .Include(x => x.Scholarship)
-                .Include(x => x.ScholarshipApplicant);
+            IQueryable<ScholarshipApplication> query;
 
             if (isStaff)
             {
-                query = query.Where(x => x.Scholarship.ScholarshipCreatorId == id);
+                query = _unitOfWork.ScholarshipApplications.Where(x => x.Scholarship.ScholarshipCreatorId == id)
+                    .Include(x => x.Scholarship)
+                    .Include(x => x.ScholarshipApplicant);
             }
             else
             {
-                query = query.Where(x => x.ScholarshipApplicant.Id == id);
+                query = _unitOfWork.ScholarshipApplications.Where(x => x.ScholarshipApplicant.Id == id)
+                  .Include(x => x.Scholarship)
+                  .Include(x => x.ScholarshipApplicant);
             }
 
             if (scholarshipApplicationSearchDTO.Id != null)

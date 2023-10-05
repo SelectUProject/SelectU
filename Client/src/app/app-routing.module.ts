@@ -55,7 +55,7 @@ const routes: Routes = [
       { path: 'register', component: RegisterPageComponent },
       //     { path: '404', component: ErrorComponent },
       {
-        path: 'my-scholarships',
+        path: 'applications',
         component: MyApplicationsComponent,
       },
       {

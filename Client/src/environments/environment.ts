@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  admissionName: 'Scholarship',
+  admissionName: 'Scholarships',
   apiBaseUri: 'https://localhost:7293',
   googleClientId:
     '916817943783-uep7ecjsr44mroo06ig665nmsm0aad9t.apps.googleusercontent.com',
