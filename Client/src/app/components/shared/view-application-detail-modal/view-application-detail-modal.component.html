@@ -37,18 +37,7 @@
             </p>
           </div>
         </div>
-        <div class="row border-top py-3">
-          <div class="col">
-            <h4>Location</h4>
-            <p class="m-0">{{ scholarshipApplication.scholarship.city }}</p>
-          </div>
-          <div class="col">
-            <h4>Total Worth</h4>
-            <p class="m-0 purpleText">
-              {{ scholarshipApplication.scholarship.value }}
-            </p>
-          </div>
-        </div>
+
         <div class="row border-top py-3">
           <div class="col">
             <h4>Starting Date</h4>
@@ -72,6 +61,24 @@
                 scholarshipApplication.scholarship.endDate | date : "dd/MM/yyyy"
               }}
             </p>
+          </div>
+          <div class="row border-top py-3">
+            <h4>Application Answers</h4>
+          </div>
+          <div
+            class="row border-top py-3"
+            *ngFor="
+              let answer of this.scholarshipApplication.scholarshipFormAnswer
+            "
+          >
+            <div class="col">
+              <p class="m-0">{{ answer.name }}</p>
+            </div>
+            <div class="col">
+              <p class="m-0 purpleText">
+                {{ answer.value }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
