@@ -105,7 +105,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
         [Authorize]
         [HttpPatch("change-password")]
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] ChangePasswordDTO passwordDTO)
@@ -302,7 +302,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
         [HttpPost("photo/{userId}/upload")]
         public async Task<IActionResult> UploadProfilePic([FromRoute] string userId, [FromBody] Stream file)
         {
@@ -342,7 +342,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
         [HttpDelete("photo/{userId}/delete")]
         public async Task<IActionResult> DeleteProfilePic([FromRoute] string userId)
         {
@@ -377,7 +377,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
         [HttpGet("photo/{userId}/download")]
         public async Task<IActionResult> DownloadProfilePic([FromRoute] string userId)
         {
