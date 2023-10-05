@@ -52,6 +52,7 @@ import UserUpdateModalComponent from './components/shared/user-update-modal/user
 import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
 import UserTableComponent from './components/shared/user-table/user-table.component';
 import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable-header/ngbd-sortable-header.component';
+import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable
     UserTablePageComponent,
     UserUpdateModalComponent,
     UserTableComponent,
+    ViewDetailsModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
