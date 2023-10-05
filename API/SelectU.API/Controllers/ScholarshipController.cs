@@ -105,7 +105,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.Staff)]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateScholarshipAsync([FromBody] ScholarshipCreateDTO scholarshipCreateDTO)
         {
@@ -131,7 +131,7 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles = UserRoles.Staff)]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpPost("update")]
         public async Task<IActionResult> UpdateScholarshipAsync([FromBody] ScholarshipUpdateDTO scholarshipUpdateDTO)
         {
@@ -151,7 +151,7 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles = UserRoles.Staff)]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpDelete("delete/{scholarshipId}")]
         public async Task<IActionResult> DeleteScholarshipAsync([FromRoute] Guid scholarshipId)
         {
@@ -178,7 +178,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpPost("photo/upload/{scholarshipId}")]
         public async Task<IActionResult> UploadPic([FromRoute] Guid scholarshipId, [FromBody] Stream file)
         {
@@ -216,7 +216,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpDelete("photo/delete/{scholarshipId}")]
         public async Task<IActionResult> DeletePic([FromRoute] Guid scholarshipId)
         {
@@ -251,7 +251,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpGet("photo/download/{applicationId}")]
         public async Task<IActionResult> DownloadPic([FromRoute] Guid applicationId)
         {

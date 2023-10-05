@@ -105,7 +105,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
             }
         }
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
         [Authorize]
         [HttpPatch("change-password")]
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] ChangePasswordDTO passwordDTO)
@@ -302,7 +302,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
         [HttpPost("photo/{userId}/upload")]
         public async Task<IActionResult> UploadProfilePic([FromRoute] string userId, [FromBody] Stream file)
         {
@@ -342,7 +342,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
         [HttpDelete("photo/{userId}/delete")]
         public async Task<IActionResult> DeleteProfilePic([FromRoute] string userId)
         {
@@ -377,7 +377,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
         [HttpGet("photo/{userId}/download")]
         public async Task<IActionResult> DownloadProfilePic([FromRoute] string userId)
         {
@@ -411,105 +411,6 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Admin}")]
-        [Authorize]
-        [HttpPatch("admin/details/update")]
-        public async Task<IActionResult> AdminUpdateUserDetailsAsync([FromBody] UserUpdateDTO userDetails)
-        {
-            try
-            {
-                if (userDetails.Id.IsNullOrEmpty())
-                {
-                    return BadRequest(new ResponseDTO { Success = false, Message = "User ID is required" });
-                }
-
-                var validationResult = await _userDetailsValidator.ValidateAsync(userDetails);
-
-                if (validationResult.IsValid)
-                {
-                    await _userService.UpdateUserDetailsAsync(userDetails.Id, userDetails);
-
-                    return Ok(new ResponseDTO { Success = true, Message = "User details updated successfully." });
-                }
-                return BadRequest(validationResult);
-            }
-            catch (UserUpdateException ex)
-            {
-                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"UserId {userDetails.Id}, {ex.Message}");
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
-            }
-        }
-
-        [Authorize(Roles = $"{UserRoles.Admin}")]
-        [Authorize]
-        [HttpDelete("admin/delete/{userId}")]
-        public async Task<IActionResult> AdminDeleteUserAsync([FromRoute] Guid userId)
-        {
-            try
-            {
-
-                await _userService.DeleteUserAsync(userId.ToString());
-
-                return Ok(new ResponseDTO { Success = true, Message = "User deleted successfully." });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"User {userId}, {ex.Message}");
-                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDTO { Success = false, Message = ex.Message });
-            }
-
-        }
-
-        [Authorize(Roles = $"{UserRoles.Admin}")]
-        [Authorize]
-        [HttpPatch("admin/roles/update")]
-        public async Task<IActionResult> AdminUpdateUserRolesAsync([FromBody] UpdateUserRolesDTO updateUserRoles)
-        {
-            try
-            {
-                var validationResult = await _userRolesUpdateValidator.ValidateAsync(updateUserRoles);
-
-                if (validationResult.IsValid)
-                {
-                    if (updateUserRoles.AddRoles != null)
-                        await _userService.AddRolesToUserAsync(updateUserRoles.UserId, updateUserRoles.AddRoles);
-
-
-                    if (updateUserRoles.RemoveRoles != null)
-                        await _userService.RemoveRolesFromUserAsync(updateUserRoles.UserId, updateUserRoles.RemoveRoles);
-
-                    return Ok(new ResponseDTO { Success = true, Message = "User roles updated successfully." });
-                }
-                return BadRequest(validationResult);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Failed to update user roles");
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [Authorize(Roles = $"{UserRoles.Admin}")]
-        [Authorize]
-        [HttpGet("admin/roles/details/{userId}")]
-        public async Task<IActionResult> AdminGetUserRolesAsync([FromRoute] Guid userId)
-        {
-            try
-            {
-                var roles = await _userService.GetUserRolesAsync(userId.ToString());
-
-                return Ok(roles);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Failed to get user roles");
-                return BadRequest(ex.Message);
-            }
-        }
         private bool IsValidImage(Stream file)
         {
             try

@@ -50,7 +50,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
         [HttpPost("my-scholarship-applications")]
         public async Task<IActionResult> GetMyScholarshipApplicationsAsync([FromBody] ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO)
         {
@@ -77,7 +77,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = $"{UserRoles.User}, {UserRoles.Admin}")]
         [HttpPost("create-scholarship-application")]
         public async Task<IActionResult> CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO)
         {
