@@ -29,10 +29,6 @@ export class ScholarshipSearchFormComponent implements OnInit {
     private tokenService: TokenService
   ) {}
 
-  get startDate() {
-    return this.searchScholarshipForm.get('startDate');
-  }
-
   ngOnInit(): void {
     this.setupForm();
   }

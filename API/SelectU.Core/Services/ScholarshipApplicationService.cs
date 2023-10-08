@@ -48,24 +48,10 @@ namespace SelectU.Core.Services
                   .Include(x => x.ScholarshipApplicant);
             }
 
-            if (scholarshipApplicationSearchDTO.Id != null)
-            {
-                query = query.Where(x => x.Id == scholarshipApplicationSearchDTO.Id);
-            }
-            if (!string.IsNullOrEmpty(scholarshipApplicationSearchDTO.Description))
-            {
-                query = query.Where(x => x.Scholarship.Description == scholarshipApplicationSearchDTO.Description);
+            var filterScholarshipApplicationSearchDTO = await FilterQuery(scholarshipApplicationSearchDTO, await query.ToListAsync());
+            
 
-            }
-            if (!string.IsNullOrEmpty(scholarshipApplicationSearchDTO.School))
-            {
-                query = query.Where(x => x.Scholarship.School == scholarshipApplicationSearchDTO.School);
-
-            }
-
-            var scholarshipApplications = await query.ToListAsync();
-
-            return scholarshipApplications
+            return filterScholarshipApplicationSearchDTO
                 .Select(scholarshipApplication => new ScholarshipApplicationUpdateDTO(scholarshipApplication))
                 .ToList();
 
@@ -136,6 +122,26 @@ namespace SelectU.Core.Services
             }
 
             return scholarshipApplicationCreateDTO;
+        }
+
+        public async Task<List<ScholarshipApplication>> FilterQuery(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, List<ScholarshipApplication> scholarshipApplication)
+        {
+            IEnumerable<ScholarshipApplication> filteredScholarshipApplications = scholarshipApplication;
+
+            if (scholarshipApplicationSearchDTO.Id != null)
+            {
+                filteredScholarshipApplications = filteredScholarshipApplications.Where(x => x.Id == scholarshipApplicationSearchDTO.Id);
+            }
+            if (!string.IsNullOrEmpty(scholarshipApplicationSearchDTO.School))
+            {
+                filteredScholarshipApplications = filteredScholarshipApplications.Where(x => x.Scholarship.School.ToLower().Contains(scholarshipApplicationSearchDTO.School.ToLower()));
+            }           
+            if (scholarshipApplicationSearchDTO.DateCreated != null)
+            {
+                filteredScholarshipApplications = filteredScholarshipApplications.Where(x => x.DateCreated?.Date == scholarshipApplicationSearchDTO.DateCreated?.Date);
+            }
+
+            return await Task.FromResult(filteredScholarshipApplications.ToList());
         }
     }
 }

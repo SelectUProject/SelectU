@@ -26,8 +26,8 @@ export class MyApplicationsComponent {
     this.getScholarships();
   }
 
-  async handleSearchEvent(scholarships: ScholarshipApplicationUpdateDTO[]) {
-    // this.scholarships = scholarships;
+  async handleSearchEvent(scholarshipApplicants: ScholarshipApplicationUpdateDTO[]) {
+    this.scholarshipApplications = scholarshipApplicants;
   }
 
   getScholarships() {
