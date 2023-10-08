@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SelectU.Contracts;
+using SelectU.Contracts.Config;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
+using System.Text;
 using System.Text.Json;
 
 namespace SelectU.Core.Services
@@ -13,10 +16,18 @@ namespace SelectU.Core.Services
     public class ScholarshipApplicationService : IScholarshipApplicationService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBlobStorageService _blobStorageService;
+        private readonly AzureBlobSettingsConfig _azureBlobSettingsConfig;
 
-        public ScholarshipApplicationService(IUnitOfWork context)
+        public ScholarshipApplicationService(
+            IUnitOfWork context, 
+            IBlobStorageService blobStorageService, 
+            IOptions<AzureBlobSettingsConfig> azureBlobSettingsConfig
+        )
         {
             _unitOfWork = context;
+            _blobStorageService = blobStorageService;
+            _azureBlobSettingsConfig = azureBlobSettingsConfig.Value;
         }
 
         public async Task<ScholarshipApplicationUpdateDTO> GetScholarshipApplicationAsync(Guid id)
@@ -67,11 +78,14 @@ namespace SelectU.Core.Services
 
             await ValidateScholarshipApplication(scholarshipApplicationCreateDTO);
 
+            var scholarshipApplicationWithUploadedFiles = await UploadFiles(scholarshipApplicationCreateDTO);
+
+
             ScholarshipApplication scholarshipApplication = new ScholarshipApplication
             {
                 ScholarshipApplicantId = id,
-                ScholarshipId = scholarshipApplicationCreateDTO.ScholarshipId,
-                ScholarshipFormAnswer = JsonSerializer.Serialize(scholarshipApplicationCreateDTO.ScholarshipFormAnswer),
+                ScholarshipId = scholarshipApplicationWithUploadedFiles.ScholarshipId,
+                ScholarshipFormAnswer = JsonSerializer.Serialize(scholarshipApplicationWithUploadedFiles.ScholarshipFormAnswer),
                 Status = StatusEnum.Pending,
                 DateCreated = DateTimeOffset.Now,
                 DateModified = DateTimeOffset.Now,
@@ -143,6 +157,29 @@ namespace SelectU.Core.Services
 
             return await Task.FromResult(filteredScholarshipApplications.ToList());
         }
+
+        public async Task<ScholarshipApplicationCreateDTO> UploadFiles(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO)
+        {
+            ScholarshipApplicationCreateDTO scholarshipApplicationWithUploadedFiles = scholarshipApplicationCreateDTO;
+
+            foreach (var formSection in scholarshipApplicationCreateDTO.ScholarshipFormAnswer)
+            {
+                if (formSection.Type == ScholarshipFormTypeEnum.File)
+                {
+                    Stream stream = new MemoryStream();
+                    await formSection.File.CopyToAsync(stream);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    string fileID = await _blobStorageService.UploadFileAsync(_azureBlobSettingsConfig.FileContainerName, stream);
+                    formSection.Value = fileID;
+                }
+            }
+
+            return await Task.FromResult(scholarshipApplicationWithUploadedFiles);
+        }
+
+
+        
     }
 }
 

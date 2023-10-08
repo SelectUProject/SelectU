@@ -75,15 +75,35 @@ export class ScholarshipApplicationFormComponent implements OnInit {
       // Loop through formData and create ScholarshipFormSectionAnswerDTO objects
       for (const key in formData) {
         if (formData.hasOwnProperty(key)) {
-          const answer: ScholarshipFormSectionAnswerDTO = {
-            name: key,
-            type: this.scholarship.scholarshipFormTemplate.find(x => x.name == key)!.type,
-            value: formData[key],
-          };
-          formAnswers.push(answer);
+          let formType = this.scholarship.scholarshipFormTemplate.find(x => x.name == key)!.type;
+          if (formType == ScholarshipFormTypeEnum.File) {
+            const file = formData[key]
+            console.log(formData[key])
+
+              const fileData = new FormData();
+  
+              fileData.append("file", file);  
+              console.log(fileData)
+
+              const answer: ScholarshipFormSectionAnswerDTO = {
+                name: key,
+                file:fileData,
+                type: formType,
+                value: formData[key]
+              };
+              console.log(answer)
+              formAnswers.push(answer);
+            
+          } else {
+            const answer: ScholarshipFormSectionAnswerDTO = {
+              name: key,
+              type: formType,
+              value: formData[key],
+            };
+            formAnswers.push(answer);
         }
       }
-
+    }
       let formAnswer: ScholarshipApplicationCreateDTO = {
         scholarshipId: this.scholarship.id,
         scholarshipFormAnswer: formAnswers,

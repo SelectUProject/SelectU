@@ -49,7 +49,6 @@ namespace SelectU.API.Controllers
             _passwordValidator = passwordValidator;
             _userRegisterValidator = userRegisterValidator;
             _userRolesUpdateValidator = userRolesUpdateValidator;
-            _blobStorageService = blobStorageService;
             _userInviteValidator = userInviteValidator;
             _loginExpiryUpdateValidator = loginExpiryUpdateValidator;
         }
