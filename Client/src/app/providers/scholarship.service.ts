@@ -26,11 +26,9 @@ export class ScholarshipService {
     );
   }
 
-  async getScholarshipDetails(id: any) {
+  async getScholarshipDetails(id: string) {
     return await firstValueFrom(
-      this.http.get<ScholarshipUpdateDTO>(
-        `${Config.api}/Scholarship/details?id=${id}`
-      )
+      this.http.get<ScholarshipUpdateDTO>(`${Config.api}/scholarship/${id}`)
     );
   }
   async getActiveScholarships(scholarshipSearchDTO: ScholarshipSearchDTO) {

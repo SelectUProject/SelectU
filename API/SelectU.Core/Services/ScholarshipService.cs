@@ -35,16 +35,9 @@ namespace SelectU.Core.Services
                 .ToList();
         }
 
-        public async Task<ScholarshipUpdateDTO> GetScholarshipAsync(Guid id)
+        public async Task<Scholarship> GetScholarshipAsync(Guid id)
         {
-            var scholarship = await _unitOfWork.Scholarships.GetAsync(id);
-
-            if (scholarship == null)
-            {
-                return null;
-            }
-
-            return new ScholarshipUpdateDTO(scholarship);
+            return await _unitOfWork.Scholarships.GetAsync(id);
         }
 
         public async Task<List<ScholarshipUpdateDTO>> GetActiveScholarshipsAsync(ScholarshipSearchDTO scholarshipSearchDTO)
@@ -60,9 +53,9 @@ namespace SelectU.Core.Services
                 .ToList();
         }
 
-        public async Task<List<ScholarshipUpdateDTO>> GetMyCreatedScholarshipsAsync(ScholarshipSearchDTO scholarshipSearchDTO, string id)
+        public async Task<List<ScholarshipUpdateDTO>> GetMyCreatedScholarshipsAsync(ScholarshipSearchDTO scholarshipSearchDTO, string userId)
         {
-            var scholarships = await _unitOfWork.Scholarships.Where(x => x.ScholarshipCreatorId == id).ToListAsync();
+            var scholarships = await _unitOfWork.Scholarships.Where(x => x.ScholarshipCreatorId == userId).ToListAsync();
 
             var filterScholarshps = await FilterQuery(scholarshipSearchDTO, scholarships);
 
@@ -71,7 +64,7 @@ namespace SelectU.Core.Services
                 .ToList();
         }
 
-        public async Task<ResponseDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string id)
+        public async Task CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string userId)
         {
             //TODO
             //check the names align up and don't double up
@@ -80,7 +73,7 @@ namespace SelectU.Core.Services
 
             Scholarship scholarship = new Scholarship
             {
-                ScholarshipCreatorId = id,
+                ScholarshipCreatorId = userId,
                 ScholarshipFormTemplate = JsonSerializer.Serialize(validatedScholarship.ScholarshipFormTemplate),
                 School = validatedScholarship.School,
                 Value = validatedScholarship.Value,
@@ -98,8 +91,6 @@ namespace SelectU.Core.Services
             _unitOfWork.Scholarships.Add(scholarship);
 
             await _unitOfWork.CommitAsync();
-
-            return new ResponseDTO { Success = true, Message = "Scholarship created successfully." };
         }
 
         public async Task<List<Scholarship>> FilterQuery(ScholarshipSearchDTO scholarshipSearchDTO, List<Scholarship> scholarships)
@@ -193,52 +184,47 @@ namespace SelectU.Core.Services
             return validatedScholarship;
         }
 
-        public async Task<ResponseDTO> UpdateScholarshipAsync(ScholarshipUpdateDTO scholarshipUpdateDTO)
+        public async Task UpdateScholarshipAsync(ScholarshipUpdateDTO scholarshipUpdateDTO)
         {
-            if (scholarshipUpdateDTO.Id != null)
+            var scholarship = await GetScholarshipAsync(scholarshipUpdateDTO.Id);
+
+            if (scholarship == null)
             {
-                var oldScholarship = await GetScholarshipAsync((Guid)scholarshipUpdateDTO.Id);
-                if (oldScholarship == null)
-                {
-                    throw new NotFoundException("Scholarship not Found");
-                }
-                Scholarship updatedScholarship = new Scholarship
-                {
-                    Id = (Guid)scholarshipUpdateDTO.Id,
-                    ScholarshipFormTemplate = JsonSerializer.Serialize(scholarshipUpdateDTO.ScholarshipFormTemplate) ?? JsonSerializer.Serialize(oldScholarship.ScholarshipFormTemplate),
-                    School = scholarshipUpdateDTO.School ?? oldScholarship.School,
-                    Value = scholarshipUpdateDTO.Value ?? oldScholarship.Value,
-                    ShortDescription = scholarshipUpdateDTO.ShortDescription ?? oldScholarship.ShortDescription,
-                    ScholarshipCreatorId = scholarshipUpdateDTO.ScholarshipCreatorId ?? oldScholarship.ScholarshipCreatorId,
-                    Description = scholarshipUpdateDTO.Description ?? oldScholarship.Description,
-                    Status = (ScholarshipStatusEnum)(scholarshipUpdateDTO.Status != null ? scholarshipUpdateDTO.Status : oldScholarship.Status),
-                    State = scholarshipUpdateDTO.State ?? oldScholarship.State,
-                    City = scholarshipUpdateDTO.City ?? oldScholarship.City,
-                    StartDate = scholarshipUpdateDTO.StartDate ?? oldScholarship.StartDate,
-                    EndDate = scholarshipUpdateDTO.EndDate ?? oldScholarship.EndDate,
-                    DateModified = DateTimeOffset.Now
-                };
-
-                _unitOfWork.Scholarships.Update(updatedScholarship);
-
-                await _unitOfWork.CommitAsync();
-
-                return new ResponseDTO { Success = true, Message = "Scholarship updated successfully." };
+                throw new Exception("Scholarship not Found");
             }
-            throw new ArgumentNullException(nameof(ScholarshipUpdateDTO.Id), "Scholarship Id cannot be null");
+
+            scholarship.School = scholarshipUpdateDTO.School;
+            scholarship.ImageURL = scholarshipUpdateDTO.ImageURL;
+            scholarship.Value = scholarshipUpdateDTO.Value;
+            scholarship.ShortDescription = scholarshipUpdateDTO.ShortDescription;
+            scholarship.Description = scholarshipUpdateDTO.Description;
+            scholarship.ScholarshipFormTemplate = JsonSerializer.Serialize(scholarshipUpdateDTO.ScholarshipFormTemplate);
+            scholarship.City = scholarshipUpdateDTO.City;
+            scholarship.State = scholarshipUpdateDTO.State;
+            scholarship.Status = scholarshipUpdateDTO.Status;
+            scholarship.StartDate = scholarshipUpdateDTO.StartDate;
+            scholarship.EndDate = scholarshipUpdateDTO.EndDate;
+            scholarship.DateModified = DateTimeOffset.UtcNow;
+
+            _unitOfWork.Scholarships.Update(scholarship);
+            await _unitOfWork.CommitAsync();
+
         }
 
-        public async Task<ResponseDTO> DeleteScholarshipAsync(Guid id)
+        public async Task ArchiveScholarshipAsync(Guid id)
         {
-            var oldScholarship = await GetScholarshipAsync(id);
-            if (oldScholarship == null)
+            var scholarship = await GetScholarshipAsync(id);
+
+            if (scholarship == null)
             {
-                throw new NotFoundException("Scholarship not Found");
+                throw new Exception("Scholarship not Found");
             }
 
-            await _unitOfWork.Scholarships.DeleteAsync(id);
+            scholarship.Status = ScholarshipStatusEnum.Archived;
+            scholarship.DateModified = DateTimeOffset.UtcNow;
 
-            return new ResponseDTO { Success = true, Message = "Scholarship deleted successfully." };
+            _unitOfWork.Scholarships.Update(scholarship);
+            await _unitOfWork.CommitAsync();
         }
     }
 }

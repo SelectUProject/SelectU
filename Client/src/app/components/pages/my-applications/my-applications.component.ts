@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { MyApplicationShortViewDTO } from '../../../models/MyApplicationShortViewDTO';
-import { ScholarshipApplicationService } from 'src/app/providers/ScholarshipApplicationService';
+import { ScholarshipApplicationService } from 'src/app/providers/application.service';
 import { ScholarshipApplicationSearchDTO } from 'src/app/models/ScholarshipApplicationSearchDTO';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
 import { ScholarshipUpdateDTO } from 'src/app/models/ScholarshipUpdateDTO';

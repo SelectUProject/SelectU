@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ScholarshipUpdateDTO } from 'src/app/models/ScholarshipUpdateDTO';
 import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum'; // Import your enum
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
-import { ScholarshipApplicationService } from 'src/app/providers/ScholarshipApplicationService';
+import { ScholarshipApplicationService } from 'src/app/providers/application.service';
 import { ScholarshipApplicationCreateDTO } from 'src/app/models/ScholarshipApplicationCreateDTO';
 import { ScholarshipFormSectionAnswerDTO } from 'src/app/models/ScholarshipFormSectionAnswerDTO';
 import { environment } from 'src/environments/environment';
@@ -29,7 +29,6 @@ export class ScholarshipApplicationFormComponent implements OnInit {
     private fb: FormBuilder,
     private scholarshipApplicationService: ScholarshipApplicationService,
     private router: Router
-
   ) {}
 
   ngOnInit(): void {

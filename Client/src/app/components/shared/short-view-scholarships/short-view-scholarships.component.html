@@ -47,7 +47,12 @@
           <button class="btn btn-primary w-100">Edit</button>
         </div>
         <div class="col-6">
-          <button class="btn btn-primary w-100">Applications</button>
+          <button
+            [routerLink]="['/applications/', scholarship.id]"
+            class="btn btn-primary w-100"
+          >
+            Applications
+          </button>
         </div>
       </div>
       <div class="row">

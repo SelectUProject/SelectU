@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TokenService } from 'src/app/providers/token.service';
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
-import { ScholarshipApplicationService } from 'src/app/providers/ScholarshipApplicationService';
+import { ScholarshipApplicationService } from 'src/app/providers/application.service';
 import { ScholarshipApplicationSearchDTO } from 'src/app/models/ScholarshipApplicationSearchDTO';
 import { ApplicationStatusEnum } from 'src/app/models/ApplicationStatusEnum';
 

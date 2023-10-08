@@ -37,21 +37,22 @@
       </div>
       <div class="row">
         <p>
-          Status: {{ scholarshipApplication.status }}
-          <i
-            *ngIf="scholarshipApplication.status == applicationStatus.Rejected"
-            class="fa-regular fa-circle-xmark"
-            style="color: #ff0000"
-          ></i>
-          <i
-            *ngIf="scholarshipApplication.status == applicationStatus.Accepted"
-            class="fa-regular fa-circle-check"
-            style="color: #1eff00"
-          ></i>
-          <i
-            *ngIf="scholarshipApplication.status == applicationStatus.Submitted"
-            class="fa-regular fa-clock"
-          ></i>
+          <ng-container *ngFor="let status of applicationStatuses">
+            <ng-container *ngIf="scholarshipApplication.status == status.value">
+              Status: {{ status.name }}
+              <i
+                class="fa-regular"
+                [ngClass]="{
+                  'fa-circle-xmark rejected':
+                    scholarshipApplication.status == applicationStatus.Rejected,
+                  'fa-circle-check accepted':
+                    scholarshipApplication.status == applicationStatus.Accepted,
+                  'fa-clock pending':
+                    scholarshipApplication.status == applicationStatus.Submitted
+                }"
+              ></i>
+            </ng-container>
+          </ng-container>
         </p>
       </div>
     </div>

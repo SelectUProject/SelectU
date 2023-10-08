@@ -13,6 +13,7 @@ import { UserProfilePageComponent } from './components/pages/user-profile-page/u
 import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
+import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
 
 //components
 
@@ -38,7 +39,7 @@ const routes: Routes = [
       },
       {
         path: `applications/:scholarshipId`,
-        component: FindScholarshipsComponent,
+        component: ViewApplicationsPageComponent,
         canActivate: [AuthGuard],
       },
       {
