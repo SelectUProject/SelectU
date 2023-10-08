@@ -2,6 +2,11 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MyApplicationShortViewDTO } from '../../../models/MyApplicationShortViewDTO';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
 import { ApplicationStatusEnum } from 'src/app/models/ApplicationStatusEnum';
+import ViewApplicationDetailModalComponent from '../view-application-detail-modal/view-application-detail-modal.component';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { ScholarshipService } from 'src/app/providers/scholarship.service';
+import { TokenService } from 'src/app/providers/token.service';
+import ViewDetailsModalComponent from '../view-details-modal/view-details-modal.component';
 
 @Component({
   selector: 'app-short-view-my-applications',
@@ -12,7 +17,6 @@ export class ShortViewMyApplicationsComponent {
   @Input() scholarshipApplication: ScholarshipApplicationUpdateDTO;
   @Input() statusText: string;
   @Input() statusIcon: string;
-  applicationStatus = ApplicationStatusEnum;
 
   // getStatusClass(): string[] {
   //   // Define your logic here to determine the CSS class based on statusText

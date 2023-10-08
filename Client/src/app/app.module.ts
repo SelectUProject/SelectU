@@ -36,7 +36,6 @@ import LoginFormComponent from './components/shared/login-form/login-form.compon
 import RegisterPageComponent from './components/pages/register-page/register-page.component';
 import RegisterFormComponent from './components/shared/register-form/register-form.component';
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
-import { SavedScholarshipsPageComponent } from './components/pages/saved-scholarships-page/saved-scholarships-page.component';
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { ShortViewMyApplicationsComponent } from './components/shared/short-view-my-applications/short-view-my-applications.component';
@@ -54,6 +53,7 @@ import UserTableComponent from './components/shared/user-table/user-table.compon
 import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable-header/ngbd-sortable-header.component';
 import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
 import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
+import { ViewApplicationDetailModalComponent } from './components/shared/view-application-detail-modal/view-application-detail-modal.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +67,6 @@ import { ViewApplicationsPageComponent } from './components/pages/view-applicati
     RegisterPageComponent,
     RegisterFormComponent,
     LandingPageComponent,
-    SavedScholarshipsPageComponent,
     FindScholarshipsComponent,
     MyApplicationsComponent,
     ShortViewMyApplicationsComponent,
@@ -84,6 +83,7 @@ import { ViewApplicationsPageComponent } from './components/pages/view-applicati
     UserTableComponent,
     ViewDetailsModalComponent,
     ViewApplicationsPageComponent,
+    ViewApplicationDetailModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
