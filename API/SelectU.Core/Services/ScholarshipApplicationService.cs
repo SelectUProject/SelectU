@@ -86,7 +86,7 @@ namespace SelectU.Core.Services
                 ScholarshipApplicantId = id,
                 ScholarshipId = scholarshipApplicationCreateDTO.ScholarshipId,
                 ScholarshipFormAnswer = JsonSerializer.Serialize(scholarshipApplicationCreateDTO.ScholarshipFormAnswer),
-                Status = StatusEnum.Pending,
+                Status = ApplicationStatusEnum.Submitted,
                 DateCreated = DateTimeOffset.Now,
                 DateModified = DateTimeOffset.Now,
             };

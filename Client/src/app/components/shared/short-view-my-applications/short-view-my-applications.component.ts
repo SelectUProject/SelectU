@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MyApplicationShortViewDTO } from '../../../models/MyApplicationShortViewDTO';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
-import { StatusEnum } from 'src/app/models/StatusEnum';
+import { ApplicationStatusEnum } from 'src/app/models/ApplicationStatusEnum';
 
 @Component({
   selector: 'app-short-view-my-applications',
@@ -12,6 +12,7 @@ export class ShortViewMyApplicationsComponent {
   @Input() scholarshipApplication: ScholarshipApplicationUpdateDTO;
   @Input() statusText: string;
   @Input() statusIcon: string;
+  applicationStatus = ApplicationStatusEnum;
 
   // getStatusClass(): string[] {
   //   // Define your logic here to determine the CSS class based on statusText
@@ -42,7 +43,4 @@ export class ShortViewMyApplicationsComponent {
 
   //   return classes;
   // }
-  getStatus() {
-    return StatusEnum[this.scholarshipApplication.status];
-  }
 }

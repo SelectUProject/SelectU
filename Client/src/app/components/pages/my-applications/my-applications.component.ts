@@ -5,7 +5,7 @@ import { ScholarshipApplicationService } from 'src/app/providers/ScholarshipAppl
 import { ScholarshipApplicationSearchDTO } from 'src/app/models/ScholarshipApplicationSearchDTO';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
 import { ScholarshipUpdateDTO } from 'src/app/models/ScholarshipUpdateDTO';
-import { StatusEnum } from 'src/app/models/StatusEnum';
+import { ApplicationStatusEnum } from 'src/app/models/ApplicationStatusEnum';
 
 @Component({
   selector: 'app-my-applications',
@@ -35,10 +35,9 @@ export class MyApplicationsComponent {
       .getMyScholarshipApplications(this.scholarshipApplicationSearchDTO)
       .then((response) => {
         const statusOrder = [
-          StatusEnum.Successful,
-          StatusEnum.Pending,
-          StatusEnum.Declined,
-          StatusEnum.Inactive,
+          ApplicationStatusEnum.Accepted,
+          ApplicationStatusEnum.Submitted,
+          ApplicationStatusEnum.Rejected,
         ];
 
         // Sort the scholarshipApplications first by status and then by createdDate

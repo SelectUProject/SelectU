@@ -11,7 +11,7 @@ namespace SelectU.Contracts.DTO
         public  string ScholarshipApplicantId { get; set; }
         public  Guid ScholarshipId { get; set; }
         public List<ScholarshipFormSectionAnswerDTO> ScholarshipFormAnswer { get; set; }
-        public StatusEnum Status { get; set; }
+        public ApplicationStatusEnum Status { get; set; }
         public DateTimeOffset? DateCreated { get; set; }
 
         public ScholarshipUpdateDTO? Scholarship { get; set; }

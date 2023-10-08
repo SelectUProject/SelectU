@@ -15,7 +15,7 @@ namespace SelectU.Contracts.Entities
         public required string ScholarshipFormTemplate { get; set; }
         public string? State { get; set; }
         public string? City { get; set; }
-        public StatusEnum Status { get; set; }
+        public ScholarshipStatusEnum Status { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public DateTimeOffset? DateCreated { get; set; }

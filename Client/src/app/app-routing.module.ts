@@ -44,6 +44,11 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: `applications/:scholarshipId`,
+        component: FindScholarshipsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
         path: `create-scholarship-application`,
         component: CreateScholarshipApplicationPageComponent,
         canActivate: [AuthGuard],

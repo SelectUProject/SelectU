@@ -16,7 +16,7 @@ namespace SelectU.Contracts.DTO
         public List<ScholarshipFormSectionDTO> ScholarshipFormTemplate { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
-        public StatusEnum? Status { get; set; }
+        public ScholarshipStatusEnum? Status { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
 

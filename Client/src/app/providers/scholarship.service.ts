@@ -17,6 +17,15 @@ export class ScholarshipService {
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
+  async getAllScholarships(scholarshipSearchDTO: ScholarshipSearchDTO) {
+    return await firstValueFrom(
+      this.http.post<ScholarshipUpdateDTO[]>(
+        `${Config.api}/Scholarship`,
+        scholarshipSearchDTO
+      )
+    );
+  }
+
   async getScholarshipDetails(id: any) {
     return await firstValueFrom(
       this.http.get<ScholarshipUpdateDTO>(

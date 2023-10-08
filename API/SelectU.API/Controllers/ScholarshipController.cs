@@ -26,7 +26,7 @@ namespace SelectU.API.Controllers
         private readonly AzureBlobSettingsConfig _azureBlobSettingsConfig;
         private readonly IBlobStorageService _blobStorageService;
 
-        public ScholarshipController(ILogger<ScholarshipController> logger, 
+        public ScholarshipController(ILogger<ScholarshipController> logger,
             IBlobStorageService blobStorageService,
             IOptions<AzureBlobSettingsConfig> azureBlobSettingsConfig,
             IScholarshipService scholarshipService)
@@ -35,6 +35,23 @@ namespace SelectU.API.Controllers
             _scholarshipService = scholarshipService;
             _blobStorageService = blobStorageService;
             _azureBlobSettingsConfig = azureBlobSettingsConfig.Value;
+        }
+
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}, {UserRoles.Reviewer}")]
+        [HttpPost("")]
+        public async Task<IActionResult> GetScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO)
+        {
+            try
+            {
+                var scholarships = await _scholarshipService.GetScholarshipsAsync(scholarshipSearchDTO);
+
+                return Ok(scholarships);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize]
@@ -66,7 +83,7 @@ namespace SelectU.API.Controllers
         {
             try
             {
-                var scholarships = await _scholarshipService.GetActiveScholarshipAsync(scholarshipSearchDTO);
+                var scholarships = await _scholarshipService.GetActiveScholarshipsAsync(scholarshipSearchDTO);
 
                 if (scholarships == null)
                 {
@@ -137,7 +154,7 @@ namespace SelectU.API.Controllers
         {
             try
             {
-                var response = await _scholarshipService.UpdateScholarshipsAsync(scholarshipUpdateDTO);
+                var response = await _scholarshipService.UpdateScholarshipAsync(scholarshipUpdateDTO);
 
                 return Ok(response);
             }
@@ -161,7 +178,7 @@ namespace SelectU.API.Controllers
                 var scholarship = await _scholarshipService.GetScholarshipAsync(scholarshipId);
                 if ((scholarship.ScholarshipCreatorId != userId) || HttpContext.User.IsInRole(UserRoles.Admin))
                 {
-                    var response = await _scholarshipService.DeleteScholarshipsAsync(scholarshipId);
+                    var response = await _scholarshipService.DeleteScholarshipAsync(scholarshipId);
 
                     return Ok(response);
                 }
@@ -197,7 +214,7 @@ namespace SelectU.API.Controllers
 
                 string imageID = await _blobStorageService.UploadFileAsync(_azureBlobSettingsConfig.FileContainerName, file);
                 scholarship.ImageURL = imageID;
-                await _scholarshipService.UpdateScholarshipsAsync(scholarship);
+                await _scholarshipService.UpdateScholarshipAsync(scholarship);
                 if (!scholarship.ImageURL.IsNullOrEmpty())
                 {
                     await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.FileContainerName, scholarship.ImageURL);

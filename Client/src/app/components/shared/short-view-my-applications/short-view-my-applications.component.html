@@ -37,25 +37,20 @@
       </div>
       <div class="row">
         <p>
-          Status: {{ getStatus() }}
+          Status: {{ scholarshipApplication.status }}
           <i
-            *ngIf="scholarshipApplication.status == 0"
+            *ngIf="scholarshipApplication.status == applicationStatus.Rejected"
             class="fa-regular fa-circle-xmark"
             style="color: #ff0000"
           ></i>
           <i
-            *ngIf="scholarshipApplication.status == 1"
+            *ngIf="scholarshipApplication.status == applicationStatus.Accepted"
             class="fa-regular fa-circle-check"
             style="color: #1eff00"
           ></i>
           <i
-            *ngIf="scholarshipApplication.status == 2"
+            *ngIf="scholarshipApplication.status == applicationStatus.Submitted"
             class="fa-regular fa-clock"
-          ></i>
-          <i
-            *ngIf="scholarshipApplication.status == 3"
-            class="fa-regular fa-circle-xmark"
-            style="color: #ff0000"
           ></i>
         </p>
       </div>

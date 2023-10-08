@@ -3,12 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TokenService } from 'src/app/providers/token.service';
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
-import { ScholarshipSearchDTO } from 'src/app/models/ScholarshipSearchDTO';
-import { ScholarshipUpdateDTO } from 'src/app/models/ScholarshipUpdateDTO';
-import { StatusEnum } from 'src/app/models/StatusEnum';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
 import { ScholarshipApplicationService } from 'src/app/providers/ScholarshipApplicationService';
 import { ScholarshipApplicationSearchDTO } from 'src/app/models/ScholarshipApplicationSearchDTO';
+import { ApplicationStatusEnum } from 'src/app/models/ApplicationStatusEnum';
 
 @Component({
   selector: 'app-scholarship-application-search-form',
@@ -49,7 +47,7 @@ export class ScholarshipApplicationSearchFormComponent implements OnInit {
       school: [null, ''],
       description: [null, ''],
       city: [null, ''],
-      status: [StatusEnum.Pending, ''],
+      status: [ApplicationStatusEnum.Submitted, ''],
       value: [null, ''],
       startDate: [null, ''],
       endDate: [null, ''],
