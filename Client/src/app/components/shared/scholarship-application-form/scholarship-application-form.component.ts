@@ -77,6 +77,7 @@ export class ScholarshipApplicationFormComponent implements OnInit {
         if (formData.hasOwnProperty(key)) {
           const answer: ScholarshipFormSectionAnswerDTO = {
             name: key,
+            type: this.scholarship.scholarshipFormTemplate.find(x => x.name == key)!.type,
             value: formData[key],
           };
           formAnswers.push(answer);

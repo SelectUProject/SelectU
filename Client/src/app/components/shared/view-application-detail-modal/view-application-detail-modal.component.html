@@ -74,9 +74,13 @@
             <div class="col">
               <p class="m-0">{{ answer.name }}</p>
             </div>
+
             <div class="col">
-              <p class="m-0 purpleText">
+              <p *ngIf="answer.type != 0" class="m-0 purpleText">
                 {{ answer.value }}
+              </p>
+              <p *ngIf="answer.type == 0" class="m-0 purpleText">
+                {{ answer.value | date : "dd/MM/yyyy" }}
               </p>
             </div>
           </div>

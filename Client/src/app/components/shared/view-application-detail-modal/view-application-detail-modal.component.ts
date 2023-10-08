@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { NumberLookupDTO } from 'src/app/models/LookupDTOs';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
+import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -10,6 +12,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./view-application-detail-modal.component.scss']
 })
 export class ViewApplicationDetailModalComponent {
+  ScholarshipFormTypeEnum = ScholarshipFormTypeEnum;
+
   admissionName = environment.admissionName;
   @Output() successEvent = new EventEmitter();
   scholarshipApplication: ScholarshipApplicationUpdateDTO;
