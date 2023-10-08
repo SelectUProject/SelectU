@@ -87,7 +87,10 @@
               id="startDate"
               class="form-control"
               bsDatepicker
-              [bsConfig]="{containerClass: 'theme-dark-blue',}"
+              [bsConfig]="{
+                containerClass: 'theme-dark-blue',
+                dateInputFormat: 'DD/MM/YYYY'
+              }"
               formControlName="startDate"
             />
             <label mdbLabel class="form-label" for="startDate"
@@ -106,7 +109,10 @@
               id="endDate"
               class="form-control"
               bsDatepicker
-              [bsConfig]="{containerClass: 'theme-dark-blue',}"
+              [bsConfig]="{
+                containerClass: 'theme-dark-blue',
+                dateInputFormat: 'DD/MM/YYYY'
+              }"
               [minDate]="todayDate"
               formControlName="endDate"
             />

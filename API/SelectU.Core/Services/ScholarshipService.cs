@@ -101,19 +101,19 @@ namespace SelectU.Core.Services
             }
             if (!string.IsNullOrEmpty(scholarshipSearchDTO.Description))
             {
-                filteredScholarships = filteredScholarships.Where(x => x.Description == scholarshipSearchDTO.Description);
+                filteredScholarships = filteredScholarships.Where(x => x.Description.ToLower().Contains(scholarshipSearchDTO.Description.ToLower()));
             }
             if (!string.IsNullOrEmpty(scholarshipSearchDTO.School))
             {
-                filteredScholarships = filteredScholarships.Where(x => x.School == scholarshipSearchDTO.School);
+                filteredScholarships = filteredScholarships.Where(x => x.School.ToLower().Contains(scholarshipSearchDTO.School.ToLower()));
             }
             if (!string.IsNullOrEmpty(scholarshipSearchDTO.City))
             {
-                filteredScholarships = filteredScholarships.Where(x => x.City == scholarshipSearchDTO.City);
+                filteredScholarships = filteredScholarships.Where(x => x.City.ToLower().Contains(scholarshipSearchDTO.City.ToLower()));
             }
             if (!string.IsNullOrEmpty(scholarshipSearchDTO.Value))
             {
-                filteredScholarships = filteredScholarships.Where(x => x.Value == scholarshipSearchDTO.Value);
+                filteredScholarships = filteredScholarships.Where(x => x.Value.ToLower().Contains(scholarshipSearchDTO.Value.ToLower()));
             }
             if (scholarshipSearchDTO.Status != null)
             {
@@ -121,11 +121,11 @@ namespace SelectU.Core.Services
             }
             if (scholarshipSearchDTO.StartDate != null)
             {
-                filteredScholarships = filteredScholarships.Where(x => x.StartDate == scholarshipSearchDTO.StartDate);
+                filteredScholarships = filteredScholarships.Where(x => x.StartDate?.Date == scholarshipSearchDTO?.StartDate?.Date);
             }
             if (scholarshipSearchDTO.EndDate != null)
             {
-                filteredScholarships = filteredScholarships.Where(x => x.EndDate == scholarshipSearchDTO.EndDate);
+                filteredScholarships = filteredScholarships.Where(x => x.EndDate?.Date == scholarshipSearchDTO.EndDate?.Date);
             }
 
             return await Task.FromResult(filteredScholarships.ToList());
