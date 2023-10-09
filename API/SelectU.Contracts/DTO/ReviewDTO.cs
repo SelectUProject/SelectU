@@ -11,9 +11,9 @@ namespace SelectU.Contracts.DTO
     public class ReviewDTO
     {
         public Guid Id { get; set; }
-        public string ReviewerId { get; set; }
+        public string? ReviewerId { get; set; }
         public Guid ScholarshipApplicationId { get; set; }
-        public byte? Rating { get; set; }
+        public byte Rating { get; set; }
         public string? Comment { get; set; }
         public ReviewDTO() { }
 
@@ -21,6 +21,7 @@ namespace SelectU.Contracts.DTO
         {
             Id = review.Id;
             ReviewerId = review.ReviewerId;
+            ScholarshipApplicationId = review.ScholarshipApplicationId;
             Rating = review.Rating;
             Comment = review.Comment;
         }

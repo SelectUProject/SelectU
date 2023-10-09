@@ -18,7 +18,7 @@ namespace SelectU.Core
         public IScholarshipApplicationRepository ScholarshipApplications => new ScholarshipApplicationRepository(_context);
         public IScholarshipRepository Scholarships => new ScholarshipRepository(_context);
         public IUserRepository Users => new UserRepository(_context);
-        public IReviewRepository Review => new ReviewRepository(_context);
+        public IReviewRepository Reviews => new ReviewRepository(_context);
         public async Task CommitAsync()
         {
             await _context.SaveChangesAsync();

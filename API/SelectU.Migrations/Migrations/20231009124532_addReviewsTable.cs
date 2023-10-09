@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SelectU.Migrations.Migrations
 {
     /// <inheritdoc />
-    public partial class Review : Migration
+    public partial class addReviewsTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,7 @@ namespace SelectU.Migrations.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ReviewerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ScholarshipApplicationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Rating = table.Column<byte>(type: "tinyint", nullable: true),
+                    Rating = table.Column<byte>(type: "tinyint", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

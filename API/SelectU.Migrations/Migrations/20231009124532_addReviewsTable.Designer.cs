@@ -12,8 +12,8 @@ using SelectU.Migrations;
 namespace SelectU.Migrations.Migrations
 {
     [DbContext(typeof(SelectUContext))]
-    [Migration("20231009112217_Review")]
-    partial class Review
+    [Migration("20231009124532_addReviewsTable")]
+    partial class addReviewsTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -167,7 +167,7 @@ namespace SelectU.Migrations.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte?>("Rating")
+                    b.Property<byte>("Rating")
                         .HasColumnType("tinyint");
 
                     b.Property<string>("ReviewerId")

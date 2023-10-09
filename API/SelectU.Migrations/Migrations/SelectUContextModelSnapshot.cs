@@ -164,7 +164,7 @@ namespace SelectU.Migrations.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte?>("Rating")
+                    b.Property<byte>("Rating")
                         .HasColumnType("tinyint");
 
                     b.Property<string>("ReviewerId")

@@ -13,7 +13,7 @@ namespace SelectU.Contracts.Entities
         public Guid Id { get; set; }
         public string? ReviewerId { get; set; }
         public Guid ScholarshipApplicationId { get; set; }
-        public byte? Rating { get; set; }
+        public byte Rating { get; set; }
         public string? Comment { get; set; }
         [ForeignKey("ReviewerId")]
         public virtual User? Reviewer { get; set; }
