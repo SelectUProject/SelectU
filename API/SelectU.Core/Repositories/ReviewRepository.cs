@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace SelectU.Core.Repositories
 {
-    public class UserRatingRepository : Repository<UserRating>, IUserRatingRepository
+    public class ReviewRepository : Repository<Review>, IReviewRepository
     {
-        public UserRatingRepository(SelectUContext context) : base(context)
+        public ReviewRepository(SelectUContext context) : base(context)
         {
         }
     }

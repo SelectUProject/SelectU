@@ -155,6 +155,33 @@ namespace SelectU.Migrations.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SelectU.Contracts.Entities.Review", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte?>("Rating")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("ReviewerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("ScholarshipApplicationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReviewerId");
+
+                    b.HasIndex("ScholarshipApplicationId");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("SelectU.Contracts.Entities.Scholarship", b =>
                 {
                     b.Property<Guid>("Id")
@@ -354,43 +381,6 @@ namespace SelectU.Migrations.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("SelectU.Contracts.Entities.UserRating", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ApplicantId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ReviewerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid?>("ScholarshipApplicationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ScholarshipId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicantId");
-
-                    b.HasIndex("ReviewerId");
-
-                    b.HasIndex("ScholarshipApplicationId");
-
-                    b.HasIndex("ScholarshipId");
-
-                    b.ToTable("UserRatings");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -442,6 +432,23 @@ namespace SelectU.Migrations.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SelectU.Contracts.Entities.Review", b =>
+                {
+                    b.HasOne("SelectU.Contracts.Entities.User", "Reviewer")
+                        .WithMany()
+                        .HasForeignKey("ReviewerId");
+
+                    b.HasOne("SelectU.Contracts.Entities.ScholarshipApplication", "ScholarshipApplication")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ScholarshipApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reviewer");
+
+                    b.Navigation("ScholarshipApplication");
+                });
+
             modelBuilder.Entity("SelectU.Contracts.Entities.Scholarship", b =>
                 {
                     b.HasOne("SelectU.Contracts.Entities.User", "ScholarshipCreator")
@@ -472,41 +479,14 @@ namespace SelectU.Migrations.Migrations
                     b.Navigation("ScholarshipApplicant");
                 });
 
-            modelBuilder.Entity("SelectU.Contracts.Entities.UserRating", b =>
-                {
-                    b.HasOne("SelectU.Contracts.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("ApplicantId");
-
-                    b.HasOne("SelectU.Contracts.Entities.User", "Reviewer")
-                        .WithMany()
-                        .HasForeignKey("ReviewerId");
-
-                    b.HasOne("SelectU.Contracts.Entities.ScholarshipApplication", "ScholarshipApplication")
-                        .WithMany("Ratings")
-                        .HasForeignKey("ScholarshipApplicationId");
-
-                    b.HasOne("SelectU.Contracts.Entities.Scholarship", null)
-                        .WithMany("Ratings")
-                        .HasForeignKey("ScholarshipId");
-
-                    b.Navigation("Reviewer");
-
-                    b.Navigation("ScholarshipApplication");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("SelectU.Contracts.Entities.Scholarship", b =>
                 {
-                    b.Navigation("Ratings");
-
                     b.Navigation("ScholarshipApplications");
                 });
 
             modelBuilder.Entity("SelectU.Contracts.Entities.ScholarshipApplication", b =>
                 {
-                    b.Navigation("Ratings");
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

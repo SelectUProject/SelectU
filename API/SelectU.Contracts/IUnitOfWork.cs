@@ -8,7 +8,7 @@ namespace SelectU.Contracts
 
         IScholarshipApplicationRepository ScholarshipApplications { get; }
         IUserRepository Users { get; }
-        IUserRatingRepository UserRating { get; }
+        IReviewRepository Review { get; }
         Task CommitAsync();
     }
 }

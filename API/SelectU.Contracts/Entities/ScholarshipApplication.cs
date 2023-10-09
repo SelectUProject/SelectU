@@ -18,6 +18,6 @@ namespace SelectU.Contracts.Entities
 
         [ForeignKey("ScholarshipId")]
         public virtual Scholarship? Scholarship { get; set; }
-        public virtual ICollection<UserRating> Ratings { get; set; }
+        public virtual List<Review>? Reviews { get; set; }
     }
 }

@@ -24,8 +24,7 @@ namespace SelectU.Contracts.Entities
 
         [ForeignKey("ScholarshipCreatorId")]
         public virtual User? ScholarshipCreator { get; set; }
-        public virtual ICollection<ScholarshipApplication>? ScholarshipApplications { get; set; }
-        public virtual ICollection<UserRating>? Ratings { get; set; }
+        public virtual List<ScholarshipApplication>? ScholarshipApplications { get; set; }
 
     }
 }

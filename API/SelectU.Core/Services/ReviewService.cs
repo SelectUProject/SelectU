@@ -24,71 +24,60 @@ namespace SelectU.Core.Services
         }
 
 
-        public async Task CreateScholarshipApplicationRatingAsync(UserRatingDTO userRatingDTO)
+        public async Task CreateReviewAsync(ReviewDTO reviewDTO)
         {
-            var scholarshipApplication = await _unitOfWork.ScholarshipApplications.GetAsync(userRatingDTO.ScholarshipApplicationId);
+            var scholarshipApplication = await _unitOfWork.ScholarshipApplications.GetAsync(reviewDTO.ScholarshipApplicationId);
 
             if (scholarshipApplication == null) throw new ReviewException($"Unable able to add rating as the application does not exist");
 
-            if (scholarshipApplication.Ratings.FirstOrDefault(x => x.ReviewerId == userRatingDTO.ReviewerId) == null) throw new ReviewException($"Unable able to create rating as the reviewer has an existing review");
+            if (scholarshipApplication.Reviews.FirstOrDefault(x => x.ReviewerId == reviewDTO.ReviewerId) == null) throw new ReviewException($"Unable able to create rating as the reviewer has an existing review");
 
-            UserRating userRating = new UserRating()
+            Review review = new Review()
             {
-                ScholarshipApplicationId = userRatingDTO.ScholarshipApplicationId,
-                Rating = userRatingDTO.Rating,
-                Id = userRatingDTO.Id,
-                ReviewerId = userRatingDTO.ReviewerId,
-                ApplicantId = userRatingDTO.ApplicantId,
-                Comment = userRatingDTO.Comment
+                ScholarshipApplicationId = reviewDTO.ScholarshipApplicationId,
+                Rating = reviewDTO.Rating,
+                ReviewerId = reviewDTO.ReviewerId,
+                Comment = reviewDTO.Comment
             };
 
-            scholarshipApplication.Ratings.Add(userRating);
+            scholarshipApplication.Reviews.Add(review);
             _unitOfWork.ScholarshipApplications.Update(scholarshipApplication);
 
             await _unitOfWork.CommitAsync();
 
         }
 
-        public async Task UpdateScholarshipApplicationRatingAsync(UserRatingDTO userRatingDTO, bool isAdmin)
+        public async Task UpdateReviewAsync(ReviewDTO reviewDTO, bool isAdmin)
         {
-            var scholarshipApplication = await _unitOfWork.ScholarshipApplications.GetAsync(userRatingDTO.ScholarshipApplicationId);
 
-            if (scholarshipApplication == null)
+            var review = await _unitOfWork.Review.GetAsync(reviewDTO.Id);
+            if (review == null)
             {
-                throw new ReviewException($"Unable able to add rating as the application does not exist");
+                throw new ReviewException($"Unable able to update review as it does not exist");
             }
+            if (review.ReviewerId != reviewDTO.ReviewerId && !isAdmin) throw new ReviewException($"Unable able to update rating as you need to be the owner of the review");
+            review.ScholarshipApplicationId = reviewDTO.ScholarshipApplicationId;
+            review.Rating = reviewDTO.Rating;
+            review.Comment = reviewDTO.Comment;
 
-            UserRating userRating = new UserRating()
-            {
-                ScholarshipApplicationId = userRatingDTO.ScholarshipApplicationId,
-                Rating = userRatingDTO.Rating,
-                Id = userRatingDTO.Id,
-                ReviewerId = userRatingDTO.ReviewerId,
-                ApplicantId = userRatingDTO.ApplicantId,
-                Comment = userRatingDTO.Comment
-            };
-            var originalRating = scholarshipApplication.Ratings.FirstOrDefault(x => x.Id == userRating.Id && (x.ReviewerId == userRatingDTO.ReviewerId || isAdmin));
-            if (originalRating == null) throw new ReviewException($"Unable able to update rating as you need to be the owner of the review");
-            scholarshipApplication.Ratings.Remove(originalRating);
-            scholarshipApplication.Ratings.Add(userRating);
-            _unitOfWork.ScholarshipApplications.Update(scholarshipApplication);
+            _unitOfWork.Review.Update(review);
 
             await _unitOfWork.CommitAsync();
 
 
         }
 
-        public async Task DeleteScholarshipApplicationRatingAsync(Guid RatingId, string CreatorId, bool isAdmin)
+        public async Task DeleteReviewAsync(Guid reviewId, string creatorId, bool isAdmin)
         {
-            var userRating = await _unitOfWork.UserRating.GetAsync(RatingId.ToString());
+            var review = await _unitOfWork.Review.GetAsync(reviewId);
 
-            if (userRating == null)
+            if (review == null)
             {
                 throw new ReviewException($"Unable able to delete rating as the application does not exist");
             }
-            if(userRating.ReviewerId != CreatorId && !isAdmin) throw new ReviewException($"Unable able to delete rating as you must be the owner of the review");
+            if(review.ReviewerId != creatorId && !isAdmin) throw new ReviewException($"Unable able to delete rating as you must be the owner of the review");
 
-            await _unitOfWork.UserRating.DeleteAsync(userRating);
+            await _unitOfWork.Review.DeleteAsync(review);
         }
     }
 }

@@ -9,8 +9,8 @@ namespace SelectU.Contracts.Services
 {
     public interface IReviewService
     {
-        Task CreateScholarshipApplicationRatingAsync(UserRatingDTO userRatingDTO);
-        Task UpdateScholarshipApplicationRatingAsync(UserRatingDTO userRatingDTO, bool isAdmin);
-        Task DeleteScholarshipApplicationRatingAsync(Guid RatingId, string CreatorId, bool isAdmin);
+        Task CreateReviewAsync(ReviewDTO reviewDTO);
+        Task UpdateReviewAsync(ReviewDTO reviewDTO, bool isAdmin);
+        Task DeleteReviewAsync(Guid reviewId, string creatorId, bool isAdmin);
     }
 }

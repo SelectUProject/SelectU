@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SelectU.Contracts.Repositories
 {
-    public interface IUserRatingRepository : IRepository<UserRating>
+    public interface IReviewRepository : IRepository<Review>
     {
     }
 }
