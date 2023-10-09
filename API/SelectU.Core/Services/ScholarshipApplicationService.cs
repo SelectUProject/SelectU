@@ -136,6 +136,7 @@ namespace SelectU.Core.Services
             }
 
             return scholarshipApplicationCreateDTO;
+        
         }
     }
 }

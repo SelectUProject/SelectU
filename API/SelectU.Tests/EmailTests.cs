@@ -54,7 +54,7 @@ namespace SelectU.Tests
 
             var mailMessage = new MailMessage();
 
-            Assert.DoesNotThrowAsync(async () => await emailClient.SendRegistrationEmailASync(registerDto));
+            Assert.DoesNotThrowAsync(async () => await emailClient.SendRegistrationEmailAsync(registerDto));
         }
     }
 }
