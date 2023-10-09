@@ -8,6 +8,8 @@ import { ScholarshipService } from 'src/app/providers/scholarship.service';
 import { TokenService } from 'src/app/providers/token.service';
 import ViewDetailsModalComponent from '../view-details-modal/view-details-modal.component';
 import { APPLICATION_STATUS_LIST } from 'src/app/constants/ApplicationStatus';
+import ReviewModalComponent from '../review-modal/review-modal.component';
+import { USER } from 'src/app/constants/userRoles';
 
 @Component({
   selector: 'app-short-view-my-applications',
@@ -20,8 +22,10 @@ export class ShortViewMyApplicationsComponent {
   @Input() statusIcon: string;
   success = false;
   viewDetailsModalRef: MdbModalRef<ViewApplicationDetailModalComponent>;
+  reviewModalRef: MdbModalRef<ReviewModalComponent>;
   applicationStatus = ApplicationStatusEnum;
   applicationStatuses = APPLICATION_STATUS_LIST;
+  USER = USER;
 
   constructor(
     public tokenService: TokenService,
@@ -29,7 +33,18 @@ export class ShortViewMyApplicationsComponent {
     private modalService: MdbModalService
   ) {}
 
-  openModal(scholarshipApplication: ScholarshipApplicationUpdateDTO) {
+  openReviewModal(scholarshipApplication: ScholarshipApplicationUpdateDTO) {
+    this.success = false;
+    this.reviewModalRef = this.modalService.open(ReviewModalComponent, {
+      data: { scholarshipApplication },
+    });
+    this.reviewModalRef.component.successEvent.subscribe(() => {
+      this.success = true;
+      this.reviewModalRef.close();
+    });
+  }
+
+  openDetailsModal(scholarshipApplication: ScholarshipApplicationUpdateDTO) {
     this.success = false;
     this.viewDetailsModalRef = this.modalService.open(
       ViewApplicationDetailModalComponent,

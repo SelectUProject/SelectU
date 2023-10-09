@@ -1,0 +1,79 @@
+<div class="row justify-content-center mb-3 text-center">
+  <form [formGroup]="reviewForm" (ngSubmit)="review()">
+    <div class="row mb-2">
+      <div class="col">
+        <!-- Role input -->
+        <mdb-form-control class="mb-4">
+          <select
+            mdbValidate
+            mdbInput
+            type="select"
+            id="role"
+            class="form-control"
+            formControlName="role"
+          >
+            <option value="" disabled selected></option>
+            <option *ngFor="let role of roles" [ngValue]="role">
+              {{ role }}
+            </option>
+          </select>
+          <label mdbLabel class="form-label" for="role">Role</label>
+          <mdb-error *ngIf="role?.invalid && (role?.dirty || role?.touched)"
+            >Role is required</mdb-error
+          >
+        </mdb-form-control>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col">
+        <!-- First Name input -->
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="text"
+            id="firstName"
+            class="form-control"
+            formControlName="firstName"
+          />
+          <label mdbLabel class="form-label" for="firstName">First Name</label>
+        </mdb-form-control>
+      </div>
+    </div>
+
+    <!-- Submit button -->
+    <button
+      mdbRipple
+      *ngIf="!submitting"
+      [disabled]="!inviteForm.valid"
+      type="submit"
+      class="w-20 btn btn-primary btn-block ms-auto"
+    >
+      Submit
+    </button>
+
+    <button
+      *ngIf="submitting"
+      class="w-20 btn btn-primary btn-block ms-auto"
+      type="button"
+      disabled
+    >
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+    </button>
+  </form>
+
+  <ngb-toast
+    class="bg-success text-light text-center w-75 position-absolute bottom-0 start-50 translate-middle"
+    *ngIf="success"
+    [delay]="2000"
+    [autohide]="true"
+    (hidden)="success = false"
+  >
+    Review added successfully!
+  </ngb-toast>
+</div>

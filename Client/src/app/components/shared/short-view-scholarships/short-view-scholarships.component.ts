@@ -17,9 +17,10 @@ export class ShortViewScholarshipsComponent {
   STAFF = STAFF;
   USER = USER;
   success = false;
-  viewDetailsModalRef:MdbModalRef<ViewDetailsModalComponent>;
-  
+  viewDetailsModalRef: MdbModalRef<ViewDetailsModalComponent>;
+
   @Input() scholarship: ScholarshipUpdateDTO;
+  @Input() showActions: boolean = true;
 
   set data(value: ScholarshipUpdateDTO) {
     this.scholarshipService.scholarship = value;
@@ -33,16 +34,18 @@ export class ShortViewScholarshipsComponent {
   ) {}
 
   openModal(scholarship: ScholarshipUpdateDTO) {
-    this.scholarshipService.scholarship = this.scholarship
+    this.scholarshipService.scholarship = this.scholarship;
     this.success = false;
-    this.viewDetailsModalRef = this.modalService.open(ViewDetailsModalComponent, {
-      data: { scholarship },
-    });
+    this.viewDetailsModalRef = this.modalService.open(
+      ViewDetailsModalComponent,
+      {
+        data: { scholarship },
+      }
+    );
     this.viewDetailsModalRef.component.successEvent.subscribe(() => {
       this.success = true;
       // this.getAllUsers();
       this.viewDetailsModalRef.close();
     });
   }
-  
 }

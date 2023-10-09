@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title">Application</h5>
+  <h5 class="modal-title">Review Application</h5>
   <button
     type="button"
     class="btn-close"
@@ -11,6 +11,7 @@
   <app-long-view-application
     [scholarshipApplication]="scholarshipApplication"
   />
+  <app-review-form />
 </div>
 <div class="modal-footer">
   <button
@@ -20,14 +21,4 @@
   >
     Close
   </button>
-
-  <!-- <button
-    mdbRipple
-    type="button"
-    class="w-20 btn btn-primary btn-block ms-auto"
-    (click)="ViewDetailsModalRef.close()"
-    [routerLink]="'/create-scholarship-application'"
-  >
-    Apply
-  </button> -->
 </div>

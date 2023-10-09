@@ -69,13 +69,25 @@
       <div class="">
         <h6>Actions</h6>
 
-        <!-- <button>Apply</button> -->
-        <button
-          class="btn btn-sercondary"
-          (click)="openModal(this.scholarshipApplication)"
-        >
-          View Details
-        </button>
+        <div class="row">
+          <div class="col-6">
+            <!-- <button>Apply</button> -->
+            <button
+              class="btn btn-sercondary w-100"
+              (click)="openDetailsModal(this.scholarshipApplication)"
+            >
+              View Details
+            </button>
+          </div>
+          <div *ngIf="tokenService.role !== USER" class="col-6">
+            <button
+              class="btn btn-primary w-100"
+              (click)="openReviewModal(this.scholarshipApplication)"
+            >
+              Review
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
