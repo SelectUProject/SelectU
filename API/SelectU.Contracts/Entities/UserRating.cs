@@ -15,14 +15,13 @@ namespace SelectU.Contracts.Entities
         public string? ReviewerId { get; set; }
         public Guid? ScholarshipApplicationId { get; set; }
         public int? Rating { get; set; }
-       
+        public string? Comment { get; set; }
         [ForeignKey("ApplicantId")]
         public virtual User? User { get; set; }
         [ForeignKey("ReviewerId")]
         public virtual User? Reviewer { get; set; }
         [ForeignKey("ScholarshipApplicationId")]
         public virtual ScholarshipApplication? ScholarshipApplication { get; set; }
-        public virtual ICollection<Comment>? Comments { get; set; }
         public UserRating() { }
     }
 }

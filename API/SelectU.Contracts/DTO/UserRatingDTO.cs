@@ -15,7 +15,7 @@ namespace SelectU.Contracts.DTO
         public string ReviewerId { get; set; }
         public Guid ScholarshipApplicationId { get; set; }
         public int? Rating { get; set; }
-        public List<CommentDTO>? Comments { get; set; }
+        public string? Comment { get; set; }
         public UserRatingDTO() { }
 
         public UserRatingDTO(UserRating userRating)
@@ -24,7 +24,7 @@ namespace SelectU.Contracts.DTO
             Id = userRating.Id;
             ReviewerId = userRating.ReviewerId;
             Rating = userRating.Rating;
-            Comments = new CommentDTO().CommentsToCommentDTOs(userRating.Comments);
+            Comment = userRating.Comment;
         }
         public List<UserRatingDTO> UserRatingsToUserRatingDTOs(ICollection<UserRating>? ratings)
         {

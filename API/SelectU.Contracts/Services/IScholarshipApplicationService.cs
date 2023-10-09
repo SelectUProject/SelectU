@@ -10,9 +10,6 @@ namespace SelectU.Contracts.Services
         Task<ScholarshipApplicationUpdateDTO> GetScholarshipApplicationAsync(Guid id);
         Task<List<ScholarshipApplicationUpdateDTO>> GetMyScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isAdmin);
         Task<ResponseDTO> CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO, string id);
-        Task<ResponseDTO> CreateScholarshipApplicationRatingAsync(UserRatingDTO userRatingDTO);
-        Task<ResponseDTO> UpdateScholarshipApplicationRatingAsync(UserRatingDTO userRatingDTO);
-        Task<ResponseDTO> DeleteScholarshipApplicationRatingAsync(Guid ScholarshipId, Guid RatingId);
 
     }
 }
