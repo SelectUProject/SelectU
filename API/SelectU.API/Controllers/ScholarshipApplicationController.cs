@@ -10,6 +10,7 @@ using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
 using SelectU.Core.Helpers;
+using System.Linq;
 
 namespace SelectU.API.Controllers
 {
@@ -105,5 +106,92 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize(Roles = $"{UserRoles.Reviewer}, {UserRoles.Admin}")]
+        [HttpPost("add-rating")]
+        public async Task<IActionResult> CreateRatingScholarshipApplicationAsync(UserRatingDTO userRatingDTO)
+        {
+            try
+            {
+                var response = await _scholarshipApplicationService.CreateScholarshipApplicationRatingAsync(
+                    userRatingDTO);
+
+                if (response == null)
+                {
+                    return BadRequest("Scholarship Application Rating failed to create");
+                }
+
+                return Ok(response);
+            }
+            catch (ScholarshipApplicationException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship Application Rating, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.Reviewer}, {UserRoles.Admin}")]
+        [HttpPost("update-rating")]
+        public async Task<IActionResult> UpdateRatingScholarshipApplicationAsync(UserRatingDTO userRatingDTO)
+        {
+            try
+            {
+                var response = await _scholarshipApplicationService.UpdateScholarshipApplicationRatingAsync(
+                    userRatingDTO);
+
+                if (response == null)
+                {
+                    return BadRequest("Scholarship Application Rating failed to update");
+                }
+
+                return Ok(response);
+            }
+            catch (ScholarshipApplicationException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship Application Rating, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.Reviewer}, {UserRoles.Admin}")]
+        [HttpDelete("delete-rating")]
+        public async Task<IActionResult> DeleteRatingScholarshipApplicationAsync([FromQuery] Guid scholarshipApplicationId, [FromQuery] Guid ratingId)
+        {
+            try
+            {
+                var scholarshipApplication = await _scholarshipApplicationService.GetScholarshipApplicationAsync(scholarshipApplicationId);
+                scholarshipApplication.UserRating?.FirstOrDefault(x => x.ApplicantId == HttpContext.GetUserId());
+                if(scholarshipApplication == null && !HttpContext.User.IsInRole("Admin")) return BadRequest("Scholarship Application Rating failed to find rating");
+                var response = await _scholarshipApplicationService.DeleteScholarshipApplicationRatingAsync(
+                    scholarshipApplicationId,
+                    ratingId
+                    );
+
+                if (response == null)
+                {
+                    return BadRequest("Scholarship Application Rating failed to delete");
+                }
+
+                return Ok(response);
+            }
+            catch (ScholarshipApplicationException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship Application Rating, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
