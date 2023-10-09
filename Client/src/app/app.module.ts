@@ -54,6 +54,9 @@ import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable
 import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
 import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
 import { ViewApplicationDetailModalComponent } from './components/shared/view-application-detail-modal/view-application-detail-modal.component';
+import ReviewModalComponent from './components/shared/review-modal/review-modal.component';
+import LongViewApplicationComponent from './components/shared/long-view-application/long-view-application.component';
+import ReviewFormComponent from './components/shared/review-form/review-form.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +87,9 @@ import { ViewApplicationDetailModalComponent } from './components/shared/view-ap
     ViewDetailsModalComponent,
     ViewApplicationsPageComponent,
     ViewApplicationDetailModalComponent,
+    ReviewModalComponent,
+    LongViewApplicationComponent,
+    ReviewFormComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
