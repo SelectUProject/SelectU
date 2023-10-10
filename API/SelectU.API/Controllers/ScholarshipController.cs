@@ -180,11 +180,11 @@ namespace SelectU.API.Controllers
 
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpPost("photo/upload/{scholarshipId}")]
-        public async Task<IActionResult> UploadPic([FromRoute] Guid scholarshipId, [FromBody] Stream file)
+        public async Task<IActionResult> UploadPic([FromRoute] Guid scholarshipId, [FromForm] IFormFile file)
         {
             try
             {
-                if (!IsValidImage(file))
+                if (!IsImage(file))
                 {
                     return BadRequest("Uploaded File is not a vaild image");
                 }
@@ -284,21 +284,13 @@ namespace SelectU.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        private bool IsValidImage(Stream file)
+        private bool IsImage(IFormFile file)
         {
-            try
-            {
-                using (Image newImage = Image.FromStream(file))
-                { }
-            }
-            catch (OutOfMemoryException ex)
-            {
-                //The file does not have a valid image format.
-                //-or- GDI+ does not support the pixel format of the file
+            // Get the content type of the file
+            var contentType = file.ContentType;
 
-                return false;
-            }
-            return true;
+            // Check if the content type starts with "image/"
+            return contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
