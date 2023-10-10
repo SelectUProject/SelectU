@@ -35,6 +35,28 @@ namespace SelectU.Core.Services
 
             return blobClient.Uri.AbsoluteUri;
         }
+        public async Task DeletePhotoAsync(string blobUrl)
+        {
+            var blobUri = new Uri(blobUrl);
+            var blobContainerName = blobUri.Segments[1].Trim('/'); // Extract container name from the URL
+            var blobName = blobUri.Segments.Last(); // Extract blob name from the URL
+
+            var containerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+            var blobClient = containerClient.GetBlobClient(blobName);
+
+            await blobClient.DeleteIfExistsAsync();
+        }
+        public async Task<string> UpdatePhotoAsync(string oldBlobUrl, IFormFile newContent)
+        {
+
+            var blobUri = new Uri(oldBlobUrl);
+            var blobContainerName = blobUri.Segments[1].Trim('/'); // Extract container name from the URL
+            // Delete the old photo
+            await DeletePhotoAsync(oldBlobUrl);
+
+            // Upload the new photo
+            return await UploadPhotoAsync(blobContainerName, newContent);
+        }
         public async Task<string> UploadFileAsync(string containerName, IFormFile content)
         {
             var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);

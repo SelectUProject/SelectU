@@ -228,52 +228,17 @@ namespace SelectU.API.Controllers
                 {
                     return BadRequest("User not found");
                 }
-                bool result = false;
 
-                if (!scholarship.ImageURL.IsNullOrEmpty())
+                if (scholarship.ImageURL != null)
                 {
-                    result = await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.PhotoContainerName, scholarship.ImageURL);
-                }
-                else
-                {
-                    return BadRequest(new ResponseDTO { Success = result, Message = "Picture does not exist" });
-                }
-
-                return Ok(new ResponseDTO { Success = result, Message = "Picture Delete" });
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (ApplicationException ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
-        [HttpGet("photo/download/{applicationId}")]
-        public async Task<IActionResult> DownloadPic([FromRoute] Guid applicationId)
-        {
-            try
-            {
-
-                var scholarship = await _scholarshipService.GetScholarshipAsync(applicationId);
-
-                if (scholarship == null)
-                {
-                    return BadRequest("scholarship not found");
-                }
-
-                if (!scholarship.ImageURL.IsNullOrEmpty())
-                {
-                    var stream = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.FileContainerName, scholarship.ImageURL);
-                    return Ok(stream);
+                    await _blobStorageService.DeletePhotoAsync( scholarship.ImageURL);
                 }
                 else
                 {
                     return BadRequest(new ResponseDTO { Success = false, Message = "Picture does not exist" });
                 }
+
+                return Ok(new ResponseDTO { Success = true, Message = "Picture Delete" });
             }
             catch (ArgumentException ex)
             {
@@ -284,6 +249,7 @@ namespace SelectU.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         private bool IsImage(IFormFile file)
         {
             // Get the content type of the file

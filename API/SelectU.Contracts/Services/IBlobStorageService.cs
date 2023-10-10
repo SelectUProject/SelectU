@@ -10,6 +10,8 @@ namespace SelectU.Contracts.Services
     public interface IBlobStorageService
     {
         Task<string> UploadPhotoAsync(string containerName, IFormFile content);
+        Task<string> UpdatePhotoAsync(string oldBlobUrl, IFormFile newContent);
+        Task DeletePhotoAsync(string blobUrl);
         Task<string> UploadFileAsync(string containerName, IFormFile content);
         Task<Stream> DownloadFileAsync(string containerName, string blobName);
         Task<bool> DeleteFileAsync(string containerName, string blobName);

@@ -355,18 +355,17 @@ namespace SelectU.API.Controllers
                 {
                     return BadRequest("User not found");
                 }
-                bool result = false;
 
-                if (!user.ProfilePicID.IsNullOrEmpty())
+                if (user.ProfilePicID != null)
                 {
-                    result = await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.PhotoContainerName, user.ProfilePicID);
+                    await _blobStorageService.DeletePhotoAsync(user.ProfilePicID);
                 }
                 else
                 {
-                    return BadRequest(new ResponseDTO { Success = result, Message = "Profile Picture does not exist" });
+                    return BadRequest(new ResponseDTO { Success = false, Message = "Profile Picture does not exist" });
                 }
 
-                return Ok(new ResponseDTO { Success = result, Message = "Profile Picture Delete" });
+                return Ok(new ResponseDTO { Success = true, Message = "Profile Picture Delete" });
             }
             catch (ArgumentException ex)
             {
