@@ -195,15 +195,15 @@ namespace SelectU.API.Controllers
                     return BadRequest("scholarship not found");
                 }
 
-                string imageID = await _blobStorageService.UploadPhotoAsync(_azureBlobSettingsConfig.FileContainerName, file);
-                scholarship.ImageURL = imageID;
+                string imageURL = await _blobStorageService.UploadPhotoAsync(_azureBlobSettingsConfig.FileContainerName, file);
+                scholarship.ImageURL = imageURL;
                 await _scholarshipService.UpdateScholarshipsAsync(scholarship);
                 if (!scholarship.ImageURL.IsNullOrEmpty())
                 {
                     await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.FileContainerName, scholarship.ImageURL);
                 }
 
-                return Ok(new { Message = "File uploaded successfully", ImageID = imageID });
+                return Ok(new { Message = "File uploaded successfully", ImageURL = imageURL });
 
             }
             catch (ArgumentException ex)
