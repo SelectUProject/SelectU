@@ -26,7 +26,7 @@ namespace SelectU.Core.Services
         public async Task<string> UploadPhotoAsync(string containerName, IFormFile content)
         {
             var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-            string blobName = Guid.NewGuid().ToString(); // Generate a new GUID-based blob name
+            string blobName = $"{Guid.NewGuid()}/{content.FileName}"; // Generate a new GUID-based blob name
             BlobClient blobClient = containerClient.GetBlobClient(blobName);
             using (var stream = content.OpenReadStream())
             {
@@ -38,7 +38,7 @@ namespace SelectU.Core.Services
         public async Task<string> UploadFileAsync(string containerName, IFormFile content)
         {
             var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-            string blobName = Guid.NewGuid().ToString(); // Generate a new GUID-based blob name
+            string blobName = $"{Guid.NewGuid()}/{content.FileName}"; // Generate a new GUID-based blob name
             BlobClient blobClient = containerClient.GetBlobClient(blobName);
             using (var stream = content.OpenReadStream())
             {

@@ -61,7 +61,7 @@ namespace SelectU.Contracts.DTO
             Postcode = user.Postcode;
             State = user.State;
             Country = user.Country;
-            ProfilePicID = user.ProfilePicID;
+            ProfilePicUri = user.ProfilePicID;
             AboutMe = user.AboutMe;
             LoginExpiry = user.LoginExpiry;
             DateCreated = user.DateCreated;
