@@ -320,14 +320,14 @@ namespace SelectU.API.Controllers
                     return BadRequest("User not found");
                 }
 
-                string imageUri = await _blobStorageService.UploadPhotoAsync(_azureBlobSettingsConfig.ProfilePicContainerName, file);
+                string imageUri = await _blobStorageService.UploadPhotoAsync(_azureBlobSettingsConfig.PhotoContainerName, file);
                 var updateUser = new UserUpdateDTO(user);
                 updateUser.ProfilePicUri = imageUri;
                 await _userService.UpdateUserDetailsAsync(userId, updateUser);
 
                 if (!user.ProfilePicID.IsNullOrEmpty())
                 {
-                    await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
+                    await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.PhotoContainerName, user.ProfilePicID);
                 }
 
                 return Ok(new { Message = "File uploaded successfully", ImageUri = imageUri });
@@ -359,7 +359,7 @@ namespace SelectU.API.Controllers
 
                 if (!user.ProfilePicID.IsNullOrEmpty())
                 {
-                    result = await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
+                    result = await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.PhotoContainerName, user.ProfilePicID);
                 }
                 else
                 {

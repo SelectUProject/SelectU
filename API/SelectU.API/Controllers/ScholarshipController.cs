@@ -195,7 +195,7 @@ namespace SelectU.API.Controllers
                     return BadRequest("scholarship not found");
                 }
 
-                string imageURL = await _blobStorageService.UploadPhotoAsync(_azureBlobSettingsConfig.FileContainerName, file);
+                string imageURL = await _blobStorageService.UploadPhotoAsync(_azureBlobSettingsConfig.PhotoContainerName, file);
                 scholarship.ImageURL = imageURL;
                 await _scholarshipService.UpdateScholarshipsAsync(scholarship);
                 if (!scholarship.ImageURL.IsNullOrEmpty())
@@ -232,7 +232,7 @@ namespace SelectU.API.Controllers
 
                 if (!scholarship.ImageURL.IsNullOrEmpty())
                 {
-                    result = await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, scholarship.ImageURL);
+                    result = await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.PhotoContainerName, scholarship.ImageURL);
                 }
                 else
                 {
