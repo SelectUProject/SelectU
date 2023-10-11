@@ -80,7 +80,7 @@ namespace SelectU.Core.Extensions
             services.AddScoped<IValidator<UserDetailsDTO>, UserUpdateDTOValidator>();
             services.AddScoped<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
             services.AddScoped<IValidator<UpdateUserRolesDTO>, UpdateUserRolesDTOValidator>();
-            // services.AddScoped<IValidator<UserUpdateDTO>, UserUpdateDTOValidator>();
+
             return services;
         }
         public static IServiceCollection AddIdentity(this IServiceCollection services)
