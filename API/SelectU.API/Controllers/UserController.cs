@@ -285,7 +285,7 @@ namespace SelectU.API.Controllers
                 {
                     var userRoles = await _userService.GetUserRolesAsync(user.Id) as List<string>;
                     //double check if role is in this model 
-                    response.Add(new UserDetailsDTO(user));
+                    response.Add(new UserDetailsDTO(user, userRoles.FirstOrDefault()));
                 }
 
                 if (users == null)

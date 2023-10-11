@@ -46,5 +46,26 @@ namespace SelectU.Contracts.DTO
             DateCreated = user.DateCreated;
             DateModified = user.DateModified;
         }
+        public UserDetailsDTO(User user, string role)
+        {
+            Id = user.Id;
+            Email = user.Email;
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            DateOfBirth = user.DateOfBirth;
+            Gender = user.Gender;
+            PhoneNumber = user.PhoneNumber;
+            Address = user.Address;
+            Suburb = user.Suburb;
+            Postcode = user.Postcode;
+            State = user.State;
+            Country = user.Country;
+            ProfilePicID = user.ProfilePicID;
+            AboutMe = user.AboutMe;
+            LoginExpiry = user.LoginExpiry;
+            DateCreated = user.DateCreated;
+            DateModified = user.DateModified;
+            Role = role;
+        }
     }
 }
