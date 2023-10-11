@@ -39,28 +39,17 @@ export class ScholarshipApplicationFormComponent implements OnInit {
   createScholarshipForm(): FormGroup {
     const formControls: { [key: string]: any } = {};
 
-    console.log('scholarship:', this.scholarship);
-
     if (this.scholarship && this.scholarship.scholarshipFormTemplate) {
-      console.log(
-        'scholarshipFormTemplate:',
-        this.scholarship.scholarshipFormTemplate
-      );
-
       for (const section of this.scholarship.scholarshipFormTemplate) {
         formControls[section.name] = [null]; // Initialize with null value
       }
     }
-
-    console.log('formControls:', formControls);
 
     return this.fb.group(formControls);
   }
 
   handleFileInput(files: FileList, key: any) {
     if (files.length > 0) {
-      console.log(files.item(0));
-
       const file: File = files.item(0)!;
 
       const formData = new FormData();
@@ -76,11 +65,9 @@ export class ScholarshipApplicationFormComponent implements OnInit {
           };
 
           this.uploaded.push(newObject);
-          // Handle success response from the backend
-          console.log('File uploaded Successful:', response);
         })
         .catch((response) => {
-          console.log(response);
+          console.error(response);
         });
     }
   }
@@ -93,10 +80,6 @@ export class ScholarshipApplicationFormComponent implements OnInit {
 
       // Create a data object to hold the form values
       const formData = this.scholarshipForm.value;
-
-      // You can optionally log the form data to the console for debugging
-      console.log('Form Data:', this.scholarshipForm);
-      console.log('Form Data:', formData);
 
       const formAnswers: ScholarshipFormSectionAnswerDTO[] = [];
 
@@ -140,9 +123,6 @@ export class ScholarshipApplicationFormComponent implements OnInit {
       this.scholarshipApplicationService
         .createScholarshipApplications(formAnswer)
         .then((response) => {
-          // Handle success response from the backend
-          console.log('Submission Successful:', response);
-          // Optionally, reset the form or perform other actions
           this.success = true;
           this.router.navigate(['/applications']);
         })
