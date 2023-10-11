@@ -22,7 +22,7 @@ namespace SelectU.Contracts.Entities
         public DateTimeOffset? DateCreated { get; set; }
         public DateTimeOffset? DateModified { get; set; }
         public User() { }
-        public User(UserUpdateDTO user)
+        public User(UserDetailsDTO user)
         {
             Id = user.Id;
             Email = user.Email;

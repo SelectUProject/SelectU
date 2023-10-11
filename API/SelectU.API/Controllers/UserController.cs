@@ -279,13 +279,13 @@ namespace SelectU.API.Controllers
             {
                 var users = await _userService.GetAllUsersAsync();
 
-                List<UserUpdateDTO> response = new List<UserUpdateDTO>();
+                List<UserDetailsDTO> response = new List<UserDetailsDTO>();
 
                 foreach(var user in users)
                 {
                     var userRoles = await _userService.GetUserRolesAsync(user.Id) as List<string>;
-
-                    response.Add(new UserUpdateDTO(user, userRoles?.FirstOrDefault()));
+                    //double check if role is in this model 
+                    response.Add(new UserDetailsDTO(user));
                 }
 
                 if (users == null)
