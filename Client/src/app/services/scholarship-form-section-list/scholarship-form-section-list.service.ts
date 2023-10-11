@@ -5,7 +5,6 @@ import { ScholarshipFormSectionDTO } from 'src/app/models/ScholarshipFormSection
   providedIn: 'root'
 })
 export class ScholarshipFormSectionListService {
-  // TODO: Use BehaviorSubject
   public formSections: ScholarshipFormSectionDTO[] = [];
 
   add(formSection: ScholarshipFormSectionDTO): void {

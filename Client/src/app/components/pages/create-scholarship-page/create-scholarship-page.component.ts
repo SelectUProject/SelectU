@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+
 import { ScholarshipCreateDTO } from 'src/app/models/ScholarshipCreateDTO';
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
 import { ToastService } from 'src/app/providers/toast.service';
@@ -24,42 +24,29 @@ export class CreateScholarshipPageComponent {
   ) {}
 
   ngOnInit(): void {
-    this.setupForm();
+    this.initializeForm();
   }
 
-  setupForm() {
+  initializeForm() {
     this.createScholarshipForm = this._formBuilder.group(
       {
-        school: ['', Validators.required],
-        imageURL: ['', Validators.required],
-        value: ['', Validators.required],
-        shortDescription: ['', Validators.required],
-        description: ['', Validators.required],
+        school: new FormControl('', Validators.required),
+        imageURL: new FormControl('', Validators.required),
+        value: new FormControl('', Validators.required),
+        shortDescription: new FormControl('', Validators.required),
+        description: new FormControl('', Validators.required),
         scholarshipFormTemplate: [this._scholarshipFormSectionListService.formSections],
-        city: ['', Validators.required],
-        state: ['', Validators.required],
-        startDate: ['', Validators.required],
-        endDate: ['', Validators.required]
+        city: new FormControl('', Validators.required),
+        state: new FormControl('', Validators.required),
+        startDate: new FormControl('', Validators.required),
+        endDate: new FormControl('', Validators.required)
       }
     );
   }
 
   createScholarship() {
     let createScholarshipForm = <ScholarshipCreateDTO>this.createScholarshipForm.value;
-
-    // TODO: Streamline this, need to convert from NgbDate to regular Date bc that's the type
-    createScholarshipForm.startDate = new Date(
-      (createScholarshipForm.startDate as any).year,
-      (createScholarshipForm.startDate as any).month - 1,
-      (createScholarshipForm.startDate as any).day
-    )
-
-    // TODO: Streamline this, need to convert from NgbDate to regular Date bc that's the type
-    createScholarshipForm.endDate = new Date(
-      (createScholarshipForm.endDate as any).year,
-      (createScholarshipForm.endDate as any).month - 1,
-      (createScholarshipForm.endDate as any).day
-    )
+    console.log(createScholarshipForm);
 
     this._scholarshipService
       .createScholarship(createScholarshipForm)
