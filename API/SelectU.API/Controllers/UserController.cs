@@ -23,7 +23,7 @@ namespace SelectU.API.Controllers
         private readonly IUserService _userService;
         private readonly AzureBlobSettingsConfig _azureBlobSettingsConfig;
         private readonly IBlobStorageService _blobStorageService;
-        private readonly IValidator<UserUpdateDTO> _userDetailsValidator;
+        private readonly IValidator<UserDetailsDTO> _userDetailsValidator;
         private readonly IValidator<ChangePasswordDTO> _passwordValidator;
         private readonly IValidator<UserRegisterDTO> _userRegisterValidator;
         private readonly IValidator<UpdateUserRolesDTO> _userRolesUpdateValidator;
@@ -34,7 +34,7 @@ namespace SelectU.API.Controllers
             IUserService userService,
             IBlobStorageService blobStorageService,
             IOptions<AzureBlobSettingsConfig> azureBlobSettingsConfig,
-            IValidator<UserUpdateDTO> userDetailsValidator,
+            IValidator<UserDetailsDTO> userDetailsValidator,
             IValidator<ChangePasswordDTO> passwordValidator,
             IValidator<UserRegisterDTO> userRegisterValidator,
             IValidator<UpdateUserRolesDTO> userRolesUpdateValidator,
@@ -67,7 +67,7 @@ namespace SelectU.API.Controllers
                     return BadRequest("User not found");
                 }
 
-                var response = new UserUpdateDTO(user);
+                var response = new UserDetailsDTO(user);
 
                 return Ok(response);
             }
@@ -80,7 +80,7 @@ namespace SelectU.API.Controllers
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
         [Authorize]
         [HttpPatch("details/update")]
-        public async Task<IActionResult> UpdateUserDetailsAsync([FromBody] UserUpdateDTO userDetails)
+        public async Task<IActionResult> UpdateUserDetailsAsync([FromBody] UserDetailsDTO userDetails)
         {
             string userId = HttpContext.GetUserId();
             try
@@ -260,7 +260,7 @@ namespace SelectU.API.Controllers
                     return BadRequest("User not found");
                 }
 
-                var response = new UserUpdateDTO(user);
+                var response = new UserDetailsDTO(user);
 
                 return Ok(response);
             }
@@ -320,7 +320,7 @@ namespace SelectU.API.Controllers
                 }
 
                 string imageID = await _blobStorageService.UploadFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, file);
-                var updateUser = new UserUpdateDTO(user);
+                var updateUser = new UserDetailsDTO(user);
                 updateUser.ProfilePicID = imageID;
                 await _userService.UpdateUserDetailsAsync(userId, updateUser);
 
