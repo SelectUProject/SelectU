@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using SelectU.Contracts.Config;
 using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
+using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Extensions;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
+using SelectU.Core.Services;
 
 
 namespace SelectU.API.Controllers
@@ -17,12 +20,21 @@ namespace SelectU.API.Controllers
     public class ScholarshipApplicationController : ControllerBase
     {
         private readonly ILogger<ScholarshipApplicationController> _logger;
+        private readonly IUserService _userService;
         private readonly IScholarshipApplicationService _scholarshipApplicationService;
+        private readonly AzureBlobSettingsConfig _azureBlobSettingsConfig;
+        private readonly IBlobStorageService _blobStorageService;
 
         public ScholarshipApplicationController(ILogger<ScholarshipApplicationController> logger,
-            IScholarshipApplicationService scholarshipApplicationService)
+            IScholarshipApplicationService scholarshipApplicationService,
+            IUserService userService,
+            IBlobStorageService blobStorageService,
+            IOptions<AzureBlobSettingsConfig> azureBlobSettingsConfig)
         {
             _logger = logger;
+            _blobStorageService = blobStorageService;
+            _userService = userService;
+            _azureBlobSettingsConfig = azureBlobSettingsConfig.Value;
             _scholarshipApplicationService = scholarshipApplicationService;
         }
 
@@ -102,6 +114,40 @@ namespace SelectU.API.Controllers
             {
                 _logger.LogError(ex, $"Scholarship Application, {ex.Message}");
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.User}, {UserRoles.Admin}")]
+        [HttpPost("file-upload")]
+        public async Task<IActionResult> FileUploadAsync([FromForm] FormFile file)
+        {
+            try
+            {
+                var userId = HttpContext.GetUserId();
+                var user = await _userService.GetUserAsync(userId);
+
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                string fileUri = await _blobStorageService.UploadPhotoAsync(_azureBlobSettingsConfig.PhotoContainerName, file);
+
+                //if (!user.ProfilePicID.IsNullOrEmpty())
+                //{
+                //    await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.PhotoContainerName, user.ProfilePicID);
+                //}
+
+                return Ok(new { Message = "File uploaded successfully", FileUri = fileUri });
+
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ScholarshipApplicationException ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 

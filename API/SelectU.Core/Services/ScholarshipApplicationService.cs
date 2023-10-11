@@ -167,11 +167,8 @@ namespace SelectU.Core.Services
             {
                 if (formSection.Type == ScholarshipFormTypeEnum.File)
                 {
-                    Stream stream = new MemoryStream();
-                    await formSection.File.CopyToAsync(stream);
-                    stream.Seek(0, SeekOrigin.Begin);
 
-                    string fileID = await _blobStorageService.UploadFileAsync(_azureBlobSettingsConfig.FileContainerName, stream);
+                    string fileID = await _blobStorageService.UploadFileAsync(_azureBlobSettingsConfig.FileContainerName, formSection.File);
                     formSection.Value = fileID;
                 }
             }
