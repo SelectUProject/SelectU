@@ -136,6 +136,7 @@ namespace SelectU.Core.Services
             }
 
             return scholarshipApplicationCreateDTO;
+        
         }
 
         public async Task<List<ScholarshipApplication>> FilterQuery(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, List<ScholarshipApplication> scholarshipApplication)

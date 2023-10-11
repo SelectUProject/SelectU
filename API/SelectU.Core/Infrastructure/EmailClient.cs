@@ -9,7 +9,6 @@ using SelectU.Contracts.Enums;
 using SelectU.Contracts.Extensions;
 using SelectU.Contracts.Infrastructure;
 
-
 namespace SelectU.Core.Infrastructure
 {
     public class EmailClient : IEmailClient

@@ -13,6 +13,7 @@ namespace SelectU.Contracts.DTO
         public List<ScholarshipFormSectionAnswerDTO> ScholarshipFormAnswer { get; set; }
         public StatusEnum Status { get; set; }
         public DateTimeOffset? DateCreated { get; set; }
+        public List<ReviewDTO>? Reviews { get; set; }
 
         public ScholarshipUpdateDTO? Scholarship { get; set; }
 
@@ -27,6 +28,7 @@ namespace SelectU.Contracts.DTO
             Status = scholarshipApplication.Status;
             ScholarshipFormAnswer = JsonSerializer.Deserialize<List<ScholarshipFormSectionAnswerDTO>>(scholarshipApplication.ScholarshipFormAnswer);
             Scholarship = new ScholarshipUpdateDTO(scholarshipApplication.Scholarship);
+            Reviews = scholarshipApplication.Reviews?.Select(x => new ReviewDTO(x)).ToList(); ;
         }
 
     }
