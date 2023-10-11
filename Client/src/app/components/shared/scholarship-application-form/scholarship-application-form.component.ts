@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./scholarship-application-form.component.scss'],
 })
 export class ScholarshipApplicationFormComponent implements OnInit {
+  uploaded: { endpoint: string; key: any }[] = [];
   admissionName = environment.admissionName;
   @Input() scholarship: ScholarshipUpdateDTO;
   scholarshipForm: FormGroup;
@@ -55,6 +56,37 @@ export class ScholarshipApplicationFormComponent implements OnInit {
     console.log('formControls:', formControls);
 
     return this.fb.group(formControls);
+  }
+
+  handleFileInput(files: FileList, key: any) {
+    if (files.length > 0) {
+      console.log(files.item(0));
+
+      const file: File = files.item(0)!;
+
+     
+      const formData = new FormData();
+
+      formData.append('file', file);
+
+      this.scholarshipApplicationService
+        .updateUserProfilePic(formData)
+        .then((response) => {
+          
+      let newObject = {
+        file: file,
+        key: key,
+      };
+  
+      this.uploaded.push(newObject);
+          // Handle success response from the backend
+          console.log('File uploaded Successful:', response);
+        })
+        .catch((response) => {
+          console.log(response);
+        });
+
+    }
   }
 
   apply() {
