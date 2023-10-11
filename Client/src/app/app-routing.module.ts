@@ -13,6 +13,7 @@ import { UserProfilePageComponent } from './components/pages/user-profile-page/u
 import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
+import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component'
 
 //components
 
@@ -46,7 +47,11 @@ const routes: Routes = [
         data: { role: Role.Staff },
       },
       { path: 'register', component: RegisterPageComponent },
-      //     { path: '404', component: ErrorComponent },
+
+      { path: '404', component: NotFoundPageComponent },
+      { path: '**', redirectTo: '/404' },
+
+
       {
         path: 'applications',
         component: MyApplicationsComponent,
