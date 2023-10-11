@@ -10,12 +10,13 @@ namespace SelectU.Contracts.DTO
         public string? School { get; set; }
         public string? ImageURL { get; set; }
         public string? Value { get; set; }
+        public string ScholarshipCreatorId { get; set; }
         public string? ShortDescription { get; set; }
         public string? Description { get; set; }
         public List<ScholarshipFormSectionDTO> ScholarshipFormTemplate { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
-        public StatusEnum Status { get; set; }
+        public StatusEnum? Status { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
 
@@ -25,6 +26,7 @@ namespace SelectU.Contracts.DTO
         {
             Id = scholarship.Id;
             School = scholarship.School;
+            ScholarshipCreatorId = scholarship.ScholarshipCreatorId;
             ImageURL = scholarship.ImageURL;
             Value = scholarship.Value;
             Status = scholarship.Status;

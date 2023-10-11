@@ -21,6 +21,10 @@ export class FindScholarshipsComponent {
     this.getScholarships();
   }
 
+  async handleSearchEvent(scholarships: ScholarshipUpdateDTO[]) {
+    this.scholarships = scholarships;
+  }
+
   getScholarships() {
     this.scholarshipService
       .getActiveScholarships(this.scholarshipSearchDTO)

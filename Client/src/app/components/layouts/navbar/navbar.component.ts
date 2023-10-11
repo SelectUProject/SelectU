@@ -1,3 +1,4 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ADMIN, STAFF, USER } from 'src/app/constants/userRoles';
@@ -22,7 +23,8 @@ class NavbarComponent {
   constructor(
     public tokenService: TokenService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private socialAuthService: SocialAuthService
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +32,7 @@ class NavbarComponent {
   }
 
   logout() {
+    this.socialAuthService.signOut();
     this.tokenService.clearToken();
     this.router.navigate(['/']);
   }

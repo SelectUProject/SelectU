@@ -1,0 +1,137 @@
+<form [formGroup]="inviteForm" (ngSubmit)="invite()">
+  <div class="row mb-2">
+    <div class="col">
+      <!-- Email input -->
+      <mdb-form-control class="mb-4">
+        <input
+          mdbValidate
+          mdbInput
+          type="email"
+          id="email"
+          class="form-control"
+          formControlName="email"
+          (blur)="validateExistingEmail()"
+        />
+        <label mdbLabel class="form-label" for="email">Email</label>
+        <mdb-error *ngIf="existingEmail && (email?.dirty || email?.touched)"
+          >This email is already registered.</mdb-error
+        >
+      </mdb-form-control>
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col">
+      <!-- Role input -->
+      <mdb-form-control class="mb-4">
+        <select
+          mdbValidate
+          mdbInput
+          type="select"
+          id="role"
+          class="form-control"
+          formControlName="role"
+        >
+          <option value="" disabled selected></option>
+          <option *ngFor="let role of roles" [ngValue]="role">
+            {{ role }}
+          </option>
+        </select>
+        <label mdbLabel class="form-label" for="role">Role</label>
+        <mdb-error *ngIf="role?.invalid && (role?.dirty || role?.touched)"
+          >Role is required</mdb-error
+        >
+      </mdb-form-control>
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col">
+      <!-- First Name input -->
+      <mdb-form-control class="mb-4">
+        <input
+          mdbValidate
+          mdbInput
+          type="text"
+          id="firstName"
+          class="form-control"
+          formControlName="firstName"
+        />
+        <label mdbLabel class="form-label" for="firstName">First Name</label>
+      </mdb-form-control>
+    </div>
+
+    <div class="col">
+      <!-- Last Name input -->
+      <mdb-form-control class="mb-4">
+        <input
+          mdbValidate
+          mdbInput
+          type="text"
+          id="lastName"
+          class="form-control"
+          formControlName="lastName"
+        />
+        <label mdbLabel class="form-label" for="lastName">Last Name</label>
+      </mdb-form-control>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <!-- Login Expiry input -->
+      <mdb-form-control class="mb-4">
+        <input
+          mdbValidate
+          mdbInput
+          type="text"
+          id="loginExpiry"
+          class="form-control"
+          bsDatepicker
+          [bsConfig]="{
+            containerClass: 'theme-dark-blue',
+            dateInputFormat: 'MMMM Do YYYY, h:mm:ss a'
+          }"
+          formControlName="loginExpiry"
+        />
+        <label mdbLabel class="form-label" for="loginExpiry"
+          >Login Expiry</label
+        >
+      </mdb-form-control>
+    </div>
+  </div>
+
+  <!-- Invite button -->
+  <button
+    mdbRipple
+    *ngIf="!inviting"
+    [disabled]="!inviteForm.valid"
+    type="submit"
+    class="w-20 btn btn-primary btn-block ms-auto"
+  >
+    Invite
+  </button>
+
+  <button
+    *ngIf="inviting"
+    class="w-20 btn btn-primary btn-block ms-auto"
+    type="button"
+    disabled
+  >
+    <span
+      class="spinner-border spinner-border-sm"
+      role="status"
+      aria-hidden="true"
+    ></span>
+  </button>
+</form>
+
+<ngb-toast
+  class="bg-success text-light text-center w-75 position-absolute bottom-0 start-50 translate-middle"
+  *ngIf="success"
+  [delay]="2000"
+  [autohide]="true"
+  (hidden)="success = false"
+>
+  Invitation sent successfully!
+</ngb-toast>

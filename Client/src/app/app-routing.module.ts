@@ -7,11 +7,13 @@ import RegisterPageComponent from './components/pages/register-page/register-pag
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
 import { AuthGuard } from './providers/auth.guard';
 import { Role } from './models/Role';
-import { SavedScholarshipsPageComponent } from './components/pages/saved-scholarships-page/saved-scholarships-page.component';
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { UserProfilePageComponent } from './components/pages/user-profile-page/user-profile-page.component';
 import { UpdateUserProfilePageComponent } from './components/pages/update-user-profile-page/update-user-profile-page.component';
+import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
+import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
+import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 
 
 //components
@@ -24,19 +26,19 @@ const routes: Routes = [
       { path: '', component: LandingPageComponent },
       { path: 'login', component: LoginPageComponent },
       {
-        path: 'saved-scholarships',
-        component: SavedScholarshipsPageComponent,
-        canActivate: [AuthGuard],
-        data: { role: Role.User },
-      },
-      {
         path: 'account',
         component: UserProfilePageComponent,
         canActivate: [AuthGuard],
       },
       {
-        path: 'find-scholarships',
+        path: `find-scholarships`,
         component: FindScholarshipsComponent,
+        canActivate: [AuthGuard],
+        data: { role: Role.User },
+      },
+      {
+        path: `create-scholarship-application`,
+        component: CreateScholarshipApplicationPageComponent,
         canActivate: [AuthGuard],
         data: { role: Role.User },
       },
@@ -46,17 +48,29 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { role: Role.Staff },
       },
-      //     { path: 'signup', component: LandingComponent },
       { path: 'register', component: RegisterPageComponent },
       //     { path: '404', component: ErrorComponent },
       {
-        path: 'my-scholarships',
+        path: 'applications',
         component: MyApplicationsComponent,
       },
       {
+
         path: 'update-account',
         canActivate: [AuthGuard],
         component: UpdateUserProfilePageComponent,
+      },
+      {
+        path: 'invite-user',
+        component: UserInvitePageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin] },
+      },
+      {
+        path: 'view-users',
+        component: UserTablePageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin] },
       },
     ],
   },

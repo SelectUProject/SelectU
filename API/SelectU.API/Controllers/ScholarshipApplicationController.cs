@@ -1,15 +1,13 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
-using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Extensions;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
-using SelectU.Core.Helpers;
+
 
 namespace SelectU.API.Controllers
 {
@@ -50,7 +48,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
         [HttpPost("my-scholarship-applications")]
         public async Task<IActionResult> GetMyScholarshipApplicationsAsync([FromBody] ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO)
         {
@@ -77,7 +75,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = $"{UserRoles.User}, {UserRoles.Admin}")]
         [HttpPost("create-scholarship-application")]
         public async Task<IActionResult> CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO)
         {
@@ -95,11 +93,16 @@ namespace SelectU.API.Controllers
 
                 return Ok(response);
             }
+            catch(ScholarshipApplicationException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Scholarship Application, {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }

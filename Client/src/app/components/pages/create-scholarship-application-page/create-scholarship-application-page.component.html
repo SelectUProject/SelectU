@@ -1,0 +1,11 @@
+<div class="page-header">
+  <h3>Create an Application</h3>
+</div>
+<div *ngIf="this.scholarshipService.scholarship">
+  <app-long-view-scholarships
+    [scholarship]="this.scholarshipService.scholarship"
+  ></app-long-view-scholarships>
+  <app-scholarship-application-form
+    [scholarship]="this.scholarshipService.scholarship"
+  ></app-scholarship-application-form>
+</div>

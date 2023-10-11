@@ -18,6 +18,7 @@ namespace SelectU.Migrations
         public DbSet<User> User { get; set; }
         public DbSet<Scholarship> Scholarships { get; set; }
         public DbSet<ScholarshipApplication> ScholarshipApplications { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

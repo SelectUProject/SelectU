@@ -7,6 +7,10 @@ using System.Security.Claims;
 using System.Text;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
+using Google.Apis.Auth;
+using static Google.Apis.Auth.GoogleJsonWebSignature;
+using SelectU.Contracts.Config;
+using Microsoft.Extensions.Options;
 
 
 namespace SelectU.API.Controllers
@@ -20,17 +24,20 @@ namespace SelectU.API.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly GoogleConfig _googleConfig;
 
         public AuthenticateController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IOptions<GoogleConfig> googleConfig)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _googleConfig = googleConfig.Value;
         }
 
 
@@ -41,7 +48,12 @@ namespace SelectU.API.Controllers
             var user = await _userManager.FindByNameAsync(loginDTO.Username!);
             if (user != null)
             {
-                var result = await _signInManager.PasswordSignInAsync(user, loginDTO.Password!, true, true);
+                if(user.LoginExpiry != null && user.LoginExpiry < DateTimeOffset.UtcNow)
+                {
+                    return BadRequest(new ResponseDTO { Success = false, Message = "Your login has expired. Please contact your administrator." });
+                }
+
+                var result = await _signInManager.PasswordSignInAsync(user, loginDTO.Password!, true, false);
 
                 if (result.Succeeded)
                 {
@@ -70,6 +82,53 @@ namespace SelectU.API.Controllers
                 }
             }
             return BadRequest(new ResponseDTO { Success = false, Message = "Incorrect email or password" }); ;
+        }
+
+        [HttpPost]
+        [Route("google-login")]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleAuthDTO authDTO)
+        {
+            ValidationSettings settings = new ValidationSettings();
+
+            settings.Audience = new List<string>() { _googleConfig.ClientId };
+
+            Payload payload = await ValidateAsync(authDTO.IdToken, settings);
+
+            var user = await _userManager.FindByNameAsync(payload.Email);
+            if (user != null)
+            {
+                if (user.LoginExpiry != null && user.LoginExpiry < DateTimeOffset.UtcNow)
+                {
+                    return BadRequest(new ResponseDTO { Success = false, Message = "Your login has expired. Please contact your administrator." });
+                }
+
+                await _signInManager.SignInAsync(user, true);
+
+                var userRoles = await _userManager.GetRolesAsync(user);
+
+                var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName!),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+
+                foreach (var userRole in userRoles)
+                {
+                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                }
+
+                var token = GetToken(authClaims);
+
+                return Ok(new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    role = userRoles.FirstOrDefault(),
+                    expiration = token.ValidTo
+                });
+            }
+
+            return BadRequest(new ResponseDTO { Success = false, Message = "No user associated with this Google account." }); ;
         }
 
         [Authorize]
