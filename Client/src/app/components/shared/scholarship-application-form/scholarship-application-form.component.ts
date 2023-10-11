@@ -30,7 +30,6 @@ export class ScholarshipApplicationFormComponent implements OnInit {
     private fb: FormBuilder,
     private scholarshipApplicationService: ScholarshipApplicationService,
     private router: Router
-
   ) {}
 
   ngOnInit(): void {
@@ -64,28 +63,25 @@ export class ScholarshipApplicationFormComponent implements OnInit {
 
       const file: File = files.item(0)!;
 
-     
       const formData = new FormData();
 
       formData.append('file', file);
 
       this.scholarshipApplicationService
-        .updateUserProfilePic(formData)
+        .uploadFile(formData)
         .then((response) => {
-          
-      let newObject = {
-        file: file,
-        key: key,
-      };
-  
-      this.uploaded.push(newObject);
+          let newObject = {
+            endpoint: response.fileUri,
+            key: key,
+          };
+
+          this.uploaded.push(newObject);
           // Handle success response from the backend
           console.log('File uploaded Successful:', response);
         })
         .catch((response) => {
           console.log(response);
         });
-
     }
   }
 
@@ -107,25 +103,24 @@ export class ScholarshipApplicationFormComponent implements OnInit {
       // Loop through formData and create ScholarshipFormSectionAnswerDTO objects
       for (const key in formData) {
         if (formData.hasOwnProperty(key)) {
-          let formType = this.scholarship.scholarshipFormTemplate.find(x => x.name == key)!.type;
+          let formType = this.scholarship.scholarshipFormTemplate.find(
+            (x) => x.name == key
+          )!.type;
           if (formType == ScholarshipFormTypeEnum.File) {
-            const file = formData[key]
-            console.log(formData[key])
+            const foundObject = this.uploaded.find((item) => item.key === key);
 
-              const fileData = new FormData();
-  
-              fileData.append("file", file);  
-              console.log(fileData)
-
+            if (foundObject) {
               const answer: ScholarshipFormSectionAnswerDTO = {
                 name: key,
-                file:fileData,
                 type: formType,
-                value: formData[key]
+                value: foundObject?.endpoint,
               };
-              console.log(answer)
               formAnswers.push(answer);
-            
+              // Now 'file' contains the file associated with the specified key
+            } else {
+              // Handle the case where the key is not found in the array
+              console.error('Key not found in the uploaded array');
+            }
           } else {
             const answer: ScholarshipFormSectionAnswerDTO = {
               name: key,
@@ -133,9 +128,9 @@ export class ScholarshipApplicationFormComponent implements OnInit {
               value: formData[key],
             };
             formAnswers.push(answer);
+          }
         }
       }
-    }
       let formAnswer: ScholarshipApplicationCreateDTO = {
         scholarshipId: this.scholarship.id,
         scholarshipFormAnswer: formAnswers,

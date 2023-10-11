@@ -119,7 +119,7 @@ namespace SelectU.API.Controllers
 
         [Authorize(Roles = $"{UserRoles.User}, {UserRoles.Admin}")]
         [HttpPost("file-upload")]
-        public async Task<IActionResult> FileUploadAsync([FromForm] FormFile file)
+        public async Task<IActionResult> FileUploadAsync([FromForm] IFormFile file)
         {
             try
             {
@@ -139,6 +139,40 @@ namespace SelectU.API.Controllers
                 //}
 
                 return Ok(new { Message = "File uploaded successfully", FileUri = fileUri });
+
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ScholarshipApplicationException ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.User}, {UserRoles.Admin}")]
+        [HttpPost("file-download")]
+        public async Task<IActionResult> FileDownloadAsync([FromQuery] string fileUri)
+        {
+            try
+            {
+                var userId = HttpContext.GetUserId();
+                var user = await _userService.GetUserAsync(userId);
+
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                var file = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.PhotoContainerName, fileUri);
+
+                //if (!user.ProfilePicID.IsNullOrEmpty())
+                //{
+                //    await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.PhotoContainerName, user.ProfilePicID);
+                //}
+
+                return Ok(new { Message = "File downloaded successfully", File = file });
 
             }
             catch (ArgumentException ex)

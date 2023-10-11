@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { Config } from './config';
@@ -30,6 +30,30 @@ export class ScholarshipApplicationService {
       this.http.post<ScholarshipApplicationUpdateDTO[]>(
         `${Config.api}/ScholarshipApplication/my-scholarship-applications`,
         scholarshipApplicationSearchDTO
+      )
+    );
+  }
+
+  async uploadFile(file: FormData) {
+    const headers = new HttpHeaders().set('Accept', 'application/json');
+    headers.set('Content-Type', 'multipart/form-data');
+
+    return await firstValueFrom(
+      this.http.post<any>(
+        `${Config.api}/ScholarshipApplication/file-upload`,
+        file,
+        {
+          headers,
+        }
+      )
+    );
+  }
+
+  async fileDownload(fileUri: string) {
+    return await firstValueFrom(
+      this.http.post<any>(
+        `${Config.api}/ScholarshipApplication/file-download?fileUri=${fileUri}`,
+        {}
       )
     );
   }

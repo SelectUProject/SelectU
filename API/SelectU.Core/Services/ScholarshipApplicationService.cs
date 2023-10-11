@@ -78,14 +78,12 @@ namespace SelectU.Core.Services
 
             await ValidateScholarshipApplication(scholarshipApplicationCreateDTO);
 
-            var scholarshipApplicationWithUploadedFiles = await UploadFiles(scholarshipApplicationCreateDTO);
-
 
             ScholarshipApplication scholarshipApplication = new ScholarshipApplication
             {
                 ScholarshipApplicantId = id,
-                ScholarshipId = scholarshipApplicationWithUploadedFiles.ScholarshipId,
-                ScholarshipFormAnswer = JsonSerializer.Serialize(scholarshipApplicationWithUploadedFiles.ScholarshipFormAnswer),
+                ScholarshipId = scholarshipApplicationCreateDTO.ScholarshipId,
+                ScholarshipFormAnswer = JsonSerializer.Serialize(scholarshipApplicationCreateDTO.ScholarshipFormAnswer),
                 Status = StatusEnum.Pending,
                 DateCreated = DateTimeOffset.Now,
                 DateModified = DateTimeOffset.Now,
@@ -157,27 +155,7 @@ namespace SelectU.Core.Services
             }
 
             return await Task.FromResult(filteredScholarshipApplications.ToList());
-        }
-
-        public async Task<ScholarshipApplicationCreateDTO> UploadFiles(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO)
-        {
-            ScholarshipApplicationCreateDTO scholarshipApplicationWithUploadedFiles = scholarshipApplicationCreateDTO;
-
-            foreach (var formSection in scholarshipApplicationCreateDTO.ScholarshipFormAnswer)
-            {
-                if (formSection.Type == ScholarshipFormTypeEnum.File)
-                {
-
-                    string fileID = await _blobStorageService.UploadFileAsync(_azureBlobSettingsConfig.FileContainerName, formSection.File);
-                    formSection.Value = fileID;
-                }
-            }
-
-            return await Task.FromResult(scholarshipApplicationWithUploadedFiles);
-        }
-
-
-        
+        }  
     }
 }
 

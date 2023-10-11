@@ -76,12 +76,23 @@
             </div>
 
             <div class="col">
-              <p *ngIf="answer.type != 0" class="m-0 purpleText">
+              <p
+                *ngIf="answer.type != 0 && answer.type != 1"
+                class="m-0 purpleText"
+              >
                 {{ answer.value }}
               </p>
               <p *ngIf="answer.type == 0" class="m-0 purpleText">
                 {{ answer.value | date : "dd/MM/yyyy" }}
               </p>
+              <a
+                href="{{ answer.value }}"
+                target="_blank"
+                *ngIf="answer.type == 1"
+                class="m-0 purpleText"
+              >
+                Download File
+              </a>
             </div>
           </div>
         </div>
