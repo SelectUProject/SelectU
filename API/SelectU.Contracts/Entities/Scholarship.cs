@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-﻿using SelectU.Contracts.Enums;
+using SelectU.Contracts.Entities;
+using SelectU.Contracts.Enums;
 
 namespace SelectU.Contracts.Entities
 {
@@ -23,6 +24,7 @@ namespace SelectU.Contracts.Entities
 
         [ForeignKey("ScholarshipCreatorId")]
         public virtual User? ScholarshipCreator { get; set; }
+        public virtual List<ScholarshipApplication>? ScholarshipApplications { get; set; }
 
     }
 }

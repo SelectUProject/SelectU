@@ -1,15 +1,13 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SelectU.Contracts.Constants;
 using SelectU.Contracts.DTO;
-using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Extensions;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
 using SelectU.Core.Extensions;
-using SelectU.Core.Helpers;
+
 
 namespace SelectU.API.Controllers
 {
@@ -121,5 +119,6 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }

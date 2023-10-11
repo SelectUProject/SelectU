@@ -12,6 +12,5 @@ namespace SelectU.Contracts.Services
         Task<List<ScholarshipApplicationUpdateDTO>> GetMyScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string userId, bool isAdmin);
         Task CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO, string userId);
 
-        
     }
 }

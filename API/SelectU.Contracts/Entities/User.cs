@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SelectU.Contracts.DTO;
 using SelectU.Contracts.Enums;
 
 
@@ -20,5 +21,27 @@ namespace SelectU.Contracts.Entities
         public DateTimeOffset? LoginExpiry { get; set; }
         public DateTimeOffset? DateCreated { get; set; }
         public DateTimeOffset? DateModified { get; set; }
+        public User() { }
+        public User(UserUpdateDTO user)
+        {
+            Id = user.Id;
+            Email = user.Email;
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            DateOfBirth = user.DateOfBirth;
+            Gender = user.Gender;
+            PhoneNumber = user.PhoneNumber;
+            Address = user.Address;
+            Suburb = user.Suburb;
+            Postcode = user.Postcode;
+            State = user.State;
+            Country = user.Country;
+            ProfilePicID = user.ProfilePicID;
+            AboutMe = user.AboutMe;
+            LoginExpiry = user.LoginExpiry;
+            DateCreated = user.DateCreated;
+            DateModified = user.DateModified;
+        }
+
     }
 }

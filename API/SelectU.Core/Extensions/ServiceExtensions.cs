@@ -69,6 +69,7 @@ namespace SelectU.Core.Extensions
             services.AddScoped<IScholarshipApplicationService, ScholarshipApplicationService>();
             services.AddScoped<IScholarshipService, ScholarshipService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IReviewService, ReviewService>();
 
             //Validators
             services.AddScoped<IValidator<ChangePasswordDTO>, ChangePasswordDTOValidator>();
