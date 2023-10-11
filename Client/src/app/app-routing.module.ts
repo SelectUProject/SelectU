@@ -58,7 +58,7 @@ const routes: Routes = [
         path: 'update-account',
         canActivate: [AuthGuard],
         component: UpdateUserProfilePageComponent,
-      }
+      },
       {
         path: 'invite-user',
         component: UserInvitePageComponent,
