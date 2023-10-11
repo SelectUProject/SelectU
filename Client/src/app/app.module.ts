@@ -42,6 +42,7 @@ import { ScholarshipSearchFormComponent } from './components/shared/scholarship-
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 import { LongViewScholarshipsComponent } from './components/shared/long-view-scholarships/long-view-scholarships.component';
 import { ScholarshipApplicationFormComponent } from './components/shared/scholarship-application-form/scholarship-application-form.component';
+import { FooterComponent } from './components/layouts/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { ScholarshipApplicationFormComponent } from './components/shared/scholar
     CreateScholarshipApplicationPageComponent,
     LongViewScholarshipsComponent,
     ScholarshipApplicationFormComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
