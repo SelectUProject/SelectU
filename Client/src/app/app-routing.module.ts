@@ -72,7 +72,7 @@ const routes: Routes = [
         data: { role: Role.Staff },
       },
       {
-        path: 'manage-scholarships/:id',
+        path: 'edit-scholarship/:id',
         component: EditScholarshipPageComponent,
         canActivate: [AuthGuard],
         data: { role: Role.Staff },

@@ -54,7 +54,6 @@ import UserTableComponent from './components/shared/user-table/user-table.compon
 import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable-header/ngbd-sortable-header.component';
 import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
 import { ViewApplicationDetailModalComponent } from './components/shared/view-application-detail-modal/view-application-detail-modal.component';
-import { CreateScholarshipComponent } from './components/pages/create-scholarship/create-scholarship.component';
 import { ScholarshipEditorComponent } from './components/pages/scholarship-editor/scholarship-editor.component';
 import { DragAndDropService } from './services/drag-and-drop/drag-and-drop.service';
 import { FormSectionComponent } from './components/pages/drag-and-drop-form-creator/form-section/form-section.component';
@@ -93,8 +92,7 @@ import { CreateScholarshipPageComponent } from './components/pages/create-schola
     UserUpdateModalComponent,
     UserTableComponent,
     ViewDetailsModalComponent,
-    ViewApplicationDetailModalComponent
-    CreateScholarshipComponent,
+    ViewApplicationDetailModalComponent,
     ScholarshipEditorComponent,
     FormSectionComponent,
     FormSectionEditDialogBoxComponent,

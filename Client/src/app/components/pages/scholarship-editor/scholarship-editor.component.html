@@ -108,18 +108,16 @@
                 <div class="col-md-6">
                   <mdb-form-control class="mb-4">
                     <input
-                      ngbDatepicker
-                      #dp1="ngbDatepicker"
                       mdbValidate
                       mdbInput
                       type="text"
-                      class="form-control"
-                      autocomplete="off"
                       id="startDate"
+                      class="form-control"
+                      bsDatepicker
+                      [bsConfig]="{containerClass: 'theme-dark-blue',}"
                       formControlName="startDate"
-                      (click)="dp1.toggle()"
                     />
-                    <label mdbLabel for="startDate" class="form-label"
+                    <label mdbLabel class="form-label" for="startDate"
                       >Start Date</label
                     >
                   </mdb-form-control>
@@ -127,18 +125,16 @@
                 <div class="col-md-6">
                   <mdb-form-control class="mb-4">
                     <input
-                      ngbDatepicker
-                      #dp2="ngbDatepicker"
                       mdbValidate
                       mdbInput
                       type="text"
-                      class="form-control"
-                      autocomplete="off"
                       id="endDate"
+                      class="form-control"
+                      bsDatepicker
+                      [bsConfig]="{containerClass: 'theme-dark-blue',}"
                       formControlName="endDate"
-                      (click)="dp2.toggle()"
                     />
-                    <label mdbLabel for="endDate" class="form-label"
+                    <label mdbLabel class="form-label" for="endDate"
                       >End Date</label
                     >
                   </mdb-form-control>

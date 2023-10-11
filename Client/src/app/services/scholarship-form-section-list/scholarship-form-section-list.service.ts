@@ -8,6 +8,10 @@ export class ScholarshipFormSectionListService {
   // TODO: Use BehaviorSubject
   public formSections: ScholarshipFormSectionDTO[] = [];
 
+  add(formSection: ScholarshipFormSectionDTO): void {
+    this.formSections.push(formSection);
+  }
+
   remove(formSection: ScholarshipFormSectionDTO): void {
     this.formSections.forEach((fS, index) => {
       if (fS.uuid === formSection.uuid) this.formSections.splice(index, 1);

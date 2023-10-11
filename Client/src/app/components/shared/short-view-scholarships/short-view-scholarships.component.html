@@ -47,7 +47,7 @@
 
         <button
           *ngIf="this.tokenService.role == STAFF"
-          [routerLink]="this.scholarship.id"
+          [routerLink]="'/edit-scholarship/' + this.scholarship.id"
           class="btn btn-primary"
         >
           Edit

@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 import { ScholarshipUpdateDTO } from 'src/app/models/ScholarshipUpdateDTO';
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
 import { ToastService } from 'src/app/providers/toast.service';
-import { UserService } from 'src/app/providers/user.service';
 import { ScholarshipFormSectionListService } from 'src/app/services/scholarship-form-section-list/scholarship-form-section-list.service';
 
 @Component({
@@ -14,34 +12,69 @@ import { ScholarshipFormSectionListService } from 'src/app/services/scholarship-
   templateUrl: './edit-scholarship-page.component.html',
   styleUrls: ['./edit-scholarship-page.component.scss']
 })
-export class EditScholarshipPageComponent {
+export class EditScholarshipPageComponent implements OnInit {
+  scholarshipId = this._route.snapshot.paramMap.get('id');
   editScholarshipForm: FormGroup;
-  scholarship: ScholarshipUpdateDTO;
-  scholarshipCreatorId: string;
 
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
     private _scholarshipService: ScholarshipService,
     private _scholarshipFormSectionListService: ScholarshipFormSectionListService,
-    private _userService: UserService,
     private _formBuilder: FormBuilder,
     private _toastService: ToastService
-  ) {
-    this.setupForm();
+  ) {}
+
+  ngOnInit(): void {
+    this.initializeForm();
+    this.populateForm();
   }
 
-  async setupForm() {
-    const scholarshipId = this._route.snapshot.paramMap.get('id');
+  initializeForm(): void {
+    this.editScholarshipForm = this._formBuilder.group(
+      {
+        id: new FormControl('', Validators.required),
+        scholarshipCreatorId: new FormControl('', Validators.required),
+        school: new FormControl('', Validators.required),
+        imageURL: new FormControl('', Validators.required),
+        value: new FormControl('', Validators.required),
+        shortDescription: new FormControl('', Validators.required),
+        description: new FormControl('', Validators.required),
+        scholarshipFormTemplate: [],
+        city: new FormControl('', Validators.required),
+        state: new FormControl('', Validators.required),
+        startDate: new FormControl('', Validators.required),
+        endDate: new FormControl('', Validators.required)
+      }
+    );
+  }
 
+  async populateForm(): Promise<void> {
     await this._scholarshipService
-      .getScholarshipDetails(scholarshipId)
+      .getScholarshipDetails(this.scholarshipId)
         .then((response) => {
-          this.scholarship = response as unknown as ScholarshipUpdateDTO;
-          this._scholarshipFormSectionListService.formSections = this.scholarship.scholarshipFormTemplate;
+          // Individually adding the form section to the array
+          response.scholarshipFormTemplate.forEach(formSection => {
+            this._scholarshipFormSectionListService.add(formSection);
+          });
 
-          this.getUserDetails();
-          this.populateForm();
+          // Updating form values from the response
+          this.editScholarshipForm.patchValue(
+            {
+              id: response.id,
+              scholarshipCreatorId: response.scholarshipCreatorId,
+              school: response.school,
+              imageURL: response.imageURL,
+              value: response.value,
+              shortDescription: response.shortDescription,
+              scholarshipFormTemplate: this._scholarshipFormSectionListService.formSections,
+              description: response.description,
+              city: response.city,
+              state: response.state,
+              startDate: new Date(response.startDate),
+              endDate: new Date(response.endDate)
+            }
+          );
         })
         .catch((response) => {
           this._toastService.show(response.message, { classname: 'bg-danger text-light'} );
@@ -49,60 +82,8 @@ export class EditScholarshipPageComponent {
         })
   }
 
-  // TODO: move user details to the global file/servce
-  async getUserDetails() {
-    await this._userService
-      .getUserDetails()
-      .then((response) => {
-        console.log(response.id);
-        this.scholarshipCreatorId = response.id;
-      })
-      .catch((response) => {
-        console.log(response);
-      });
-  }
-
-  populateForm(): void {
-    const startDate: Date = new Date(this.scholarship.startDate);
-    const endDate: Date = new Date(this.scholarship.endDate);
-
-    // TODO: Add validation here
-    this.editScholarshipForm = this._formBuilder.group(
-      {
-        id: [this.scholarship.id],
-        school: [this.scholarship.school],
-        imageURL: [this.scholarship.imageURL],
-        value: [this.scholarship.value],
-        shortDescription: [this.scholarship.shortDescription],
-        description: [this.scholarship.description],
-        scholarshipFormTemplate: [this._scholarshipFormSectionListService.formSections],
-        city: [this.scholarship.city],
-        state: [this.scholarship.state],
-        startDate: [new NgbDate(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())],
-        endDate: [new NgbDate(endDate.getFullYear(), endDate.getMonth(), endDate.getDate())]
-      }
-    );
-  }
-
   updateScholarship() {
     let editScholarshipForm = <ScholarshipUpdateDTO>this.editScholarshipForm.value;
-
-    // TODO: Fix this
-    editScholarshipForm.scholarshipCreatorId = this.scholarshipCreatorId;
-
-    // TODO: Streamline this, need to convert from NgbDate to regular Date bc that's the type
-    editScholarshipForm.startDate = new Date(
-      (editScholarshipForm.startDate as any).year,
-      (editScholarshipForm.startDate as any).month - 1,
-      (editScholarshipForm.startDate as any).day
-    )
-
-    // TODO: Streamline this, need to convert from NgbDate to regular Date bc that's the type
-    editScholarshipForm.endDate = new Date(
-      (editScholarshipForm.endDate as any).year,
-      (editScholarshipForm.endDate as any).month - 1,
-      (editScholarshipForm.endDate as any).day
-    )
 
     this._scholarshipService
       .updateScholarship(editScholarshipForm)
@@ -123,11 +104,11 @@ export class EditScholarshipPageComponent {
   }
 
   deleteScholarship() {
-    const deleteConfirm = confirm(`Are you sure you want to delete this scholarship:\n"${this.scholarship.shortDescription}"?`);
+    const deleteConfirm = confirm(`Are you sure you want to delete this scholarship:\n"${this.editScholarshipForm.get("shortDescription")?.value}"?`);
 
     if (deleteConfirm) {
       this._scholarshipService
-        .deleteScholarship(this.scholarship.id)
+        .deleteScholarship(this.scholarshipId)
         .then((response) => {
           this._toastService.show(response.message, {
             classname: 'bg-success text-light',
