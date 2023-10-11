@@ -6,6 +6,7 @@ namespace SelectU.Contracts.DTO
     {
         public ScholarshipFormTypeEnum Type { get; set; }
         public string? Name { get; set; }
+        public List<string>? Options { get; set; }
         public bool Required { get; set; }
     }
 }

@@ -13,4 +13,8 @@ export interface UserUpdateDTO {
   postcode: string;
   state: string;
   country: string;
+  role: string;
+  loginExpiry: Date;
+  dateCreated: Date;
+  dateModified: Date;
 }

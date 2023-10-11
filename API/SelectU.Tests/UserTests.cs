@@ -55,9 +55,9 @@ namespace SelectU.Tests
             userManagerMock.Setup(x => x.FindByNameAsync(registerDTO.Email)).ReturnsAsync((User)null);
             userManagerMock.Setup(x => x.CreateAsync(It.IsAny<User>(), registerDTO.Password)).ReturnsAsync(IdentityResult.Success);
             roleManagerMock.Setup(x => x.RoleExistsAsync(UserRoles.User)).ReturnsAsync(true);
-            emailClientMock.Setup(x => x.SendRegistrationEmailASync(registerDTO)).Returns(Task.CompletedTask);
+            emailClientMock.Setup(x => x.SendRegistrationEmailAsync(registerDTO)).Returns(Task.CompletedTask);
 
-            var userService = new UserService(userManagerMock.Object, roleManagerMock.Object, emailClientMock.Object, _unitOfWork);
+            var userService = new UserService(userManagerMock.Object, roleManagerMock.Object, emailClientMock.Object, _unitOfWork, null);
 
             // Act & Assert
             Assert.DoesNotThrowAsync(async () => await userService.RegisterUserAsync(registerDTO));

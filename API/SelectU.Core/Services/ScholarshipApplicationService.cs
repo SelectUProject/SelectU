@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
 using SelectU.Contracts;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
 using SelectU.Contracts.Services;
+using SelectU.Core.Exceptions;
 using System.Text.Json;
 
 namespace SelectU.Core.Services
@@ -31,18 +33,19 @@ namespace SelectU.Core.Services
 
         public async Task<List<ScholarshipApplicationUpdateDTO>> GetMyScholarshipApplicationsAsync(ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO, string id, bool isStaff)
         {
-            IQueryable<ScholarshipApplication> query = _unitOfWork.ScholarshipApplications
-                .Where(x => x.Status == StatusEnum.Pending)
-                .Include(x => x.Scholarship)
-                .Include(x => x.ScholarshipApplicant);
+            IQueryable<ScholarshipApplication> query;
 
             if (isStaff)
             {
-                query = query.Where(x => x.Scholarship.ScholarshipCreatorId == id);
+                query = _unitOfWork.ScholarshipApplications.Where(x => x.Scholarship.ScholarshipCreatorId == id)
+                    .Include(x => x.Scholarship)
+                    .Include(x => x.ScholarshipApplicant);
             }
             else
             {
-                query = query.Where(x => x.ScholarshipApplicant.Id == id);
+                query = _unitOfWork.ScholarshipApplications.Where(x => x.ScholarshipApplicant.Id == id)
+                  .Include(x => x.Scholarship)
+                  .Include(x => x.ScholarshipApplicant);
             }
 
             if (scholarshipApplicationSearchDTO.Id != null)
@@ -70,16 +73,20 @@ namespace SelectU.Core.Services
 
         public async Task<ResponseDTO> CreateScholarshipApplicationAsync(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO, string id)
         {
-            //TODO
-            //check all required form feilds are answered and valid.
-            //check the names align up
-            
+            var alreadyApplied = await _unitOfWork.ScholarshipApplications.AnyAsync(x => x.ScholarshipId == scholarshipApplicationCreateDTO.ScholarshipId && x.ScholarshipApplicantId == id);
+            if (alreadyApplied)
+            {
+                throw new ScholarshipApplicationException($"Applications are limited to one per user.");
+            }
+
+            await ValidateScholarshipApplication(scholarshipApplicationCreateDTO);
+
             ScholarshipApplication scholarshipApplication = new ScholarshipApplication
             {
                 ScholarshipApplicantId = id,
                 ScholarshipId = scholarshipApplicationCreateDTO.ScholarshipId,
                 ScholarshipFormAnswer = JsonSerializer.Serialize(scholarshipApplicationCreateDTO.ScholarshipFormAnswer),
-                Status = Contracts.Enums.StatusEnum.Pending,
+                Status = StatusEnum.Pending,
                 DateCreated = DateTimeOffset.Now,
                 DateModified = DateTimeOffset.Now,
             };
@@ -90,6 +97,46 @@ namespace SelectU.Core.Services
 
             return new ResponseDTO { Success = true, Message = "Scholarship Application created successfully." };
 
+        }
+
+        public async Task<ScholarshipApplicationCreateDTO> ValidateScholarshipApplication(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO)
+        {
+
+            var scholarShip = _unitOfWork.Scholarships.Where(x => x.Id == scholarshipApplicationCreateDTO.ScholarshipId).FirstOrDefault();
+
+            if (scholarShip != null) {
+                var updatedScholarShip = new ScholarshipUpdateDTO(scholarShip);
+                var templateDictionary = updatedScholarShip.ScholarshipFormTemplate.ToDictionary(item => item.Name);
+
+
+                // Check if each answer section's name and value match the template
+                foreach (var answer in scholarshipApplicationCreateDTO.ScholarshipFormAnswer)
+                {
+                    if (!templateDictionary.TryGetValue(answer.Name, out var templateValue))
+                    {
+                        if (templateValue == null)
+                        {
+                            throw new ScholarshipApplicationException($"Unknown answer section '{answer.Name}' is not in the template.");
+                        }
+                    }
+                }
+
+                // Check if each required answer section's name is in the template
+                foreach (var templateItem in updatedScholarShip.ScholarshipFormTemplate)
+                {
+                    if (templateItem.Required && !scholarshipApplicationCreateDTO.ScholarshipFormAnswer.Any(answer => answer.Name == templateItem.Name))
+                    {
+                        throw new ScholarshipApplicationException($"Required answer section '{templateItem.Name}' is missing.");
+                    }
+                }
+            }
+            else
+            {
+                throw new ScholarshipApplicationException("No scholarship found");
+            }
+
+            return scholarshipApplicationCreateDTO;
+        
         }
     }
 }

@@ -1,0 +1,68 @@
+<div class="container mt-3 mb-3 border rounded p-3">
+  <div class="row justify-content-center mb-3">
+    <div class="col-11 row">
+      <div class="col-1 image-container">
+        <img
+          class="image-container"
+          *ngIf="scholarship.imageURL != null"
+          src="{{ scholarship.imageURL }}"
+          alt="Example"
+        />
+        <img
+          class="image-container"
+          *ngIf="scholarship.imageURL == null"
+          src="../../../../assets/images/testImage.png"
+          alt="Example"
+        />
+      </div>
+      <div class="col-3">
+        <p class="m-0">
+          <strong>{{ scholarship.school }}</strong> -
+          <strong>{{ scholarship.shortDescription }}</strong>
+        </p>
+        <p class="m-0">City: {{ scholarship.city }}</p>
+        <p class="m-0 purpleText">Value: {{ scholarship.value }}</p>
+        <p *ngIf="scholarship.startDate" class="m-0 purpleText">
+          Start Date: {{ scholarship.startDate | date : "dd/MM/yyyy" }}
+        </p>
+        <p *ngIf="scholarship.endDate" class="m-0 purpleText">
+          End Date: {{ scholarship.endDate | date : "dd/MM/yyyy" }}
+        </p>
+      </div>
+    </div>
+    <div class="col-1 text-end">
+      <i class="border rounded p-3 text-center fa-regular fa-bookmark"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-9">
+      <h6>Description</h6>
+      <p>
+        {{ scholarship.description }}
+      </p>
+    </div>
+    <div class="col-3 float-end">
+      <div class="">
+        <h6>Actions</h6>
+
+        <button *ngIf="this.tokenService.role == STAFF" class="btn btn-primary">
+          Edit
+        </button>
+        <button
+          *ngIf="this.tokenService.role == USER"
+          (click)="this.scholarshipService.scholarship = this.scholarship"
+          [routerLink]="'/create-scholarship-application'"
+          class="btn btn-primary"
+        >
+          Apply
+        </button>
+        <button
+          (click)="openModal(this.scholarship)"
+          class="btn btn-sercondary"
+        >
+          View Details
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
