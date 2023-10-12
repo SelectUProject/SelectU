@@ -175,7 +175,6 @@ class RegisterFormComponent implements OnInit {
     await this.userService
       .register(registerForm)
       .then(async () => {
-        console.log('Successful Registration');
         await this.authService
           .login({
             username: registerForm.email,
@@ -207,7 +206,6 @@ class RegisterFormComponent implements OnInit {
     await this.userService
       .googleRegister({ IdToken: socialUser.idToken })
       .then(async () => {
-        console.log('Successful Registration');
         await this.authService
           .googleLogin({
             IdToken: socialUser.idToken,

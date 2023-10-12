@@ -233,5 +233,27 @@ namespace SelectU.API.Controllers
             }
         }
 
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
+        [HttpGet("next-reviewable/{scholarshipId}")]
+        public async Task<IActionResult> GetNextReviewableApplicationAsync([FromRoute] Guid scholarshipId)
+        {
+            try
+            {
+                var application = await _scholarshipApplicationService.GetNextReviewableApplication(scholarshipId, HttpContext.GetUserId());
+
+                if (application == null)
+                {
+                    return BadRequest("No applications to review");
+                }
+
+                return Ok(application);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship Application, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

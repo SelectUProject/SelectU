@@ -54,7 +54,7 @@ class ReviewFormComponent {
       .then(() => {
         this.success = true;
         this.successEvent.emit('Review added successfully!');
-        console.log('Review Form');
+        this.reviewForm.reset();
       })
       .catch((response) => {
         this.errMsg = response.error.message;

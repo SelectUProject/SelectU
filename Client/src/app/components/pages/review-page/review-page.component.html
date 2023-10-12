@@ -1,0 +1,16 @@
+<div class="container mt-5 p-4 rounded">
+  <div class="row page-header">
+    <h3>Review Application</h3>
+  </div>
+  <ng-container *ngIf="application">
+    <div class="row mb-5">
+      <app-long-view-application [scholarshipApplication]="application" />
+    </div>
+    <div>
+      <app-review-form
+        [scholarshipApplicationId]="application.id"
+        (successEvent)="handleSuccess()"
+      />
+    </div>
+  </ng-container>
+</div>
