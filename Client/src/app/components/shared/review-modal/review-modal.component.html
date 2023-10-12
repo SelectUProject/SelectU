@@ -11,7 +11,10 @@
   <app-long-view-application
     [scholarshipApplication]="scholarshipApplication"
   />
-  <app-review-form />
+  <app-review-form
+    [scholarshipApplicationId]="scholarshipApplication.id"
+    (successEvent)="handleSuccess($event)"
+  />
 </div>
 <div class="modal-footer">
   <button

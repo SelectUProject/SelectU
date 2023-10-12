@@ -1,6 +1,6 @@
 <div class="container mt-3 mb-3 border rounded p-3">
   <div class="row justify-content-center mb-3">
-    <div class="col-9 row">
+    <div class="col-8 row">
       <!-- <div [ngClass]="getStatusClass()"> <i [ngClass]="getStatusIcon"></i>{{application.status}}</div> -->
       <div class="col-1 image-container">
         <img
@@ -28,7 +28,34 @@
         </p>
       </div>
     </div>
-    <div class="col-3 text-end">
+    <div class="col-4 text-end">
+      <div class="row">
+        <div *ngIf="rating != null" class="col-6">
+          <p>
+            Average Rating: {{ rating }}
+            <i class="fa-solid fa-star text-warning"></i>
+          </p>
+        </div>
+        <div *ngIf="tokenService.role !== USER" class="col-6">
+          <p
+            [ngClass]="{
+                  'text-danger':
+                    review == null,
+                  'text-success':
+                    review != null,}"
+          >
+            Reviewed:
+            <i
+              class="fa-regular"
+              [ngClass]="{
+                  'fa-circle-xmark rejected':
+                    review == null,
+                  'fa-circle-check accepted':
+                    review != null,}"
+            ></i>
+          </p>
+        </div>
+      </div>
       <div class="row">
         <p>
           Date Applied:
@@ -92,3 +119,13 @@
     </div>
   </div>
 </div>
+
+<ngb-toast
+  class="bg-success text-light text-center w-75 position-absolute bottom-0 start-50 translate-middle"
+  *ngIf="success"
+  [delay]="2000"
+  [autohide]="true"
+  (hidden)="success = false"
+>
+  {{ successMessage }}
+</ngb-toast>

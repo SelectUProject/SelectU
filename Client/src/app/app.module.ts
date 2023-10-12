@@ -28,6 +28,7 @@ import {
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { MdbRangeModule } from 'mdb-angular-ui-kit/range';
 
 // Custom components
 import NavbarComponent from './components/layouts/navbar/navbar.component';
@@ -109,6 +110,7 @@ import ReviewFormComponent from './components/shared/review-form/review-form.com
     GoogleSigninButtonModule,
     MdbModalModule,
     NgbdSortableHeader,
+    MdbRangeModule,
   ],
   providers: [
     DatePipe,

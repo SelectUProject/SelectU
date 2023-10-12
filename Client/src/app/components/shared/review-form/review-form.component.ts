@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReviewDTO } from 'src/app/models/ReviewDTO';
 import { ReviewService } from 'src/app/providers/review.service';
 
 @Component({
@@ -8,6 +9,9 @@ import { ReviewService } from 'src/app/providers/review.service';
   styleUrls: ['./review-form.component.scss'],
 })
 class ReviewFormComponent {
+  @Input() scholarshipApplicationId: string;
+  @Output() successEvent = new EventEmitter<string>();
+
   reviewForm: FormGroup;
   isError: boolean = false;
   errMsg: string = 'An error has occurred!';
@@ -33,8 +37,8 @@ class ReviewFormComponent {
 
   setupForm() {
     this.reviewForm = this.formBuilder.group({
-      rating: ['', Validators.required],
-      comments: ['', Validators.required],
+      rating: [5, Validators.required],
+      comments: [''],
     });
   }
 
@@ -42,32 +46,28 @@ class ReviewFormComponent {
     this.reviewing = true;
     this.isError = false;
 
-    let inviteForm = <UserInviteDTO>this.reviewForm.value;
-    inviteForm.loginExpiry = new Date(inviteForm.loginExpiry);
+    let reviewForm = <ReviewDTO>this.reviewForm.value;
+    reviewForm.ScholarshipApplicationId = this.scholarshipApplicationId;
 
-    await this.userService
-      .inviteUser(inviteForm)
+    await this.reviewService
+      .review(reviewForm)
       .then(() => {
         this.success = true;
-        this.router.navigate(['/view-users']);
+        this.successEvent.emit('Review added successfully!');
+        console.log('Review Form');
       })
       .catch((response) => {
-        if (response.error?.errors) {
-          this.errMsg = 'One or more validation errors occurred.';
-          response.error?.errors?.forEach((form: any) => {
-            this.setFormError(form.propertyName);
-          });
-        } else if (!response.success) {
-          this.errMsg = response.error.message;
-        }
+        this.errMsg = response.error.message;
         this.isError = true;
+      })
+      .finally(() => {
+        this.reviewing = false;
       });
-    this.inviting = false;
   }
 
   setFormError(propertyName: string) {
     propertyName = propertyName.charAt(0).toLowerCase() + propertyName.slice(1);
-    this.inviteForm.controls[propertyName]?.setErrors({ required: true });
+    this.reviewForm.controls[propertyName]?.setErrors({ required: true });
   }
 }
 

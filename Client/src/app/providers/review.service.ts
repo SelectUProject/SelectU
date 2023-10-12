@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { RegistrationResponseDTO } from '../models/RegistrationResponseDTO';
-import { UserRegisterDTO } from '../models/UserRegisterDTO';
 import { Config } from './config';
 import { TokenService } from './token.service';
+import { ReviewDTO } from '../models/ReviewDTO';
+import { ResponseDTO } from '../models/ResponseDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +12,24 @@ import { TokenService } from './token.service';
 export class ReviewService {
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
-  async register(registerDTO: UserRegisterDTO) {
+  async review(reviewDTO: ReviewDTO) {
     return await firstValueFrom(
-      this.http.post<RegistrationResponseDTO>(
-        `${Config.api}/user/register`,
-        registerDTO
+      this.http.post<ResponseDTO>(`${Config.api}/review`, reviewDTO)
+    );
+  }
+
+  async getAverageRating(applicationId: string) {
+    return await firstValueFrom(
+      this.http.get<number>(
+        `${Config.api}/review/average-rating/${applicationId}`
+      )
+    );
+  }
+
+  async getMyReview(applicationId: string) {
+    return await firstValueFrom(
+      this.http.get<ReviewDTO>(
+        `${Config.api}/review/application/${applicationId}/mine`
       )
     );
   }

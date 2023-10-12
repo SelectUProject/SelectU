@@ -1,43 +1,34 @@
-<div class="row justify-content-center mb-3 text-center">
+<div class="row justify-content-center">
+  <h3 class="text-center">Review</h3>
   <form [formGroup]="reviewForm" (ngSubmit)="review()">
     <div class="row mb-2">
       <div class="col">
-        <!-- Role input -->
-        <mdb-form-control class="mb-4">
-          <select
-            mdbValidate
-            mdbInput
-            type="select"
-            id="role"
-            class="form-control"
-            formControlName="role"
-          >
-            <option value="" disabled selected></option>
-            <option *ngFor="let role of roles" [ngValue]="role">
-              {{ role }}
-            </option>
-          </select>
-          <label mdbLabel class="form-label" for="role">Role</label>
-          <mdb-error *ngIf="role?.invalid && (role?.dirty || role?.touched)"
-            >Role is required</mdb-error
-          >
-        </mdb-form-control>
+        <!-- Rating slider -->
+        <label mdbLabel class="form-label" for="rating">Rating</label>
+        <mdb-range
+          mdbValidate
+          id="rating"
+          class="p-4"
+          formControlName="rating"
+          [min]="0"
+          [max]="10"
+        ></mdb-range>
       </div>
     </div>
 
     <div class="row mb-2">
       <div class="col">
-        <!-- First Name input -->
+        <!-- Comment input -->
         <mdb-form-control class="mb-4">
           <input
             mdbValidate
             mdbInput
             type="text"
-            id="firstName"
+            id="comments"
             class="form-control"
-            formControlName="firstName"
+            formControlName="comments"
           />
-          <label mdbLabel class="form-label" for="firstName">First Name</label>
+          <label mdbLabel class="form-label" for="comments">Comments</label>
         </mdb-form-control>
       </div>
     </div>
@@ -45,16 +36,16 @@
     <!-- Submit button -->
     <button
       mdbRipple
-      *ngIf="!submitting"
-      [disabled]="!inviteForm.valid"
+      *ngIf="!reviewing"
+      [disabled]="!reviewForm.valid"
       type="submit"
       class="w-20 btn btn-primary btn-block ms-auto"
     >
-      Submit
+      Review
     </button>
 
     <button
-      *ngIf="submitting"
+      *ngIf="reviewing"
       class="w-20 btn btn-primary btn-block ms-auto"
       type="button"
       disabled
@@ -66,14 +57,9 @@
       ></span>
     </button>
   </form>
-
-  <ngb-toast
-    class="bg-success text-light text-center w-75 position-absolute bottom-0 start-50 translate-middle"
-    *ngIf="success"
-    [delay]="2000"
-    [autohide]="true"
-    (hidden)="success = false"
-  >
-    Review added successfully!
-  </ngb-toast>
+  <ng-container *ngIf="isError">
+    <div class="alert alert-danger text-center mt-3 px-3" role="alert">
+      {{ errMsg }}
+    </div>
+  </ng-container>
 </div>

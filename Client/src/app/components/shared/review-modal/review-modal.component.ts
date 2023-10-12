@@ -10,7 +10,7 @@ import ViewApplicationDetailModalComponent from '../view-application-detail-moda
   styleUrls: ['./review-modal.component.scss'],
 })
 class ReviewModalComponent {
-  @Output() successEvent = new EventEmitter();
+  @Output() successEvent = new EventEmitter<string>();
   scholarshipApplication: ScholarshipApplicationUpdateDTO;
 
   reviewForm: FormGroup;
@@ -22,6 +22,10 @@ class ReviewModalComponent {
   ) {}
 
   ngOnInit(): void {}
+
+  handleSuccess(message: string) {
+    this.successEvent.emit(message);
+  }
 }
 
 export default ReviewModalComponent;
