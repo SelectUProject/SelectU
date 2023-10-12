@@ -194,6 +194,18 @@ namespace SelectU.Core.Services
 
             return await Task.FromResult(filteredScholarshipApplications.ToList());
         }  
+
+        public async Task<ScholarshipApplicationUpdateDTO?> GetNextReviewableApplication(Guid scholarshipId, string userId)
+        {
+            var scholarshipApplication = await _unitOfWork.ScholarshipApplications.Where(x => x.ScholarshipId == scholarshipId && x.Status == ApplicationStatusEnum.Submitted && !x.Reviews.Any(y => y.ReviewerId == userId))
+                .Include(x => x.Scholarship)
+                .Include(x => x.ScholarshipApplicant)
+                .FirstOrDefaultAsync();
+
+            if (scholarshipApplication == null) return null;
+
+            return new ScholarshipApplicationUpdateDTO(scholarshipApplication);
+        }
     }
 }
 

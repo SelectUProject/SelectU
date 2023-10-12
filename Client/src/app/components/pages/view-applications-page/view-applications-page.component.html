@@ -9,9 +9,20 @@
     ></app-short-view-scholarships>
   </div>
   <div class="row">
-    <app-scholarship-application-search-form
-      (scholarshipApplications)="handleSearchEvent($event)"
-    ></app-scholarship-application-search-form>
+    <div class="col-10">
+      <app-scholarship-application-search-form
+        (scholarshipApplications)="handleSearchEvent($event)"
+      ></app-scholarship-application-search-form>
+    </div>
+    <div *ngIf="scholarship" class="col-2 text-end">
+      <button
+        [routerLink]="'/review/' + scholarship.id"
+        class="btn btn-primary"
+        type="button"
+      >
+        Review Mode
+      </button>
+    </div>
   </div>
   <div
     class="row justify-content-center"

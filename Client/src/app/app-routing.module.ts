@@ -14,6 +14,7 @@ import UserInvitePageComponent from './components/pages/user-invite-page/user-in
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
+import ReviewPageComponent from './components/pages/review-page/review-page.component';
 
 //components
 
@@ -65,6 +66,12 @@ const routes: Routes = [
         component: UserTablePageComponent,
         canActivate: [AuthGuard],
         data: { role: [Role.Staff, Role.Admin] },
+      },
+      {
+        path: 'review/:scholarshipId',
+        component: ReviewPageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin, Role.Reviewer] },
       },
     ],
   },

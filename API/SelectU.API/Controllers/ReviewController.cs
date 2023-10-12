@@ -144,6 +144,8 @@ namespace SelectU.API.Controllers
             {
                 var reviews = await _reviewService.GetApplicationReviews(applicationId, HttpContext.GetUserId(), true);
 
+                if (!reviews.Any()) return Ok();
+
                 return Ok(reviews.First());
             }
             catch (ReviewException ex)

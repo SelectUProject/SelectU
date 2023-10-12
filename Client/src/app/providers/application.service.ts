@@ -91,4 +91,12 @@ export class ScholarshipApplicationService {
       )
     );
   }
+
+  async getNextReviewableApplicationAsync(scholarshipId: any) {
+    return await firstValueFrom(
+      this.http.get<ScholarshipApplicationUpdateDTO>(
+        `${Config.api}/ScholarshipApplication/next-reviewable/${scholarshipId}`
+      )
+    );
+  }
 }
