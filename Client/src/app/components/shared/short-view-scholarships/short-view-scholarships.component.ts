@@ -16,6 +16,7 @@ export class ShortViewScholarshipsComponent {
   ADMIN = ADMIN;
   STAFF = STAFF;
   USER = USER;
+  successMessage: string;
   success = false;
   viewDetailsModalRef: MdbModalRef<ViewDetailsModalComponent>;
 
@@ -47,5 +48,17 @@ export class ShortViewScholarshipsComponent {
       // this.getAllUsers();
       this.viewDetailsModalRef.close();
     });
+  }
+
+  archive(scholarship: ScholarshipUpdateDTO) {
+    this.scholarshipService
+      .archiveScholarship(scholarship.id)
+      .then((response) => {
+        this.successMessage = response.message;
+        this.success = true;
+      })
+      .catch((response) => {
+        console.log(response.error.message);
+      });
   }
 }

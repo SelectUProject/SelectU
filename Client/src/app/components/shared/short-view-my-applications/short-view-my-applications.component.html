@@ -114,6 +114,14 @@
               Review
             </button>
           </div>
+          <div *ngIf="tokenService.role !== USER" class="col-6">
+            <button
+              class="btn btn-primary w-100"
+              (click)="selectApplication(this.scholarshipApplication)"
+            >
+              Select
+            </button>
+          </div>
         </div>
       </div>
     </div>

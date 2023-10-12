@@ -26,11 +26,18 @@ export class ScholarshipService {
     );
   }
 
+  async archiveScholarship(id: string) {
+    return await firstValueFrom(
+      this.http.post<ResponseDTO>(`${Config.api}/scholarship/archive/${id}`, {})
+    );
+  }
+
   async getScholarshipDetails(id: string) {
     return await firstValueFrom(
       this.http.get<ScholarshipUpdateDTO>(`${Config.api}/scholarship/${id}`)
     );
   }
+
   async getActiveScholarships(scholarshipSearchDTO: ScholarshipSearchDTO) {
     return await firstValueFrom(
       this.http.post<ScholarshipUpdateDTO[]>(

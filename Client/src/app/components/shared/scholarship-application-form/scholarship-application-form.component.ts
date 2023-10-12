@@ -124,7 +124,7 @@ export class ScholarshipApplicationFormComponent implements OnInit {
         .createScholarshipApplications(formAnswer)
         .then((response) => {
           this.success = true;
-          this.router.navigate(['/applications']);
+          this.router.navigate(['/my-applications']);
         })
         .catch((response) => {
           if (response.error.errors) {

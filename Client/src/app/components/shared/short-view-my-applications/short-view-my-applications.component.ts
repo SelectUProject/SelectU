@@ -18,6 +18,7 @@ import ReviewModalComponent from '../review-modal/review-modal.component';
 import { USER } from 'src/app/constants/userRoles';
 import { ReviewService } from 'src/app/providers/review.service';
 import { ReviewDTO } from 'src/app/models/ReviewDTO';
+import { ScholarshipApplicationService } from 'src/app/providers/application.service';
 
 @Component({
   selector: 'app-short-view-my-applications',
@@ -41,6 +42,7 @@ export class ShortViewMyApplicationsComponent implements OnInit {
   constructor(
     public tokenService: TokenService,
     public scholarshipService: ScholarshipService,
+    public scholarshipApplicationService: ScholarshipApplicationService,
     private modalService: MdbModalService,
     private reviewService: ReviewService
   ) {}
@@ -68,6 +70,19 @@ export class ShortViewMyApplicationsComponent implements OnInit {
       .getMyReview(this.scholarshipApplication.id)
       .then((response) => {
         this.review = response;
+      })
+      .catch((response) => {
+        console.log(response.error.message);
+      });
+  }
+
+  selectApplication(scholarshipApplication: ScholarshipApplicationUpdateDTO) {
+    this.success = false;
+    this.scholarshipApplicationService
+      .selectApplication(scholarshipApplication)
+      .then((response) => {
+        this.successMessage = response.message;
+        this.success = true;
       })
       .catch((response) => {
         console.log(response.error.message);

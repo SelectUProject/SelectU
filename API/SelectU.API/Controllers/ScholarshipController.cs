@@ -167,14 +167,14 @@ namespace SelectU.API.Controllers
         }
 
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
-        [HttpDelete("archive/{scholarshipId}")]
+        [HttpPost("archive/{scholarshipId}")]
         public async Task<IActionResult> ArchiveScholarshipAsync([FromRoute] Guid scholarshipId)
         {
             try
             {
                 await _scholarshipService.ArchiveScholarshipAsync(scholarshipId);
 
-                return Ok();
+                return Ok(new { Message = "Scholarship Successfully Closed, Refresh to get updated list of Scholarships" });
             }
             catch (ScholarshipException ex)
             {

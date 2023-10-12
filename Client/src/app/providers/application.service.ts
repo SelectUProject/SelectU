@@ -80,4 +80,15 @@ export class ScholarshipApplicationService {
       )
     );
   }
+
+  async selectApplication(
+    scholarshipApplicationUpdateDTO: ScholarshipApplicationUpdateDTO
+  ) {
+    return await firstValueFrom(
+      this.http.post<ResponseDTO>(
+        `${Config.api}/ScholarshipApplication/select-application`,
+        scholarshipApplicationUpdateDTO
+      )
+    );
+  }
 }

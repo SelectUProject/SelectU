@@ -73,8 +73,26 @@
           >
             Apply
           </button>
+          <button
+            *ngIf="
+              this.tokenService.role == STAFF || this.tokenService.role == ADMIN
+            "
+            (click)="archive(this.scholarship)"
+            class="btn btn-sercondary w-100"
+          >
+            Close scholarship
+          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
+<ngb-toast
+  class="bg-success text-light text-center w-75 position-absolute bottom-0 start-50 translate-middle"
+  *ngIf="success"
+  [delay]="2000"
+  [autohide]="true"
+  (hidden)="success = false"
+>
+  {{ successMessage }}
+</ngb-toast>

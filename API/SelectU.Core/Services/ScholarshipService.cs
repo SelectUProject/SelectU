@@ -236,7 +236,7 @@ namespace SelectU.Core.Services
                 if (scholarshipApplication.Status != ApplicationStatusEnum.Accepted)
                 {
                     scholarshipApplication.Status = ApplicationStatusEnum.Rejected;
-                    await _emailclient.SendUserUnsuccessfulApplicationAsync(scholarshipApplication);
+                    //await _emailclient.SendUserUnsuccessfulApplicationAsync(scholarshipApplication);
                     _unitOfWork.ScholarshipApplications.Update(scholarshipApplication);
                 }
             }

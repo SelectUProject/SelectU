@@ -186,16 +186,15 @@ namespace SelectU.API.Controllers
                    HttpContext.GetUserId()
                    );
 
-                return BadRequest("Scholarship Application failed to be selected");
-
+                return Ok(new { Message = "Scholarship Application Successfully Selected"});
+            }
+            catch (ScholarshipApplicationException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
-            }
-            catch (ScholarshipApplicationException ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -223,13 +222,13 @@ namespace SelectU.API.Controllers
                 return Ok(new { Message = "File downloaded successfully", File = file });
 
             }
+            catch (ScholarshipApplicationException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
-            }
-            catch (ScholarshipApplicationException ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 

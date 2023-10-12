@@ -113,7 +113,7 @@ namespace SelectU.Core.Services
                 .Include(x => x.ScholarshipApplicant)
                 .FirstOrDefault();
 
-            if (scholarshipApplication != null)
+            if (scholarshipApplication == null)
             {
                 throw new ScholarshipApplicationException($"Application was not found.");
             }
@@ -125,11 +125,12 @@ namespace SelectU.Core.Services
 
             scholarshipApplication.Status = ApplicationStatusEnum.Accepted;
 
+            //await _emailclient.SendUserSuccessfulApplicationAsync(scholarshipApplication);
+
             _unitOfWork.ScholarshipApplications.Update(scholarshipApplication);
 
             await _unitOfWork.CommitAsync();
 
-            await _emailclient.SendUserSuccessfulApplicationAsync(scholarshipApplication);
 
             return new ResponseDTO { Success = true, Message = "Scholarship Application Successfully Selected." };
         }
