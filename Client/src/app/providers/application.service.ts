@@ -14,6 +14,18 @@ import { ScholarshipApplicationUpdateDTO } from '../models/ScholarshipApplicatio
 export class ScholarshipApplicationService {
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
+  async getScholarshipApplications(
+    scholarshipId: string,
+    scholarshipApplicationSearchDTO: ScholarshipApplicationSearchDTO
+  ) {
+    return await firstValueFrom(
+      this.http.post<ScholarshipApplicationUpdateDTO[]>(
+        `${Config.api}/scholarshipApplication/${scholarshipId}`,
+        scholarshipApplicationSearchDTO
+      )
+    );
+  }
+
   async getScholarshipApplicationDetails(id: any) {
     return await firstValueFrom(
       this.http.get<ScholarshipApplicationUpdateDTO>(

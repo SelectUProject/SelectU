@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+  <h3 class="text-center">Review</h3>
+  <form [formGroup]="reviewForm" (ngSubmit)="review()">
+    <div class="row mb-2">
+      <div class="col">
+        <!-- Rating slider -->
+        <label mdbLabel class="form-label" for="rating">Rating</label>
+        <mdb-range
+          mdbValidate
+          id="rating"
+          class="p-4"
+          formControlName="rating"
+          [min]="0"
+          [max]="10"
+        ></mdb-range>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col">
+        <!-- Comment input -->
+        <mdb-form-control class="mb-4">
+          <input
+            mdbValidate
+            mdbInput
+            type="text"
+            id="comments"
+            class="form-control"
+            formControlName="comments"
+          />
+          <label mdbLabel class="form-label" for="comments">Comments</label>
+        </mdb-form-control>
+      </div>
+    </div>
+
+    <!-- Submit button -->
+    <button
+      mdbRipple
+      *ngIf="!reviewing"
+      [disabled]="!reviewForm.valid"
+      type="submit"
+      class="w-20 btn btn-primary btn-block ms-auto"
+    >
+      Review
+    </button>
+
+    <button
+      *ngIf="reviewing"
+      class="w-20 btn btn-primary btn-block ms-auto"
+      type="button"
+      disabled
+    >
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+    </button>
+  </form>
+  <ng-container *ngIf="isError">
+    <div class="alert alert-danger text-center mt-3 px-3" role="alert">
+      {{ errMsg }}
+    </div>
+  </ng-container>
+</div>

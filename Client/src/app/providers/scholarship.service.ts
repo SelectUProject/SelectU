@@ -17,11 +17,18 @@ export class ScholarshipService {
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
-  async getScholarshipDetails(id: any) {
+  async getAllScholarships(scholarshipSearchDTO: ScholarshipSearchDTO) {
     return await firstValueFrom(
-      this.http.get<ScholarshipUpdateDTO>(
-        `${Config.api}/Scholarship/details?id=${id}`
+      this.http.post<ScholarshipUpdateDTO[]>(
+        `${Config.api}/Scholarship`,
+        scholarshipSearchDTO
       )
+    );
+  }
+
+  async getScholarshipDetails(id: string) {
+    return await firstValueFrom(
+      this.http.get<ScholarshipUpdateDTO>(`${Config.api}/scholarship/${id}`)
     );
   }
   async getActiveScholarships(scholarshipSearchDTO: ScholarshipSearchDTO) {

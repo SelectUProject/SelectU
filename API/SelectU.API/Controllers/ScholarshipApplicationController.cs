@@ -38,6 +38,27 @@ namespace SelectU.API.Controllers
             _scholarshipApplicationService = scholarshipApplicationService;
         }
 
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}, {UserRoles.Reviewer}")]
+        [HttpPost("{scholarshipId}")]
+        public async Task<IActionResult> GetScholarshipApplicationsAsync([FromRoute] Guid scholarshipId, [FromBody] ScholarshipApplicationSearchDTO scholarshipApplicationSearchDTO)
+        {
+
+            try
+            {
+                var scholarships = await _scholarshipApplicationService.GetScholarshipApplicationsAsync(
+                    scholarshipId,
+                    scholarshipApplicationSearchDTO
+                    );
+
+                return Ok(scholarships);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship Application, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
         [Authorize]
         [HttpGet("details")]
         public async Task<IActionResult> GetScholarshipApplicationDetailsAsync(Guid id)
@@ -52,7 +73,7 @@ namespace SelectU.API.Controllers
                     return BadRequest("Scholarship Application not found");
                 }
 
-                return Ok(scholarship);
+                return Ok(new ScholarshipApplicationUpdateDTO(scholarship));
             }
             catch (Exception ex)
             {
@@ -94,17 +115,12 @@ namespace SelectU.API.Controllers
         {
             try
             {
-                var response = await _scholarshipApplicationService.CreateScholarshipApplicationAsync(
+                await _scholarshipApplicationService.CreateScholarshipApplicationAsync(
                     scholarshipApplicationCreateDTO,
                     HttpContext.GetUserId()
                     );
 
-                if (response == null)
-                {
-                    return BadRequest("Scholarship Application failed to create");
-                }
-
-                return Ok(response);
+                return Ok();
             }
             catch(ScholarshipApplicationException ex)
             {

@@ -1,11 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TokenService } from 'src/app/providers/token.service';
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
 import { ScholarshipSearchDTO } from 'src/app/models/ScholarshipSearchDTO';
 import { ScholarshipUpdateDTO } from 'src/app/models/ScholarshipUpdateDTO';
-import { StatusEnum } from 'src/app/models/StatusEnum';
+import { ScholarshipStatusEnum } from 'src/app/models/ScholarshipStatusEnum';
 
 @Component({
   selector: 'app-scholarship-search-form',
@@ -13,14 +13,15 @@ import { StatusEnum } from 'src/app/models/StatusEnum';
   styleUrls: ['./scholarship-search-form.component.scss'],
 })
 export class ScholarshipSearchFormComponent implements OnInit {
+  @Output() scholarships = new EventEmitter<ScholarshipUpdateDTO[]>();
+  @Input() activeOnly: boolean = true;
+
   searchScholarshipForm: FormGroup;
   submitting: boolean = false;
   isError: boolean = false;
   errMsg: string = 'Some error has occurred!';
   // scholarships: ScholarshipUpdateDTO[] = [];
   todayDate: Date = new Date();
-
-  @Output() scholarships = new EventEmitter<ScholarshipUpdateDTO[]>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,7 +40,7 @@ export class ScholarshipSearchFormComponent implements OnInit {
       school: [null, ''],
       description: [null, ''],
       city: [null, ''],
-      status: [StatusEnum.Pending, ''],
+      status: [ScholarshipStatusEnum.Active, ''],
       value: [null, ''],
       startDate: [null, ''],
       endDate: [null, ''],
@@ -49,8 +50,29 @@ export class ScholarshipSearchFormComponent implements OnInit {
   search() {
     this.submitting = true;
     this.isError = false;
+
+    this.activeOnly ? this.getActiveScholarships() : this.getAllScholarships();
+  }
+
+  getActiveScholarships() {
     this.scholarshipService
       .getActiveScholarships(
+        <ScholarshipSearchDTO>this.searchScholarshipForm.value
+      )
+      .then((response) => {
+        this.scholarships.emit(response);
+      })
+      .catch((response) => {
+        console.error(response);
+      })
+      .finally(() => {
+        this.submitting = false;
+      });
+  }
+
+  getAllScholarships() {
+    this.scholarshipService
+      .getAllScholarships(
         <ScholarshipSearchDTO>this.searchScholarshipForm.value
       )
       .then((response) => {

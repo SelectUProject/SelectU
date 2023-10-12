@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { ScholarshipSearchDTO } from 'src/app/models/ScholarshipSearchDTO';
 import { ScholarshipUpdateDTO } from 'src/app/models/ScholarshipUpdateDTO';
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
+import { TokenService } from 'src/app/providers/token.service';
 import { environment } from 'src/environments/environment';
+import { USER } from 'src/app/constants/userRoles';
 
 @Component({
   selector: 'app-find-scholarships',
@@ -14,20 +16,37 @@ export class FindScholarshipsComponent {
   emptyText = `No active ${this.admissionName} found.`;
   scholarships: ScholarshipUpdateDTO[] = [];
   scholarshipSearchDTO: ScholarshipSearchDTO = {};
+  USER = USER;
 
-  constructor(private scholarshipService: ScholarshipService) {}
+  constructor(
+    private scholarshipService: ScholarshipService,
+    public tokenService: TokenService
+  ) {}
 
   ngOnInit(): void {
-    this.getScholarships();
+    this.tokenService.role == USER
+      ? this.getActiveScholarships()
+      : this.getAllScholarships();
   }
 
   async handleSearchEvent(scholarships: ScholarshipUpdateDTO[]) {
     this.scholarships = scholarships;
   }
 
-  getScholarships() {
+  getActiveScholarships() {
     this.scholarshipService
       .getActiveScholarships(this.scholarshipSearchDTO)
+      .then((response) => {
+        this.scholarships = response;
+      })
+      .catch((response) => {
+        console.error(response);
+      });
+  }
+
+  getAllScholarships() {
+    this.scholarshipService
+      .getAllScholarships(this.scholarshipSearchDTO)
       .then((response) => {
         this.scholarships = response;
       })

@@ -1,6 +1,6 @@
 <div class="container mt-3 mb-3 border rounded p-3">
   <div class="row justify-content-center mb-3">
-    <div class="col-9 row">
+    <div class="col-8 row">
       <!-- <div [ngClass]="getStatusClass()"> <i [ngClass]="getStatusIcon"></i>{{application.status}}</div> -->
       <div class="col-1 image-container">
         <img
@@ -28,7 +28,34 @@
         </p>
       </div>
     </div>
-    <div class="col-3 text-end">
+    <div class="col-4 text-end">
+      <div class="row">
+        <div *ngIf="rating != null" class="col-6">
+          <p>
+            Average Rating: {{ rating }}
+            <i class="fa-solid fa-star text-warning"></i>
+          </p>
+        </div>
+        <div *ngIf="tokenService.role !== USER" class="col-6">
+          <p
+            [ngClass]="{
+                  'text-danger':
+                    review == null,
+                  'text-success':
+                    review != null,}"
+          >
+            Reviewed:
+            <i
+              class="fa-regular"
+              [ngClass]="{
+                  'fa-circle-xmark rejected':
+                    review == null,
+                  'fa-circle-check accepted':
+                    review != null,}"
+            ></i>
+          </p>
+        </div>
+      </div>
       <div class="row">
         <p>
           Date Applied:
@@ -37,26 +64,22 @@
       </div>
       <div class="row">
         <p>
-          Status: {{ getStatus() }}
-          <i
-            *ngIf="scholarshipApplication.status == 0"
-            class="fa-regular fa-circle-xmark"
-            style="color: #ff0000"
-          ></i>
-          <i
-            *ngIf="scholarshipApplication.status == 1"
-            class="fa-regular fa-circle-check"
-            style="color: #1eff00"
-          ></i>
-          <i
-            *ngIf="scholarshipApplication.status == 2"
-            class="fa-regular fa-clock"
-          ></i>
-          <i
-            *ngIf="scholarshipApplication.status == 3"
-            class="fa-regular fa-circle-xmark"
-            style="color: #ff0000"
-          ></i>
+          <ng-container *ngFor="let status of applicationStatuses">
+            <ng-container *ngIf="scholarshipApplication.status == status.value">
+              Status: {{ status.name }}
+              <i
+                class="fa-regular"
+                [ngClass]="{
+                  'fa-circle-xmark rejected':
+                    scholarshipApplication.status == applicationStatus.Rejected,
+                  'fa-circle-check accepted':
+                    scholarshipApplication.status == applicationStatus.Accepted,
+                  'fa-clock pending':
+                    scholarshipApplication.status == applicationStatus.Submitted
+                }"
+              ></i>
+            </ng-container>
+          </ng-container>
         </p>
       </div>
     </div>
@@ -73,14 +96,36 @@
       <div class="">
         <h6>Actions</h6>
 
-        <!-- <button>Apply</button> -->
-        <button
-          class="btn btn-sercondary"
-          (click)="openModal(this.scholarshipApplication)"
-        >
-          View Details
-        </button>
+        <div class="row">
+          <div class="col-6">
+            <!-- <button>Apply</button> -->
+            <button
+              class="btn btn-sercondary w-100"
+              (click)="openDetailsModal(this.scholarshipApplication)"
+            >
+              View Details
+            </button>
+          </div>
+          <div *ngIf="tokenService.role !== USER" class="col-6">
+            <button
+              class="btn btn-primary w-100"
+              (click)="openReviewModal(this.scholarshipApplication)"
+            >
+              Review
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<ngb-toast
+  class="bg-success text-light text-center w-75 position-absolute bottom-0 start-50 translate-middle"
+  *ngIf="success"
+  [delay]="2000"
+  [autohide]="true"
+  (hidden)="success = false"
+>
+  {{ successMessage }}
+</ngb-toast>

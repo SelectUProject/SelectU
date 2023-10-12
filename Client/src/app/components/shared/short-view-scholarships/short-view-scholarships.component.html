@@ -1,6 +1,6 @@
 <div class="container mt-3 mb-3 border rounded p-3">
   <div class="row justify-content-center mb-3">
-    <div class="col-11 row">
+    <div class="col-12 row">
       <div class="col-1 image-container">
         <img
           class="image-container"
@@ -30,38 +30,50 @@
         </p>
       </div>
     </div>
-    <div class="col-1 text-end">
-      <i class="border rounded p-3 text-center fa-regular fa-bookmark"></i>
-    </div>
   </div>
   <div class="row">
-    <div class="col-9">
+    <div class="col-8">
       <h6>Description</h6>
       <p>
         {{ scholarship.description }}
       </p>
     </div>
-    <div class="col-3 float-end">
-      <div class="">
+    <div *ngIf="showActions" class="col-4 float-end">
+      <div class="row">
         <h6>Actions</h6>
-
-        <button *ngIf="this.tokenService.role == STAFF" class="btn btn-primary">
-          Edit
-        </button>
-        <button
-          *ngIf="this.tokenService.role == USER"
-          (click)="this.scholarshipService.scholarship = this.scholarship"
-          [routerLink]="'/create-scholarship-application'"
-          class="btn btn-primary"
-        >
-          Apply
-        </button>
-        <button
-          (click)="openModal(this.scholarship)"
-          class="btn btn-sercondary"
-        >
-          View Details
-        </button>
+      </div>
+      <div class="row mb-3" *ngIf="this.tokenService.role != USER">
+        <div class="col-6">
+          <button class="btn btn-primary w-100">Edit</button>
+        </div>
+        <div class="col-6">
+          <button
+            [routerLink]="['/applications/', scholarship.id]"
+            class="btn btn-primary w-100"
+          >
+            Applications
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <button
+            (click)="openModal(this.scholarship)"
+            class="btn btn-sercondary w-100"
+          >
+            Details
+          </button>
+        </div>
+        <div class="col-6">
+          <button
+            *ngIf="this.tokenService.role == USER"
+            (click)="this.scholarshipService.scholarship = this.scholarship"
+            [routerLink]="'/create-scholarship-application'"
+            class="btn btn-primary"
+          >
+            Apply
+          </button>
+        </div>
       </div>
     </div>
   </div>

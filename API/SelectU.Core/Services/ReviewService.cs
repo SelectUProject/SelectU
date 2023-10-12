@@ -11,6 +11,8 @@ using SelectU.Contracts.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Bcpg.OpenPgp;
 
 namespace SelectU.Core.Services
 {
@@ -26,9 +28,9 @@ namespace SelectU.Core.Services
 
         public async Task CreateReviewAsync(ReviewDTO reviewDTO)
         {
-            var scholarshipApplication = await _unitOfWork.ScholarshipApplications.GetAsync(reviewDTO.ScholarshipApplicationId) ?? throw new ReviewException($"Unable able to add rating as the application does not exist");
-            
-            if (scholarshipApplication.Reviews.FirstOrDefault(x => x.ReviewerId == reviewDTO.ReviewerId) == null) throw new ReviewException($"Unable able to create rating as the reviewer has an existing review");
+            var scholarshipApplication = await _unitOfWork.ScholarshipApplications.Where(x => x.Id == reviewDTO.ScholarshipApplicationId).Include(x => x.Reviews).FirstOrDefaultAsync() ?? throw new ReviewException($"Unable able to add rating as the application does not exist");
+
+            if (scholarshipApplication.Reviews != null && scholarshipApplication.Reviews.Any(x => x.ReviewerId == reviewDTO.ReviewerId)) throw new ReviewException($"Unable able to create rating as the reviewer has an existing review");
 
             Review review = new()
             {
@@ -68,6 +70,29 @@ namespace SelectU.Core.Services
             if (review.ReviewerId != creatorId && !isAdmin) throw new ReviewException($"Unable able to delete rating as you must be the owner of the review");
 
             await _unitOfWork.Reviews.DeleteAsync(review);
+        }
+
+        public async Task<double> GetAverageRating(Guid applicationId)
+        {
+            var reviews = _unitOfWork.Reviews.Where(x => x.ScholarshipApplicationId == applicationId).AsQueryable();
+
+            if (!await reviews.AnyAsync()) return 0;
+
+            return await reviews.AverageAsync(x => x.Rating);
+        }
+
+        public async Task<List<ReviewDTO>> GetApplicationReviews(Guid applicationId, string userId, bool mineOnly)
+        {
+            var reviews = _unitOfWork.Reviews.Where(x => x.ScholarshipApplicationId == applicationId).AsQueryable();
+
+            if(mineOnly) reviews = reviews.Where(x => x.ReviewerId == userId);
+
+            return await reviews.Select(x => new ReviewDTO(x)).ToListAsync();
+        }
+
+        public async Task<Review?> GetReview(Guid reviewId)
+        {
+            return await _unitOfWork.Reviews.Where(x => x.Id == reviewId).FirstOrDefaultAsync();
         }
     }
 }
