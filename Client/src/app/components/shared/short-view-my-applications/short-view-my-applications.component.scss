@@ -9,18 +9,15 @@
 }
 
 .pending {
-  background-color: #f0ad4e; /* Yellow */
+  color: #f0ad4e; /* Yellow */
 }
 
 .accepted {
-  background-color: #5cb85c; /* Green */
-  color: #fff;
-  
+  color: #5cb85c; /* Green */
 }
 
-.denied {
-  background-color: #d9534f; /* Red */
-  color: #fff;
+.rejected {
+  color: #d9534f; /* Red */
 }
 
 .uploaded {
@@ -29,6 +26,5 @@
 }
 
 .fa-check-square {
-    background-color: green; 
+  background-color: green;
 }
-

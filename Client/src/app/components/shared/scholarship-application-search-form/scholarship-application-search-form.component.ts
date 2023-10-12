@@ -1,8 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TokenService } from 'src/app/providers/token.service';
+import { ScholarshipService } from 'src/app/providers/scholarship.service';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
-import { ScholarshipApplicationService } from 'src/app/providers/ScholarshipApplicationService';
+import { ScholarshipApplicationService } from 'src/app/providers/application.service';
 import { ScholarshipApplicationSearchDTO } from 'src/app/models/ScholarshipApplicationSearchDTO';
+import { ApplicationStatusEnum } from 'src/app/models/ApplicationStatusEnum';
 
 @Component({
   selector: 'app-scholarship-application-search-form',
@@ -22,7 +26,7 @@ export class ScholarshipApplicationSearchFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private scholarshipApplicationService: ScholarshipApplicationService,
+    private scholarshipApplicationService: ScholarshipApplicationService
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +47,9 @@ export class ScholarshipApplicationSearchFormComponent implements OnInit {
     this.isError = false;
     this.scholarshipApplicationService
       .getMyScholarshipApplications(
-        <ScholarshipApplicationSearchDTO>this.searchScholarshipApplicationForm.value
+        <ScholarshipApplicationSearchDTO>(
+          this.searchScholarshipApplicationForm.value
+        )
       )
       .then((response) => {
         this.scholarshipApplications.emit(response);

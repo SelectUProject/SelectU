@@ -6,7 +6,7 @@ namespace SelectU.Contracts.DTO
 {
     public class ScholarshipUpdateDTO
     {
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
         public string? School { get; set; }
         public string? ImageURL { get; set; }
         public string? Value { get; set; }
@@ -16,7 +16,7 @@ namespace SelectU.Contracts.DTO
         public List<ScholarshipFormSectionDTO> ScholarshipFormTemplate { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
-        public StatusEnum? Status { get; set; }
+        public ScholarshipStatusEnum Status { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
 

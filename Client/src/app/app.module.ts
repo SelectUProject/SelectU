@@ -28,6 +28,7 @@ import {
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { MdbRangeModule } from 'mdb-angular-ui-kit/range';
 
 // Custom components
 import NavbarComponent from './components/layouts/navbar/navbar.component';
@@ -52,7 +53,11 @@ import UserInvitePageComponent from './components/pages/user-invite-page/user-in
 import UserTableComponent from './components/shared/user-table/user-table.component';
 import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable-header/ngbd-sortable-header.component';
 import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
+import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
 import { ViewApplicationDetailModalComponent } from './components/shared/view-application-detail-modal/view-application-detail-modal.component';
+import ReviewModalComponent from './components/shared/review-modal/review-modal.component';
+import LongViewApplicationComponent from './components/shared/long-view-application/long-view-application.component';
+import ReviewFormComponent from './components/shared/review-form/review-form.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +86,11 @@ import { ViewApplicationDetailModalComponent } from './components/shared/view-ap
     UserUpdateModalComponent,
     UserTableComponent,
     ViewDetailsModalComponent,
-    ViewApplicationDetailModalComponent
+    ViewApplicationsPageComponent,
+    ViewApplicationDetailModalComponent,
+    ReviewModalComponent,
+    LongViewApplicationComponent,
+    ReviewFormComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -101,6 +110,7 @@ import { ViewApplicationDetailModalComponent } from './components/shared/view-ap
     GoogleSigninButtonModule,
     MdbModalModule,
     NgbdSortableHeader,
+    MdbRangeModule,
   ],
   providers: [
     DatePipe,
