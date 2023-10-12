@@ -151,6 +151,38 @@ namespace SelectU.API.Controllers
             }
         }
 
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
+        [HttpPost("select-application")]
+        public async Task<IActionResult> SelectApplication(ScholarshipApplicationUpdateDTO scholarshipApplicationUpdateDTO)
+        {
+            try
+            {
+                var userId = HttpContext.GetUserId();
+                var user = await _userService.GetUserAsync(userId);
+
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                var response = await _scholarshipApplicationService.SelectApplication(
+                   scholarshipApplicationUpdateDTO,
+                   HttpContext.GetUserId()
+                   );
+
+                return BadRequest("Scholarship Application failed to be selected");
+
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ScholarshipApplicationException ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         [Authorize(Roles = $"{UserRoles.User}, {UserRoles.Admin}")]
         [HttpPost("file-download")]
         public async Task<IActionResult> FileDownloadAsync([FromQuery] string fileUri)

@@ -96,6 +96,31 @@ namespace SelectU.Core.Services
             return new ResponseDTO { Success = true, Message = "Scholarship Application created successfully." };
 
         }
+        public async Task<ResponseDTO> SelectApplication(ScholarshipApplicationUpdateDTO scholarshipApplicationUpdateDTO, string id)
+        {
+            ScholarshipApplication scholarshipApplication = _unitOfWork.ScholarshipApplications.Where(x => x.Id == scholarshipApplicationUpdateDTO.Id)
+                .Include(x => x.Scholarship)
+                .Include(x => x.ScholarshipApplicant)
+                .FirstOrDefault();
+
+            if (scholarshipApplication != null)
+            {
+                throw new ScholarshipApplicationException($"Application was not found.");
+            }
+            //wait for jacks updated status
+            //if (scholarshipApplication.Status != null)
+            //{
+            //    throw new ScholarshipApplicationException($"Application is the wrong status.");
+            //}
+
+
+            _unitOfWork.ScholarshipApplications.Update(scholarshipApplication);
+
+            await _unitOfWork.CommitAsync();
+
+            return new ResponseDTO { Success = true, Message = "Scholarship Application created successfully." };
+
+        }
 
         public async Task<ScholarshipApplicationCreateDTO> ValidateScholarshipApplication(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO)
         {
