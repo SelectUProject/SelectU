@@ -54,6 +54,10 @@ import UserTableComponent from './components/shared/user-table/user-table.compon
 import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable-header/ngbd-sortable-header.component';
 import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
 import { ViewApplicationDetailModalComponent } from './components/shared/view-application-detail-modal/view-application-detail-modal.component';
+import AdminUserTableComponent from './components/shared/admin-user-table/admin-user-table.component';
+import AdminPageComponent from './components/pages/admin-page/admin-page.component';
+import { AdminUserUpdateModalComponent } from './components/shared/admin-user-update-modal/admin-user-update-modal.component';
+import { AdminConfirmDeleteModalComponent } from './components/shared/admin-confirm-delete-modal/admin-confirm-delete-modal.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +87,12 @@ import { ViewApplicationDetailModalComponent } from './components/shared/view-ap
     UserUpdateModalComponent,
     UserTableComponent,
     ViewDetailsModalComponent,
-    ViewApplicationDetailModalComponent
+    ViewApplicationDetailModalComponent,
+    AdminPageComponent,
+    AdminUserTableComponent,
+    AdminUserUpdateModalComponent,
+    AdminUserUpdateModalComponent,
+    AdminConfirmDeleteModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

@@ -96,11 +96,11 @@ namespace SelectU.API.Controllers
 
                 if (validationResult.IsValid)
                 {
-                    if (updateUserRoles.AddRoles != null)
+                    if (!updateUserRoles.AddRoles.IsNullOrEmpty())
                         await _userService.AddRolesToUserAsync(updateUserRoles.UserId, updateUserRoles.AddRoles);
 
 
-                    if (updateUserRoles.RemoveRoles != null)
+                    if (!updateUserRoles.RemoveRoles.IsNullOrEmpty())
                         await _userService.RemoveRolesFromUserAsync(updateUserRoles.UserId, updateUserRoles.RemoveRoles);
 
                     return Ok(new ResponseDTO { Success = true, Message = "User roles updated successfully." });

@@ -306,7 +306,7 @@ namespace SelectU.Core.Services
             var user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                await _userManager.RemoveFromRolesAsync(user, roleNames);
+                var response = await _userManager.RemoveFromRolesAsync(user, roleNames);
             }
             else
             {

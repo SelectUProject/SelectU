@@ -15,6 +15,7 @@ import { UpdateUserProfilePageComponent } from './components/pages/update-user-p
 import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
+import AdminPageComponent from './components/pages/admin-page/admin-page.component';
 
 //components
 
@@ -71,13 +72,15 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { role: [Role.Staff, Role.Admin] },
       },
+      {
+        path: 'admin',
+        canActivate: [AuthGuard],
+        component: AdminPageComponent,
+
+      }
     ],
   },
-  // {
-  //   path: 'admin',
-  //   component: AdminLayoutComponent,
-  //   children: [],
-  // },
+
   // { path: '**', redirectTo: '404' },
 ];
 

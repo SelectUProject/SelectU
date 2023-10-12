@@ -1,21 +1,6 @@
-<div class="container mt-5">
-  <h3>User List</h3>
-  <ul class="list-group">
-    <!-- <li *ngFor="let user of users" class="list-group-item d-flex justify-content-between align-items-center">
-        <div>
-          <span>ID: {{ user.Id }} | Full Name: {{ user.FirstName }}</span>
-        </div>
-        <div>
-          <div class="form-group">
-            <label for="role">Role:</label>
-            <select class="form-control" id="role" [(ngModel)]="user.role">
-              <option value="User">User</option>
-              <option value="Admin">Admin</option>
-            </select>
-          </div>
-          <button class="btn btn-primary" (click)="viewUserProfile(user.id)">View Profile</button>
-          <button class="btn btn-danger" (click)="deleteUser(user.id)">Delete User</button>
-        </div>
-      </li> -->
-  </ul>
+<div class="container mt-5 py-2 rounded">
+  <div class="row justify-content-center m-2">
+    <h1 class="mb-3">Users</h1>
+    <app-admin-user-table />
+  </div>
 </div>

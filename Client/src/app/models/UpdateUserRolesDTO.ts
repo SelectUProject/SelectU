@@ -1,5 +1,5 @@
 export interface UpdateUserRolesDTO {
-  id: string;
-  removeRoles: string[];
-  AddRoles: string[];
+  userId: string;
+  removeRoles: string[] | null;
+  AddRoles: string[] | null;
 }
