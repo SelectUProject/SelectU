@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
 import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum';
-import { ScholarshipApplicationService } from 'src/app/providers/ScholarshipApplicationService';
+import { ScholarshipApplicationService } from 'src/app/providers/application.service';
 import { environment } from 'src/environments/environment';
 
 @Component({

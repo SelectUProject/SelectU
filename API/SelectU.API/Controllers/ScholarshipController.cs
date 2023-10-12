@@ -205,7 +205,7 @@ namespace SelectU.API.Controllers
 
                 string imageURL = await _blobStorageService.UploadPhotoAsync(_azureBlobSettingsConfig.PhotoContainerName, file);
                 scholarship.ImageURL = imageURL;
-                await _scholarshipService.UpdateScholarshipsAsync(scholarship);
+                await _scholarshipService.UpdateScholarshipAsync(new ScholarshipUpdateDTO(scholarship));
                 if (!scholarship.ImageURL.IsNullOrEmpty())
                 {
                     await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.FileContainerName, scholarship.ImageURL);
