@@ -165,9 +165,10 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpDelete("archive/{scholarshipId}")]
-        public async Task<IActionResult> DeleteScholarshipAsync([FromRoute] Guid scholarshipId)
+        public async Task<IActionResult> ArchiveScholarshipAsync([FromRoute] Guid scholarshipId)
         {
             try
             {
@@ -185,6 +186,7 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
 
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpPost("photo/upload/{scholarshipId}")]

@@ -6,8 +6,10 @@ using SelectU.Contracts.Config;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
+using SelectU.Contracts.Infrastructure;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
+using SelectU.Core.Infrastructure;
 using System.Text;
 using System.Text.Json;
 
@@ -17,14 +19,17 @@ namespace SelectU.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBlobStorageService _blobStorageService;
+        private readonly IEmailClient _emailclient;
         private readonly AzureBlobSettingsConfig _azureBlobSettingsConfig;
 
         public ScholarshipApplicationService(
             IUnitOfWork context, 
-            IBlobStorageService blobStorageService, 
+            IBlobStorageService blobStorageService,
+            IEmailClient emailClient,
             IOptions<AzureBlobSettingsConfig> azureBlobSettingsConfig
         )
         {
+            _emailclient = emailClient;
             _unitOfWork = context;
             _blobStorageService = blobStorageService;
             _azureBlobSettingsConfig = azureBlobSettingsConfig.Value;
@@ -112,19 +117,21 @@ namespace SelectU.Core.Services
             {
                 throw new ScholarshipApplicationException($"Application was not found.");
             }
-            //wait for jacks updated status
-            //if (scholarshipApplication.Status != null)
-            //{
-            //    throw new ScholarshipApplicationException($"Application is the wrong status.");
-            //}
 
+            if (scholarshipApplication.Status != ApplicationStatusEnum.Submitted)
+            {
+                throw new ScholarshipApplicationException($"Application is the wrong status.");
+            }
+
+            scholarshipApplication.Status = ApplicationStatusEnum.Accepted;
 
             _unitOfWork.ScholarshipApplications.Update(scholarshipApplication);
 
             await _unitOfWork.CommitAsync();
 
-            return new ResponseDTO { Success = true, Message = "Scholarship Application created successfully." };
+            await _emailclient.SendUserSuccessfulApplicationAsync(scholarshipApplication);
 
+            return new ResponseDTO { Success = true, Message = "Scholarship Application Successfully Selected." };
         }
 
         public async Task<ScholarshipApplicationCreateDTO> ValidateScholarshipApplication(ScholarshipApplicationCreateDTO scholarshipApplicationCreateDTO)

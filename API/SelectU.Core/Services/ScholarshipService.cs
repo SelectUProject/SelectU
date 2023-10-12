@@ -5,8 +5,10 @@ using SelectU.Contracts;
 using SelectU.Contracts.DTO;
 using SelectU.Contracts.Entities;
 using SelectU.Contracts.Enums;
+using SelectU.Contracts.Infrastructure;
 using SelectU.Contracts.Services;
 using SelectU.Core.Exceptions;
+using SelectU.Core.Infrastructure;
 using System.Text.Json;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -15,10 +17,12 @@ namespace SelectU.Core.Services
     public class ScholarshipService : IScholarshipService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailClient _emailclient;
 
-        public ScholarshipService(IUnitOfWork context)
+        public ScholarshipService(IUnitOfWork context, IEmailClient emailClient)
         {
             _unitOfWork = context;
+            _emailclient = emailClient;
         }
 
         //TODO 
@@ -213,7 +217,9 @@ namespace SelectU.Core.Services
 
         public async Task ArchiveScholarshipAsync(Guid id)
         {
-            var scholarship = await GetScholarshipAsync(id);
+            var scholarship = _unitOfWork.Scholarships.Where(x => x.Id == id)
+                .Include(x => x.ScholarshipApplications)
+                .ThenInclude(x => x.ScholarshipApplicant).FirstOrDefault();
 
             if (scholarship == null)
             {
@@ -224,6 +230,17 @@ namespace SelectU.Core.Services
             scholarship.DateModified = DateTimeOffset.UtcNow;
 
             _unitOfWork.Scholarships.Update(scholarship);
+
+            foreach (var scholarshipApplication in scholarship.ScholarshipApplications)
+            {
+                if (scholarshipApplication.Status != ApplicationStatusEnum.Accepted)
+                {
+                    scholarshipApplication.Status = ApplicationStatusEnum.Rejected;
+                    await _emailclient.SendUserUnsuccessfulApplicationAsync(scholarshipApplication);
+                    _unitOfWork.ScholarshipApplications.Update(scholarshipApplication);
+                }
+            }
+
             await _unitOfWork.CommitAsync();
         }
     }
