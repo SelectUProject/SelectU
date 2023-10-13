@@ -101,10 +101,7 @@ export class EditScholarshipPageComponent implements OnInit {
         this._router.navigate(['/manage-scholarships']);
       })
       .catch((response) => {
-        const msg = response.message ?? response;
-        console.log(msg);
-
-        this._toastService.show(msg, {
+        this._toastService.show(response.error.message ?? response.error, {
           classname: 'bg-danger text-light',
           delay: 5000
         });

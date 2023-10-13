@@ -69,42 +69,18 @@ export class ScholarshipService {
   }
 
   async uploadScholarshipImg(id: any, formData: FormData) {
-    // const headerDict = {
-    //   'Content-Type': 'multipart/form-data',
-    //   'Accept': 'application/json',
-    //   'Access-Control-Allow-Headers': 'Content-Type',
-    // }
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data',
+      }),
+    };
 
-    // const requestOptions = {
-    //   headers: new HttpHeaders(headerDict),
-    // };
-
-    // const headers = {
-    //   'Content-Type': 'multipart/form-data',
-    // };
-
-    // formData.append('fake', 'fake');
-
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type': 'multipart/form-data',
-    //   }),
-    // };
-
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', `${Config.api}/Scholarship/photo/upload/${id}`, true);
-      xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          resolve(xhr.response);
-        } else {
-          reject(xhr.response);
-        }
-      };
-
-      xhr.send(formData);
-    });
+    return await firstValueFrom(
+      this.http.post<ResponseDTO>(
+        `${Config.api}/Scholarship/photo/upload/${id}`,
+        formData,
+        httpOptions
+      )
+    );
   }
 }

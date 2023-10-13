@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ScholarshipFormSectionDTO } from 'src/app/models/ScholarshipFormSectionDTO';
-import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum';
 import { MIN_RADIO_BUTTON_INPUTS } from 'src/app/constants/FormConstraints';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum';
 
 @Component({
   selector: 'app-form-section-edit-dialog-box',
@@ -27,18 +27,11 @@ export class FormSectionEditDialogBoxComponent implements OnInit {
       {
         uuid: this.formSectionData.uuid,
         type: this.formSectionData.type,
-        name: this.formSectionData.name,
+        name: [this.formSectionData.name, Validators.required],
         required: this.formSectionData.required,
         options: this._formBuilder.array(this.formSectionData.options!)
       }
     );
-
-    // Adding default 2 input fields if the form section type is Option (and it's a new form section field)
-    if (this.formSectionData.type === ScholarshipFormTypeEnum.Option && !this.isMinimumInputsSatisfied()) {
-      for (let i: number = 0; i < MIN_RADIO_BUTTON_INPUTS; i++) {
-        this.addRadioValue();
-      }
-    }
   }
 
   passBack(): void {

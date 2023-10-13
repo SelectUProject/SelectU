@@ -20,7 +20,6 @@ export class ScholarshipEditorComponent implements OnDestroy {
   @Output() deleteButtonClick: EventEmitter<void> = new EventEmitter();
   @Output() createButtonClick: EventEmitter<void> = new EventEmitter();
 
-  file: any;
   states: StringLookupDTO[] = STATES_LIST;
 
   constructor(
@@ -41,12 +40,7 @@ export class ScholarshipEditorComponent implements OnDestroy {
   }
 
   handleImageFile(event: any): void {
-    // this._scholarshipService.uploadScholarshipImg(this.scholarshipFormGroup.)
-
     this.scholarshipImg.append('file', event.target.files[0]);
-
-    // this.scholarshipFormGroup.patchValue({ imageURL: formData });
-    // this.scholarshipFormGroup.updateValueAndValidity();
   }
 
   emitUpdateButtonClick() {

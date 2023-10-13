@@ -13,9 +13,7 @@ import { DragAndDropService } from 'src/app/services/drag-and-drop/drag-and-drop
 export class FormSectionListSidebarComponent {
   baseFormSections: ScholarshipFormSectionDTO[] = [];
 
-  constructor(private dragAndDropService: DragAndDropService<ScholarshipFormSectionDTO[]>) {
-    this.setupFormSections()
-  }
+  constructor() { this.setupFormSections(); }
 
   setupFormSections(): void {
     const enumKeys = Object.keys(ScholarshipFormTypeEnum).filter((v) => isNaN(Number(v)));
