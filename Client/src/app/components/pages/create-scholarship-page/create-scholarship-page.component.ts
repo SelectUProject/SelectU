@@ -51,7 +51,6 @@ export class CreateScholarshipPageComponent {
     this._scholarshipService
       .createScholarship(createScholarshipForm)
       .then((response) => {
-        console.log(response);
         // uploading an image after the scholarship has been created
         this._scholarshipService
           .uploadScholarshipImg(response.id, this.scholarshipImg);

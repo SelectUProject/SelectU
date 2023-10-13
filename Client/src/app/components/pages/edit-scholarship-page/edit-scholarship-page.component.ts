@@ -15,6 +15,7 @@ import { ScholarshipFormSectionListService } from 'src/app/services/scholarship-
 export class EditScholarshipPageComponent implements OnInit {
   scholarshipId = this._route.snapshot.paramMap.get('id');
   editScholarshipForm: FormGroup;
+  scholarshipImg: FormData = new FormData();
 
   constructor(
     private _router: Router,
@@ -88,6 +89,10 @@ export class EditScholarshipPageComponent implements OnInit {
     this._scholarshipService
       .updateScholarship(editScholarshipForm)
       .then((response) => {
+        // uploading an image after the scholarship has been created
+        this._scholarshipService
+          .uploadScholarshipImg(this.scholarshipId, this.scholarshipImg);
+
         this._toastService.show(response.message, {
           classname: 'bg-success text-light',
           delay: 5000
