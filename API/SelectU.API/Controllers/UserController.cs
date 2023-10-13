@@ -12,6 +12,7 @@ using SelectU.Core.Extensions;
 using SelectU.Core.Services;
 using System.Drawing;
 using System.IO;
+using System.IO.Pipelines;
 
 namespace SelectU.API.Controllers
 {
@@ -304,11 +305,11 @@ namespace SelectU.API.Controllers
 
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
         [HttpPost("photo/{userId}/upload")]
-        public async Task<IActionResult> UploadProfilePic([FromRoute] string userId, [FromBody] Stream file)
+        public async Task<IActionResult> UploadProfilePic([FromRoute] string userId, [FromForm] IFormFile file)
         {
             try
             {
-                if (!IsValidImage(file))
+                if (!IsImage(file))
                 {
                     return BadRequest("Uploaded File is not a vaild image");
                 }
@@ -319,17 +320,17 @@ namespace SelectU.API.Controllers
                     return BadRequest("User not found");
                 }
 
-                string imageID = await _blobStorageService.UploadFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, file);
+                string imageUri = await _blobStorageService.UploadPhotoAsync(_azureBlobSettingsConfig.PhotoContainerName, file);
                 var updateUser = new UserUpdateDTO(user);
-                updateUser.ProfilePicID = imageID;
+                updateUser.ProfilePicUri = imageUri;
                 await _userService.UpdateUserDetailsAsync(userId, updateUser);
 
                 if (!user.ProfilePicID.IsNullOrEmpty())
                 {
-                    await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
+                    await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.PhotoContainerName, user.ProfilePicID);
                 }
 
-                return Ok(new { Message = "File uploaded successfully", ImageID = imageID });
+                return Ok(new { Message = "File uploaded successfully", ImageUri = imageUri });
 
             }
             catch (ArgumentException ex)
@@ -354,52 +355,17 @@ namespace SelectU.API.Controllers
                 {
                     return BadRequest("User not found");
                 }
-                bool result = false;
 
-                if (!user.ProfilePicID.IsNullOrEmpty())
+                if (user.ProfilePicID != null)
                 {
-                    result = await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
-                }
-                else
-                {
-                    return BadRequest(new ResponseDTO { Success = result, Message = "Profile Picture does not exist" });
-                }
-
-                return Ok(new ResponseDTO { Success = result, Message = "Profile Picture Delete" });
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (ApplicationException ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.User}, {UserRoles.Admin}")]
-        [HttpGet("photo/{userId}/download")]
-        public async Task<IActionResult> DownloadProfilePic([FromRoute] string userId)
-        {
-            try
-            {
-
-                var user = await _userService.GetUserAsync(userId);
-
-                if (user == null)
-                {
-                    return BadRequest("User not found");
-                }
-
-                if (!user.ProfilePicID.IsNullOrEmpty())
-                {
-                    var stream = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, user.ProfilePicID);
-                    return Ok(stream);
+                    await _blobStorageService.DeletePhotoAsync(user.ProfilePicID);
                 }
                 else
                 {
                     return BadRequest(new ResponseDTO { Success = false, Message = "Profile Picture does not exist" });
                 }
+
+                return Ok(new ResponseDTO { Success = true, Message = "Profile Picture Delete" });
             }
             catch (ArgumentException ex)
             {
@@ -411,21 +377,13 @@ namespace SelectU.API.Controllers
             }
         }
 
-        private bool IsValidImage(Stream file)
+        private bool IsImage(IFormFile file)
         {
-            try
-            {
-                using (Image newImage = Image.FromStream(file))
-                { }
-            }
-            catch (OutOfMemoryException ex)
-            {
-                //The file does not have a valid image format.
-                //-or- GDI+ does not support the pixel format of the file
+            // Get the content type of the file
+            var contentType = file.ContentType;
 
-                return false;
-            }
-            return true;
+            // Check if the content type starts with "image/"
+            return contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase);
         }
 
         [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
