@@ -60,7 +60,7 @@ namespace SelectU.Core.Services
                 .ToList();
         }
 
-            public async Task<ResponseDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string id)
+            public async Task<ScholarshipUpdateDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string id)
         {
             //TODO
             //check the names align up and don't double up
@@ -88,7 +88,7 @@ namespace SelectU.Core.Services
 
             await _unitOfWork.CommitAsync();
 
-            return new ResponseDTO { Success = true, Message = "Scholarship created successfully." };
+            return new ScholarshipUpdateDTO(scholarship);
         }
 
         public async Task<List<Scholarship>> FilterQuery(ScholarshipSearchDTO scholarshipSearchDTO, List<Scholarship> scholarships)

@@ -203,7 +203,7 @@ namespace SelectU.API.Controllers
                     await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.FileContainerName, scholarship.ImageURL);
                 }
 
-                return Ok(new { Message = "File uploaded successfully", ImageID = imageID });
+                return Ok(new ResponseDTO { Success = true, Message = "Picture was upload successfully" });
 
             }
             catch (ArgumentException ex)

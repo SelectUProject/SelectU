@@ -8,7 +8,7 @@ namespace SelectU.Contracts.Services
         Task<ScholarshipUpdateDTO> GetScholarshipAsync(Guid id);
         Task<List<ScholarshipUpdateDTO>> GetActiveScholarshipAsync(ScholarshipSearchDTO ScholarshipSearchDTO);
         Task<List<ScholarshipUpdateDTO>> GetMyCreatedScholarshipsAsync(ScholarshipSearchDTO ScholarshipSearchDTO, string id);
-        Task<ResponseDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string id);
+        Task<ScholarshipUpdateDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string id);
         Task<ResponseDTO> UpdateScholarshipsAsync(ScholarshipUpdateDTO ScholarshipUpdateDTO);
         Task<ResponseDTO> DeleteScholarshipsAsync(Guid id);
 
