@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { Config } from './config';
@@ -44,7 +44,7 @@ export class ScholarshipService {
 
   async createScholarship(scholarshipCreateDTO: ScholarshipCreateDTO) {
     return await firstValueFrom(
-      this.http.post<ResponseDTO>(
+      this.http.post<ScholarshipUpdateDTO>(
         `${Config.api}/Scholarship/create`,
         scholarshipCreateDTO
       )
@@ -66,5 +66,45 @@ export class ScholarshipService {
         `${Config.api}/Scholarship/delete/${id}`,
       )
     );
+  }
+
+  async uploadScholarshipImg(id: any, formData: FormData) {
+    // const headerDict = {
+    //   'Content-Type': 'multipart/form-data',
+    //   'Accept': 'application/json',
+    //   'Access-Control-Allow-Headers': 'Content-Type',
+    // }
+
+    // const requestOptions = {
+    //   headers: new HttpHeaders(headerDict),
+    // };
+
+    // const headers = {
+    //   'Content-Type': 'multipart/form-data',
+    // };
+
+    // formData.append('fake', 'fake');
+
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'multipart/form-data',
+    //   }),
+    // };
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `${Config.api}/Scholarship/photo/upload/${id}`, true);
+      xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          resolve(xhr.response);
+        } else {
+          reject(xhr.response);
+        }
+      };
+
+      xhr.send(formData);
+    });
   }
 }

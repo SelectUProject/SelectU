@@ -14,6 +14,7 @@ import { ScholarshipFormSectionListService } from 'src/app/services/scholarship-
 })
 export class CreateScholarshipPageComponent {
   createScholarshipForm: FormGroup;
+  scholarshipImg: FormData = new FormData();
 
   constructor(
     private _router: Router,
@@ -31,7 +32,7 @@ export class CreateScholarshipPageComponent {
     this.createScholarshipForm = this._formBuilder.group(
       {
         school: new FormControl('', Validators.required),
-        imageURL: new FormControl('', Validators.required),
+        imageURL: new FormControl(''),
         value: new FormControl('', Validators.required),
         shortDescription: new FormControl('', Validators.required),
         description: new FormControl('', Validators.required),
@@ -50,7 +51,12 @@ export class CreateScholarshipPageComponent {
     this._scholarshipService
       .createScholarship(createScholarshipForm)
       .then((response) => {
-        this._toastService.show(response.message, {
+        console.log(response);
+        // uploading an image after the scholarship has been created
+        this._scholarshipService
+          .uploadScholarshipImg(response.id, this.scholarshipImg);
+
+        this._toastService.show("Success", {
           classname: 'bg-success text-light',
           delay: 5000
         });
