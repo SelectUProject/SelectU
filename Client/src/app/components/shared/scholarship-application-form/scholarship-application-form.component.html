@@ -59,6 +59,9 @@
             <input
               mdbInput
               type="file"
+              (change)="
+                handleFileInput($any($event.target).files, section.name)
+              "
               class="form-control"
               id="{{ section.name }}"
               formControlName="{{ section.name }}"

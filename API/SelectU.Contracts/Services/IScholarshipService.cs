@@ -5,16 +5,12 @@ namespace SelectU.Contracts.Services
 {
     public interface IScholarshipService
     {
-        Task<ScholarshipUpdateDTO> GetScholarshipAsync(Guid id);
-        Task<List<ScholarshipUpdateDTO>> GetActiveScholarshipAsync(ScholarshipSearchDTO ScholarshipSearchDTO);
-        Task<List<ScholarshipUpdateDTO>> GetMyCreatedScholarshipsAsync(ScholarshipSearchDTO ScholarshipSearchDTO, string id);
-        Task<ResponseDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string id);
-        Task<ResponseDTO> UpdateScholarshipsAsync(ScholarshipUpdateDTO ScholarshipUpdateDTO);
-        Task<ResponseDTO> DeleteScholarshipsAsync(Guid id);
-
-        //Task UpdateUserDetailsAsync(string id, UserUpdateDTO updateDTO);
-        //Task ChangePasswordAsync(string id, ChangePasswordDTO passwordDTO);
-        //Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto);
-        //Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto);
+        Task<List<ScholarshipUpdateDTO>> GetScholarshipsAsync(ScholarshipSearchDTO scholarshipSearchDTO);
+        Task<Scholarship> GetScholarshipAsync(Guid id);
+        Task<List<ScholarshipUpdateDTO>> GetActiveScholarshipsAsync(ScholarshipSearchDTO scholarshipSearchDTO);
+        Task<List<ScholarshipUpdateDTO>> GetMyCreatedScholarshipsAsync(ScholarshipSearchDTO scholarshipSearchDTO, string userId);
+        Task CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string userId);
+        Task UpdateScholarshipAsync(ScholarshipUpdateDTO scholarshipUpdateDTO);
+        Task ArchiveScholarshipAsync(Guid id);
     }
 }

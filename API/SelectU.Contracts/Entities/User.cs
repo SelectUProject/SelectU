@@ -36,7 +36,7 @@ namespace SelectU.Contracts.Entities
             Postcode = user.Postcode;
             State = user.State;
             Country = user.Country;
-            ProfilePicID = user.ProfilePicID;
+            ProfilePicID = user.ProfilePicUri;
             AboutMe = user.AboutMe;
             LoginExpiry = user.LoginExpiry;
             DateCreated = user.DateCreated;

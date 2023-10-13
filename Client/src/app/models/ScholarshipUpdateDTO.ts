@@ -1,5 +1,5 @@
 import { ScholarshipFormSectionDTO } from './ScholarshipFormSectionDTO';
-import { StatusEnum } from './StatusEnum';
+import { ScholarshipStatusEnum } from './ScholarshipStatusEnum';
 
 export interface ScholarshipUpdateDTO {
   id: string;
@@ -11,7 +11,7 @@ export interface ScholarshipUpdateDTO {
   scholarshipFormTemplate: ScholarshipFormSectionDTO[];
   state: string;
   city: string;
-  status: StatusEnum;
+  status: ScholarshipStatusEnum;
   startDate: Date;
   endDate: Date;
 }

@@ -9,7 +9,7 @@
   Search Options
 </button>
 <div class="collapse navbar-collapse" mdbCollapse #buttonsNav="mdbCollapse">
-  <form [formGroup]="searchScholarshipForm" (ngSubmit)="search()">
+  <form [formGroup]="searchScholarshipApplicationForm" (ngSubmit)="search()">
     <div class="row mt-4 mb-4">
       <div class="col">
         <div class="form-outline">
@@ -28,40 +28,27 @@
           </mdb-form-control>
         </div>
       </div>
-      <div class="col">
+      <!-- <div class="col">
+        Awaiting Jack's status update
         <div class="form-outline">
           <mdb-form-control class="mb-4">
-            <input
+            <select
               mdbValidate
               mdbInput
-              type="text"
-              id="value"
+              type="select"
+              id="status"
               class="form-control"
-              formControlName="value"
-            />
-            <label mdbLabel class="form-label" for="value">Value</label>
-          </mdb-form-control>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-outline">
-          <mdb-form-control class="mb-4">
-            <input
-              mdbValidate
-              mdbInput
-              type="text"
-              id="description"
-              class="form-control"
-              formControlName="description"
-            />
-            <label mdbLabel class="form-label" for="description"
-              >Description</label
+              formControlName="status"
             >
+              <option value="" disabled selected></option>
+              <option *ngFor="let status of Statuses" [ngValue]="status.value">
+                {{ status.name }}
+              </option>
+            </select>
+            <label mdbLabel class="form-label" for="status">Status</label>
           </mdb-form-control>
         </div>
-      </div>
-    </div>
-    <div class="row mb-4">
+      </div> -->
       <div class="col">
         <div class="form-outline">
           <mdb-form-control class="mb-4">
@@ -69,48 +56,18 @@
               mdbValidate
               mdbInput
               type="text"
-              id="city"
-              class="form-control"
-              formControlName="city"
-            />
-            <label mdbLabel class="form-label" for="city">City</label>
-          </mdb-form-control>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-outline">
-          <mdb-form-control class="mb-4">
-            <input
-              mdbValidate
-              mdbInput
-              type="text"
-              id="startDate"
+              id="dateCreated"
               class="form-control"
               bsDatepicker
-              [bsConfig]="{containerClass: 'theme-dark-blue',}"
-              formControlName="startDate"
+              [bsConfig]="{
+                containerClass: 'theme-dark-blue',
+                dateInputFormat: 'DD/MM/YYYY'
+              }"
+              formControlName="dateCreated"
             />
-            <label mdbLabel class="form-label" for="startDate"
-              >Start Date</label
+            <label mdbLabel class="form-label" for="dateCreated"
+              >Application Date</label
             >
-          </mdb-form-control>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-outline">
-          <mdb-form-control class="mb-4">
-            <input
-              mdbValidate
-              mdbInput
-              type="text"
-              id="endDate"
-              class="form-control"
-              bsDatepicker
-              [bsConfig]="{containerClass: 'theme-dark-blue',}"
-              [minDate]="todayDate"
-              formControlName="endDate"
-            />
-            <label mdbLabel class="form-label" for="endDate">End Date</label>
           </mdb-form-control>
         </div>
       </div>
@@ -118,7 +75,7 @@
     <button
       mdbRipple
       *ngIf="!submitting"
-      [disabled]="!searchScholarshipForm.valid"
+      [disabled]="!searchScholarshipApplicationForm.valid"
       type="submit"
       class="btn btn-primary btn-block mb-3"
     >

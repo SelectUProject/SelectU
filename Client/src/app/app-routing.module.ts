@@ -14,6 +14,8 @@ import UserInvitePageComponent from './components/pages/user-invite-page/user-in
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component'
+import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
+import ReviewPageComponent from './components/pages/review-page/review-page.component';
 
 //components
 
@@ -23,16 +25,24 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', component: LandingPageComponent },
+      { path: 'register', component: RegisterPageComponent },
       { path: 'login', component: LoginPageComponent },
+    
       {
         path: 'account',
         component: UserProfilePageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.User, Role.Staff] },
       },
       {
-        path: `find-scholarships`,
+        path: `scholarships`,
         component: FindScholarshipsComponent,
         canActivate: [AuthGuard],
-        data: { role: Role.User },
+      },
+      {
+        path: `applications/:scholarshipId`,
+        component: ViewApplicationsPageComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: `create-scholarship-application`,
@@ -40,21 +50,17 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { role: Role.User },
       },
-      {
-        path: 'manage-scholarships',
-        component: ManageScholarshipsPageComponent,
-        canActivate: [AuthGuard],
-        data: { role: Role.Staff },
-      },
+
       { path: 'register', component: RegisterPageComponent },
 
       { path: '404', component: NotFoundPageComponent },
       { path: '**', redirectTo: '/404' },
 
-
       {
-        path: 'applications',
+        path: 'my-applications',
         component: MyApplicationsComponent,
+        canActivate: [AuthGuard],
+        data: { role: Role.User },
       },
       {
         path: 'invite-user',
@@ -67,6 +73,12 @@ const routes: Routes = [
         component: UserTablePageComponent,
         canActivate: [AuthGuard],
         data: { role: [Role.Staff, Role.Admin] },
+      },
+      {
+        path: 'review/:scholarshipId',
+        component: ReviewPageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin, Role.Reviewer] },
       },
     ],
   },
