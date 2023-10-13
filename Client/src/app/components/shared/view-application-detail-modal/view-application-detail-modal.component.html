@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h5 class="modal-title">Application</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="ViewDetailsModalRef.close()"
+  ></button>
+</div>
+<div class="modal-body">
+  <app-long-view-application
+    [scholarshipApplication]="scholarshipApplication"
+  />
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="ViewDetailsModalRef.close()"
+  >
+    Close
+  </button>
+</div>

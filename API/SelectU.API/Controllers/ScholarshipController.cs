@@ -26,7 +26,7 @@ namespace SelectU.API.Controllers
         private readonly AzureBlobSettingsConfig _azureBlobSettingsConfig;
         private readonly IBlobStorageService _blobStorageService;
 
-        public ScholarshipController(ILogger<ScholarshipController> logger, 
+        public ScholarshipController(ILogger<ScholarshipController> logger,
             IBlobStorageService blobStorageService,
             IOptions<AzureBlobSettingsConfig> azureBlobSettingsConfig,
             IScholarshipService scholarshipService)
@@ -37,25 +37,43 @@ namespace SelectU.API.Controllers
             _azureBlobSettingsConfig = azureBlobSettingsConfig.Value;
         }
 
-        [Authorize]
-        [HttpGet("details")]
-        public async Task<IActionResult> GetScholarshipDetailsAsync(Guid id)
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}, {UserRoles.Reviewer}")]
+        [HttpPost("")]
+        public async Task<IActionResult> GetScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO)
         {
-            
             try
             {
-                var scholarship = await _scholarshipService.GetScholarshipAsync(id);
+                var scholarships = await _scholarshipService.GetScholarshipsAsync(scholarshipSearchDTO);
+
+                return Ok(scholarships);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Scholarship, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("{scholarshipId}")]
+        public async Task<IActionResult> GetScholarshipDetailsAsync([FromRoute] Guid scholarshipId)
+        {
+            try
+            {
+                var scholarship = await _scholarshipService.GetScholarshipAsync(scholarshipId);
 
                 if (scholarship == null)
                 {
                     return BadRequest("Scholarship not found");
                 }
 
-                return Ok(scholarship);
+                var response = new ScholarshipUpdateDTO(scholarship);
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Scholarship {id}, {ex.Message}");
+                _logger.LogError(ex, $"Scholarship {scholarshipId}, {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
@@ -66,7 +84,7 @@ namespace SelectU.API.Controllers
         {
             try
             {
-                var scholarships = await _scholarshipService.GetActiveScholarshipAsync(scholarshipSearchDTO);
+                var scholarships = await _scholarshipService.GetActiveScholarshipsAsync(scholarshipSearchDTO);
 
                 if (scholarships == null)
                 {
@@ -84,7 +102,7 @@ namespace SelectU.API.Controllers
 
         [Authorize(Roles = UserRoles.Staff)]
         [HttpPost("list/creator")]
-        public async Task<IActionResult> GetMyCreatedScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO )
+        public async Task<IActionResult> GetMyCreatedScholarshipsAsync([FromBody] ScholarshipSearchDTO scholarshipSearchDTO)
         {
             try
             {
@@ -105,21 +123,17 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.Staff)]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateScholarshipAsync([FromBody] ScholarshipCreateDTO scholarshipCreateDTO)
         {
             try
             {
                 string userId = HttpContext.GetUserId();
-                var scholarship = await _scholarshipService.CreateScholarshipAsync(scholarshipCreateDTO, userId);
+                
+                await _scholarshipService.CreateScholarshipAsync(scholarshipCreateDTO, userId);
 
-                if (scholarship == null)
-                {
-                    return BadRequest("Scholarship not found");
-                }
-
-                return Ok(scholarship);
+                return Ok();
             }
             catch (ScholarshipException ex)
             {
@@ -131,15 +145,15 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles = UserRoles.Staff)]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpPost("update")]
         public async Task<IActionResult> UpdateScholarshipAsync([FromBody] ScholarshipUpdateDTO scholarshipUpdateDTO)
         {
             try
             {
-                var response = await _scholarshipService.UpdateScholarshipsAsync(scholarshipUpdateDTO);
+                await _scholarshipService.UpdateScholarshipAsync(scholarshipUpdateDTO);
 
-                return Ok(response);
+                return Ok();
             }
             catch (ScholarshipException ex)
             {
@@ -151,21 +165,16 @@ namespace SelectU.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles = UserRoles.Staff)]
-        [HttpDelete("delete/{scholarshipId}")]
-        public async Task<IActionResult> DeleteScholarshipAsync([FromRoute] Guid scholarshipId)
+
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
+        [HttpPost("archive/{scholarshipId}")]
+        public async Task<IActionResult> ArchiveScholarshipAsync([FromRoute] Guid scholarshipId)
         {
             try
             {
-                string userId = HttpContext.GetUserId();
-                var scholarship = await _scholarshipService.GetScholarshipAsync(scholarshipId);
-                if ((scholarship.ScholarshipCreatorId != userId) || HttpContext.User.IsInRole(UserRoles.Admin))
-                {
-                    var response = await _scholarshipService.DeleteScholarshipsAsync(scholarshipId);
+                await _scholarshipService.ArchiveScholarshipAsync(scholarshipId);
 
-                    return Ok(response);
-                }
-                return BadRequest($"You may only delete your own created scholarships unless you are a {UserRoles.Admin}");
+                return Ok(new { Message = "Scholarship Successfully Closed, Refresh to get updated list of Scholarships" });
             }
             catch (ScholarshipException ex)
             {
@@ -178,13 +187,14 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}")]
+
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpPost("photo/upload/{scholarshipId}")]
-        public async Task<IActionResult> UploadPic([FromRoute] Guid scholarshipId, [FromBody] Stream file)
+        public async Task<IActionResult> UploadPic([FromRoute] Guid scholarshipId, [FromForm] IFormFile file)
         {
             try
             {
-                if (!IsValidImage(file))
+                if (!IsImage(file))
                 {
                     return BadRequest("Uploaded File is not a vaild image");
                 }
@@ -195,15 +205,15 @@ namespace SelectU.API.Controllers
                     return BadRequest("scholarship not found");
                 }
 
-                string imageID = await _blobStorageService.UploadFileAsync(_azureBlobSettingsConfig.FileContainerName, file);
-                scholarship.ImageURL = imageID;
-                await _scholarshipService.UpdateScholarshipsAsync(scholarship);
+                string imageURL = await _blobStorageService.UploadPhotoAsync(_azureBlobSettingsConfig.PhotoContainerName, file);
+                scholarship.ImageURL = imageURL;
+                await _scholarshipService.UpdateScholarshipAsync(new ScholarshipUpdateDTO(scholarship));
                 if (!scholarship.ImageURL.IsNullOrEmpty())
                 {
                     await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.FileContainerName, scholarship.ImageURL);
                 }
 
-                return Ok(new { Message = "File uploaded successfully", ImageID = imageID });
+                return Ok(new { Message = "File uploaded successfully", ImageURL = imageURL });
 
             }
             catch (ArgumentException ex)
@@ -216,7 +226,7 @@ namespace SelectU.API.Controllers
             }
         }
 
-        [Authorize(Roles = $"{UserRoles.Staff}")]
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Admin}")]
         [HttpDelete("photo/delete/{scholarshipId}")]
         public async Task<IActionResult> DeletePic([FromRoute] Guid scholarshipId)
         {
@@ -228,52 +238,17 @@ namespace SelectU.API.Controllers
                 {
                     return BadRequest("User not found");
                 }
-                bool result = false;
 
-                if (!scholarship.ImageURL.IsNullOrEmpty())
+                if (scholarship.ImageURL != null)
                 {
-                    result = await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.ProfilePicContainerName, scholarship.ImageURL);
-                }
-                else
-                {
-                    return BadRequest(new ResponseDTO { Success = result, Message = "Picture does not exist" });
-                }
-
-                return Ok(new ResponseDTO { Success = result, Message = "Picture Delete" });
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (ApplicationException ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        [Authorize(Roles = $"{UserRoles.Staff}")]
-        [HttpGet("photo/download/{applicationId}")]
-        public async Task<IActionResult> DownloadPic([FromRoute] Guid applicationId)
-        {
-            try
-            {
-
-                var scholarship = await _scholarshipService.GetScholarshipAsync(applicationId);
-
-                if (scholarship == null)
-                {
-                    return BadRequest("scholarship not found");
-                }
-
-                if (!scholarship.ImageURL.IsNullOrEmpty())
-                {
-                    var stream = await _blobStorageService.DownloadFileAsync(_azureBlobSettingsConfig.FileContainerName, scholarship.ImageURL);
-                    return Ok(stream);
+                    await _blobStorageService.DeletePhotoAsync( scholarship.ImageURL);
                 }
                 else
                 {
                     return BadRequest(new ResponseDTO { Success = false, Message = "Picture does not exist" });
                 }
+
+                return Ok(new ResponseDTO { Success = true, Message = "Picture Delete" });
             }
             catch (ArgumentException ex)
             {
@@ -284,21 +259,14 @@ namespace SelectU.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        private bool IsValidImage(Stream file)
-        {
-            try
-            {
-                using (Image newImage = Image.FromStream(file))
-                { }
-            }
-            catch (OutOfMemoryException ex)
-            {
-                //The file does not have a valid image format.
-                //-or- GDI+ does not support the pixel format of the file
 
-                return false;
-            }
-            return true;
+        private bool IsImage(IFormFile file)
+        {
+            // Get the content type of the file
+            var contentType = file.ContentType;
+
+            // Check if the content type starts with "image/"
+            return contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

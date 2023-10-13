@@ -17,8 +17,12 @@ namespace SelectU.Contracts.DTO
         public string? Postcode { get; set; }
         public string? State { get; set; }
         public string? Country { get; set; }
-        public string? ProfilePicID { get; set; }
+        public string? ProfilePicUri { get; set; }
         public string? AboutMe { get; set; }
+        public string? Role { get; set; }
+        public DateTimeOffset? LoginExpiry { get; set; }
+        public DateTimeOffset? DateCreated { get; set; }
+        public DateTimeOffset? DateModified { get; set; }
 
         public UserUpdateDTO() { }
 
@@ -36,8 +40,33 @@ namespace SelectU.Contracts.DTO
             Postcode = user.Postcode;
             State = user.State;
             Country = user.Country;
-            ProfilePicID = user.ProfilePicID;
+            ProfilePicUri = user.ProfilePicID;
             AboutMe = user.AboutMe;
+            LoginExpiry = user.LoginExpiry;
+            DateCreated = user.DateCreated;
+            DateModified = user.DateModified;
+        }
+        
+        public UserUpdateDTO(User user, string? role)
+        {
+            Id = user.Id;
+            Email = user.Email;
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            DateOfBirth = user.DateOfBirth;
+            Gender = user.Gender;
+            PhoneNumber = user.PhoneNumber;
+            Address = user.Address;
+            Suburb = user.Suburb;
+            Postcode = user.Postcode;
+            State = user.State;
+            Country = user.Country;
+            ProfilePicUri = user.ProfilePicID;
+            AboutMe = user.AboutMe;
+            LoginExpiry = user.LoginExpiry;
+            DateCreated = user.DateCreated;
+            DateModified = user.DateModified;
+            Role = role;
         }
     }
 }

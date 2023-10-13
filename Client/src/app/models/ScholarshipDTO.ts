@@ -1,4 +1,4 @@
-import { StatusEnum } from './StatusEnum';
+import { ScholarshipStatusEnum } from './ScholarshipStatusEnum';
 
 export interface ScholarshipDTO {
   id: string;
@@ -10,7 +10,7 @@ export interface ScholarshipDTO {
   scholarshipFormTemplate: string;
   state: string;
   city: string;
-  status: StatusEnum;
+  status: ScholarshipStatusEnum;
   startDate: Date;
   endDate: Date;
 }

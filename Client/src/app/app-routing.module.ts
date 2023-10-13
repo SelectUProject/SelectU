@@ -7,11 +7,14 @@ import RegisterPageComponent from './components/pages/register-page/register-pag
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
 import { AuthGuard } from './providers/auth.guard';
 import { Role } from './models/Role';
-import { SavedScholarshipsPageComponent } from './components/pages/saved-scholarships-page/saved-scholarships-page.component';
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { UserProfilePageComponent } from './components/pages/user-profile-page/user-profile-page.component';
+import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
+import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
+import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
+import ReviewPageComponent from './components/pages/review-page/review-page.component';
 
 //components
 
@@ -21,22 +24,24 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', component: LandingPageComponent },
+      { path: 'register', component: RegisterPageComponent },
       { path: 'login', component: LoginPageComponent },
-      {
-        path: 'saved-scholarships',
-        component: SavedScholarshipsPageComponent,
-        canActivate: [AuthGuard],
-        data: { role: Role.User },
-      },
+      //     { path: '404', component: ErrorComponent },
       {
         path: 'account',
         component: UserProfilePageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.User, Role.Staff] },
       },
       {
-        path: `find-scholarships`,
+        path: `scholarships`,
         component: FindScholarshipsComponent,
         canActivate: [AuthGuard],
-        data: { role: Role.User },
+      },
+      {
+        path: `applications/:scholarshipId`,
+        component: ViewApplicationsPageComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: `create-scholarship-application`,
@@ -45,17 +50,28 @@ const routes: Routes = [
         data: { role: Role.User },
       },
       {
-        path: 'manage-scholarships',
-        component: ManageScholarshipsPageComponent,
-        canActivate: [AuthGuard],
-        data: { role: Role.Staff },
-      },
-      //     { path: 'signup', component: LandingComponent },
-      { path: 'register', component: RegisterPageComponent },
-      //     { path: '404', component: ErrorComponent },
-      {
-        path: 'my-scholarships',
+        path: 'my-applications',
         component: MyApplicationsComponent,
+        canActivate: [AuthGuard],
+        data: { role: Role.User },
+      },
+      {
+        path: 'invite-user',
+        component: UserInvitePageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin] },
+      },
+      {
+        path: 'view-users',
+        component: UserTablePageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin] },
+      },
+      {
+        path: 'review/:scholarshipId',
+        component: ReviewPageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin, Role.Reviewer] },
       },
     ],
   },

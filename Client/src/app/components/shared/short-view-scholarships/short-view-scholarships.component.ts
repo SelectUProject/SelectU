@@ -4,6 +4,8 @@ import { TokenService } from 'src/app/providers/token.service';
 import { ADMIN, STAFF, USER } from 'src/app/constants/userRoles';
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
 import { Router } from '@angular/router';
+import ViewDetailsModalComponent from '../view-details-modal/view-details-modal.component';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 
 @Component({
   selector: 'app-short-view-scholarships',
@@ -14,7 +16,12 @@ export class ShortViewScholarshipsComponent {
   ADMIN = ADMIN;
   STAFF = STAFF;
   USER = USER;
+  successMessage: string;
+  success = false;
+  viewDetailsModalRef: MdbModalRef<ViewDetailsModalComponent>;
+
   @Input() scholarship: ScholarshipUpdateDTO;
+  @Input() showActions: boolean = true;
 
   set data(value: ScholarshipUpdateDTO) {
     this.scholarshipService.scholarship = value;
@@ -23,6 +30,35 @@ export class ShortViewScholarshipsComponent {
   constructor(
     private router: Router,
     public tokenService: TokenService,
-    public scholarshipService: ScholarshipService
+    public scholarshipService: ScholarshipService,
+    private modalService: MdbModalService
   ) {}
+
+  openModal(scholarship: ScholarshipUpdateDTO) {
+    this.scholarshipService.scholarship = this.scholarship;
+    this.success = false;
+    this.viewDetailsModalRef = this.modalService.open(
+      ViewDetailsModalComponent,
+      {
+        data: { scholarship },
+      }
+    );
+    this.viewDetailsModalRef.component.successEvent.subscribe(() => {
+      this.success = true;
+      // this.getAllUsers();
+      this.viewDetailsModalRef.close();
+    });
+  }
+
+  archive(scholarship: ScholarshipUpdateDTO) {
+    this.scholarshipService
+      .archiveScholarship(scholarship.id)
+      .then((response) => {
+        this.successMessage = response.message;
+        this.success = true;
+      })
+      .catch((response) => {
+        console.log(response.error.message);
+      });
+  }
 }

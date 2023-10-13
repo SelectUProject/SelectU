@@ -36,7 +36,6 @@ class RegisterFormComponent implements OnInit {
   existingEmail: boolean = false;
   todayDate: Date = new Date();
   registered: boolean = false;
-  socialUser: SocialUser;
 
   get email() {
     return this.registerForm.get('email');
@@ -89,11 +88,7 @@ class RegisterFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.tokenService.IsAuthenticated) {
-      if (this.tokenService.role == Role.Staff) {
-        this.router.navigate(['/manage-scholarships']);
-      } else {
-        this.router.navigate(['/find-scholarships']);
-      }
+      this.router.navigate(['/scholarships']);
     } else {
       this.tokenService.clearToken();
     }
@@ -103,8 +98,8 @@ class RegisterFormComponent implements OnInit {
 
   setupSocialAuthService() {
     this.socialAuthService.authState.subscribe((user) => {
-      this.socialUser = user;
-      console.log(this.socialUser);
+      if (!user) return;
+      this.googleRegister(user);
     });
   }
 
@@ -155,10 +150,6 @@ class RegisterFormComponent implements OnInit {
     );
   }
 
-  loginWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
-
   matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
     return (control: AbstractControl) => {
       const password = control.get(passwordKey)?.value;
@@ -183,13 +174,46 @@ class RegisterFormComponent implements OnInit {
 
     await this.userService
       .register(registerForm)
-      .then(() => {
-        console.log('Successful Registration');
-        this.authService.login({
-          username: registerForm.email,
-          password: registerForm.password,
-        });
-        this.router.navigate(['find-scholarships']);
+      .then(async () => {
+        await this.authService
+          .login({
+            username: registerForm.email,
+            password: registerForm.password,
+          })
+          .then((response) => {
+            this.tokenService.setToken(response);
+            this.router.navigate(['find-scholarships']);
+          });
+      })
+      .catch((response) => {
+        if (response.error?.errors) {
+          this.errMsg = 'One or more validation errors occurred.';
+          response.error?.errors?.forEach((form: any) => {
+            this.setFormError(form.propertyName);
+          });
+        } else if (!response.success) {
+          this.errMsg = response.error.message;
+        }
+        this.isError = true;
+      });
+    this.saving = false;
+  }
+
+  async googleRegister(socialUser: SocialUser) {
+    this.saving = true;
+    this.isError = false;
+
+    await this.userService
+      .googleRegister({ IdToken: socialUser.idToken })
+      .then(async () => {
+        await this.authService
+          .googleLogin({
+            IdToken: socialUser.idToken,
+          })
+          .then((response) => {
+            this.tokenService.setToken(response);
+            this.router.navigate(['find-scholarships']);
+          });
       })
       .catch((response) => {
         if (response.error?.errors) {

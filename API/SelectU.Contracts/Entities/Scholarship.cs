@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-﻿using SelectU.Contracts.Enums;
+using SelectU.Contracts.Entities;
+using SelectU.Contracts.Enums;
 
 namespace SelectU.Contracts.Entities
 {
@@ -15,7 +16,7 @@ namespace SelectU.Contracts.Entities
         public required string ScholarshipFormTemplate { get; set; }
         public string? State { get; set; }
         public string? City { get; set; }
-        public StatusEnum Status { get; set; }
+        public ScholarshipStatusEnum Status { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public DateTimeOffset? DateCreated { get; set; }
@@ -23,6 +24,7 @@ namespace SelectU.Contracts.Entities
 
         [ForeignKey("ScholarshipCreatorId")]
         public virtual User? ScholarshipCreator { get; set; }
+        public virtual List<ScholarshipApplication>? ScholarshipApplications { get; set; }
 
     }
 }

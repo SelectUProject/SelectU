@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { environment } from 'src/environments/environment';
+
 import { DatePipe } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +27,8 @@ import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { MdbRangeModule } from 'mdb-angular-ui-kit/range';
 
 // Custom components
 import NavbarComponent from './components/layouts/navbar/navbar.component';
@@ -33,7 +37,6 @@ import LoginFormComponent from './components/shared/login-form/login-form.compon
 import RegisterPageComponent from './components/pages/register-page/register-page.component';
 import RegisterFormComponent from './components/shared/register-form/register-form.component';
 import LandingPageComponent from './components/pages/landing-page/landing-page.component';
-import { SavedScholarshipsPageComponent } from './components/pages/saved-scholarships-page/saved-scholarships-page.component';
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { ShortViewMyApplicationsComponent } from './components/shared/short-view-my-applications/short-view-my-applications.component';
@@ -43,6 +46,21 @@ import { CreateScholarshipApplicationPageComponent } from './components/pages/cr
 import { LongViewScholarshipsComponent } from './components/shared/long-view-scholarships/long-view-scholarships.component';
 import { ScholarshipApplicationFormComponent } from './components/shared/scholarship-application-form/scholarship-application-form.component';
 import { FooterComponent } from './components/layouts/footer/footer.component';
+import { ScholarshipApplicationSearchFormComponent } from './components/shared/scholarship-application-search-form/scholarship-application-search-form.component';
+import UserInviteFormComponent from './components/shared/user-invite-form/user-invite-form.component';
+import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
+import UserUpdateModalComponent from './components/shared/user-update-modal/user-update-modal.component';
+import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
+import UserTableComponent from './components/shared/user-table/user-table.component';
+import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable-header/ngbd-sortable-header.component';
+import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
+import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
+import { ViewApplicationDetailModalComponent } from './components/shared/view-application-detail-modal/view-application-detail-modal.component';
+import ReviewModalComponent from './components/shared/review-modal/review-modal.component';
+import LongViewApplicationComponent from './components/shared/long-view-application/long-view-application.component';
+import ReviewFormComponent from './components/shared/review-form/review-form.component';
+import ReviewPageComponent from './components/pages/review-page/review-page.component';
+
 
 @NgModule({
   declarations: [
@@ -56,7 +74,6 @@ import { FooterComponent } from './components/layouts/footer/footer.component';
     RegisterPageComponent,
     RegisterFormComponent,
     LandingPageComponent,
-    SavedScholarshipsPageComponent,
     FindScholarshipsComponent,
     MyApplicationsComponent,
     ShortViewMyApplicationsComponent,
@@ -66,6 +83,19 @@ import { FooterComponent } from './components/layouts/footer/footer.component';
     LongViewScholarshipsComponent,
     ScholarshipApplicationFormComponent,
     FooterComponent,
+    ScholarshipApplicationSearchFormComponent,
+    UserInvitePageComponent,
+    UserInviteFormComponent,
+    UserTablePageComponent,
+    UserUpdateModalComponent,
+    UserTableComponent,
+    ViewDetailsModalComponent,
+    ViewApplicationsPageComponent,
+    ViewApplicationDetailModalComponent,
+    ReviewModalComponent,
+    LongViewApplicationComponent,
+    ReviewFormComponent,
+    ReviewPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -83,6 +113,9 @@ import { FooterComponent } from './components/layouts/footer/footer.component';
     MdbDropdownModule,
     SocialLoginModule,
     GoogleSigninButtonModule,
+    MdbModalModule,
+    NgbdSortableHeader,
+    MdbRangeModule,
   ],
   providers: [
     DatePipe,
@@ -99,9 +132,7 @@ import { FooterComponent } from './components/layouts/footer/footer.component';
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '916817943783-uep7ecjsr44mroo06ig665nmsm0aad9t.apps.googleusercontent.com'
-            ),
+            provider: new GoogleLoginProvider(environment.googleClientId),
           },
         ],
       } as SocialAuthServiceConfig,

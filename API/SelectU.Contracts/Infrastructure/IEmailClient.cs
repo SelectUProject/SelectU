@@ -5,8 +5,9 @@ namespace SelectU.Contracts.Infrastructure
 {
     public interface IEmailClient
     {
-        Task SendRegistrationEmailASync(UserRegisterDTO registerDto);
-        //Task SendTestEmail();
-        //Task SendUserResetPasswordEmailAsync(User user, string callback);
+        Task SendRegistrationEmailAsync(UserRegisterDTO registerDto);
+        Task SendUserInviteEmailAsync(UserInviteDTO inviteDTO, string password);
+        Task SendUserSuccessfulApplicationAsync(ScholarshipApplication scholarshipApplication);
+        Task SendUserUnsuccessfulApplicationAsync(ScholarshipApplication scholarshipApplication);
     }
 }

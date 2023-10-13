@@ -1,0 +1,103 @@
+<button
+  mdbRipple
+  class="btn btn-primary"
+  type="button"
+  (click)="buttonsNav.toggle()"
+  aria-expanded="false"
+  aria-label="Toggle navigation"
+>
+  Search Options
+</button>
+<div class="collapse navbar-collapse" mdbCollapse #buttonsNav="mdbCollapse">
+  <form [formGroup]="searchScholarshipApplicationForm" (ngSubmit)="search()">
+    <div class="row mt-4 mb-4">
+      <div class="col">
+        <div class="form-outline">
+          <mdb-form-control class="mb-4">
+            <input
+              mdbValidate
+              mdbInput
+              type="text"
+              id="school"
+              class="form-control"
+              formControlName="school"
+            />
+            <label mdbLabel class="form-label" for="school"
+              >School / Name</label
+            >
+          </mdb-form-control>
+        </div>
+      </div>
+      <!-- <div class="col">
+        Awaiting Jack's status update
+        <div class="form-outline">
+          <mdb-form-control class="mb-4">
+            <select
+              mdbValidate
+              mdbInput
+              type="select"
+              id="status"
+              class="form-control"
+              formControlName="status"
+            >
+              <option value="" disabled selected></option>
+              <option *ngFor="let status of Statuses" [ngValue]="status.value">
+                {{ status.name }}
+              </option>
+            </select>
+            <label mdbLabel class="form-label" for="status">Status</label>
+          </mdb-form-control>
+        </div>
+      </div> -->
+      <div class="col">
+        <div class="form-outline">
+          <mdb-form-control class="mb-4">
+            <input
+              mdbValidate
+              mdbInput
+              type="text"
+              id="dateCreated"
+              class="form-control"
+              bsDatepicker
+              [bsConfig]="{
+                containerClass: 'theme-dark-blue',
+                dateInputFormat: 'DD/MM/YYYY'
+              }"
+              formControlName="dateCreated"
+            />
+            <label mdbLabel class="form-label" for="dateCreated"
+              >Application Date</label
+            >
+          </mdb-form-control>
+        </div>
+      </div>
+    </div>
+    <button
+      mdbRipple
+      *ngIf="!submitting"
+      [disabled]="!searchScholarshipApplicationForm.valid"
+      type="submit"
+      class="btn btn-primary btn-block mb-3"
+    >
+      Search
+    </button>
+    <button
+      *ngIf="submitting"
+      class="btn btn-primary btn-block mb-3"
+      type="button"
+      disabled
+    >
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+    </button>
+  </form>
+
+  <ng-container *ngIf="isError">
+    <div class="alert alert-danger my-3" role="alert">
+      {{ errMsg }}
+    </div>
+  </ng-container>
+</div>
