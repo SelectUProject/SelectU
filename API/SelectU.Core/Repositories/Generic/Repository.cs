@@ -46,6 +46,7 @@ namespace SelectU.Core.Repositories.Generic
                     _dbSet.Attach(entity);
                 }
                 _dbSet.Remove(entity);
+                _context.SaveChanges();
             }
         }
 
