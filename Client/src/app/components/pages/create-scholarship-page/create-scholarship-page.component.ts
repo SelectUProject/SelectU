@@ -46,7 +46,6 @@ export class CreateScholarshipPageComponent {
 
   createScholarship() {
     let createScholarshipForm = <ScholarshipCreateDTO>this.createScholarshipForm.value;
-    console.log(createScholarshipForm);
 
     this._scholarshipService
       .createScholarship(createScholarshipForm)
@@ -59,7 +58,7 @@ export class CreateScholarshipPageComponent {
         this._router.navigate(['/manage-scholarships']);
       })
       .catch((response) => {
-        this._toastService.show(response.error.message, {
+        this._toastService.show(response.error.message ?? response.error, {
           classname: 'bg-danger text-light',
           delay: 5000
         });

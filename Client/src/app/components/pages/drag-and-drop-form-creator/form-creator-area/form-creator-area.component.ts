@@ -30,12 +30,6 @@ export class FormCreatorAreaComponent implements OnInit {
 
     // Generating a new uuid for the form section
     event.container.data[event.currentIndex].uuid = uuidv4();
-
-    // Open edit dialog box ONLY if the form builder item was dragged from the Form Components sidebar
-    if (event.previousContainer !== event.container) {
-      // this.openDialog(event.currentIndex)
-      console.log(event.container)
-    }
   }
 
   deleteFormSection(formSection: ScholarshipFormSectionDTO): void {
