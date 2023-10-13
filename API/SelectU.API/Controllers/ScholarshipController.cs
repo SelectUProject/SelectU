@@ -159,7 +159,7 @@ namespace SelectU.API.Controllers
             {
                 string userId = HttpContext.GetUserId();
                 var scholarship = await _scholarshipService.GetScholarshipAsync(scholarshipId);
-                if ((scholarship.ScholarshipCreatorId != userId) || HttpContext.User.IsInRole(UserRoles.Admin))
+                if ((scholarship.ScholarshipCreatorId == userId) || HttpContext.User.IsInRole(UserRoles.Admin))
                 {
                     var response = await _scholarshipService.DeleteScholarshipsAsync(scholarshipId);
 
