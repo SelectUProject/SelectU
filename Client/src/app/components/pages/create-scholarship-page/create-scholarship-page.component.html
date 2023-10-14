@@ -1,0 +1,11 @@
+<div class="conatainer mt-5 mb-3">
+  <h3 class="text-center">Create a new scholarship</h3>
+  <p class="text-center">Use this page to create a new scholarship. The user friendly Form Builder view will let you customise the form for applicants!</p>
+</div>
+
+<app-scholarship-editor
+  [scholarshipFormGroup]="createScholarshipForm"
+  [scholarshipImg]="scholarshipImg"
+  [newScholarship]="true"
+  (createButtonClick)="createScholarship()"
+></app-scholarship-editor>

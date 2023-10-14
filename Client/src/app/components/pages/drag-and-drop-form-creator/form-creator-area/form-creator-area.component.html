@@ -1,0 +1,28 @@
+<div class="form-builder-ui p-5">
+  <div
+    id="form-creator-area"
+    cdkDropListConnectedTo="form-section-list"
+    cdkDropList
+    [cdkDropListData]="formSections"
+    class="list-group"
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    <div
+      *ngFor="
+        let formSection of formSections;
+        index as i
+      "
+      class="list-group-item p-0"
+    >
+      <app-form-section
+        [formSectionData]="formSection"
+        [isInApplicationForm]="true"
+        (destroy)="deleteFormSection($event)"
+        (updateFormSectionData)="updateFormSectionData($event)"
+      ></app-form-section>
+    </div>
+    <p>
+      Drag your form sections here
+    </p>
+  </div>
+</div>

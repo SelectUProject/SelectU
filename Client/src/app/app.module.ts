@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainLayoutComponent } from './components/layouts/main-layout/main-layout.component';
@@ -21,6 +21,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
+import { DragDropModule, CdkDragHandle } from '@angular/cdk/drag-drop';
 import {
   SocialLoginModule,
   GoogleSigninButtonModule,
@@ -55,6 +56,16 @@ import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable
 import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
 import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
 import { ViewApplicationDetailModalComponent } from './components/shared/view-application-detail-modal/view-application-detail-modal.component';
+import { ScholarshipEditorComponent } from './components/pages/scholarship-editor/scholarship-editor.component';
+import { DragAndDropService } from './services/drag-and-drop/drag-and-drop.service';
+import { FormSectionComponent } from './components/pages/drag-and-drop-form-creator/form-section/form-section.component';
+import { FormSectionEditDialogBoxComponent } from './components/pages/drag-and-drop-form-creator/form-section-edit-dialog-box/form-section-edit-dialog-box.component';
+import { FormCreatorAreaComponent } from './components/pages/drag-and-drop-form-creator/form-creator-area/form-creator-area.component';
+import { FormSectionListSidebarComponent } from './components/pages/drag-and-drop-form-creator/form-section-list-sidebar/form-section-list-sidebar.component';
+import { ScholarshipFormSectionListService } from './services/scholarship-form-section-list/scholarship-form-section-list.service';
+import { ToastsContainerComponent } from './components/shared/toasts-container/toasts-container.component';
+import { EditScholarshipPageComponent } from './components/pages/edit-scholarship-page/edit-scholarship-page.component';
+import { CreateScholarshipPageComponent } from './components/pages/create-scholarship-page/create-scholarship-page.component';
 import ReviewModalComponent from './components/shared/review-modal/review-modal.component';
 import LongViewApplicationComponent from './components/shared/long-view-application/long-view-application.component';
 import ReviewFormComponent from './components/shared/review-form/review-form.component';
@@ -87,6 +98,15 @@ import ReviewPageComponent from './components/pages/review-page/review-page.comp
     UserUpdateModalComponent,
     UserTableComponent,
     ViewDetailsModalComponent,
+    ViewApplicationDetailModalComponent,
+    ScholarshipEditorComponent,
+    FormSectionComponent,
+    FormSectionEditDialogBoxComponent,
+    FormCreatorAreaComponent,
+    FormSectionListSidebarComponent,
+    ToastsContainerComponent,
+    EditScholarshipPageComponent,
+    CreateScholarshipPageComponent,
     ViewApplicationsPageComponent,
     ViewApplicationDetailModalComponent,
     ReviewModalComponent,
@@ -101,6 +121,7 @@ import ReviewPageComponent from './components/pages/review-page/review-page.comp
     HttpClientModule,
     FormsModule,
     NgbModule,
+    NgbDatepickerModule,
     MdbTabsModule,
     MdbFormsModule,
     BrowserAnimationsModule,
@@ -112,6 +133,8 @@ import ReviewPageComponent from './components/pages/review-page/review-page.comp
     GoogleSigninButtonModule,
     MdbModalModule,
     NgbdSortableHeader,
+    DragDropModule,
+    CdkDragHandle,
     MdbRangeModule,
   ],
   providers: [
@@ -134,6 +157,8 @@ import ReviewPageComponent from './components/pages/review-page/review-page.comp
         ],
       } as SocialAuthServiceConfig,
     },
+    DragAndDropService,
+    ScholarshipFormSectionListService,
   ],
   bootstrap: [AppComponent],
 })

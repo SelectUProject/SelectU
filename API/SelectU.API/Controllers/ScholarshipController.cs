@@ -172,9 +172,15 @@ namespace SelectU.API.Controllers
         {
             try
             {
-                await _scholarshipService.ArchiveScholarshipAsync(scholarshipId);
+                string userId = HttpContext.GetUserId();
+                var scholarship = await _scholarshipService.GetScholarshipAsync(scholarshipId);
+                if ((scholarship.ScholarshipCreatorId == userId) || HttpContext.User.IsInRole(UserRoles.Admin))
+                {
+                    await _scholarshipService.ArchiveScholarshipAsync(scholarshipId);
+                    return Ok(new { Message = "Scholarship Successfully Closed, Refresh to get updated list of Scholarships" });
+                }
 
-                return Ok(new { Message = "Scholarship Successfully Closed, Refresh to get updated list of Scholarships" });
+                return BadRequest(new { Message = "Scholarship was unable to be closed, To close this scholarship you must be either the owner or an admin" });
             }
             catch (ScholarshipException ex)
             {
@@ -213,8 +219,7 @@ namespace SelectU.API.Controllers
                     await _blobStorageService.DeleteFileAsync(_azureBlobSettingsConfig.FileContainerName, scholarship.ImageURL);
                 }
 
-                return Ok(new { Message = "File uploaded successfully", ImageURL = imageURL });
-
+                return Ok(new ResponseDTO { Success = true, Message = "Picture was upload successfully" });
             }
             catch (ArgumentException ex)
             {

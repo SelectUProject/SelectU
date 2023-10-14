@@ -6,6 +6,7 @@ export interface ScholarshipUpdateDTO {
   school: string;
   imageURL: string;
   value: string;
+  scholarshipCreatorId: string;
   shortDescription: string;
   description: string;
   scholarshipFormTemplate: ScholarshipFormSectionDTO[];
