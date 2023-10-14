@@ -29,6 +29,7 @@ import {
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { MdbRangeModule } from 'mdb-angular-ui-kit/range';
 
 // Custom components
 import NavbarComponent from './components/layouts/navbar/navbar.component';
@@ -53,6 +54,7 @@ import UserInvitePageComponent from './components/pages/user-invite-page/user-in
 import UserTableComponent from './components/shared/user-table/user-table.component';
 import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable-header/ngbd-sortable-header.component';
 import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
+import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
 import { ViewApplicationDetailModalComponent } from './components/shared/view-application-detail-modal/view-application-detail-modal.component';
 import { ScholarshipEditorComponent } from './components/pages/scholarship-editor/scholarship-editor.component';
 import { DragAndDropService } from './services/drag-and-drop/drag-and-drop.service';
@@ -64,6 +66,10 @@ import { ScholarshipFormSectionListService } from './services/scholarship-form-s
 import { ToastsContainerComponent } from './components/shared/toasts-container/toasts-container.component';
 import { EditScholarshipPageComponent } from './components/pages/edit-scholarship-page/edit-scholarship-page.component';
 import { CreateScholarshipPageComponent } from './components/pages/create-scholarship-page/create-scholarship-page.component';
+import ReviewModalComponent from './components/shared/review-modal/review-modal.component';
+import LongViewApplicationComponent from './components/shared/long-view-application/long-view-application.component';
+import ReviewFormComponent from './components/shared/review-form/review-form.component';
+import ReviewPageComponent from './components/pages/review-page/review-page.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +107,12 @@ import { CreateScholarshipPageComponent } from './components/pages/create-schola
     ToastsContainerComponent,
     EditScholarshipPageComponent,
     CreateScholarshipPageComponent,
+    ViewApplicationsPageComponent,
+    ViewApplicationDetailModalComponent,
+    ReviewModalComponent,
+    LongViewApplicationComponent,
+    ReviewFormComponent,
+    ReviewPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -123,6 +135,7 @@ import { CreateScholarshipPageComponent } from './components/pages/create-schola
     NgbdSortableHeader,
     DragDropModule,
     CdkDragHandle,
+    MdbRangeModule,
   ],
   providers: [
     DatePipe,

@@ -3,12 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TokenService } from 'src/app/providers/token.service';
 import { ScholarshipService } from 'src/app/providers/scholarship.service';
-import { ScholarshipSearchDTO } from 'src/app/models/ScholarshipSearchDTO';
-import { ScholarshipUpdateDTO } from 'src/app/models/ScholarshipUpdateDTO';
-import { StatusEnum } from 'src/app/models/StatusEnum';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
-import { ScholarshipApplicationService } from 'src/app/providers/ScholarshipApplicationService';
+import { ScholarshipApplicationService } from 'src/app/providers/application.service';
 import { ScholarshipApplicationSearchDTO } from 'src/app/models/ScholarshipApplicationSearchDTO';
+import { ApplicationStatusEnum } from 'src/app/models/ApplicationStatusEnum';
 
 @Component({
   selector: 'app-scholarship-application-search-form',
@@ -16,43 +14,31 @@ import { ScholarshipApplicationSearchDTO } from 'src/app/models/ScholarshipAppli
   styleUrls: ['./scholarship-application-search-form.component.scss'],
 })
 export class ScholarshipApplicationSearchFormComponent implements OnInit {
-  searchScholarshipForm: FormGroup;
+  searchScholarshipApplicationForm: FormGroup;
   submitting: boolean = false;
   isError: boolean = false;
   errMsg: string = 'Some error has occurred!';
-  // scholarships: ScholarshipUpdateDTO[] = [];
   todayDate: Date = new Date();
 
-  @Output() scholarships = new EventEmitter<
+  @Output() scholarshipApplications = new EventEmitter<
     ScholarshipApplicationUpdateDTO[]
   >();
 
   constructor(
     private formBuilder: FormBuilder,
-    private scholarshipService: ScholarshipService,
-    private scholarshipApplicationService: ScholarshipApplicationService,
-    private router: Router,
-    private tokenService: TokenService
+    private scholarshipApplicationService: ScholarshipApplicationService
   ) {}
-
-  get startDate() {
-    return this.searchScholarshipForm.get('startDate');
-  }
 
   ngOnInit(): void {
     this.setupForm();
   }
 
   setupForm() {
-    this.searchScholarshipForm = this.formBuilder.group({
+    this.searchScholarshipApplicationForm = this.formBuilder.group({
       id: [null, ''],
       school: [null, ''],
-      description: [null, ''],
-      city: [null, ''],
-      status: [StatusEnum.Pending, ''],
-      value: [null, ''],
-      startDate: [null, ''],
-      endDate: [null, ''],
+      status: [null, ''],
+      dateCreated: [null, ''],
     });
   }
 
@@ -61,10 +47,12 @@ export class ScholarshipApplicationSearchFormComponent implements OnInit {
     this.isError = false;
     this.scholarshipApplicationService
       .getMyScholarshipApplications(
-        <ScholarshipApplicationSearchDTO>this.searchScholarshipForm.value
+        <ScholarshipApplicationSearchDTO>(
+          this.searchScholarshipApplicationForm.value
+        )
       )
       .then((response) => {
-        this.scholarships.emit(response);
+        this.scholarshipApplications.emit(response);
       })
       .catch((response) => {
         console.error(response);

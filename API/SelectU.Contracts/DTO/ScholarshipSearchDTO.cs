@@ -9,7 +9,7 @@ namespace SelectU.Contracts.DTO
         public string? School { get; set; }
         public string? Description { get; set; }
         public string? City { get; set; }
-        public StatusEnum? Status { get; set; }
+        public ScholarshipStatusEnum? Status { get; set; }
         public string? Value { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }

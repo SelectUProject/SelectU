@@ -36,11 +36,7 @@ class LoginFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.tokenService.IsAuthenticated) {
-      if (this.tokenService.role == Role.Staff) {
-        this.router.navigate(['/manage-scholarships']);
-      } else {
-        this.router.navigate(['/find-scholarships']);
-      }
+      this.router.navigate(['/scholarships']);
     } else {
       this.tokenService.clearToken();
     }
@@ -72,11 +68,7 @@ class LoginFormComponent implements OnInit {
       .login(<LoginDTO>this.loginForm.value)
       .then((response) => {
         this.tokenService.setToken(response);
-        if (response.role == Role.Staff) {
-          this.router.navigate(['/manage-scholarships']);
-        } else {
-          this.router.navigate(['/find-scholarships']);
-        }
+        this.router.navigate(['/scholarships']);
       })
       .catch((response) => {
         this.loginForm.patchValue({ password: '' });
@@ -96,7 +88,7 @@ class LoginFormComponent implements OnInit {
       .googleLogin({ IdToken: socialUser.idToken })
       .then((response) => {
         this.tokenService.setToken(response);
-        this.router.navigate(['/find-scholarships']);
+        this.router.navigate(['/scholarships']);
       })
       .catch((response) => {
         if (!response.success) {

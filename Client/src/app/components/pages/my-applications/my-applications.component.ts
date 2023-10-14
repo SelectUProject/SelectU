@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { MyApplicationShortViewDTO } from '../../../models/MyApplicationShortViewDTO';
-import { ScholarshipApplicationService } from 'src/app/providers/ScholarshipApplicationService';
+import { ScholarshipApplicationService } from 'src/app/providers/application.service';
 import { ScholarshipApplicationSearchDTO } from 'src/app/models/ScholarshipApplicationSearchDTO';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
 import { ScholarshipUpdateDTO } from 'src/app/models/ScholarshipUpdateDTO';
-import { StatusEnum } from 'src/app/models/StatusEnum';
+import { ApplicationStatusEnum } from 'src/app/models/ApplicationStatusEnum';
 
 @Component({
   selector: 'app-my-applications',
@@ -26,8 +26,8 @@ export class MyApplicationsComponent {
     this.getScholarships();
   }
 
-  async handleSearchEvent(scholarships: ScholarshipApplicationUpdateDTO[]) {
-    // this.scholarships = scholarships;
+  async handleSearchEvent(scholarshipApplicants: ScholarshipApplicationUpdateDTO[]) {
+    this.scholarshipApplications = scholarshipApplicants;
   }
 
   getScholarships() {
@@ -35,10 +35,9 @@ export class MyApplicationsComponent {
       .getMyScholarshipApplications(this.scholarshipApplicationSearchDTO)
       .then((response) => {
         const statusOrder = [
-          StatusEnum.Successful,
-          StatusEnum.Pending,
-          StatusEnum.Declined,
-          StatusEnum.Inactive,
+          ApplicationStatusEnum.Accepted,
+          ApplicationStatusEnum.Submitted,
+          ApplicationStatusEnum.Rejected,
         ];
 
         // Sort the scholarshipApplications first by status and then by createdDate

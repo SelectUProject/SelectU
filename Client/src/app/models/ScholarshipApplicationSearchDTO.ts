@@ -1,5 +1,8 @@
+import { ApplicationStatusEnum } from './ApplicationStatusEnum';
+
 export interface ScholarshipApplicationSearchDTO {
   id?: any;
-  description?: string;
   school?: string;
+  status?: ApplicationStatusEnum;
+  dateCreated?: Date;
 }

@@ -23,7 +23,7 @@ export class CreateScholarshipApplicationPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.scholarshipService.scholarship) {
-      this.router.navigate(['/find-scholarships']);
+      this.router.navigate(['/scholarships']);
     }
   }
 }

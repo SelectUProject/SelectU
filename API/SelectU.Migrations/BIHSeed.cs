@@ -134,8 +134,8 @@ namespace SelectU.Migrations
                 },
                 new ScholarshipFormSectionDTO
                 {
-                    Type = ScholarshipFormTypeEnum.String,
-                    Name = "Reason",
+                    Type = ScholarshipFormTypeEnum.File,
+                    Name = "Resume",
                     Required = true,
                 },
                 new ScholarshipFormSectionDTO
@@ -159,7 +159,7 @@ namespace SelectU.Migrations
                 Description = "test1",
                 State = "VIC",
                 City = "Australia",
-                Status = StatusEnum.Pending,
+                Status = ScholarshipStatusEnum.Active,
                 StartDate = DateTimeOffset.Now,
                 EndDate = DateTime.Today.AddDays(4),
                 DateCreated = DateTimeOffset.Now,
@@ -176,7 +176,7 @@ namespace SelectU.Migrations
                 ShortDescription = "Tech Scholarship2",
                 Description = "test2",
                 State = "VIC",
-                Status = StatusEnum.Pending,
+                Status = ScholarshipStatusEnum.Active,
                 City = "Australia",
                 StartDate = DateTimeOffset.Now,
                 EndDate = DateTime.Today.AddDays(1),
@@ -193,7 +193,7 @@ namespace SelectU.Migrations
                 Value = "$1000 Dollars",
                 ShortDescription = "Tech Scholarship3",
                 Description = "test3",
-                Status = StatusEnum.Pending,
+                Status = ScholarshipStatusEnum.Active,
                 State = "VIC",
                 City = "Australia",
                 StartDate = DateTimeOffset.Now,
@@ -223,51 +223,60 @@ namespace SelectU.Migrations
                 new ScholarshipFormSectionAnswerDTO
                 {
                     Name = "Name",
+                    Type = ScholarshipFormTypeEnum.String,
                     Value = "Jack"
                 },
                 new ScholarshipFormSectionAnswerDTO
                 {
                     Name = "Reason",
+                    Type = ScholarshipFormTypeEnum.String,
                     Value = "Need Money"
                 },
                 new ScholarshipFormSectionAnswerDTO
                 {
                   Name = "Birthday",
-                    Value = "01/01/2000",
+                  Type = ScholarshipFormTypeEnum.Date,
+                  Value = "01/01/2000",
                 }
             };
             List<ScholarshipFormSectionAnswerDTO> FormSectionAnswers2 = new() {
                 new ScholarshipFormSectionAnswerDTO
                 {
                     Name = "Name",
+                    Type = ScholarshipFormTypeEnum.String,
                     Value = "Jack"
                 },
                 new ScholarshipFormSectionAnswerDTO
                 {
                     Name = "Reason",
+                    Type = ScholarshipFormTypeEnum.String,
                     Value = "Need More Money"
                 },
                 new ScholarshipFormSectionAnswerDTO
                 {
                   Name = "Birthday",
-                    Value = "01/01/2000",
+                  Type = ScholarshipFormTypeEnum.Date,
+                  Value = "01/01/2000",
                 }
             };
             List<ScholarshipFormSectionAnswerDTO> FormSectionAnswers3 = new() {
                 new ScholarshipFormSectionAnswerDTO
                 {
                     Name = "Name",
+                    Type = ScholarshipFormTypeEnum.String,
                     Value = "Jack"
                 },
                 new ScholarshipFormSectionAnswerDTO
                 {
                     Name = "Reason",
+                    Type = ScholarshipFormTypeEnum.String,
                     Value = "Need More More Money"
                 },
                 new ScholarshipFormSectionAnswerDTO
                 {
                   Name = "Birthday",
-                    Value = "01/01/2000",
+                  Type = ScholarshipFormTypeEnum.Date,
+                   Value = "01/01/2000",
                 }
             };
 
@@ -281,7 +290,7 @@ namespace SelectU.Migrations
                 ScholarshipApplicantId = user?.Id,
                 ScholarshipId = scholarship.Id,
                 ScholarshipFormAnswer = scholarshipTemplateAnswer1,
-                Status = StatusEnum.Pending,
+                Status = ApplicationStatusEnum.Submitted,
                 DateCreated = DateTimeOffset.Now,
                 DateModified = DateTimeOffset.Now,
             };
@@ -292,7 +301,7 @@ namespace SelectU.Migrations
                 ScholarshipApplicantId = user?.Id,
                 ScholarshipId = scholarship.Id,
                 ScholarshipFormAnswer = scholarshipTemplateAnswer2,
-                Status = StatusEnum.Pending,
+                Status = ApplicationStatusEnum.Submitted,
                 DateCreated = DateTimeOffset.Now,
                 DateModified = DateTimeOffset.Now,
             };
@@ -303,7 +312,7 @@ namespace SelectU.Migrations
                 ScholarshipApplicantId = user?.Id,
                 ScholarshipId = scholarship.Id,
                 ScholarshipFormAnswer = scholarshipTemplateAnswer3,
-                Status = StatusEnum.Pending,
+                Status = ApplicationStatusEnum.Submitted,
                 DateCreated = DateTimeOffset.Now,
                 DateModified = DateTimeOffset.Now,
             };
