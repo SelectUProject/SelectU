@@ -52,7 +52,7 @@ export class EditScholarshipPageComponent implements OnInit {
 
   async populateForm(): Promise<void> {
     await this._scholarshipService
-      .getScholarshipDetails(this.scholarshipId)
+      .getScholarshipDetails(this.scholarshipId ? this.scholarshipId : '')
         .then((response) => {
           // Individually adding the form section to the array
           response.scholarshipFormTemplate.forEach(formSection => {
