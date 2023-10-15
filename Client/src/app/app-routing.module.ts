@@ -57,8 +57,6 @@ const routes: Routes = [
       },
 
       { path: 'register', component: RegisterPageComponent },
-      //{ path: '404', component: NotFoundPageComponent },
-      //{ path: '**', redirectTo: '/404' },
       {
         path: 'manage-scholarships',
         component: ManageScholarshipsPageComponent,
@@ -114,6 +112,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { role: [Role.Staff, Role.Admin, Role.Reviewer] },
       },
+      { path: '404', component: NotFoundPageComponent },
+      { path: '**', redirectTo: '/404' },
     ],
   },
 
