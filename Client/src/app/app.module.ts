@@ -56,6 +56,7 @@ import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable
 import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
 import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
 import { ViewApplicationDetailModalComponent } from './components/shared/view-application-detail-modal/view-application-detail-modal.component';
+import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
 import { ScholarshipEditorComponent } from './components/pages/scholarship-editor/scholarship-editor.component';
 import { DragAndDropService } from './services/drag-and-drop/drag-and-drop.service';
 import { FormSectionComponent } from './components/pages/drag-and-drop-form-creator/form-section/form-section.component';
@@ -70,6 +71,7 @@ import ReviewModalComponent from './components/shared/review-modal/review-modal.
 import LongViewApplicationComponent from './components/shared/long-view-application/long-view-application.component';
 import ReviewFormComponent from './components/shared/review-form/review-form.component';
 import ReviewPageComponent from './components/pages/review-page/review-page.component';
+
 
 @NgModule({
   declarations: [
@@ -98,6 +100,8 @@ import ReviewPageComponent from './components/pages/review-page/review-page.comp
     UserUpdateModalComponent,
     UserTableComponent,
     ViewDetailsModalComponent,
+    ViewApplicationDetailModalComponent,
+    NotFoundPageComponent
     ViewApplicationDetailModalComponent,
     ScholarshipEditorComponent,
     FormSectionComponent,

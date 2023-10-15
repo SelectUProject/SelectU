@@ -13,6 +13,7 @@ import { UserProfilePageComponent } from './components/pages/user-profile-page/u
 import UserInvitePageComponent from './components/pages/user-invite-page/user-invite-page.component';
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
+import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component'
 import { CreateScholarshipPageComponent } from './components/pages/create-scholarship-page/create-scholarship-page.component';
 import { EditScholarshipPageComponent } from './components/pages/edit-scholarship-page/edit-scholarship-page.component';
 import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
@@ -29,7 +30,7 @@ const routes: Routes = [
       { path: '', component: LandingPageComponent },
       { path: 'register', component: RegisterPageComponent },
       { path: 'login', component: LoginPageComponent },
-      //     { path: '404', component: ErrorComponent },
+    
       {
         path: 'account',
         component: UserProfilePageComponent,
@@ -52,6 +53,12 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { role: Role.User },
       },
+
+      { path: 'register', component: RegisterPageComponent },
+
+      { path: '404', component: NotFoundPageComponent },
+      { path: '**', redirectTo: '/404' },
+
       {
         path: 'manage-scholarships',
         component: ManageScholarshipsPageComponent,
