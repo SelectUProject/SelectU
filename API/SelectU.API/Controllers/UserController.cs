@@ -319,7 +319,7 @@ namespace SelectU.API.Controllers
                     return BadRequest("User not found");
                 }
                 string imageUri = await _blobStorageService.UploadPhotoAsync(_azureBlobSettingsConfig.PhotoContainerName, file);
-                var updateUser = new UserUpdateDTO(user);
+                var updateUser = new UserDetailsDTO(user);
                 updateUser.ProfilePicUri = imageUri;
                 await _userService.UpdateUserDetailsAsync(userId, updateUser);
 
