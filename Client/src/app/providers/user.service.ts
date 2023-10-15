@@ -124,4 +124,6 @@ export class UserService {
       this.http.get<UserUpdateDTO[]>(`${Config.api}/user/list`)
     );
   }
+
+
 }

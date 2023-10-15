@@ -1,0 +1,146 @@
+<table class="table mb-0 bg-white">
+    <thead class="bg-light">
+      <tr>
+        <th
+          class="header"
+          role="button"
+          scope="col"
+          sortable="email"
+          (sort)="onSort($event)"
+        >
+          <div class="row">
+            <div class="col-3">Email</div>
+            <div class="col">
+              <i class="fa-solid fa-arrow-up mt-1"></i>
+              <i class="fa-solid fa-arrow-down mt-1"></i>
+            </div>
+          </div>
+        </th>
+        <th
+          class="header"
+          role="button"
+          scope="col"
+          sortable="firstName"
+          (sort)="onSort($event)"
+          [width]="105"
+        >
+          <div class="row">
+            <div class="col-7">First</div>
+            <div class="col">
+              <i class="fa-solid fa-arrow-up mt-1"></i>
+              <i class="fa-solid fa-arrow-down mt-1"></i>
+            </div>
+          </div>
+        </th>
+        <th
+          class="header"
+          role="button"
+          scope="col"
+          sortable="lastName"
+          (sort)="onSort($event)"
+          [width]="105"
+        >
+          <div class="row">
+            <div class="col-7">Last</div>
+            <div class="col">
+              <i class="fa-solid fa-arrow-up mt-1"></i>
+              <i class="fa-solid fa-arrow-down mt-1"></i>
+            </div>
+          </div>
+        </th>
+        <th
+          class="header"
+          role="button"
+          scope="col"
+          sortable="role"
+          (sort)="onSort($event)"
+          [width]="105"
+        >
+          <div class="row">
+            <div class="col-7">Role</div>
+            <div class="col">
+              <i class="fa-solid fa-arrow-up mt-1"></i>
+              <i class="fa-solid fa-arrow-down mt-1"></i>
+            </div>
+          </div>
+        </th>
+        <th
+          class="header"
+          role="button"
+          scope="col"
+          sortable="dateCreated"
+          (sort)="onSort($event)"
+        >
+          <div class="row">
+            <div class="col-7">Created</div>
+            <div class="col">
+              <i class="fa-solid fa-arrow-up mt-1"></i>
+              <i class="fa-solid fa-arrow-down mt-1"></i>
+            </div>
+          </div>
+        </th>
+        <th
+          class="header"
+          role="button"
+          scope="col"
+          sortable="dateModified"
+          (sort)="onSort($event)"
+        >
+          <div class="row">
+            <div class="col-7">Modified</div>
+            <div class="col">
+              <i class="fa-solid fa-arrow-up mt-1"></i>
+              <i class="fa-solid fa-arrow-down mt-1"></i>
+            </div>
+          </div>
+        </th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.email }}</td>
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.dateCreated | date : "dd/MM/yy hh:mm" }}</td>
+        <td>{{ user.dateModified | date : "dd/MM/yy hh:mm" }}</td>
+        <td>
+          <div class="row" *ngIf="user.role !== 'Admin'">
+            <div class="col-12 col-xxl-6 mb-2 mb-xxl-0">
+              <button
+                type="button"
+                class="btn btn-warning mx-2 w-100"
+                (click)="openModalUpdate(user)"
+              >
+                Update
+              </button>
+            </div>
+            <div class="col-12 col-xxl-6">
+              <button
+                type="button"
+                class="btn btn-danger mx-2 w-100"
+                (click)=" openModalDelete(user)"
+              >
+                DELETE
+              </button>
+            </div>
+
+          
+
+        </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <ngb-toast
+    class="bg-success text-light text-center w-75 position-absolute bottom-0 start-50 translate-middle"
+    *ngIf="success"
+    [delay]="2000"
+    [autohide]="true"
+    (hidden)="success = false"
+  >
+    User Updated Successfully!
+  </ngb-toast>
+  

@@ -41,6 +41,7 @@ import LandingPageComponent from './components/pages/landing-page/landing-page.c
 import { FindScholarshipsComponent } from './components/pages/find-scholarships/find-scholarships.component';
 import { MyApplicationsComponent } from './components/pages/my-applications/my-applications.component';
 import { ShortViewMyApplicationsComponent } from './components/shared/short-view-my-applications/short-view-my-applications.component';
+import { UpdateUserProfilePageComponent } from './components/pages/update-user-profile-page/update-user-profile-page.component';
 import { EmptyScholarshipsComponent } from './components/shared/empty-scholarships/empty-scholarships.component';
 import { ScholarshipSearchFormComponent } from './components/shared/scholarship-search-form/scholarship-search-form.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
@@ -56,6 +57,10 @@ import { NgbdSortableHeader } from './components/shared/user-table/ngbd-sortable
 import ViewDetailsModalComponent from './components/shared/view-details-modal/view-details-modal.component';
 import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
 import { ViewApplicationDetailModalComponent } from './components/shared/view-application-detail-modal/view-application-detail-modal.component';
+import AdminUserTableComponent from './components/shared/admin-user-table/admin-user-table.component';
+import AdminPageComponent from './components/pages/admin-page/admin-page.component';
+import { AdminUserUpdateModalComponent } from './components/shared/admin-user-update-modal/admin-user-update-modal.component';
+import { AdminConfirmDeleteModalComponent } from './components/shared/admin-confirm-delete-modal/admin-confirm-delete-modal.component';
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
 import { ScholarshipEditorComponent } from './components/pages/scholarship-editor/scholarship-editor.component';
 import { DragAndDropService } from './services/drag-and-drop/drag-and-drop.service';
@@ -88,6 +93,7 @@ import ReviewPageComponent from './components/pages/review-page/review-page.comp
     FindScholarshipsComponent,
     MyApplicationsComponent,
     ShortViewMyApplicationsComponent,
+    UpdateUserProfilePageComponent, 
     EmptyScholarshipsComponent,
     ScholarshipSearchFormComponent,
     CreateScholarshipApplicationPageComponent,
@@ -101,8 +107,12 @@ import ReviewPageComponent from './components/pages/review-page/review-page.comp
     UserTableComponent,
     ViewDetailsModalComponent,
     ViewApplicationDetailModalComponent,
+    AdminPageComponent,
+    AdminUserTableComponent,
+    AdminUserUpdateModalComponent,
+    AdminUserUpdateModalComponent,
+    AdminConfirmDeleteModalComponent,
     NotFoundPageComponent,
-    ViewApplicationDetailModalComponent,
     ScholarshipEditorComponent,
     FormSectionComponent,
     FormSectionEditDialogBoxComponent,
@@ -112,11 +122,10 @@ import ReviewPageComponent from './components/pages/review-page/review-page.comp
     EditScholarshipPageComponent,
     CreateScholarshipPageComponent,
     ViewApplicationsPageComponent,
-    ViewApplicationDetailModalComponent,
     ReviewModalComponent,
     LongViewApplicationComponent,
     ReviewFormComponent,
-    ReviewPageComponent,
+    ReviewPageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

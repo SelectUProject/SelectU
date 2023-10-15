@@ -15,24 +15,18 @@
           <div class="card-body">
             <ul class="list-group">
               <li class="list-group-item">
-                <strong>ID: </strong>
-                <span id="userId">{{ userDetails.id }}</span>
-              </li>
-              <li class="list-group-item">
                 <strong>Full Name: </strong>
-                <span id="fullName">{{ userDetails.firstName }}</span>
-              </li>
-              <li class="list-group-item">
-                <strong>First Name: </strong>
-                <span id="firstName">{{ userDetails.lastName }}</span>
+                <span id="fullName"
+                  >{{ userDetails.firstName }} {{ userDetails.lastName }}
+                </span>
               </li>
               <li class="list-group-item">
                 <strong>Date of Birth: </strong>
-                <span id="dob">01/01/1990</span>
+                <span id="dob" type="Date">{{ date }}</span>
               </li>
               <li class="list-group-item">
                 <strong>Gender: </strong>
-                <span id="gender">{{ userDetails.gender }}</span>
+                <span id="gender">{{ gender }}</span>
               </li>
               <li class="list-group-item">
                 <strong>Email: </strong>
@@ -59,6 +53,9 @@
                 <span id="state">{{ userDetails.state }}</span>
               </li>
             </ul>
+            <button (click)="redirect()" class="btn btn-primary btn-block mb-3">
+              Update account information
+            </button>
           </div>
         </div>
       </div>

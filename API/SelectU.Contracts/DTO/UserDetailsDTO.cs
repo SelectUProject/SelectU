@@ -3,7 +3,7 @@ using SelectU.Contracts.Enums;
 
 namespace SelectU.Contracts.DTO
 {
-    public class UserUpdateDTO
+    public class UserDetailsDTO
     {
         public string Id { get; set; }
         public string? FirstName { get; set; }
@@ -24,9 +24,9 @@ namespace SelectU.Contracts.DTO
         public DateTimeOffset? DateCreated { get; set; }
         public DateTimeOffset? DateModified { get; set; }
 
-        public UserUpdateDTO() { }
+        public UserDetailsDTO() { }
 
-        public UserUpdateDTO(User user)
+        public UserDetailsDTO(User user)
         {
             Id = user.Id;
             Email = user.Email;
@@ -46,8 +46,7 @@ namespace SelectU.Contracts.DTO
             DateCreated = user.DateCreated;
             DateModified = user.DateModified;
         }
-        
-        public UserUpdateDTO(User user, string? role)
+        public UserDetailsDTO(User user, string role)
         {
             Id = user.Id;
             Email = user.Email;

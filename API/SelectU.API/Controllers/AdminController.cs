@@ -22,13 +22,13 @@ namespace SelectU.API.Controllers
     {
         private readonly ILogger<AdminController> _logger;
         private readonly IUserService _userService;
-        private readonly IValidator<UserUpdateDTO> _userDetailsValidator;
+        private readonly IValidator<UserDetailsDTO> _userDetailsValidator;
         private readonly IValidator<UpdateUserRolesDTO> _userRolesUpdateValidator;
 
         public AdminController(
             ILogger<AdminController> logger,
             IUserService userService,
-            IValidator<UserUpdateDTO> userDetailsValidator,
+            IValidator<UserDetailsDTO> userDetailsValidator,
             IValidator<UpdateUserRolesDTO> userRolesUpdateValidator
             )
         {
@@ -39,7 +39,7 @@ namespace SelectU.API.Controllers
         }
         
         [HttpPatch("details/update")]
-        public async Task<IActionResult> AdminUpdateUserDetailsAsync([FromBody] UserUpdateDTO userDetails)
+        public async Task<IActionResult> AdminUpdateUserDetailsAsync([FromBody] UserDetailsDTO userDetails)
         {
             try
             {
@@ -96,11 +96,11 @@ namespace SelectU.API.Controllers
 
                 if (validationResult.IsValid)
                 {
-                    if (updateUserRoles.AddRoles != null)
+                    if (!updateUserRoles.AddRoles.IsNullOrEmpty())
                         await _userService.AddRolesToUserAsync(updateUserRoles.UserId, updateUserRoles.AddRoles);
 
 
-                    if (updateUserRoles.RemoveRoles != null)
+                    if (!updateUserRoles.RemoveRoles.IsNullOrEmpty())
                         await _userService.RemoveRolesFromUserAsync(updateUserRoles.UserId, updateUserRoles.RemoveRoles);
 
                     return Ok(new ResponseDTO { Success = true, Message = "User roles updated successfully." });
