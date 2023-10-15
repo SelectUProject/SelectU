@@ -9,7 +9,7 @@ namespace SelectU.Contracts.Services
         Task<Scholarship> GetScholarshipAsync(Guid id);
         Task<List<ScholarshipUpdateDTO>> GetActiveScholarshipsAsync(ScholarshipSearchDTO scholarshipSearchDTO);
         Task<List<ScholarshipUpdateDTO>> GetMyCreatedScholarshipsAsync(ScholarshipSearchDTO scholarshipSearchDTO, string userId);
-        Task CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string userId);
+        Task<ScholarshipUpdateDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string userId);
         Task UpdateScholarshipAsync(ScholarshipUpdateDTO scholarshipUpdateDTO);
         Task ArchiveScholarshipAsync(Guid id);
     }

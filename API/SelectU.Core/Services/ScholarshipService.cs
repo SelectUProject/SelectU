@@ -68,7 +68,8 @@ namespace SelectU.Core.Services
                 .ToList();
         }
 
-        public async Task CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string userId)
+
+        public async Task<ScholarshipUpdateDTO> CreateScholarshipAsync(ScholarshipCreateDTO scholarshipCreateDTO, string id)
         {
             //TODO
             //check the names align up and don't double up
@@ -77,7 +78,7 @@ namespace SelectU.Core.Services
 
             Scholarship scholarship = new Scholarship
             {
-                ScholarshipCreatorId = userId,
+                ScholarshipCreatorId = id,
                 ScholarshipFormTemplate = JsonSerializer.Serialize(validatedScholarship.ScholarshipFormTemplate),
                 School = validatedScholarship.School,
                 Value = validatedScholarship.Value,
@@ -95,6 +96,8 @@ namespace SelectU.Core.Services
             _unitOfWork.Scholarships.Add(scholarship);
 
             await _unitOfWork.CommitAsync();
+
+            return new ScholarshipUpdateDTO(scholarship);
         }
 
         public async Task<List<Scholarship>> FilterQuery(ScholarshipSearchDTO scholarshipSearchDTO, List<Scholarship> scholarships)
@@ -188,10 +191,61 @@ namespace SelectU.Core.Services
             return validatedScholarship;
         }
 
+
+        public void ValidateScholarship(ScholarshipUpdateDTO scholarshipUpdateDTO)
+        {
+            ScholarshipUpdateDTO validatedScholarship = scholarshipUpdateDTO;
+
+
+            if (validatedScholarship.StartDate > validatedScholarship.EndDate)
+            {
+                throw new ScholarshipException("Start date is after end date.");
+            }
+
+            if (validatedScholarship.StartDate <= DateTime.Now)
+            {
+                throw new ScholarshipApplicationException("The start date has already passed.");
+            }
+
+            if (validatedScholarship.EndDate <= DateTime.Now)
+            {
+                throw new ScholarshipApplicationException("The end date has already passed.");
+            }
+
+
+            if (validatedScholarship.ScholarshipFormTemplate.Count > 0)
+            {
+                var seenNames = new HashSet<string>();
+
+                foreach (var formTemplate in validatedScholarship.ScholarshipFormTemplate)
+                {
+                    if (string.IsNullOrEmpty(formTemplate.Name))
+                    {
+                        throw new ScholarshipException("Not all form sections have names.");
+                    }
+
+                    if (!seenNames.Add(formTemplate.Name))
+                    {
+                        throw new ScholarshipException($"Duplicate name found: {formTemplate.Name}");
+                    }
+
+                    if (formTemplate.Type == ScholarshipFormTypeEnum.Option && (formTemplate.Options == null || formTemplate.Options.Count == 0))
+                    {
+                        throw new ScholarshipException($"Form section '{formTemplate.Name}' of type 'option' has no Options.");
+                    }
+                }
+            }
+            else
+            {
+                throw new ScholarshipException("No form sections");
+            }
+            
+        }
+
         public async Task UpdateScholarshipAsync(ScholarshipUpdateDTO scholarshipUpdateDTO)
         {
             var scholarship = await GetScholarshipAsync(scholarshipUpdateDTO.Id);
-
+			ValidateScholarship(scholarshipUpdateDTO);
             if (scholarship == null)
             {
                 throw new Exception("Scholarship not Found");

@@ -14,8 +14,11 @@ import UserInvitePageComponent from './components/pages/user-invite-page/user-in
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component'
+import { CreateScholarshipPageComponent } from './components/pages/create-scholarship-page/create-scholarship-page.component';
+import { EditScholarshipPageComponent } from './components/pages/edit-scholarship-page/edit-scholarship-page.component';
 import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
 import ReviewPageComponent from './components/pages/review-page/review-page.component';
+
 
 //components
 
@@ -57,6 +60,14 @@ const routes: Routes = [
       { path: '**', redirectTo: '/404' },
 
       {
+        path: 'manage-scholarships',
+        component: ManageScholarshipsPageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin] },
+      },
+      { path: 'register', component: RegisterPageComponent },
+      //     { path: '404', component: ErrorComponent },
+      {
         path: 'my-applications',
         component: MyApplicationsComponent,
         canActivate: [AuthGuard],
@@ -75,6 +86,18 @@ const routes: Routes = [
         data: { role: [Role.Staff, Role.Admin] },
       },
       {
+        path: 'create-scholarships',
+        component: CreateScholarshipPageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin] },
+      },
+      {
+        path: 'edit-scholarship/:id',
+        component: EditScholarshipPageComponent,
+        canActivate: [AuthGuard],
+        data: { role: [Role.Staff, Role.Admin] },
+      },
+	  {
         path: 'review/:scholarshipId',
         component: ReviewPageComponent,
         canActivate: [AuthGuard],

@@ -1,0 +1,238 @@
+<div cdkDropListGroup class="container mt-5 rounded">
+  <div class="row justify-content-center">
+    <div class="card">
+      <div
+        class="card-header d-flex justify-content-between align-items-center"
+      >
+        <ul class="nav nav-tabs card-header-tabs">
+          <li
+            *ngFor="let tab of tabs"
+            (click)="switchTabTo(tab)"
+            class="nav-item"
+          >
+            <a class="nav-link" [class.active]="currentTab === tab">{{
+              tab
+            }}</a>
+          </li>
+        </ul>
+        <div *ngIf="newScholarship && scholarshipFormGroup; else existingFormActions">
+          <button
+            class="btn btn-success me-2"
+            type="submit"
+            form="scholarship-editor"
+            [disabled]="!scholarshipFormGroup.valid"
+            (click)="emitCreateButtonClick()"
+          >
+            Create Scholarship
+          </button>
+        </div>
+        <ng-template #existingFormActions>
+          <div>
+            <button
+              class="btn btn-secondary me-2"
+              type="submit"
+              form="scholarship-editor"
+              (click)="emitUpdateButtonClick()"
+            >
+              Update Scholarship
+            </button>
+            <button
+              class="btn btn-danger me-2"
+              form="scholarship-editor"
+              (click)="emitDeleteButtonClick()"
+            >
+              Delete Scholarship
+            </button>
+          </div>
+        </ng-template>
+      </div>
+      <div class="card-body">
+        <form
+          id="scholarship-editor"
+          *ngIf="scholarshipFormGroup"
+          [formGroup]="scholarshipFormGroup"
+        >
+          <ng-container *ngIf="currentTab === 'details'">
+            <div class="container p-5">
+              <h5 class="mb-4">Scholarship details</h5>
+              <div class="row">
+                <div class="col-md-9">
+                  <mdb-form-control class="mb-4">
+                    <input
+                      mdbValidate
+                      mdbInput
+                      type="text"
+                      class="form-control"
+                      id="shortDescription"
+                      formControlName="shortDescription"
+                    />
+                    <label mdbLabel for="shortDescription" class="form-label"
+                      >Scholarship Title</label
+                    >
+                  </mdb-form-control>
+                </div>
+                <div class="col-md-3">
+                  <mdb-form-control class="mb-4">
+                    <input
+                      mdbValidate
+                      mdbInput
+                      type="text"
+                      class="form-control"
+                      id="value"
+                      formControlName="value"
+                    />
+                    <label mdbLabel for="value" class="form-label"
+                      >Scholarship Value</label
+                    >
+                  </mdb-form-control>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <mdb-form-control class="mb-4">
+                    <input
+                      mdbValidate
+                      mdbInput
+                      type="text"
+                      class="form-control"
+                      id="description"
+                      formControlName="description"
+                    />
+                    <label mdbLabel for="description" class="form-label"
+                      >Description</label
+                    >
+                  </mdb-form-control>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <mdb-form-control class="mb-4">
+                    <input
+                      mdbValidate
+                      mdbInput
+                      type="text"
+                      id="startDate"
+                      class="form-control"
+                      autocomplete="off"
+                      bsDatepicker
+                      [bsConfig]="{ containerClass: 'theme-dark-blue' }"
+                      formControlName="startDate"
+                    />
+                    <label mdbLabel class="form-label" for="startDate"
+                      >Start Date</label
+                    >
+                  </mdb-form-control>
+                </div>
+                <div class="col-md-6">
+                  <mdb-form-control class="mb-4">
+                    <input
+                      mdbValidate
+                      mdbInput
+                      type="text"
+                      id="endDate"
+                      class="form-control"
+                      autocomplete="off"
+                      bsDatepicker
+                      [bsConfig]="{ containerClass: 'theme-dark-blue' }"
+                      formControlName="endDate"
+                    />
+                    <label mdbLabel class="form-label" for="endDate"
+                      >End Date</label
+                    >
+                  </mdb-form-control>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-6">
+                  <h5 class="mb-4">School Information</h5>
+                  <mdb-form-control class="mb-4">
+                    <input
+                      mdbValidate
+                      mdbInput
+                      type="text"
+                      class="form-control"
+                      id="school"
+                      formControlName="school"
+                    />
+                    <label mdbLabel for="school" class="form-label"
+                      >School</label
+                    >
+                  </mdb-form-control>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mdb-form-control class="mb-4">
+                        <input
+                          mdbValidate
+                          mdbInput
+                          type="text"
+                          class="form-control"
+                          id="city"
+                          formControlName="city"
+                        />
+                        <label mdbLabel for="city" class="form-label"
+                          >City</label
+                        >
+                      </mdb-form-control>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-control" class="mb-4">
+                        <select
+                          class="form-select"
+                          formControlName="state"
+                          id="state"
+                        >
+                          <option [value]="null" disabled>
+                            Select a state
+                          </option>
+                          <option
+                            *ngFor="let state of states"
+                            [value]="state.value"
+                          >
+                            {{ state.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <h5 class="mb-4">Upload Image</h5>
+                  <mdb-form-control class="mb-4">
+                    <input
+                      mdbValidate
+                      mdbInput
+                      class="form-control"
+                      type="file"
+                      id="imageURL"
+                      formControlName="imageURL"
+                      (change)="handleImageFile($event)"
+                    />
+                  </mdb-form-control>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="currentTab === 'form builder'">
+            <div class="row">
+              <div class="col-md-3">
+                <app-form-section-list-sidebar></app-form-section-list-sidebar>
+              </div>
+              <div class="col-md-9">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <app-form-creator-area></app-form-creator-area>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
