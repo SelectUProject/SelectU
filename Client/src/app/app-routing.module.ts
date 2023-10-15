@@ -16,7 +16,7 @@ import UserInvitePageComponent from './components/pages/user-invite-page/user-in
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 import AdminPageComponent from './components/pages/admin-page/admin-page.component';
-import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component'
+import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
 import { CreateScholarshipPageComponent } from './components/pages/create-scholarship-page/create-scholarship-page.component';
 import { EditScholarshipPageComponent } from './components/pages/edit-scholarship-page/edit-scholarship-page.component';
 import { ViewApplicationsPageComponent } from './components/pages/view-applications-page/view-applications-page.component';
@@ -32,7 +32,6 @@ const routes: Routes = [
       { path: '', component: LandingPageComponent },
       { path: 'register', component: RegisterPageComponent },
       { path: 'login', component: LoginPageComponent },
-    
       {
         path: 'account',
         component: UserProfilePageComponent,
@@ -89,12 +88,11 @@ const routes: Routes = [
         data: { role: [Role.Staff, Role.Admin] },
       },
       {
-
         path: 'admin',
         canActivate: [AuthGuard],
         component: AdminPageComponent,
       },
-	  {
+      {
         path: 'create-scholarships',
         component: CreateScholarshipPageComponent,
         canActivate: [AuthGuard],
@@ -106,18 +104,16 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { role: [Role.Staff, Role.Admin] },
       },
-	  {
+      {
         path: 'review/:scholarshipId',
         component: ReviewPageComponent,
         canActivate: [AuthGuard],
         data: { role: [Role.Staff, Role.Admin, Role.Reviewer] },
       },
       { path: '404', component: NotFoundPageComponent },
-      { path: '**', redirectTo: '/404' },
     ],
   },
-
-  // { path: '**', redirectTo: '404' },
+  { path: '**', redirectTo: '/404' },
 ];
 
 @NgModule({
@@ -126,7 +122,7 @@ const routes: Routes = [
       initialNavigation: 'enabledBlocking',
       scrollPositionRestoration: 'top',
       anchorScrolling: 'enabled',
-    }), 
+    }),
   ],
   exports: [RouterModule],
 })
