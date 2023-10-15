@@ -101,7 +101,7 @@ import ReviewPageComponent from './components/pages/review-page/review-page.comp
     UserTableComponent,
     ViewDetailsModalComponent,
     ViewApplicationDetailModalComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
     ViewApplicationDetailModalComponent,
     ScholarshipEditorComponent,
     FormSectionComponent,
