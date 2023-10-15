@@ -7,7 +7,7 @@ namespace SelectU.Contracts.Infrastructure
     {
         Task SendRegistrationEmailAsync(UserRegisterDTO registerDto);
         Task SendUserInviteEmailAsync(UserInviteDTO inviteDTO, string password);
-        //Task SendTestEmail();
-        //Task SendUserResetPasswordEmailAsync(User user, string callback);
+        Task SendUserSuccessfulApplicationAsync(ScholarshipApplication scholarshipApplication);
+        Task SendUserUnsuccessfulApplicationAsync(ScholarshipApplication scholarshipApplication);
     }
 }

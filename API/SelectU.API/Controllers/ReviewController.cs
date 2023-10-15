@@ -29,6 +29,8 @@ namespace SelectU.API.Controllers
         {
             try
             {
+                reviewDTO.ReviewerId = HttpContext.GetUserId();
+
                 await _reviewService.CreateReviewAsync(
                     reviewDTO);
 
@@ -80,6 +82,92 @@ namespace SelectU.API.Controllers
                     );
 
                 return Ok();
+            }
+            catch (ReviewException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Application Review, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Reviewer}, {UserRoles.Admin}")]
+        [HttpGet("average-rating/{applicationId}")]
+        public async Task<IActionResult> GetAverageRating([FromRoute] Guid applicationId)
+        {
+            try
+            {
+                var avgRating = await _reviewService.GetAverageRating(applicationId);
+
+                return Ok(avgRating);
+            }
+            catch (ReviewException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Application Review, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Reviewer}, {UserRoles.Admin}")]
+        [HttpGet("application/{applicationId}")]
+        public async Task<IActionResult> GetApplicationReview([FromRoute] Guid applicationId)
+        {
+            try
+            {
+                var reviews = await _reviewService.GetApplicationReviews(applicationId, HttpContext.GetUserId(), false);
+
+                return Ok(reviews);
+            }
+            catch (ReviewException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Application Review, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Reviewer}, {UserRoles.Admin}")]
+        [HttpGet("application/{applicationId}/mine")]
+        public async Task<IActionResult> GetMyReview([FromRoute] Guid applicationId)
+        {
+            try
+            {
+                var reviews = await _reviewService.GetApplicationReviews(applicationId, HttpContext.GetUserId(), true);
+
+                if (!reviews.Any()) return Ok();
+
+                return Ok(reviews.First());
+            }
+            catch (ReviewException ex)
+            {
+                return BadRequest(new ResponseDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Application Review, {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = $"{UserRoles.Staff}, {UserRoles.Reviewer}, {UserRoles.Admin}")]
+        [HttpGet("{reviewId}")]
+        public async Task<IActionResult> GetReview([FromRoute] Guid reviewId)
+        {
+            try
+            {
+                var review = await _reviewService.GetReview(reviewId);
+
+                return Ok(review);
             }
             catch (ReviewException ex)
             {

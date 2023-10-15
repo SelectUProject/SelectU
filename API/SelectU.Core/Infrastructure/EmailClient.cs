@@ -54,6 +54,36 @@ namespace SelectU.Core.Infrastructure
             await SendEmailAsync(mail);
         }
 
+        public async Task SendUserSuccessfulApplicationAsync(ScholarshipApplication scholarshipApplication)
+        {
+            MailMessage mail = new MailMessage
+            {
+                Subject = "SelectU Application Success"
+            };
+
+            var loginUrl = _appConfig.PortalURL + "/login";
+
+            var style = "<style>body{font-family:Arial,sans-serif;background-color:#f5f5f5;margin:0;padding:0;}.container{max-width:600px;margin:0auto;padding:20px;background-color:#ffffff;border-radius:5px;box-shadow:0px 2px 6px rgba(0, 0, 0, 0.1);}.header{text-align:center;padding:20px 0;}.logo{max-width:150px;height:auto;}.content{padding:20px 0;}.button{display:inline-block;padding:10px 20px;background-color:#007bff;color:#ffffff;text-decoration:none;border-radius:4px;font-weight:bold;}</style>";
+            mail.Body = $"<html><body><div class=\"container\"><div class=\"header\"><img class=\"logo\" src=\"https://example.com/logo.png\" alt=\"Company Logo\"><h1>Your application has been reviewed!</h1></div><div class=\"content\"><p>Dear {scholarshipApplication.ScholarshipApplicant.Email},</p><p>Your application at {scholarshipApplication.Scholarship.School} has been successful!</p><p>Best regards,<br>Your Team at SelectU</p></div></div></body></html>";
+            mail.To.Add(new MailAddress(scholarshipApplication.ScholarshipApplicant.Email));
+            await SendEmailAsync(mail);
+        }
+
+        public async Task SendUserUnsuccessfulApplicationAsync(ScholarshipApplication scholarshipApplication)
+        {
+            MailMessage mail = new MailMessage
+            {
+                Subject = "SelectU Application Rejection"
+            };
+
+            var loginUrl = _appConfig.PortalURL + "/login";
+
+            var style = "<style>body{font-family:Arial,sans-serif;background-color:#f5f5f5;margin:0;padding:0;}.container{max-width:600px;margin:0auto;padding:20px;background-color:#ffffff;border-radius:5px;box-shadow:0px 2px 6px rgba(0, 0, 0, 0.1);}.header{text-align:center;padding:20px 0;}.logo{max-width:150px;height:auto;}.content{padding:20px 0;}.button{display:inline-block;padding:10px 20px;background-color:#007bff;color:#ffffff;text-decoration:none;border-radius:4px;font-weight:bold;}</style>";
+            mail.Body = $"<html><body><div class=\"container\"><div class=\"header\"><img class=\"logo\" src=\"https://example.com/logo.png\" alt=\"Company Logo\"><h1>Your application has been reviewed!</h1></div><div class=\"content\"><p>Dear {scholarshipApplication.ScholarshipApplicant.Email},</p><p>Your application at {scholarshipApplication.Scholarship.School} has been unsuccessful.</p><p>Best regards,<br>Your Team at SelectU</p></div></div></body></html>";
+            mail.To.Add(new MailAddress(scholarshipApplication.ScholarshipApplicant.Email));
+            await SendEmailAsync(mail);
+        }
+
         public async Task SendTestEmail()
         {
             MailMessage mail = new MailMessage

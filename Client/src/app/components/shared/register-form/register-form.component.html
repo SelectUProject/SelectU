@@ -115,7 +115,10 @@
       id="dateOfBirth"
       class="form-control"
       bsDatepicker
-      [bsConfig]="{containerClass: 'theme-dark-blue',}"
+      [bsConfig]="{
+        containerClass: 'theme-dark-blue',
+        dateInputFormat: 'DD/MM/YYYY'
+      }"
       [maxDate]="todayDate"
       formControlName="dateOfBirth"
     />

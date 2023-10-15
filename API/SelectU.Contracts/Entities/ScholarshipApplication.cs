@@ -11,7 +11,7 @@ namespace SelectU.Contracts.Entities
         public required string ScholarshipFormAnswer { get; set; }
         public DateTimeOffset? DateCreated { get; set; }
         public DateTimeOffset? DateModified { get; set; }
-        public StatusEnum Status { get; set; }
+        public ApplicationStatusEnum Status { get; set; }
 
         [ForeignKey("ScholarshipApplicantId")]
         public virtual User? ScholarshipApplicant { get; set; }

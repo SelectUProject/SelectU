@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { Config } from './config';
@@ -17,13 +17,27 @@ export class ScholarshipService {
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
-  async getScholarshipDetails(id: any) {
+  async getAllScholarships(scholarshipSearchDTO: ScholarshipSearchDTO) {
     return await firstValueFrom(
-      this.http.get<ScholarshipUpdateDTO>(
-        `${Config.api}/Scholarship/details?id=${id}`
+      this.http.post<ScholarshipUpdateDTO[]>(
+        `${Config.api}/Scholarship`,
+        scholarshipSearchDTO
       )
     );
   }
+
+  async archiveScholarship(id: string) {
+    return await firstValueFrom(
+      this.http.post<ResponseDTO>(`${Config.api}/scholarship/archive/${id}`, {})
+    );
+  }
+
+  async getScholarshipDetails(id: string) {
+    return await firstValueFrom(
+      this.http.get<ScholarshipUpdateDTO>(`${Config.api}/scholarship/${id}`)
+    );
+  }
+
   async getActiveScholarships(scholarshipSearchDTO: ScholarshipSearchDTO) {
     return await firstValueFrom(
       this.http.post<ScholarshipUpdateDTO[]>(
@@ -44,9 +58,42 @@ export class ScholarshipService {
 
   async createScholarship(scholarshipCreateDTO: ScholarshipCreateDTO) {
     return await firstValueFrom(
-      this.http.post<ResponseDTO>(
+      this.http.post<ScholarshipUpdateDTO>(
         `${Config.api}/Scholarship/create`,
         scholarshipCreateDTO
+      )
+    );
+  }
+
+  async updateScholarship(scholarshipCreateDTO: ScholarshipCreateDTO) {
+    return await firstValueFrom(
+      this.http.post<ResponseDTO>(
+        `${Config.api}/Scholarship/update`,
+        scholarshipCreateDTO
+      )
+    );
+  }
+
+  async deleteScholarship(id: any) {
+    return await firstValueFrom(
+      this.http.delete<ResponseDTO>(
+        `${Config.api}/Scholarship/delete/${id}`,
+      )
+    );
+  }
+
+  async uploadScholarshipImg(id: any, formData: FormData) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data',
+      }),
+    };
+
+    return await firstValueFrom(
+      this.http.post<ResponseDTO>(
+        `${Config.api}/Scholarship/photo/upload/${id}`,
+        formData,
+        httpOptions
       )
     );
   }
