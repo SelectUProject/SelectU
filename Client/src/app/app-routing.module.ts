@@ -55,10 +55,8 @@ const routes: Routes = [
       },
 
       { path: 'register', component: RegisterPageComponent },
-
-      { path: '404', component: NotFoundPageComponent },
-      { path: '**', redirectTo: '/404' },
-
+      //{ path: '404', component: NotFoundPageComponent },
+      //{ path: '**', redirectTo: '/404' },
       {
         path: 'manage-scholarships',
         component: ManageScholarshipsPageComponent,
