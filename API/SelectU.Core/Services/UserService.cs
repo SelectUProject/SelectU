@@ -162,7 +162,7 @@ namespace SelectU.Core.Services
             await _emailclient.SendRegistrationEmailAsync(new UserRegisterDTO(payload));
         }
 
-        public async Task UpdateUserDetailsAsync(string id, UserUpdateDTO updateDTO)
+        public async Task UpdateUserDetailsAsync(string id, UserDetailsDTO updateDTO)
         {
             var user = await _userManager.FindByIdAsync(id);
 
@@ -181,6 +181,7 @@ namespace SelectU.Core.Services
             user.Suburb = updateDTO.Suburb;
             user.Postcode = updateDTO.Postcode;
             user.State = updateDTO.State;
+            user.Country = updateDTO.Country;
             user.UserName = updateDTO.Email;
             user.DateModified = DateTimeOffset.Now;
 
@@ -305,7 +306,7 @@ namespace SelectU.Core.Services
             var user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                await _userManager.RemoveFromRolesAsync(user, roleNames);
+                var response = await _userManager.RemoveFromRolesAsync(user, roleNames);
             }
             else
             {

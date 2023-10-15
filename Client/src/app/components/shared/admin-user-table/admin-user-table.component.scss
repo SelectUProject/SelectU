@@ -1,0 +1,18 @@
+th.header {
+    i {
+      display: none;
+    }
+  }
+  
+  th.header.desc {
+    i.fa-arrow-down {
+      display: block;
+    }
+  }
+  
+  th.header.asc {
+    i.fa-arrow-up {
+      display: block;
+    }
+  }
+  
