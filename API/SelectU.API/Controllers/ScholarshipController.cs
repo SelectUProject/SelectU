@@ -130,10 +130,10 @@ namespace SelectU.API.Controllers
             try
             {
                 string userId = HttpContext.GetUserId();
-                
-                await _scholarshipService.CreateScholarshipAsync(scholarshipCreateDTO, userId);
 
-                return Ok();
+                var scholarship = await _scholarshipService.CreateScholarshipAsync(scholarshipCreateDTO, userId);
+
+                return Ok( scholarship );
             }
             catch (ScholarshipException ex)
             {

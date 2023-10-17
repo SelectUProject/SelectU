@@ -76,24 +76,19 @@ export class ScholarshipService {
 
   async deleteScholarship(id: any) {
     return await firstValueFrom(
-      this.http.delete<ResponseDTO>(
-        `${Config.api}/Scholarship/delete/${id}`,
-      )
+      this.http.delete<ResponseDTO>(`${Config.api}/Scholarship/delete/${id}`)
     );
   }
 
   async uploadScholarshipImg(id: any, formData: FormData) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data',
-      }),
-    };
+    const headers = new HttpHeaders().set('Accept', 'application/json');
+    headers.set('Content-Type', 'multipart/form-data');
 
     return await firstValueFrom(
       this.http.post<ResponseDTO>(
         `${Config.api}/Scholarship/photo/upload/${id}`,
         formData,
-        httpOptions
+        { headers }
       )
     );
   }
