@@ -53,8 +53,10 @@ namespace SelectU.API.Controllers
         {
             try
             {
+                reviewDTO.ReviewerId = HttpContext.GetUserId();
+
                 await _reviewService.UpdateReviewAsync(
-                    reviewDTO, HttpContext.IsAdmin());
+                    reviewDTO);
 
                 return Ok();
             }

@@ -17,6 +17,11 @@ export class ReviewService {
       this.http.post<ResponseDTO>(`${Config.api}/review`, reviewDTO)
     );
   }
+  async updateReview(reviewDTO: ReviewDTO) {
+    return await firstValueFrom(
+      this.http.patch<ResponseDTO>(`${Config.api}/review`, reviewDTO)
+    );
+  }
 
   async getAverageRating(applicationId: string) {
     return await firstValueFrom(
@@ -31,6 +36,12 @@ export class ReviewService {
       this.http.get<ReviewDTO>(
         `${Config.api}/review/application/${applicationId}/mine`
       )
+    );
+  }
+
+  async deleteReview(reviewId: string) {
+    return await firstValueFrom(
+      this.http.delete<ResponseDTO>(`${Config.api}/review/${reviewId}`)
     );
   }
 }

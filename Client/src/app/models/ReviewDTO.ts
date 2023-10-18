@@ -1,7 +1,7 @@
 export interface ReviewDTO {
-  Id: string;
-  ReviewerId: string;
-  ScholarshipApplicationId: string;
-  Rating: number;
-  Comment: string;
+  id: string;
+  reviewerId: string;
+  scholarshipApplicationId: string;
+  rating: number;
+  comment: string;
 }

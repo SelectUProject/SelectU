@@ -46,12 +46,12 @@ namespace SelectU.Core.Services
 
         }
 
-        public async Task UpdateReviewAsync(ReviewDTO reviewDTO, bool isAdmin)
+        public async Task UpdateReviewAsync(ReviewDTO reviewDTO)
         {
 
             var review = await _unitOfWork.Reviews.GetAsync(reviewDTO.Id) ?? throw new ReviewException($"Unable able to update review as it does not exist");
             
-            if (review.ReviewerId != reviewDTO.ReviewerId && !isAdmin) throw new ReviewException($"Unable able to update rating as you need to be the owner of the review");
+            if (review.ReviewerId != reviewDTO.ReviewerId) throw new ReviewException($"Unable able to update rating as you need to be the owner of the review");
             
             review.Rating = reviewDTO.Rating;
             review.Comment = reviewDTO.Comment;
@@ -59,8 +59,6 @@ namespace SelectU.Core.Services
             _unitOfWork.Reviews.Update(review);
 
             await _unitOfWork.CommitAsync();
-
-
         }
 
         public async Task DeleteReviewAsync(Guid reviewId, string creatorId, bool isAdmin)
@@ -69,7 +67,7 @@ namespace SelectU.Core.Services
             
             if (review.ReviewerId != creatorId && !isAdmin) throw new ReviewException($"Unable able to delete rating as you must be the owner of the review");
 
-            await _unitOfWork.Reviews.DeleteAsync(review);
+            await _unitOfWork.Reviews.DeleteAsync(review.Id);
         }
 
         public async Task<double> GetAverageRating(Guid applicationId)

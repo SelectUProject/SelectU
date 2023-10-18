@@ -11,7 +11,7 @@ namespace SelectU.Contracts.Services
     public interface IReviewService
     {
         Task CreateReviewAsync(ReviewDTO reviewDTO);
-        Task UpdateReviewAsync(ReviewDTO reviewDTO, bool isAdmin);
+        Task UpdateReviewAsync(ReviewDTO reviewDTO);
         Task DeleteReviewAsync(Guid reviewId, string creatorId, bool isAdmin);
         Task<double> GetAverageRating(Guid applicationId);
         Task<List<ReviewDTO>> GetApplicationReviews(Guid applicationId, string userId, bool mineOnly);

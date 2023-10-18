@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { ReviewDTO } from 'src/app/models/ReviewDTO';
 import { ScholarshipApplicationUpdateDTO } from 'src/app/models/ScholarshipApplicationUpdateDTO';
 import { ScholarshipFormTypeEnum } from 'src/app/models/ScholarshipFormTypeEnum';
 import { ScholarshipApplicationService } from 'src/app/providers/application.service';
@@ -17,6 +18,7 @@ export class ViewApplicationDetailModalComponent {
   admissionName = environment.admissionName;
   @Output() successEvent = new EventEmitter();
   scholarshipApplication: ScholarshipApplicationUpdateDTO;
+  review: ReviewDTO;
 
   updateForm: FormGroup;
   errMsg: string = 'An error has occurred!';

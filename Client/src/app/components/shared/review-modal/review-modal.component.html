@@ -12,6 +12,7 @@
     [scholarshipApplication]="scholarshipApplication"
   />
   <app-review-form
+    [reviewDTO]="reviewDTO"
     [scholarshipApplicationId]="scholarshipApplication.id"
     (successEvent)="handleSuccess($event)"
   />

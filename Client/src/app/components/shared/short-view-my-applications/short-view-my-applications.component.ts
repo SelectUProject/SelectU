@@ -76,6 +76,20 @@ export class ShortViewMyApplicationsComponent implements OnInit {
       });
   }
 
+  deleteReview(reviewDTO: ReviewDTO) {
+    this.reviewService
+      .deleteReview(reviewDTO.id)
+      .then((response) => {
+        this.successMessage = 'Review deleted!';
+        this.success = true;
+        this.getAverageRating();
+        this.getMyReview();
+      })
+      .catch((response) => {
+        console.log(response.error.message);
+      });
+  }
+
   selectApplication(scholarshipApplication: ScholarshipApplicationUpdateDTO) {
     this.success = false;
     this.scholarshipApplicationService
@@ -89,10 +103,14 @@ export class ShortViewMyApplicationsComponent implements OnInit {
       });
   }
 
-  openReviewModal(scholarshipApplication: ScholarshipApplicationUpdateDTO) {
+  openReviewModal(
+    scholarshipApplication: ScholarshipApplicationUpdateDTO,
+    reviewDTO?: ReviewDTO
+  ) {
+    console.log(reviewDTO);
     this.success = false;
     this.reviewModalRef = this.modalService.open(ReviewModalComponent, {
-      data: { scholarshipApplication },
+      data: { scholarshipApplication, reviewDTO },
     });
     this.reviewModalRef.component.successEvent.subscribe((message) => {
       this.successMessage = message;

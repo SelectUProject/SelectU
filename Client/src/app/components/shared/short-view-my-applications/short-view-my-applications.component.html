@@ -106,12 +106,30 @@
               View Details
             </button>
           </div>
-          <div *ngIf="tokenService.role !== USER" class="col-6">
+          <div *ngIf="tokenService.role !== USER && !this.review" class="col-6">
             <button
               class="btn btn-primary w-100"
               (click)="openReviewModal(this.scholarshipApplication)"
             >
               Review
+            </button>
+          </div>
+          <div *ngIf="tokenService.role !== USER && this.review" class="col-6">
+            <button
+              class="btn btn-primary w-100"
+              (click)="
+                openReviewModal(this.scholarshipApplication, this.review)
+              "
+            >
+              Update Review
+            </button>
+          </div>
+          <div *ngIf="tokenService.role !== USER && this.review" class="col-6">
+            <button
+              class="btn btn-primary w-100"
+              (click)="deleteReview(this.review)"
+            >
+              Delete Review
             </button>
           </div>
           <div *ngIf="tokenService.role !== USER" class="col-6">

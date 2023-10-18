@@ -10,6 +10,7 @@ import { ReviewService } from 'src/app/providers/review.service';
 })
 class ReviewFormComponent {
   @Input() scholarshipApplicationId: string;
+  @Input() reviewDTO?: ReviewDTO;
   @Output() successEvent = new EventEmitter<string>();
 
   reviewForm: FormGroup;
@@ -23,7 +24,7 @@ class ReviewFormComponent {
   }
 
   get comments() {
-    return this.reviewForm.get('comments');
+    return this.reviewForm.get('comment');
   }
 
   constructor(
@@ -32,13 +33,15 @@ class ReviewFormComponent {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.reviewDTO);
     this.setupForm();
   }
 
   setupForm() {
     this.reviewForm = this.formBuilder.group({
-      rating: [5, Validators.required],
-      comments: [''],
+      rating: [this.reviewDTO?.rating ?? 5, Validators.required],
+      comment: [this.reviewDTO?.comment ?? ''],
+      id: [this.reviewDTO?.id ?? ''],
     });
   }
 
@@ -47,22 +50,38 @@ class ReviewFormComponent {
     this.isError = false;
 
     let reviewForm = <ReviewDTO>this.reviewForm.value;
-    reviewForm.ScholarshipApplicationId = this.scholarshipApplicationId;
-
-    await this.reviewService
-      .review(reviewForm)
-      .then(() => {
-        this.success = true;
-        this.successEvent.emit('Review added successfully!');
-        this.reviewForm.reset();
-      })
-      .catch((response) => {
-        this.errMsg = response.error.message;
-        this.isError = true;
-      })
-      .finally(() => {
-        this.reviewing = false;
-      });
+    reviewForm.scholarshipApplicationId = this.scholarshipApplicationId;
+    if (this.reviewDTO) {
+      await this.reviewService
+        .updateReview(reviewForm)
+        .then(() => {
+          this.success = true;
+          this.successEvent.emit('Review updated successfully!');
+          this.reviewForm.reset();
+        })
+        .catch((response) => {
+          this.errMsg = response.error.message;
+          this.isError = true;
+        })
+        .finally(() => {
+          this.reviewing = false;
+        });
+    } else {
+      await this.reviewService
+        .review(reviewForm)
+        .then(() => {
+          this.success = true;
+          this.successEvent.emit('Review added successfully!');
+          this.reviewForm.reset();
+        })
+        .catch((response) => {
+          this.errMsg = response.error.message;
+          this.isError = true;
+        })
+        .finally(() => {
+          this.reviewing = false;
+        });
+    }
   }
 
   setFormError(propertyName: string) {
