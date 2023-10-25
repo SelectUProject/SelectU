@@ -76,6 +76,7 @@ import ReviewModalComponent from './components/shared/review-modal/review-modal.
 import LongViewApplicationComponent from './components/shared/long-view-application/long-view-application.component';
 import ReviewFormComponent from './components/shared/review-form/review-form.component';
 import ReviewPageComponent from './components/pages/review-page/review-page.component';
+import { AllReviewsModalComponent } from './components/shared/all-reviews-modal/all-reviews-modal.component';
 
 
 @NgModule({
@@ -125,7 +126,8 @@ import ReviewPageComponent from './components/pages/review-page/review-page.comp
     ReviewModalComponent,
     LongViewApplicationComponent,
     ReviewFormComponent,
-    ReviewPageComponent
+    ReviewPageComponent,
+    AllReviewsModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

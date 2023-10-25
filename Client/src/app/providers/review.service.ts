@@ -39,6 +39,14 @@ export class ReviewService {
     );
   }
 
+  async getAllReviews(applicationId: string) {
+    return await firstValueFrom(
+      this.http.get<ReviewDTO[]>(
+        `${Config.api}/review/application/${applicationId}`
+      )
+    );
+  }
+
   async deleteReview(reviewId: string) {
     return await firstValueFrom(
       this.http.delete<ResponseDTO>(`${Config.api}/review/${reviewId}`)

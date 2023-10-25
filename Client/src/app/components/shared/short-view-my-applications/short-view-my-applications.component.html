@@ -86,19 +86,17 @@
   </div>
 
   <div class="row">
-    <div class="col-9">
+    <div class="col-8">
       <h6>Description</h6>
       <p>
         {{ scholarshipApplication.scholarship.description }}
       </p>
     </div>
-    <div class="col-3 float-end">
+    <div class="col-4 float-end">
       <div class="">
         <h6>Actions</h6>
-
         <div class="row">
           <div class="col-6">
-            <!-- <button>Apply</button> -->
             <button
               class="btn btn-sercondary w-100"
               (click)="openDetailsModal(this.scholarshipApplication)"
@@ -115,23 +113,59 @@
             </button>
           </div>
           <div *ngIf="tokenService.role !== USER && this.review" class="col-6">
-            <button
-              class="btn btn-primary w-100"
-              (click)="
-                openReviewModal(this.scholarshipApplication, this.review)
-              "
-            >
-              Update Review
-            </button>
+            <ul class="navbar-nav text-center w-100">
+              <li mdbDropdown class="nav-item dropdown me-2 me-lg-1 mx-5">
+                <a
+                  class="nav-link dropdown-toggle"
+                  id="userDropdown"
+                  role="button"
+                  mdbDropdownToggle
+                  aria-expanded="false"
+                >
+                  Reviews
+                </a>
+                <ul
+                  mdbDropdownMenu
+                  class="dropdown-menu"
+                  aria-labelledby="userDropdown"
+                >
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      aria-current="page"
+                      (click)="
+                        openReviewModal(
+                          this.scholarshipApplication,
+                          this.review
+                        )
+                      "
+                    >
+                      Update Review</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      aria-current="page"
+                      (click)="deleteReview(this.review)"
+                    >
+                      Delete Review</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      aria-current="page"
+                      (click)="openAllReviewModal()"
+                    >
+                      All Reviews</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </div>
-          <div *ngIf="tokenService.role !== USER && this.review" class="col-6">
-            <button
-              class="btn btn-primary w-100"
-              (click)="deleteReview(this.review)"
-            >
-              Delete Review
-            </button>
-          </div>
+
           <div *ngIf="tokenService.role !== USER" class="col-6">
             <button
               class="btn btn-primary w-100"

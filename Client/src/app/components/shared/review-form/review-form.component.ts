@@ -40,8 +40,7 @@ class ReviewFormComponent {
   setupForm() {
     this.reviewForm = this.formBuilder.group({
       rating: [this.reviewDTO?.rating ?? 5, Validators.required],
-      comment: [this.reviewDTO?.comment ?? ''],
-      id: [this.reviewDTO?.id ?? ''],
+      comment: [this.reviewDTO?.comment ?? '']
     });
   }
 
@@ -52,6 +51,7 @@ class ReviewFormComponent {
     let reviewForm = <ReviewDTO>this.reviewForm.value;
     reviewForm.scholarshipApplicationId = this.scholarshipApplicationId;
     if (this.reviewDTO) {
+      reviewForm.id = this.reviewDTO?.id;
       await this.reviewService
         .updateReview(reviewForm)
         .then(() => {

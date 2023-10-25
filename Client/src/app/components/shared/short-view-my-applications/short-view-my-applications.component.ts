@@ -19,6 +19,7 @@ import { USER } from 'src/app/constants/userRoles';
 import { ReviewService } from 'src/app/providers/review.service';
 import { ReviewDTO } from 'src/app/models/ReviewDTO';
 import { ScholarshipApplicationService } from 'src/app/providers/application.service';
+import { AllReviewsModalComponent } from '../all-reviews-modal/all-reviews-modal.component';
 
 @Component({
   selector: 'app-short-view-my-applications',
@@ -35,6 +36,7 @@ export class ShortViewMyApplicationsComponent implements OnInit {
   successMessage: string;
   viewDetailsModalRef: MdbModalRef<ViewApplicationDetailModalComponent>;
   reviewModalRef: MdbModalRef<ReviewModalComponent>;
+  allReviewModalRef: MdbModalRef<AllReviewsModalComponent>;
   applicationStatus = ApplicationStatusEnum;
   applicationStatuses = APPLICATION_STATUS_LIST;
   USER = USER;
@@ -107,7 +109,6 @@ export class ShortViewMyApplicationsComponent implements OnInit {
     scholarshipApplication: ScholarshipApplicationUpdateDTO,
     reviewDTO?: ReviewDTO
   ) {
-    console.log(reviewDTO);
     this.success = false;
     this.reviewModalRef = this.modalService.open(ReviewModalComponent, {
       data: { scholarshipApplication, reviewDTO },
@@ -120,6 +121,23 @@ export class ShortViewMyApplicationsComponent implements OnInit {
       this.getAverageRating();
       this.getMyReview();
     });
+  }
+
+  openAllReviewModal() {
+    this.success = false;
+    this.reviewService
+      .getAllReviews(this.scholarshipApplication.id)
+      .then((response) => {
+        this.allReviewModalRef = this.modalService.open(
+          AllReviewsModalComponent,
+          {
+            data: { reviews: response },
+          }
+        );
+      })
+      .catch((response) => {
+        console.log(response.error.message);
+      });
   }
 
   openDetailsModal(scholarshipApplication: ScholarshipApplicationUpdateDTO) {

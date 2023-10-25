@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <h5 class="modal-title">Reviews</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="ViewDetailsModalRef.close()"
+  ></button>
+</div>
+<div class="modal-body">
+  <!-- <app-long-view-application
+    [scholarshipApplication]="scholarshipApplication"
+  person, date, rating, comment
+    /> -->
+
+  <div
+    class="row justify-content-center border-bottom"
+    *ngFor="let review of this.reviews"
+  >
+    <p class="m-0 purpleText">Rating: {{ review.rating }}</p>
+    <p class="m-0 purpleText">Comment: {{ review.comment }}</p>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="ViewDetailsModalRef.close()"
+  >
+    Close
+  </button>
+</div>
