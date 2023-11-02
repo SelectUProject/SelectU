@@ -47,6 +47,7 @@ import { ScholarshipSearchFormComponent } from './components/shared/scholarship-
 import { CreateScholarshipApplicationPageComponent } from './components/pages/create-scholarship-application-page/create-scholarship-application-page.component';
 import { LongViewScholarshipsComponent } from './components/shared/long-view-scholarships/long-view-scholarships.component';
 import { ScholarshipApplicationFormComponent } from './components/shared/scholarship-application-form/scholarship-application-form.component';
+import { FooterComponent } from './components/layouts/footer/footer.component';
 import { ScholarshipApplicationSearchFormComponent } from './components/shared/scholarship-application-search-form/scholarship-application-search-form.component';
 import UserInviteFormComponent from './components/shared/user-invite-form/user-invite-form.component';
 import UserTablePageComponent from './components/pages/user-table-page/user-table-page.component';
@@ -79,6 +80,7 @@ import ReviewPageComponent from './components/pages/review-page/review-page.comp
 import { AllReviewsModalComponent } from './components/shared/all-reviews-modal/all-reviews-modal.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -100,6 +102,7 @@ import { AllReviewsModalComponent } from './components/shared/all-reviews-modal/
     CreateScholarshipApplicationPageComponent,
     LongViewScholarshipsComponent,
     ScholarshipApplicationFormComponent,
+    FooterComponent,
     ScholarshipApplicationSearchFormComponent,
     UserInvitePageComponent,
     UserInviteFormComponent,

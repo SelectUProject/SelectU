@@ -1,0 +1,37 @@
+<footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <div class="contact-info">
+            <h3>Contact Us</h3>
+            <p>Email: <a href="mailto:contact@selectu.com">contact@selectu.com</a></p>
+            <p>Phone: +61 400 000 000</p>
+          </div>
+        </div>
+        <div class="footer-column">
+          <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul
+            *ngIf="!tokenService.IsAuthenticated"
+            >
+              <li><a [routerLink]="''">Home</a></li>
+              <li><a [routerLink]="'/login'">Login</a></li>
+              <li><a [routerLink]="'/register'">Register</a></li>
+            </ul>
+
+            <ul
+            *ngIf="tokenService.IsAuthenticated"
+            >
+              <li><a [routerLink]="''">Home</a></li>
+              <li><a [routerLink]="'/account'">Account</a></li>
+              <li><a (click)="logout()">Logout</a></li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 SelectU. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
