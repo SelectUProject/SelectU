@@ -150,11 +150,6 @@ namespace SelectU.Core.Services
                 throw new ScholarshipException("Start date is after end date.");
             }
 
-            if (validatedScholarship.StartDate <= DateTime.Now)
-            {
-                throw new ScholarshipApplicationException("The start date has already passed.");
-            }
-
             if (validatedScholarship.EndDate <= DateTime.Now)
             {
                 throw new ScholarshipApplicationException("The end date has already passed.");
@@ -200,11 +195,6 @@ namespace SelectU.Core.Services
             if (validatedScholarship.StartDate > validatedScholarship.EndDate)
             {
                 throw new ScholarshipException("Start date is after end date.");
-            }
-
-            if (validatedScholarship.StartDate <= DateTime.Now)
-            {
-                throw new ScholarshipApplicationException("The start date has already passed.");
             }
 
             if (validatedScholarship.EndDate <= DateTime.Now)
